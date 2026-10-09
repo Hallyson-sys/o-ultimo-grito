@@ -22,3 +22,6 @@ romances e consequências. Cada slot é independente.
 ATENÇÃO
 A decisão definitiva de romance está prevista para o capítulo 5, não nesta versão.
 Os retratos são representações tipográficas; as ilustrações definitivas ainda serão criadas.
+
+
+EDIÇÃO MOBILE V0.8.2: melhorias responsivas para menus, capítulos, diálogos, escolhas, fichas, pistas e slots. Não altera regras nem formato do save.
