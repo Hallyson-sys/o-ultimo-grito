@@ -1,0 +1,24 @@
+O ÚLTIMO GRITO — V0.8
+
+COMO JOGAR
+1. Extraia este ZIP.
+2. Abra index.html no Chrome ou Edge.
+3. Não precisa instalar Node.js nem usar servidores.
+
+NOVIDADES
+- Capítulo 4: Fora de Alcance, com a primeira morte evitável.
+- Revisão da gravação de Jullia e explicação de Samuel no capítulo 3.
+- Três slots independentes de partidas.
+- Fichas clicáveis dos oito personagens com traços, relações e status.
+- Novas cenas de aproximação romântica e novos indícios de investigação.
+
+SALVAMENTOS
+O jogo tenta trazer automaticamente um salvamento local da V0.7 para o SLOT 1.
+Isso depende de o navegador conceder acesso ao mesmo armazenamento de arquivos locais.
+Para garantir a transferência, EXPORTAR SALVAMENTO na versão anterior e IMPORTAR
+no slot escolhido na V0.8. O arquivo JSON preserva o ponto, escolhas, pistas,
+romances e consequências. Cada slot é independente.
+
+ATENÇÃO
+A decisão definitiva de romance está prevista para o capítulo 5, não nesta versão.
+Os retratos são representações tipográficas; as ilustrações definitivas ainda serão criadas.
