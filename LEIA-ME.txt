@@ -1,3 +1,34 @@
+O ÚLTIMO GRITO — V0.9.1 · EDIÇÃO RETRATOS
+
+Esta versão inclui todos os capítulos da V0.9 e acrescenta os retratos
+ilustrados dos oito personagens no elenco e nas fichas detalhadas.
+
+INSTALAÇÃO / ABERTURA OFFLINE:
+1. Extraia o ZIP.
+2. Abra index.html em seu navegador (Chrome/Edge/Safari).
+3. NÃO separe os arquivos de imagem .webp dos arquivos HTML/JS/CSS.
+   Todos devem permanecer juntos na mesma pasta.
+
+PARA ATUALIZAR O GITHUB + RENDER:
+1. Extraia o ZIP no computador.
+2. No repositório atual no GitHub, use Add file > Upload files.
+3. Selecione os arquivos DENTRO da pasta da V0.9.1: HTML, CSS, JS e
+   os OITO arquivos .webp (rayssa.webp, ryan.webp, laisla.webp,
+   samuel.webp, rauanny.webp, allan.webp, isabella.webp, breno.webp).
+4. Envie todos para a RAIZ do repositório, junto de index.html.
+5. Clique em Commit changes; o Render fará deploy automático se ativado.
+6. Atualize a página no celular para carregar a nova versão.
+
+SALVAMENTOS:
+- Os 3 slots e a importação/exportação continuam com o mesmo formato.
+- Não mudamos as chaves de localStorage nem os nós da narrativa.
+- Exporte o save antes de atualizar, por precaução.
+- Dados do iPhone e do computador NÃO se sincronizam automaticamente.
+
+RETRATOS:
+- As imagens .webp são otimizadas para carregar bem em celulares.
+- Em saves com Allan falecido, o retrato dele aparece em preto e branco.
+
 O ÚLTIMO GRITO — V0.9 | CAPÍTULO 5: LAÇOS DE SANGUE
 
 Abra index.html diretamente no Chrome, Edge ou navegador mobile. Não exige npm ou PHP.

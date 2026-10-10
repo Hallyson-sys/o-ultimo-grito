@@ -103,7 +103,7 @@ function normalize(a){
   b.romanceEscolhido=['ryan','breno','rayssa','rauanny','solteiro'].includes(a.romanceEscolhido)?a.romanceEscolhido:null;
   if(!b.romanceEscolhido){const found=['ryan','breno','rayssa','rauanny'].find(id=>b.flags['romance_'+id+'_c5']);if(found)b.romanceEscolhido=found;else if(b.flags.romance_solteiro_c5)b.romanceEscolhido='solteiro';}
   b.updated=a.updated||Date.now();
-  b.saveVersion=8;
+  b.saveVersion=9;
   return b;
 }
 function slotKey(n){return SLOT_PREFIX+n}
@@ -137,7 +137,7 @@ function sound(){
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button></div><p class="subtitle">V0.9 · TERROR NARRATIVO · SAVES COMPATÍVEIS ENTRE VERSÕES</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>DEMONSTRAÇÃO V0.9 · CAPÍTULO 5 INCLUÍDO</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button></div><p class="subtitle">V0.9.1 · TERROR NARRATIVO · SAVES COMPATÍVEIS ENTRE VERSÕES</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>DEMONSTRAÇÃO V0.9.1 · CAPÍTULO 5 INCLUÍDO</span></footer></main>`);
 }
 function creator(){
   view='creator';
@@ -159,6 +159,19 @@ function journal(){
 const TRAITS={
  rayssa:[90,65,86,42,58],ryan:[75,70,76,82,48],laisla:[68,79,91,78,52],samuel:[37,83,72,85,78],rauanny:[66,87,92,87,63],allan:[79,72,83,95,61],isabella:[62,84,93,59,77],breno:[82,62,88,35,80]
 };
+// Retratos ilustrados oficiais do elenco (arquivos locais, sem rede ou APIs externas).
+const CAST_PORTRAITS=Object.freeze({
+  rayssa:'rayssa.webp',ryan:'ryan.webp',laisla:'laisla.webp',samuel:'samuel.webp',
+  rauanny:'rauanny.webp',allan:'allan.webp',isabella:'isabella.webp',breno:'breno.webp'
+});
+function characterDead(id){return id==='allan'&&!!save?.flags?.allan_morto_c4;}
+function castPortrait(id,name,large=false){
+  const image=CAST_PORTRAITS[id];
+  if(!image)return `<div class="cast-portrait-placeholder" aria-hidden="true">${esc(name.charAt(0))}</div>`;
+  const mode=large?'cast-art--large':'cast-art--card';
+  const gone=characterDead(id)?' is-deceased':'';
+  return `<div class="cast-art ${mode}${gone}"><img src="${image}" width="720" height="960" alt="Retrato ilustrado de ${esc(name)}" loading="eager" decoding="async">${characterDead(id)?'<span class="cast-art-memorial">EM MEMÓRIA</span>':''}</div>`;
+}
 const RELS={rayssa:[['isabella','Melhor amiga'],['samuel','Tensão pelo pacto'],['rauanny','Amizade'],['allan','Boa amizade']],ryan:[['rauanny','Muito próximo'],['laisla','Muito próximo'],['allan','Amizade divertida']],laisla:[['rauanny','Melhor amiga, com atritos'],['ryan','Muito próximo'],['samuel','Discussões ocasionais']],samuel:[['allan','Melhor amigo'],['isabella','Aliança tensa'],['rayssa','Conflito sobre a verdade']],rauanny:[['laisla','Melhor amiga, com atritos'],['ryan','Muito próximo'],['rayssa','Amizade']],allan:[['samuel','Melhor amigo'],['ryan','Amizade'],['isabella','Convivência direta']],isabella:[['rayssa','Melhor amiga'],['samuel','Aliança tensa'],['breno','Respeito mútuo']],breno:[['isabella','Respeito'],['allan','Amizade distante'],['ryan','Convivência'] ]};
 // Afinidades do elenco: cada dupla tem um valor próprio, compartilhado nas duas fichas.
 const RELATION_BASE={
@@ -174,7 +187,7 @@ function pairKey(a,b){return [a,b].sort().join(':')}
 function relationScore(a,b){
  if(b==='hero')return Math.max(0,Math.min(100,save?.bonds?.[a]??50));
  const pair=pairKey(a,b);
- const base=RELATION_BASE[pair]??55;
+ const base=RELATION_BASE[pair]??RELATION_BASE[pair.split(':').reverse().join(':')]??55;
  const offset=save?.friendBonds?.[pair]??0;
  const f=save?.flags||{};
  let event=0;
@@ -208,9 +221,9 @@ function cast(){if(!save)save=getSave();view='cast';castSelected=null;renderCast
 function renderCast(){
  const selected=ELENCO.find(x=>x[0]===castSelected);
  let content='';
- if(selected){const [id,name,age,desc]=selected;const dims=['Empatia','Coragem','Lealdade','Extroversão','Perspicácia'];const vals=TRAITS[id]||[50,50,50,50,50];const romance=save?.romance?.[id];content=`<button class="back" data-act="castback">← Voltar aos oito amigos</button><div class="char-head"><div class="avatar portrait-letter">${esc(name.charAt(0))}</div><div><div class="eyebrow">PERFIL DE PERSONAGEM</div><h1>${esc(name)}</h1><p>${age} anos · ${esc(characterStatus(id))}</p><p>${esc(desc)}</p></div></div><div class="dashboard"><section><h3>CARACTERÍSTICAS</h3>${dims.map((d,i)=>`<div class="bond"><span>${d}</span><div class="meter"><i style="width:${vals[i]}%"></i></div><strong>${vals[i]}</strong></div>`).join('')}<p class="note">Traços de personalidade-base; o relacionamento com o protagonista evolui com as escolhas.</p></section><section><h3>RELACIONAMENTOS</h3>${relationRows(id)}<p class="note">Barras de afinidade com todo o grupo. Os valores variam conforme as relações e os acontecimentos da história.</p>${romance?`<p class="note">Rota definitiva: ${save?.romanceEscolhido===id?'ROMANCE ESCOLHIDO':save?.romanceEscolhido?'AMIZADE':'AINDA EM ABERTO'} · Sua atração: ${romance.atracao}/100 · Mágoas: ${romance.ressentimento}/100</p>`:''}<h3>ESTADO ATUAL</h3><p>${esc(characterStatus(id))}</p></section></div>`;
- }else content=`<div class="eyebrow">O GRUPO DE AMIGOS</div><h1>Oito amigos. Um segredo.</h1><p>Clique em um card para conhecer seus traços, relações e estado atual.</p><div class="cast-grid">${ELENCO.map(([id,name,age,desc],i)=>`<button class="cast-card cast-click" data-person="${id}"><div class="avatar" style="--h:${(i*39+340)%360}">${esc(name.charAt(0))}</div><div><b>${esc(name)}</b><small>${age} ANOS</small><p>${esc(desc)}</p><span>Confiança: ${save?.bonds?.[id]??50}/100 · VER PERFIL ↗</span></div></button>`).join('')}</div>`;
- ui(`<main class="landing scenic lake">${header('PERSONAGENS DE LAKEWOOD')}<section class="panel wide">${content}<button class="primary" data-act="${save?'resume':'menu'}">${save?'VOLTAR À HISTÓRIA':'VOLTAR AO MENU'} ↗</button></section></main>`)
+ if(selected){const [id,name,age,desc]=selected;const dims=['Empatia','Coragem','Lealdade','Extroversão','Perspicácia'];const vals=TRAITS[id]||[50,50,50,50,50];const romance=save?.romance?.[id];content=`<button class="back" data-act="castback">← Voltar aos oito amigos</button><div class="char-head">${castPortrait(id,name,true)}<div><div class="eyebrow">PERFIL DE PERSONAGEM</div><h1>${esc(name)}</h1><p>${age} anos · ${esc(characterStatus(id))}</p><p>${esc(desc)}</p></div></div><div class="dashboard"><section><h3>CARACTERÍSTICAS</h3>${dims.map((d,i)=>`<div class="bond"><span>${d}</span><div class="meter"><i style="width:${vals[i]}%"></i></div><strong>${vals[i]}</strong></div>`).join('')}<p class="note">Traços de personalidade-base; o relacionamento com o protagonista evolui com as escolhas.</p></section><section><h3>RELACIONAMENTOS</h3>${relationRows(id)}<p class="note">Barras de afinidade com todo o grupo. Os valores variam conforme as relações e os acontecimentos da história.</p>${romance?`<p class="note">Rota definitiva: ${save?.romanceEscolhido===id?'ROMANCE ESCOLHIDO':save?.romanceEscolhido?'AMIZADE':'AINDA EM ABERTO'} · Sua atração: ${romance.atracao}/100 · Mágoas: ${romance.ressentimento}/100</p>`:''}<h3>ESTADO ATUAL</h3><p>${esc(characterStatus(id))}</p></section></div>`;
+ }else content=`<div class="eyebrow">O GRUPO DE AMIGOS</div><h1>Oito amigos. Um segredo.</h1><p>Clique em um card para conhecer seus traços, relações e estado atual.</p><div class="cast-grid">${ELENCO.map(([id,name,age,desc],i)=>`<button class="cast-card cast-click${characterDead(id)?' cast-card--memorial':''}" data-person="${id}" aria-label="Abrir perfil de ${esc(name)}">${castPortrait(id,name)}<div class="cast-info"><b>${esc(name)}</b><small>${age} ANOS</small><p>${esc(desc)}</p><span>Confiança: ${save?.bonds?.[id]??50}/100 · VER PERFIL ↗</span></div></button>`).join('')}</div>`;
+ ui(`<main class="landing scenic lake">${header('PERSONAGENS DE LAKEWOOD')}<section class="panel wide cast-panel">${content}<button class="primary" data-act="${save?'resume':'menu'}">${save?'VOLTAR À HISTÓRIA':'VOLTAR AO MENU'} ↗</button></section></main>`)
 }
 function slotsScreen(){view='slots';migrateLegacy();ui(`<main class="landing scenic house">${header('SALVAMENTOS')}<section class="panel wide"><div class="eyebrow">LINHAS DO TEMPO</div><h1>Minhas partidas</h1><p>Você pode criar até 3 histórias independentes. A partida antiga foi preservada no slot 1 quando encontrada. Exporte os slots antes de mudar de navegador ou computador.</p><div class="slot-grid">${[1,2,3].map(i=>{const d=slotSave(i),cur=d&&chapterMetaForNode(d.node);return `<article class="slot-card ${activeSlot===i?'active':''}"><small>SLOT ${i} ${activeSlot===i?'· ATIVO':''}</small><h3>${esc(d?.hero?.name||'Vazio')}</h3><p>${d?esc(cur.short+' — '+cur.title):'Nenhum progresso neste slot'}</p><button class="secondary" data-slot="${i}">${d?'CARREGAR PARTIDA':'USAR SLOT VAZIO'} ↗</button></article>`}).join('')}</div><div class="actions"><button class="primary" data-act="menu">MENU PRINCIPAL</button><button class="secondary" data-act="import">IMPORTAR PARA SLOT ATIVO</button><button class="secondary" data-act="export">EXPORTAR SLOT ATIVO</button></div></section></main>`)}
 function chaptersScreen(){

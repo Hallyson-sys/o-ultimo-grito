@@ -123,3 +123,60 @@ button,input,select{touch-action:manipulation}
 }
 @media(max-width:360px){.play .game-tools button{font-size:9px}.panel h1{font-size:27px}.choice{font-size:13px}.brand.brand-center{letter-spacing:0}.top-info{font-size:7px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+
+/* V0.9.1 — Galeria oficial: retratos ilustrados de todos os oito amigos. */
+.cast-grid{align-items:stretch}
+.cast-card.cast-click{
+  position:relative;display:flex;align-items:stretch;gap:17px;
+  padding:12px;background:linear-gradient(140deg,#111c29f2,#0a111be8);
+  border:1px solid #b4c5d52b;border-radius:12px;overflow:hidden;
+  transition:border-color .2s,background .2s,transform .2s,box-shadow .2s;
+}
+.cast-card.cast-click:hover,.cast-card.cast-click:focus-visible{
+  background:linear-gradient(140deg,#1b2938f0,#101b28e8);
+  border-color:#d8919c;box-shadow:0 9px 28px #0006;transform:translateY(-2px);
+}
+.cast-info{min-width:0;flex:1;align-self:center}
+.cast-info b{font-size:clamp(16px,1.55vw,20px);line-height:1.25;letter-spacing:-.02em}
+.cast-info small{margin-top:7px}
+.cast-info p{font-size:12px;line-height:1.55;margin:11px 0;color:#bdcbd5}
+.cast-info span{font-size:10px;font-weight:700;letter-spacing:.035em;color:#b7ccd9}
+.cast-art{
+  position:relative;display:block;flex-shrink:0;overflow:hidden;
+  background:radial-gradient(circle at 50% 32%,#404277,#101725 74%);
+  border:1px solid #d7b9cf45;border-radius:8px;
+  box-shadow:0 9px 21px #0008;
+  isolation:isolate;
+}
+.cast-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 27%}
+.cast-art--card{flex-basis:102px;width:102px;height:136px;aspect-ratio:3/4}
+.cast-art--large{flex-basis:210px;width:210px;height:280px;aspect-ratio:3/4;border-color:#d39cac88;border-radius:10px;box-shadow:0 22px 38px #000a}
+.cast-art--large:after{content:'';position:absolute;inset:auto 0 0 0;height:34%;pointer-events:none;background:linear-gradient(transparent,#07111e77)}
+.cast-art.is-deceased img{filter:grayscale(1) contrast(.96) brightness(.67)}
+.cast-art-memorial{position:absolute;z-index:1;bottom:11px;left:6px;right:6px;text-align:center;
+  padding:7px 3px;background:#060b11d9;border:1px solid #ffffff4d;color:#e9e1e4;
+  font-size:9px;letter-spacing:.15em;font-weight:800}
+.cast-card--memorial{border-color:#75828d50}
+.char-head{align-items:center;gap:29px;margin:20px 0 27px;padding:0 0 23px;border-bottom:1px solid #e0b0c02c}
+.char-head>div:last-child{min-width:0;flex:1}
+.char-head h1{margin-top:9px}
+.char-head p{max-width:650px}
+@media(max-width:800px){
+  .cast-card.cast-click{gap:13px;padding:11px;align-items:stretch}
+  .cast-art--card{flex-basis:88px;width:88px;height:117px}
+  .cast-info{align-self:center}
+  .cast-info b{font-size:18px}
+  .cast-info p{margin:8px 0}
+  .char-head{gap:16px;align-items:flex-start}
+  .cast-art--large{width:min(58vw,210px);height:auto;aspect-ratio:3/4;flex-basis:auto}
+}
+@media(max-width:360px){
+  .cast-art--card{flex-basis:76px;width:76px;height:101px}
+  .cast-card.cast-click{gap:10px}
+  .cast-info b{font-size:16px}
+  .cast-info p{font-size:11px}
+}
+
+/* Galeria e fichas: rolagem da página, não um painel interno. */
+.panel.wide.cast-panel{max-height:none;overflow:visible;}
