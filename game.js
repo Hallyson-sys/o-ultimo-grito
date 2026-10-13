@@ -3,7 +3,7 @@ const $=s=>document.querySelector(s),app=$('#app');
 const OLD_KEY='ultimo-grito-save';const SLOT_PREFIX='ultimo-grito-slot-';let activeSlot=1;const KEY_UNUSED='ultimo-grito-save';
 const LEGACY=['ultimo-grito-save-v06','ultimo-grito-save-v05','ultimo-grito-save-v04','ultimo-grito-save-v03','ultimo-grito-save-v02'];
 let save=null,view='menu';let castSelected=null;
-let soundOn=false,ac=null,osc=null;
+let previousAudioView='menu';const audio=window.UGAudio;
 
 const CHAPTERS=[
   {id:'prologo', short:'PRÓLOGO', title:'A noite em que tudo mudou', label:'PRÓLOGO · A NOITE EM QUE TUDO MUDOU', start:'p01', summary:'A festa de Jullia, o acidente e o pacto no lago.'},
@@ -121,23 +121,30 @@ function formatted(s){return String(s||'').split(/\n\n/).map(part=>{let content=
 function allowed(req){return !req||req.every(([type,key,val])=>type==='flag'?Boolean(save.flags[key])===Boolean(val):type==='clue'?save.clues.includes(key)===Boolean(val):type==='bond'?(save.bonds[key]||0)>=val:true)}
 function apply(effects){(effects||[]).forEach(([type,key,val])=>{if(type==='flag'){save.flags[key]=!!val;if(key.startsWith('romance_')&&key.endsWith('_c5')&&val)save.romanceEscolhido=key.slice(8,-3)}if(type==='clue'&&!save.clues.includes(key))save.clues.push(key);if(type==='romance'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].atracao=Math.max(0,Math.min(100,save.romance[key].atracao+val))}if(type==='resent'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].ressentimento=Math.max(0,Math.min(100,save.romance[key].ressentimento+val))}if(type==='trait')save.traits[key]=(save.traits[key]||0)+val;if(type==='bond')save.bonds[key]=Math.max(0,Math.min(100,(save.bonds[key]||50)+val));if(type==='friendBond'&&Array.isArray(key)&&key.length===2){save.friendBonds??={};const pair=pairKey(key[0],key[1]);save.friendBonds[pair]=(save.friendBonds[pair]||0)+Number(val||0)}})}
 
-function ui(body){app.innerHTML=`<div class="grain"></div><div class="ui">${body}</div>`}
+function ui(body){app.innerHTML=`<div class="grain"></div><div class="ui">${body}</div>`;audio?.syncView(view)}
 function header(chapter='UMA HISTÓRIA DE LAKEWOOD',isLanding=false){
-  return `<header class="app-header ${isLanding?'landing-header':''}"><button class="nav-home" data-act="menu">⌂ MENU</button><div class="header-center"><button class="brand brand-center" data-act="menu">O <span>ÚLTIMO</span> GRITO</button><div class="top-info">${esc(chapter)}</div></div><button class="sound" data-act="sound">${soundOn?'♪ ON':'♪ OFF'}</button></header>`;
+  return `<header class="app-header ${isLanding?'landing-header':''}"><button class="nav-home" data-act="menu">⌂ MENU</button><div class="header-center"><button class="brand brand-center" data-act="menu">O <span>ÚLTIMO</span> GRITO</button><div class="top-info">${esc(chapter)}</div></div><button class="sound" data-act="sound" aria-label="${audio?.enabled?'Desligar áudio':'Ativar músicas e efeitos sonoros'}" aria-pressed="${!!audio?.enabled}">${audio?.enabled?'♫ SOM ON':'♪ LIGAR'}</button></header>`;
 }
 
 function sound(){
-  soundOn=!soundOn;
-  try{
-    if(soundOn){ac=new(window.AudioContext||window.webkitAudioContext)();osc=ac.createOscillator();const g=ac.createGain();osc.type='sine';osc.frequency.value=58;g.gain.value=.018;osc.connect(g).connect(ac.destination);osc.start();}
-    else{osc?.stop();ac?.close();osc=null;ac=null;}
-  }catch{soundOn=false}
-  render();
+ const playing=audio?.toggle();
+ document.querySelectorAll('button[data-act="sound"]').forEach(btn=>{
+   btn.textContent=playing?'♫ SOM ON':'♪ LIGAR';
+   btn.setAttribute('aria-pressed',String(!!playing));
+   btn.setAttribute('aria-label',playing?'Desligar áudio':'Ativar músicas e efeitos sonoros');
+ });
+ if(!playing&&audio?.unavailable)alert('Este navegador não oferece suporte ao áudio do jogo.');
 }
+function audioScreen(){
+ if(view!=='audio')previousAudioView=view;
+ view='audio';const opts=audio?.getSettings()||{enabled:false,music:55,effects:65};
+ ui(`<main class="landing scenic forest"><div class="vignette"></div>${header('ÁUDIO E IMERSÃO')}<section class="panel audio-panel"><div class="eyebrow">O SOM DE LAKEWOOD</div><h1>Música e efeitos</h1><p>O jogo tem oito trilhas instrumentais originais que mudam de acordo com o clima da cena, além de efeitos de mensagens, passos, água e suspense. Use fones se quiser uma experiência mais imersiva.</p><div class="audio-status" aria-live="polite">${opts.enabled?'♫ Música e efeitos ativados':'♪ Áudio desligado — ative no botão abaixo'}</div><button class="primary full" data-act="sound-settings">${opts.enabled?'DESLIGAR ÁUDIO':'ATIVAR ÁUDIO ♫'}</button><div class="audio-sliders"><label for="audio-music">VOLUME DA MÚSICA <strong id="audio-music-value">${opts.music}%</strong></label><input id="audio-music" data-audio-volume="music" type="range" min="0" max="100" step="5" value="${opts.music}" aria-label="Volume da música"><label for="audio-effects">VOLUME DOS EFEITOS <strong id="audio-effects-value">${opts.effects}%</strong></label><input id="audio-effects" data-audio-volume="effects" type="range" min="0" max="100" step="5" value="${opts.effects}" aria-label="Volume dos efeitos"></div><div class="audio-preview"><button class="secondary" data-act="preview-message">✆ TESTAR NOTIFICAÇÃO</button><button class="secondary" data-act="preview-knock">⌁ TESTAR BATIDAS</button></div><p class="note">Por exigência dos navegadores, especialmente no iPhone, o som só começa depois que você toca em ATIVAR ÁUDIO. As preferências de volume ficam salvas neste navegador, sem alterar suas partidas.</p><button class="back" data-act="audio-back">← Voltar</button></section></main>`);
+}
+function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;render()}
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button></div><p class="subtitle">V0.9.1 · TERROR NARRATIVO · SAVES COMPATÍVEIS ENTRE VERSÕES</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>DEMONSTRAÇÃO V0.9.1 · CAPÍTULO 5 INCLUÍDO</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V0.9.2 · TERROR NARRATIVO · SAVES COMPATÍVEIS ENTRE VERSÕES</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>DEMONSTRAÇÃO V0.9.2 · TRILHA SONORA ORIGINAL · CAPÍTULO 5</span></footer></main>`);
 }
 function creator(){
   view='creator';
@@ -146,11 +153,12 @@ function creator(){
 function game(){
   view='game'; const n=window.NODES?.[save?.node]; if(!n){menu();return}
   const choices=n.choices.filter(c=>allowed(c.requires));
-  ui(`<main class="play scenic ${esc(n.scene)}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="game-tools"><button data-act="journal">☰ DIÁRIO</button><button data-act="chapters">☷ CAPÍTULOS</button><button data-act="clues">⌘ PISTAS</button><button data-act="export">⇩ EXPORTAR SAVE</button><button data-act="import">⇧ IMPORTAR SAVE</button><button data-act="cast">♧ ELENCO</button><button data-act="slots">▣ SLOTS</button><button data-act="menu">Ⅱ PAUSAR</button></div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${formatted(n.text)}</div><div class="choices">${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div></div><div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div></main>`);
+  ui(`<main class="play scenic ${esc(n.scene)}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="game-tools"><button data-act="journal">☰ DIÁRIO</button><button data-act="chapters">☷ CAPÍTULOS</button><button data-act="clues">⌘ PISTAS</button><button data-act="export">⇩ EXPORTAR SAVE</button><button data-act="import">⇧ IMPORTAR SAVE</button><button data-act="cast">♧ ELENCO</button><button data-act="audio">♫ ÁUDIO</button><button data-act="slots">▣ SLOTS</button><button data-act="menu">Ⅱ PAUSAR</button></div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${formatted(n.text)}</div><div class="choices">${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div></div><div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div></main>`);
+  audio?.syncNode(n);
 }
 function exportSave(){const data=save||getSave();if(!data){alert('Nenhuma partida para exportar.');return}const payload=JSON.stringify({game:'o-ultimo-grito',format:1,save:normalize(data)},null,2);const blob=new Blob([payload],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='o-ultimo-grito-slot-'+activeSlot+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 function importSave(){const picker=document.createElement('input');picker.type='file';picker.accept='.json,application/json';picker.onchange=async()=>{const f=picker.files?.[0];if(!f)return;if(f.size>2000000){alert('Arquivo muito grande.');return}try{const parsed=JSON.parse(await f.text());if(parsed.game!=='o-ultimo-grito'||parsed.format!==1)throw Error('Formato de salvamento incompatível.');const imported=normalize(parsed.save);if(!imported)throw Error('O ponto salvo não existe nesta versão ou os dados estão incompletos.');if(getSave()&&!confirm('Importar irá substituir APENAS o slot '+activeSlot+'. Deseja continuar?'))return;save=imported;persist();alert('Salvamento importado com sucesso!');game()}catch(e){alert('Não foi possível importar: '+e.message)}};picker.click()}
-function select(i){const n=window.NODES[save.node],choices=n.choices.filter(c=>allowed(c.requires)),c=choices[i];if(!c)return;const before={...save.bonds};apply(c.effects);save.history.push({node:n.id,choice:c.text,chapter:n.chapter,effects:(c.effects||[]).map(e=>({type:e[0],key:e[1],value:e[2],name:ELENCO.find(x=>x[0]===e[1])?.[1]||e[1],from:before[e[1]],to:save.bonds[e[1]]}))});save.node=c.to;save.updated=Date.now();persist();game()}
+function select(i){const n=window.NODES[save.node],choices=n.choices.filter(c=>allowed(c.requires)),c=choices[i];if(!c)return;audio?.cue('toque');const before={...save.bonds};apply(c.effects);save.history.push({node:n.id,choice:c.text,chapter:n.chapter,effects:(c.effects||[]).map(e=>({type:e[0],key:e[1],value:e[2],name:ELENCO.find(x=>x[0]===e[1])?.[1]||e[1],from:before[e[1]],to:save.bonds[e[1]]}))});save.node=c.to;save.updated=Date.now();persist();game()}
 function journal(){
   if(!save){menu();return} view='journal';
   const rows=save.history.slice().reverse().map(h=>`<li><small>${esc(h.chapter)}</small><div>${esc(h.choice)}</div>${h.effects.filter(e=>e.type==='bond').length?`<span>${h.effects.filter(e=>e.type==='bond').map(e=>`${esc(e.name)}: ${e.from} → ${e.to}`).join(' · ')}</span>`:''}</li>`).join('');
@@ -248,13 +256,18 @@ function cluesScreen(){
   ui(`<main class="landing scenic forest">${header('QUADRO DE INVESTIGAÇÃO')}<section class="panel wide"><div class="eyebrow">PISTAS E TEORIAS</div><h1>O que você já sabe</h1><p>Esta aba organiza melhor as pistas encontradas. Aqui ficam separadas as informações sobre o passado, as ameaças atuais e as principais teorias levantadas pelo grupo.</p><div class="investigation-layout"><div><h3>TEORIAS ATUAIS</h3><ul class="theory-list">${theories().map(t=>`<li>${esc(t)}</li>`).join('')}</ul><h3>PONTO ATUAL</h3><p class="note">${esc(chapterMetaForNode(save.node).short)} · ${esc(chapterMetaForNode(save.node).title)}</p></div><div><h3>PISTAS DESCOBERTAS (${save.clues.length})</h3>${sections||'<p class="note">Você ainda não encontrou pistas registradas.</p>'}</div></div><div class="actions"><button class="primary" data-act="resume">VOLTAR À HISTÓRIA ↗</button><button class="secondary" data-act="journal">VER DIÁRIO</button><button class="back" data-act="menu">← Menu</button></div></section></main>`);
 }
 
-function render(){ if(view==='menu') menu(); else if(view==='creator') creator(); else if(view==='game') game(); else if(view==='journal') journal(); else if(view==='cast') renderCast(); else if(view==='slots')slotsScreen(); else if(view==='chapters') chaptersScreen(); else if(view==='clues') cluesScreen(); }
+function render(){ if(view==='menu') menu(); else if(view==='creator') creator(); else if(view==='game') game(); else if(view==='journal') journal(); else if(view==='cast') renderCast(); else if(view==='slots')slotsScreen(); else if(view==='chapters') chaptersScreen(); else if(view==='clues') cluesScreen(); else if(view==='audio')audioScreen(); }
 
 app.addEventListener('click',e=>{
   const person=e.target.closest('[data-person]');if(person){castSelected=person.dataset.person;renderCast();return;}const slot=e.target.closest('[data-slot]');if(slot){activeSlot=Number(slot.dataset.slot);save=getSave();if(save)game();else creator();return;}const btn=e.target.closest('[data-act],[data-choice]'); if(!btn) return;
   if(btn.dataset.choice!==undefined){ select(Number(btn.dataset.choice)); return; }
   const action=btn.dataset.act;
   if(action==='sound') sound();
+  else if(action==='audio')audioScreen();
+  else if(action==='audio-back')audioBack();
+  else if(action==='sound-settings'){audio?.toggle();audioScreen();}
+  else if(action==='preview-message'){if(!audio?.enabled){audio?.enable();audioScreen()}audio?.cue('mensagem');}
+  else if(action==='preview-knock'){if(!audio?.enabled){audio?.enable();audioScreen()}audio?.cue('batidas');}
   else if(action==='new'){ if(getSave()&&!confirm('Novo jogo substituirá apenas o slot '+activeSlot+'. Continuar?')) return; creator(); }
   else if(action==='continue'){ save=getSave(); if(save) game(); else menu(); }
   else if(action==='resume'){ if(save) game(); else menu(); }
@@ -266,6 +279,7 @@ app.addEventListener('click',e=>{
   else if(action==='export') exportSave();
   else if(action==='import') importSave();
 });
+app.addEventListener('input',e=>{const key=e.target?.dataset?.audioVolume;if(key!=='music'&&key!=='effects')return;const v=Number(e.target.value);audio?.updateSettings({[key]:v});const label=document.getElementById(key==='music'?'audio-music-value':'audio-effects-value');if(label)label.textContent=v+'%';});
 app.addEventListener('submit',e=>{ if(e.target.id!=='creator') return; e.preventDefault(); const f=new FormData(e.target); const name=String(f.get('name')||'').trim(); if(name.length<2) return; save=baseSave(name,String(f.get('pronouns')),String(f.get('look'))); persist(); game(); });
 menu();
 })();

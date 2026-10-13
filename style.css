@@ -180,3 +180,27 @@ button,input,select{touch-action:manipulation}
 
 /* Galeria e fichas: rolagem da página, não um painel interno. */
 .panel.wide.cast-panel{max-height:none;overflow:visible;}
+
+/* V0.9.2 — edição sonora: controles acessíveis também no iPhone. */
+.sound{min-width:94px;white-space:nowrap;min-height:41px;border:1px solid #a98497a9;border-radius:7px;background:#182436cc;color:#f4d4db;font-size:11px;letter-spacing:.07em;padding:10px 12px;cursor:pointer}
+.sound[aria-pressed="true"]{color:#ffffff;border-color:#e68b9b;background:#7334449c;box-shadow:0 0 18px #b6537038}
+.audio-panel{max-width:670px;padding-bottom:30px}
+.audio-panel h1{margin-bottom:10px}
+.audio-status{border-left:3px solid #ce6b85;background:#182330bd;padding:13px 15px;margin:20px 0;color:#ecdae0;font-size:13px}
+.audio-sliders{display:grid;grid-template-columns:1fr;gap:12px;margin-top:25px;margin-bottom:20px}
+.audio-sliders label{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;font-weight:750;letter-spacing:.1em;color:#e8cad2}
+.audio-sliders label strong{color:#fff;font-size:13px}
+.audio-sliders input[type="range"]{display:block;width:100%;height:34px;accent-color:#db667d;cursor:pointer;touch-action:pan-x}
+.audio-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:15px 0}
+.audio-preview button{font-size:11px;letter-spacing:.02em;min-height:46px;padding:12px 9px}
+.audio-panel .primary.full{min-height:50px}
+.audio-panel .back{margin-top:18px}
+.sound:focus-visible,.audio-panel button:focus-visible,.audio-sliders input:focus-visible{outline:2px solid #ffd0db;outline-offset:3px}
+@media(max-width:540px){
+  header.app-header{grid-template-columns:70px minmax(0,1fr) 79px;gap:5px}
+  .sound{font-size:9px;letter-spacing:0;min-width:0;width:79px;padding:8px 4px;min-height:40px}
+  .audio-panel{padding:24px 17px 34px}
+  .audio-preview{grid-template-columns:1fr}
+  .audio-preview button{width:100%}
+}
+@media(max-width:360px){header.app-header{grid-template-columns:61px minmax(0,1fr) 76px}.sound{width:76px;font-size:9px}}
