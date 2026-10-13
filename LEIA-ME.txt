@@ -1,3 +1,37 @@
+O ÚLTIMO GRITO — V1.0.5 | CELULAR INTERATIVO, INVESTIGAÇÃO E EFEITO BORBOLETA
+
+NOVIDADES PRINCIPAIS
+1) CELULAR INTERATIVO: acesse pelo menu ☰ OPÇÕES durante a gameplay ou pelo menu principal com um save ativo. Há conversas do grupo, Bella, Ryan quando sua rota é escolhida, Breno e mensagens do número desconhecido nos momentos pertinentes. As conversas aparecem de acordo com capítulo, pistas, romance e mortes.
+   • Respostas selecionáveis são gravadas UMA ÚNICA VEZ por etapa e por slot.
+   • A resposta de Ryan representa aproximação afetiva, NÃO namoro oficial.
+   • Nenhuma mensagem nova é atribuída a personagens que morreram antes daquele momento; mensagens antigas podem continuar visíveis.
+   • Abas Arquivos e Chamadas mostram somente informações obtidas na partida. Não há serviços externos de mensagens ou telefone real.
+2) INVESTIGAÇÃO INTERATIVA: o quadro de pistas ganhou conexões entre pares de evidências realmente encontradas. Cada ligação produz uma HIPÓTESE com ressalvas, sem revelar o culpado. As conexões continuam no save. Há nove combinações previstas; as disponíveis dependem do caminho jogado.
+3) EFEITO BORBOLETA: uma linha do tempo de acontecimentos já alcançados (pacto, ameaça, perdas ou sobreviventes, romance escolhido, hipóteses montadas e mensagens respondidas), mais escolhas recentes com efeitos registrados. Não mostra segredos da identidade do mascarado antes da hora.
+4) FUNÇÃO EXTRA — CADERNO PARTICULAR: anotações de até 1.500 caracteres, com salvamento automático por slot. Não alteram o roteiro.
+
+COMPATIBILIDADE E O QUE FOI PRESERVADO
+• Mantidos os seis capítulos (Prólogo + Capítulos 1–6), as rotas românticas sem namoro automático, o menu recolhível, os retratos, trilhas sonoras, consequências persistentes, memórias individuais e até três slots.
+• Os salvamentos da V1.0.4 são normalizados sem modificar mortes, ferimentos ou decisões passadas. Novos registros interativos surgem vazios e são preenchidos conforme a pessoa usa os recursos. Respostas e hipóteses não são contabilizadas duas vezes ao reabrir ou importar.
+• A V1.0.5 ainda NÃO adiciona o Capítulo 7 nem um aplicativo de mensagens real. Os contatos e diálogos são fictícios e locais ao jogo; as hipóteses não revelam antecipadamente o mistério Jullia/Rayssa.
+
+COMO ATUALIZAR NO GITHUB / RENDER (INCLUSIVE PELO IPHONE)
+1. Exporte seu save atual antes de atualizar, por segurança.
+2. Extraia o ZIP e entre na pasta O_Ultimo_Grito_v1_0_5.
+3. No GitHub, abra o repositório do jogo e use Add file > Upload files. Envie TODOS os arquivos DE DENTRO da pasta extraída para a raiz do repositório, incluindo o novo interactive.js. index.html deve ficar na raiz.
+4. Confirme Commit changes na branch principal. Se o auto deploy estiver ativo, o Render publicará automaticamente; se não, peça um deploy manual do último commit no painel.
+5. No iPhone, jogue pelo link do Render no Safari; o app Arquivos não oferece execução completa de um jogo em HTML/JavaScript.
+
+TESTES DESTA VERSÃO
+• 392 nós narrativos e 642 destinos de escolha verificados.
+• Sintaxe de todos os scripts JS validada.
+• Fluxos funcionais em 320 px, 390 px e 1280 px, com testes de respostas, conectores de pistas e notas persistentes após reabrir.
+• Verificada independência dos slots e cenário com três mortes.
+• O teste visual foi realizado com os arquivos injetados diretamente no Chromium, pois o acesso a servidor local era bloqueado pelo ambiente. Recomenda-se verificar áudio e interação no Safari real depois de publicar.
+
+---
+HISTÓRICO DAS VERSÕES ANTERIORES
+
 O ÚLTIMO GRITO — V1.0.4 | FERIMENTOS, RELAÇÕES E MEMÓRIAS
 
 NOVIDADES DA V1.0.4
