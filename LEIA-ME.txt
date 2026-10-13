@@ -1,54 +1,52 @@
-O ÚLTIMO GRITO — V0.9.2 · EDIÇÃO SONORA
-=========================================
+O ÚLTIMO GRITO — V1.0 | CAPÍTULO 6 — O SILÊNCIO TEM TESTEMUNHAS
+================================================================
 
-ATUALIZAÇÃO:
-- Todas as funcionalidades da V0.9.1, incluindo as oito artes .webp.
-- Oito trilhas instrumentais originais, produzidas para esta versão:
-  menu, amizade, romance, investigação, tensão, perseguição, luto e lago.
-- Oito efeitos: toque de opção, mensagem, impacto, batidas na porta,
-  passos, água, batimento cardíaco e chuva.
-- Músicas mudam automaticamente segundo a cena e a narrativa. As
-  sequências de perseguição existentes têm tratamento próprio.
-- Transições de volume suaves entre músicas; o controle de volume usa
-  Web Audio para compatibilidade com iOS/Safari e computadores.
-- Menu CONFIGURAR ÁUDIO: volumes independentes para música/efeitos,
-  desligar/ligar e testar os sons.
-- Áudio inicia DESLIGADO em cada visita até um toque do usuário.
-- Volumes são lembrados neste navegador, mas NÃO alteram os slots.
-- Os 3 slots, formato de save e roteiro dos capítulos 1–5 estão intactos.
+NOVIDADE: CAPÍTULO 6 COMPLETO
+- Bella Gomes, irmã de Jullia, entra na investigação.
+- Jantar com conversas completas entre o elenco, inclusive cenas ligadas ao romance escolhido no capítulo 5.
+- Perseguição longa no apartamento de Laisla, inspirada na tensão de travessias entre prédios, com roteiro próprio.
+- Três perspectivas: protagonista, Isabella e Ryan.
+- Dois núcleos que podem escapar separadamente ou se reencontrar.
+- A ordem de travessia é escolhida durante o jogo; as opções mudam conforme quem está vivo e quem alcançou a janela.
+- Ferimentos e preparação da escada influenciam o risco.
+- Laisla, Rauanny, Isabella, Allan (se vivo) e Ryan podem morrer, com NO MÁXIMO três mortes no capítulo 6.
+- É possível terminar o capítulo 6 sem novas mortes.
+- Reações de sobreviventes e consequências investigativas e emocionais.
+- 111 novas cenas/nós e variações; percursos testados contêm cerca de 8.700 a 11.200 palavras de narrativa por partida, mas o tempo real varia de leitor para leitor.
+- Capítulo 6 aparece no menu de capítulos; as novas pistas constam no quadro de investigação.
+- Retratos oficiais do elenco e áudio original da V0.9.2 preservados.
 
-EXECUÇÃO:
-- Computador: extraia o ZIP e abra index.html no Chrome, Edge ou Safari.
-- iPhone: use o link publicado do Render no Safari; no app Arquivos
-  a visualização de index.html não executa um jogo completo.
-- Mantenha todos os arquivos juntos na RAIZ, incluindo sound.js e
-  os dezesseis arquivos som_*.mp3 (nenhuma pasta aninhada necessária).
-- Após abrir, toque em ♪ LIGAR ou acesse CONFIGURAR ÁUDIO e ATIVAR ÁUDIO.
-- Alguns navegadores interrompem o áudio quando vão para segundo plano.
+SALVAMENTOS E COMPATIBILIDADE
+- Continua usando os mesmos três slots de versões anteriores no mesmo navegador e domínio.
+- Saves dos capítulos 1 a 5 são compatíveis; ao chegar ao final do capítulo 5 você encontra a opção de iniciar o capítulo 6.
+- É possível exportar/importar saves para trocar de navegador/dispositivo.
+- Antes de atualizar o site, faça uma exportação do save como segurança.
+- Não renomeie os arquivos internos.
 
-ATUALIZAÇÃO NO GITHUB + RENDER:
-1. Extraia o ZIP.
-2. No GitHub do projeto, clique Add file > Upload files.
-3. Para atualizar desde a V0.9.1, envie index.html, game.js,
-   style.css, sound.js e TODOS os dezesseis arquivos som_*.mp3.
-   Também pode enviar todos os arquivos da pasta, se preferir.
-4. Os MP3 devem ficar ao lado do index.html; NÃO enviar o ZIP fechado.
-5. Clique Commit changes. Se o Render tiver deploy automático ativo,
-   aguarde o deploy ficar Live e atualize a página do jogo no Safari.
-6. Se as trilhas não tocarem, confira se TODOS os MP3 foram publicados,
-   aumente os volumes e toque em LIGAR SOM.
+NO NOTEBOOK (SEM INSTALAÇÃO)
+- Extraia o ZIP e abra o index.html em um navegador recente.
+- Todos os arquivos precisam ficar juntos, inclusive os retratos .webp, os sons .mp3 e chapter6.js.
 
-SALVAMENTOS:
-- Chaves de storage preservadas: ultimo-grito-slot-1, -2 e -3.
-- Não houve alterações de nós, flags ou estrutura do JSON.
-- As preferências sonoras usam chave própria e não entram no save.
-- Exporte cada slot antes de atualizar, por precaução.
-- Salvamentos locais não sincronizam automaticamente entre aparelhos.
+NO IPHONE/ANDROID
+- O aplicativo Arquivos do iPhone pode exibir uma prévia em branco do index.html, sem executar o jogo corretamente.
+- Para jogar no celular, publique o conteúdo em um site estático (Render, GitHub Pages etc.) e abra o endereço pelo Safari ou Chrome.
+- O botão ♪ LIGAR ativa o som após um toque do jogador, conforme as regras dos navegadores móveis.
 
-TRILHAS E SONS:
-- Música/efeitos são composições e sínteses produzidas exclusivamente
-  para esta atualização. Não incluem gravações protegidas de filmes
-  ou músicas comerciais nem necessitam de APIs externas.
-- A mixagem usa arquivos MP3 compatíveis com navegadores comuns.
+ATUALIZANDO NO GITHUB + RENDER
+1. Extraia este ZIP.
+2. Entre no repositório que já está ligado ao serviço Static Site do Render.
+3. Envie os arquivos DE DENTRO da pasta extraída para a raiz do repositório; substitua os antigos.
+4. Confirme o Commit changes na branch principal.
+5. O Render deve iniciar o deploy automaticamente se auto-deploy estiver ativado.
+6. Aguarde o status Live e atualize a aba do navegador.
 
-O ÚLTIMO GRITO — CONTEÚDO NARRATIVO V0.9.1 + SOM V0.9.2
+CONFIGURAÇÃO DO STATIC SITE NO RENDER
+- Root Directory: vazio
+- Build Command: echo "Site pronto"
+- Publish Directory: .
+
+OBSERVAÇÕES
+- Esta atualização NÃO inclui o capítulo 7.
+- A duração foi estimada pela quantidade de texto e escolhas; ainda recomendamos que uma pessoa teste uma partida completa cronometrada no dispositivo real.
+- O limite de três mortes é aplicado às decisões deste capítulo; o estado de Allan no capítulo 4 é respeitado.
+- Os arquivos de história e os sons podem ser usados offline no computador. O site online permite jogar no celular.

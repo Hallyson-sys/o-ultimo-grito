@@ -11,10 +11,24 @@ const CHAPTERS=[
   {id:'cap2', short:'CAPÍTULO 02', title:'Ninguém está seguro', label:'CAPÍTULO 02 · NINGUÉM ESTÁ SEGURO', start:'d01', summary:'O grupo investiga as ameaças e sofre o primeiro ataque.'},
   {id:'cap3', short:'CAPÍTULO 03', title:'Ninguém é inocente', label:'CAPÍTULO 03 · NINGUÉM É INOCENTE', start:'e01', summary:'Novas suspeitas, mensagens apagadas e uma perseguição mais brutal na marina.'},
   {id:'cap4', short:'CAPÍTULO 04', title:'Fora de alcance', label:'CAPÍTULO 04 · FORA DE ALCANCE', start:'f01', summary:'O grupo é atraído para o arquivo da estrada norte; Allan corre perigo.'},
-  {id:'cap5',short:'CAPÍTULO 05',title:'Laços de sangue',label:'CAPÍTULO 05 · LAÇOS DE SANGUE',start:'g01',summary:'O luto muda o grupo e você decide qual romance — ou nenhuma relação — quer seguir.'}
+  {id:'cap5',short:'CAPÍTULO 05',title:'Laços de sangue',label:'CAPÍTULO 05 · LAÇOS DE SANGUE',start:'g01',summary:'O luto muda o grupo e você decide qual romance — ou nenhuma relação — quer seguir.'},
+  {id:'cap6',short:'CAPÍTULO 06',title:'O silêncio tem testemunhas',label:'CAPÍTULO 06 · O SILÊNCIO TEM TESTEMUNHAS',start:'h01',summary:'Bella Gomes entra na investigação. Um jantar na casa de Laisla vira uma perseguição por dois blocos e decisões de vida ou morte.'}
 ];
 
 const CLUE_DATA={
+  bella_contato_c6:{title:'Contato de Bella Gomes',category:'Capítulo 6',text:'A irmã de Jullia passou um ano procurando respostas e ofereceu seu contato ao grupo.'},
+  bella_trilha_c6:{title:'O caminho de Bella pela mata',category:'Capítulo 6',text:'Bella afirmou ter seguido Jullia por uma entrada lateral da mata antes do atropelamento, sem ter visto van ou lago.'},
+  moises_evita_bella_c6:{title:'Moisés evita a irmã de Jullia',category:'Capítulo 6',text:'Bella disse que Moisés se afastou dela e da família Gomes depois das primeiras semanas de buscas.'},
+  escada_manutencao_c6:{title:'Escada de manutenção no condomínio',category:'Capítulo 6',text:'A escada extensível estava sendo usada por técnicos no Bloco B antes do ataque; ela não apareceu do nada durante o resgate.'},
+  foto_dentro_apartamento_c6:{title:'Foto tirada durante o jantar',category:'Capítulo 6',text:'O agressor enviou uma foto feita de dentro do apartamento de Laisla, provando acesso à intimidade do grupo.'},
+  ligacao_no_jantar_c6:{title:'Ligação distorcida no jantar',category:'Capítulo 6',text:'Uma voz falou sobre deixar pessoas para trás; Isabella conseguiu preservar parte do registro.'},
+  grade_servico_c6:{title:'Grade e escada de serviço',category:'Capítulo 6',text:'A lavanderia de Laisla tem uma rota independente para o corredor de serviço, que precisa ser aberta pelo exterior.'},
+  policia_alertada_c6:{title:'Relato à polícia do ataque',category:'Capítulo 6',text:'O grupo descreveu a máscara, os locais do ataque e a travessia entre os prédios à polícia.'},
+  bella_apoio_c6:{title:'Bella ofereceu ajuda após o ataque',category:'Capítulo 6',text:'Mesmo sem saber toda a verdade sobre a irmã, Bella procurou os sobreviventes ao ver as notícias do condomínio.'},
+  moises_apos_ataque_c6:{title:'Moisés apareceu no condomínio',category:'Capítulo 6',text:'Moisés foi visto observando as viaturas e evitando encontrar Bella Gomes.'},
+  moises_alerta_c6:{title:'Aviso enigmático de Moisés',category:'Capítulo 6',text:'Moisés alertou o protagonista a não confiar em alguém apenas por parecer arrependido.'},
+  cronologia_ataque_c6:{title:'Horários do ataque no apartamento',category:'Capítulo 6',text:'O protagonista reuniu os horários da foto enviada, da invasão, do uso da escada e da chegada policial.'},
+  ameaca_janela_c6:{title:'Mensagem sobre a janela',category:'Capítulo 6',text:'Após o resgate o grupo recebeu uma mensagem dizendo que o perseguidor sabia da travessia e de quem observava a janela.'},
   convite_jullia:{title:'Convite inesperado',category:'Passado',text:'Você estranhou o convite de Jullia para a festa. Havia algo urgente e pessoal por trás daquele chamado.'},
   breno_desconfortavel:{title:'Breno já estava desconfortável',category:'Passado',text:'Ainda no caminho para a festa, Breno demonstrava que aquele ambiente e aquela noite o deixavam inquieto.'},
   breno_observador:{title:'Breno percebeu detalhes antes',category:'Passado',text:'Breno observava o comportamento de todos e parecia notar tensões antes mesmo de elas explodirem.'},
@@ -72,7 +86,7 @@ const CLUE_DATA={
 };
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const baseSave=(name,pronouns,look)=>({hero:{name:name.trim(),pronouns,look},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:9});
+const baseSave=(name,pronouns,look)=>({hero:{name:name.trim(),pronouns,look},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:10});
 
 function chapterIdFromLabel(label=''){
   if(label.startsWith('PRÓLOGO')) return 'prologo';
@@ -81,6 +95,7 @@ function chapterIdFromLabel(label=''){
   if(label.startsWith('CAPÍTULO 03')) return 'cap3';
   if(label.startsWith('CAPÍTULO 04')) return 'cap4';
   if(label.startsWith('CAPÍTULO 05')) return 'cap5';
+  if(label.startsWith('CAPÍTULO 06')) return 'cap6';
   return 'prologo';
 }
 function chapterMetaForNode(nodeId){const node=window.NODES?.[nodeId];return CHAPTERS.find(c=>c.id===chapterIdFromLabel(node?.chapter||''))||CHAPTERS[0]}
@@ -117,9 +132,9 @@ function migrateLegacy(){
 function getSave(){migrateLegacy();return slotSave(activeSlot)}
 function persist(){try{if(save)localStorage.setItem(slotKey(activeSlot),JSON.stringify(save))}catch(e){console.warn('Não foi possível salvar',e)}}
 function interp(s){const name=save?.hero?.name?.split(' ')[0]||'Você';return esc(s).replaceAll('{nome}',esc(name))}
-function formatted(s){return String(s||'').split(/\n\n/).map(part=>{let content=part.trim();if(!content)return '';const m=content.match(/^([A-Za-zÀ-ÿ ]{2,28}|Você):\s*[—-]\s*([\s\S]*)$/);if(m){return `<div class="spoken"><div class="speaker-name">${interp(m[1]==='Você'?(save?.hero?.name||'Você'):m[1])}</div><p>${interp(m[2])}</p></div>`}if(content==='UM ANO DEPOIS.'||content.startsWith('ENQUANTO ISSO'))return `<div class="intertitle">${interp(content)}</div>`;return `<p class="narrative">${interp(content).replaceAll('\n','<br>')}</p>`}).join('')}
+function formatted(s){return String(s||'').split(/\n\n/).map(part=>{let content=part.trim();if(!content)return '';const m=content.match(/^([A-Za-zÀ-ÿ ]{2,28}|Você):\s*[—-]\s*([\s\S]*)$/);if(m){return `<div class="spoken"><div class="speaker-name">${interp(m[1]==='Você'?(save?.hero?.name||'Você'):m[1])}</div><p>${interp(m[2])}</p></div>`}if(content==='UM ANO DEPOIS.'||(content.startsWith('ENQUANTO ISSO')||content.startsWith('PONTO DE VISTA:')))return `<div class="intertitle">${interp(content)}</div>`;return `<p class="narrative">${interp(content).replaceAll('\n','<br>')}</p>`}).join('')}
 function allowed(req){return !req||req.every(([type,key,val])=>type==='flag'?Boolean(save.flags[key])===Boolean(val):type==='clue'?save.clues.includes(key)===Boolean(val):type==='bond'?(save.bonds[key]||0)>=val:true)}
-function apply(effects){(effects||[]).forEach(([type,key,val])=>{if(type==='flag'){save.flags[key]=!!val;if(key.startsWith('romance_')&&key.endsWith('_c5')&&val)save.romanceEscolhido=key.slice(8,-3)}if(type==='clue'&&!save.clues.includes(key))save.clues.push(key);if(type==='romance'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].atracao=Math.max(0,Math.min(100,save.romance[key].atracao+val))}if(type==='resent'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].ressentimento=Math.max(0,Math.min(100,save.romance[key].ressentimento+val))}if(type==='trait')save.traits[key]=(save.traits[key]||0)+val;if(type==='bond')save.bonds[key]=Math.max(0,Math.min(100,(save.bonds[key]||50)+val));if(type==='friendBond'&&Array.isArray(key)&&key.length===2){save.friendBonds??={};const pair=pairKey(key[0],key[1]);save.friendBonds[pair]=(save.friendBonds[pair]||0)+Number(val||0)}})}
+function apply(effects){(effects||[]).forEach(([type,key,val])=>{if(type==='flag'){save.flags[key]=!!val;if(key.startsWith('romance_')&&key.endsWith('_c5')&&val)save.romanceEscolhido=key.slice(8,-3)}if(type==='clue'&&!save.clues.includes(key))save.clues.push(key);if(type==='set')save.flags[key]=val;if(type==='cross')save.flags['c6_crossed_'+key]=true;if(type==='death'){const deaths=window.UG6?.countDeaths?.(save)||0;if(deaths<3)save.flags['c6_morto_'+key]=true;else {save.flags['c6_ferida_'+key]=true;save.flags['c6_crossed_'+key]=true;}}if(type==='romance'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].atracao=Math.max(0,Math.min(100,save.romance[key].atracao+val))}if(type==='resent'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].ressentimento=Math.max(0,Math.min(100,save.romance[key].ressentimento+val))}if(type==='trait')save.traits[key]=(save.traits[key]||0)+val;if(type==='bond')save.bonds[key]=Math.max(0,Math.min(100,(save.bonds[key]||50)+val));if(type==='friendBond'&&Array.isArray(key)&&key.length===2){save.friendBonds??={};const pair=pairKey(key[0],key[1]);save.friendBonds[pair]=(save.friendBonds[pair]||0)+Number(val||0)}})}
 
 function ui(body){app.innerHTML=`<div class="grain"></div><div class="ui">${body}</div>`;audio?.syncView(view)}
 function header(chapter='UMA HISTÓRIA DE LAKEWOOD',isLanding=false){
@@ -144,21 +159,22 @@ function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;r
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V0.9.2 · TERROR NARRATIVO · SAVES COMPATÍVEIS ENTRE VERSÕES</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>DEMONSTRAÇÃO V0.9.2 · TRILHA SONORA ORIGINAL · CAPÍTULO 5</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.0 · CAPÍTULO 6 · SAVES COMPATÍVEIS ENTRE VERSÕES</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.0 · TRILHA SONORA ORIGINAL · CAPÍTULO 6</span></footer></main>`);
 }
 function creator(){
   view='creator';
   ui(`<main class="landing scenic house">${header('CRIAÇÃO DE PERSONAGEM')}<section class="panel creator"><div class="eyebrow">ANTES DE VOLTAR A LAKEWOOD</div><h1>Quem vai sobreviver?</h1><p>Você é o nono personagem dessa história. Os outros oito carregam o peso de um verão que ninguém deveria lembrar.</p><form id="creator"><label>SEU NOME COMPLETO<input name="name" maxlength="48" minlength="2" placeholder="Digite seu nome" required autocomplete="off"></label><div class="field-row"><label>PRONOMES<select name="pronouns"><option value="ela">Ela / dela</option><option value="ele">Ele / dele</option><option value="elu">Elu / delu</option></select></label><label>ESTILO VISUAL<select name="look"><option value="casual">Casual</option><option value="alternativo">Alternativo</option><option value="elegante">Elegante</option><option value="esportivo">Esportivo</option></select></label></div><p class="note">Os romances, as pistas e as consequências acompanharão esse personagem em todos os capítulos.</p><button class="primary full" type="submit">COMEÇAR PRÓLOGO ↗</button></form><button class="back" data-act="menu">← Voltar ao menu</button></section></main>`);
 }
+function sceneNode(id){const n=window.NODES?.[id];return n&&window.UG6?.resolve?.(id,save)||n}
 function game(){
-  view='game'; const n=window.NODES?.[save?.node]; if(!n){menu();return}
+  view='game'; const n=sceneNode(save?.node); if(!n){menu();return}
   const choices=n.choices.filter(c=>allowed(c.requires));
   ui(`<main class="play scenic ${esc(n.scene)}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="game-tools"><button data-act="journal">☰ DIÁRIO</button><button data-act="chapters">☷ CAPÍTULOS</button><button data-act="clues">⌘ PISTAS</button><button data-act="export">⇩ EXPORTAR SAVE</button><button data-act="import">⇧ IMPORTAR SAVE</button><button data-act="cast">♧ ELENCO</button><button data-act="audio">♫ ÁUDIO</button><button data-act="slots">▣ SLOTS</button><button data-act="menu">Ⅱ PAUSAR</button></div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${formatted(n.text)}</div><div class="choices">${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div></div><div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div></main>`);
   audio?.syncNode(n);
 }
 function exportSave(){const data=save||getSave();if(!data){alert('Nenhuma partida para exportar.');return}const payload=JSON.stringify({game:'o-ultimo-grito',format:1,save:normalize(data)},null,2);const blob=new Blob([payload],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='o-ultimo-grito-slot-'+activeSlot+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 function importSave(){const picker=document.createElement('input');picker.type='file';picker.accept='.json,application/json';picker.onchange=async()=>{const f=picker.files?.[0];if(!f)return;if(f.size>2000000){alert('Arquivo muito grande.');return}try{const parsed=JSON.parse(await f.text());if(parsed.game!=='o-ultimo-grito'||parsed.format!==1)throw Error('Formato de salvamento incompatível.');const imported=normalize(parsed.save);if(!imported)throw Error('O ponto salvo não existe nesta versão ou os dados estão incompletos.');if(getSave()&&!confirm('Importar irá substituir APENAS o slot '+activeSlot+'. Deseja continuar?'))return;save=imported;persist();alert('Salvamento importado com sucesso!');game()}catch(e){alert('Não foi possível importar: '+e.message)}};picker.click()}
-function select(i){const n=window.NODES[save.node],choices=n.choices.filter(c=>allowed(c.requires)),c=choices[i];if(!c)return;audio?.cue('toque');const before={...save.bonds};apply(c.effects);save.history.push({node:n.id,choice:c.text,chapter:n.chapter,effects:(c.effects||[]).map(e=>({type:e[0],key:e[1],value:e[2],name:ELENCO.find(x=>x[0]===e[1])?.[1]||e[1],from:before[e[1]],to:save.bonds[e[1]]}))});save.node=c.to;save.updated=Date.now();persist();game()}
+function select(i){const n=sceneNode(save.node),choices=n.choices.filter(c=>allowed(c.requires)),c=choices[i];if(!c)return;audio?.cue('toque');const before={...save.bonds};apply(c.effects);save.history.push({node:n.id,choice:c.text,chapter:n.chapter,effects:(c.effects||[]).map(e=>({type:e[0],key:e[1],value:e[2],name:ELENCO.find(x=>x[0]===e[1])?.[1]||e[1],from:before[e[1]],to:save.bonds[e[1]]}))});save.node=c.to;save.updated=Date.now();persist();game()}
 function journal(){
   if(!save){menu();return} view='journal';
   const rows=save.history.slice().reverse().map(h=>`<li><small>${esc(h.chapter)}</small><div>${esc(h.choice)}</div>${h.effects.filter(e=>e.type==='bond').length?`<span>${h.effects.filter(e=>e.type==='bond').map(e=>`${esc(e.name)}: ${e.from} → ${e.to}`).join(' · ')}</span>`:''}</li>`).join('');
@@ -172,7 +188,7 @@ const CAST_PORTRAITS=Object.freeze({
   rayssa:'rayssa.webp',ryan:'ryan.webp',laisla:'laisla.webp',samuel:'samuel.webp',
   rauanny:'rauanny.webp',allan:'allan.webp',isabella:'isabella.webp',breno:'breno.webp'
 });
-function characterDead(id){return id==='allan'&&!!save?.flags?.allan_morto_c4;}
+function characterDead(id){return (id==='allan'&&!!save?.flags?.allan_morto_c4)||!!save?.flags?.['c6_morto_'+id];}
 function castPortrait(id,name,large=false){
   const image=CAST_PORTRAITS[id];
   if(!image)return `<div class="cast-portrait-placeholder" aria-hidden="true">${esc(name.charAt(0))}</div>`;
@@ -218,6 +234,8 @@ function relationRows(id){
  }).join('');
 }
 function characterStatus(id){
+ if(save?.flags?.['c6_morto_'+id])return 'Falecido · Capítulo 6';
+ if(save?.flags?.['c6_ferida_'+id])return 'Ferido(a) · Capítulo 6';
  if(id==='allan'&&save?.flags?.allan_morto_c4)return 'Falecido · Capítulo 4';
  if(id==='allan'&&save?.flags?.allan_vivo_c4)return 'Sobreviveu ao ataque no arquivo';
  if(id==='rauanny'&&save?.flags?.ferida_rauanny)return 'Ferida após o primeiro ataque';
@@ -242,6 +260,9 @@ function chaptersScreen(){
 function clueCard(key){const meta=CLUE_DATA[key]||{title:key.replaceAll('_',' '),category:'Outras',text:'Pista registrada no histórico da sua partida.'};return `<article class="clue-card"><small>${esc(meta.category.toUpperCase())}</small><h4>${esc(meta.title)}</h4><p>${esc(meta.text)}</p></article>`}
 function theories(){
   const items=[];
+  if(save?.clues.includes('bella_trilha_c6'))items.push('Bella Gomes afirmou ter seguido Jullia pela mata antes do atropelamento. Isso pode explicar parte do relato de Samuel, mas não identifica o mascarado.');
+  if(save?.clues.includes('foto_dentro_apartamento_c6'))items.push('O perseguidor obteve uma fotografia feita de dentro do apartamento de Laisla, sugerindo acesso direto ou informação fornecida por outra pessoa.');
+  if(save?.clues.includes('moises_alerta_c6'))items.push('Moisés parece ter medo de alguém que demonstra arrependimento. Por que ele estava no condomínio após o ataque?');
   if(save?.clues.includes('mensagens_apagadas_jullia')) items.push('Alguém apagou mensagens de Jullia depois da noite do acidente.');
   if(save?.clues.includes('video_reacao_samuel')||save?.clues.includes('meia_confissao_samuel')) items.push('Samuel sabe mais do que está admitindo sobre aquela noite.');
   if(save?.clues.includes('moises_provocou')||save?.clues.includes('moises_relacao')) items.push('Moisés continua sendo um suspeito plausível, mas talvez esteja escondendo dor, não culpa.');
