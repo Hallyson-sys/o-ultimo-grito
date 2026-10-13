@@ -1,0 +1,43 @@
+O ULTIMO GRITO — V1.0.6 · CELULAR NARRATIVO E NOVA IDENTIDADE
+
+Esta atualização mantém o prólogo, os capítulos 1 a 6, as oito ilustrações,
+o sistema sonoro, as fichas, os três slots, os romances e as consequências.
+
+NOVAS FUNÇÕES
+1. Celular: mensagens em ordem cronológica, sem "Laisla:" repetido nas bolhas.
+   Prévias mostram o último texto de cada conversa. Cards se ajustam a telas
+   pequenas. Respostas de Ryan, Breno, Rayssa e Rauanny respeitam a rota
+   amorosa escolhida — ainda não existe namoro oficial.
+2. Notificações durante a história: em momentos específicos do capítulo 6,
+   você pode ler, responder, registrar uma prova ou ignorar a mensagem.
+   Os registros ficam no save individual e afetam afinidades, pistas e texto
+   de cenas posteriores. Inclui ligação de número restrito no encerramento.
+3. Investigação: é possível EXAMINAR arquivos encontrados (foto, transcrição
+   de áudio, mensagens e outros registros), registrar observações e combinar
+   pistas em novas hipóteses. O registro do audio de Jullia é textual, sem
+   dublagem; nenhuma prova revela antecipadamente o segredo do assassino.
+4. Efeito borboleta: o histórico passa a mostrar escolhas pelo celular,
+   notificações e análise de arquivos conforme são realizadas.
+5. Título: nova composição tipográfica original, com visual slasher elegante,
+   corte escarlate e layout responsivo. Não requer fontes externas.
+
+COMO EXECUTAR
+- Em notebook/computador: extraia o ZIP, abra index.html em um navegador.
+- Online: envie TODOS os arquivos, inclusive interactive.js e os MP3/WEBP,
+  para a RAIZ do repositório no GitHub e aguarde o deploy do Render.
+- No iPhone, use a versão publicada no Render; o app Arquivos pode não
+  carregar scripts corretamente em pré-visualização HTML.
+
+SALVAMENTOS
+- Os três slots anteriores continuam com as mesmas chaves localStorage.
+- Slots da V1.0.5 e anteriores são normalizados sem reiniciar a história.
+- Faça uma exportação do save antes de publicar/atualizar, por segurança.
+- Conteúdo que o jogador deixou passar no capítulo 6 não é forçado
+  retroativamente em saves antigos. Começar o capítulo novamente permite
+  experimentar as novas notificações.
+
+LIMITAÇÕES
+- Celular possui conversas roteirizadas; não envia mensagens reais.
+- Arquivos e imagens de prova são representados por registros textuais;
+  o áudio de Jullia não é um arquivo de voz reproduzível nesta versão.
+- A identidade secreta das antagonistas continua protegida até o roteiro.
