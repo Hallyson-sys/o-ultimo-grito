@@ -221,3 +221,20 @@ button,input,select{touch-action:manipulation}
 .play .hud-left{margin-top:21px!important}
 .play .scene-accent{opacity:.17;pointer-events:none}
 @media(max-width:740px){.game-header .brand{font-size:12px!important;letter-spacing:.07em!important}.game-header .top-info{font-size:8px!important;white-space:normal}.game-drawer summary{padding:9px 10px;font-size:10px}.drawer-items{position:fixed;right:12px;top:66px;width:calc(100vw - 24px);max-width:390px;grid-template-columns:repeat(2,minmax(0,1fr))}.play .dialogue{margin:35px auto 25px!important}.play .hud-left{font-size:10px}}
+
+/* V1.0.4 · condição física e lembranças — legível em telas pequenas */
+.condition-profile{margin-top:18px;padding:19px;border:1px solid rgba(159,186,221,.19);border-radius:16px;background:rgba(9,17,32,.62)}
+.condition-profile h3{margin:9px 0 12px;letter-spacing:.11em;font-size:.85rem}
+.condition-profile h3:not(:first-child){margin-top:21px}
+.physical-state{font-weight:650;color:#dce8ff}
+.condition-list{padding:0;list-style:none;display:grid;gap:10px;margin:12px 0}
+.condition-list li,.memory-item{padding:12px 13px;border-left:3px solid rgba(154,190,238,.55);background:rgba(28,43,68,.43);border-radius:8px}
+.condition-list li strong,.memory-item strong{display:block;font-size:.94rem;color:#f0f5ff}
+.condition-list li small{display:block;margin-top:5px;color:#b6c7d9;line-height:1.5}
+.memory-list{display:grid;gap:10px}
+.memory-item p{font-size:.87rem;line-height:1.6;margin:7px 0 0;color:#cbd7e5}
+.consequence-overview{border:1px solid rgba(154,190,238,.16);border-radius:14px;padding:16px;margin:18px 0;background:rgba(11,19,37,.68)}
+.consequence-mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px}
+.consequence-mini{text-align:left;padding:12px;border-radius:10px;border:1px solid rgba(159,186,221,.19);background:rgba(33,46,69,.52);color:#eef3ff;cursor:pointer;min-height:67px}
+.consequence-mini b,.consequence-mini span{display:block}.consequence-mini span{color:#b6c7d9;font-size:.73rem;margin-top:5px;line-height:1.4}
+@media(max-width:420px){.condition-profile{padding:13px}.consequence-mini-grid{grid-template-columns:1fr 1fr;gap:7px}.consequence-mini{padding:9px;min-height:75px}}

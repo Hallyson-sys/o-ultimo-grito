@@ -1,3 +1,29 @@
+O ÚLTIMO GRITO — V1.0.4 | FERIMENTOS, RELAÇÕES E MEMÓRIAS
+
+NOVIDADES DA V1.0.4
+• NOVO consequences.js: condições físicas reconstruídas dos acontecimentos já registrados em cada slot. Um personagem pode carregar mais de uma lesão, com origem e local afetado (ex.: braço no Capítulo 4, perna no Capítulo 6). Morte tem prioridade sobre qualquer ferimento.
+• Ferimentos anteriores influenciam o risco da travessia do Capítulo 6. Os cuidados improvisados recebidos por Rauanny também são considerados; não existe cura automática nem punição por ferimentos imaginários.
+• Novas lembranças emocionais associadas a fatos: perdas confirmadas, resgates e reencontros. Não são diagnósticos de saúde mental. Lembranças sobre mortes aparecem para personagens que têm conhecimento da perda.
+• Relações entre NPCs: interações concretas do Capítulo 6 agora podem aumentar ou diminuir afinidade, incluindo a ajuda de Rayssa a Isabella, o cuidado de Laisla/Rauanny e o resgate pela escada de Ryan. Mudanças aparecem nas fichas das duas pessoas e no Diário. Todas as relações existentes são preservadas.
+• As decisões anteriores são migradas uma única vez para o novo conjunto de eventos sociais. A versão da migração fica salva por slot; continuar jogando não duplica pontos.
+• Fichas de personagem: novas seções CONDIÇÃO FÍSICA e MEMÓRIAS EMOCIONAIS. Diário: panorama clicável da condição atual do elenco, também adaptado ao celular.
+• Pequenas variações narrativas ligadas a ferimentos e afinidades; as funções foram preparadas para expansão no Capítulo 7.
+• Preservados os 392 nós narrativos, capítulos 1 a 6, três slots, retratos, romance sem namoro automático, música, menu recolhível e interface mobile.
+
+COMO ATUALIZAR
+1. Faça uma exportação de segurança do(s) save(s) antes de substituir o projeto.
+2. Extraia este ZIP. Envie TODOS os arquivos DE DENTRO da pasta O_Ultimo_Grito_v1_0_4 para a raiz do repositório do GitHub, incluindo consequences.js.
+3. Aguarde a publicação do mesmo site no Render. Manter o endereço do site ajuda a preservar o progresso do navegador.
+4. No iPhone, abra a versão hospedada no Safari. O aplicativo Arquivos não é um servidor web completo.
+
+COMPATIBILIDADE E LIMITES
+• Saves da V1.0.3 podem ser carregados; as lesões são lidas dos flags antigos e os novos bônus de afinidade são aplicados com controle de versão para evitar repetição.
+• Efeitos de todos os capítulos anteriores não foram reescritos: registramos os ferimentos existentes e acrescentamos acontecimentos sociais específicos, sobretudo do Capítulo 6. O Capítulo 7 ainda não foi produzido.
+• Verificações feitas: 392 nós / 642 links, sintaxe JS, migração de slot antigo, reabertura sem duplicar pontos, situações com até três mortes e aplicação de ferimentos e lembranças. A tentativa de teste visual automatizado foi bloqueada pela restrição de acesso local do navegador neste ambiente, então confirme a interface em um iPhone real antes de divulgar.
+
+---
+
+HISTÓRICO DA V1.0.3 E ANTERIORES
 O ÚLTIMO GRITO — V1.0.3 | MEMÓRIA INDIVIDUAL E NARRAÇÃO NATURAL
 
 NOVIDADES DA V1.0.3

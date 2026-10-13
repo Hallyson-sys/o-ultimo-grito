@@ -1500,6 +1500,9 @@ const remaining=(s)=>atWindow(s).filter(id=>!s.flags[`c6_crossed_${id}`]);
 const riskOf=(s,id)=>{
  let risk=0;
  if(s.flags[`c6_ferida_${id}`])risk+=2;
+ // Ferimentos anteriores também pesam na travessia. Não duplicar a penalidade do ataque atual.
+ const persistent=window.UGConsequences?.injury?.(s,id)?.items||[];
+ if(persistent.some(w=>w.source!=='Capítulo 6'))risk+=1;
  if(!s.flags.c6_escada_segura)risk+=1;
  if(s.flags.c6_escada_solto)risk+=1;
  if(!s.flags.c6_escada_ancorada&&!s.flags.c6_ponto_ancoragem)risk+=1;
