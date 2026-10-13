@@ -25,10 +25,10 @@ Você: — A gente sequer sabe em quem confiar.
 
 Breno: — Então vamos começar confiando em fatos. E tentando não levar ninguém a outro lugar abandonado.
 
-Uma garota se aproxima pela calçada. Ela olha de relance para a pasta e para a foto de Jullia no jornal. Não há hostilidade em seu rosto; só o cansaço de alguém que não dorme direito há muito tempo.`,[
-C('Perguntar à garota se precisa de ajuda','h02a',[B('breno',1),F('bella_acolhida')]),
-C('Guardar a pasta e esperar que ela fale','h02b',[['trait','cautela',1]]),
-C('Pedir a Breno para voltar antes de se envolver','h02c',[F('bella_distante')])]);
+Do outro lado da rua, você reconhece Bella Gomes, irmã de Jullia. Ela está de volta a Lakewood. Os cachos compridos caem sobre uma camiseta larga; usa calça baggy e tênis Vans gastos. Ela observa a foto da irmã no jornal e atravessa na direção de vocês, de cara fechada.`,[
+C('Cumprimentar Bella e perguntar quando ela voltou','h02a',[B('breno',1),F('bella_acolhida')]),
+C('Guardar a pasta e deixar Bella puxar assunto','h02b',[['trait','cautela',1]]),
+C('Tentar ir embora antes de Bella se aproximar','h02c',[F('bella_distante')])]);
 A('h02a','CALÇADA · PRIMEIRO CONTATO','16:17','town',`Você: — Oi. Aconteceu alguma coisa?
 
 Garota: — Desculpa. Eu não queria ficar olhando. É que eu ouvi o nome da minha irmã.
@@ -127,7 +127,7 @@ Você: — Eu sei. Mas se ela era a figura na mata, isso muda tudo.
 
 Breno: — Muda uma parte. Não explica quem fotografou a van, quem nos enviou ameaças ou quem sabia do lago.
 
-O telefone de Laisla vibra no painel, conectado ao carro. Uma mensagem enviada ao grupo: “SE VOCÊS FALAREM DE ASSASSINO NA MINHA MESA, EU COBRO TAXA DE TERAPIA.”
+O celular de Breno vibra no suporte do painel, conectado ao som do carro. Uma mensagem enviada ao grupo: “SE VOCÊS FALAREM DE ASSASSINO NA MINHA MESA, EU COBRO TAXA DE TERAPIA.”
 
 Breno lê e solta uma risada honesta. É a primeira que você ouve dele naquele dia.
 
@@ -139,9 +139,9 @@ C('Revisar mentalmente o que Bella contou','h06',[['trait','cautela',1]])]);
 // ATO II — Relações. Não há perigo automático nem cortes bruscos.
 A('h06','CONDOMÍNIO DAS ÁRVORES · BLOCO A','18:02','house',`O apartamento de Laisla fica no sexto andar de um prédio antigo, reformado aos poucos. Da entrada, é possível ver o Bloco B, separado por um pátio estreito e alto. Varandas se encaram de um prédio para o outro; embaixo, estão o jardim interno e o piso de serviço do condomínio.
 
-Um zelador empurra uma escada extensível numa base com rodinhas, próximo à portaria. Ryan surge no outro lado do pátio com uma mochila nas costas.
+Um zelador empurra uma escada extensível numa base com rodinhas, próximo à portaria. Ryan surge perto dele, com a mochila no ombro; estava ajudando o técnico a descarregar as ferramentas antes de voltar para o apartamento da tia, no Bloco B.
 
-Ryan: — Ô, vocês! Eu tô no apartamento da minha tia aqui no B. Ela pediu pra eu esperar o técnico terminar o trabalho na varanda, mas eu desço já.
+Ryan: — Ô, vocês! Tô esperando o técnico terminar lá no B. Ainda tenho uns minutos antes de subir de novo.
 
 Laisla, na janela do sexto andar, grita antes mesmo de cumprimentar:
 
@@ -155,8 +155,56 @@ Rauanny: — Tem, sim. Eu vi ela abrir o doce faz meia hora.
 
 Breno olha para você com um sorriso involuntário. Por uma vez, parece que a cidade não está inteira tentando sufocar o grupo.`,[
 C('Brincar com Ryan sobre a sobremesa','h07',[B('ryan',3)]),
+C('Chamar Ryan para conversar a sós antes de subir','h06_ryan_privado',[B('ryan',2)],[['flag','romance_ryan_c5',true]]),
 C('Observar a distância entre as varandas e a escada de serviço','h07',[['clue','escada_manutencao_c6'],F('notou_distancia')]),
 C('Subir logo com Breno','h07',[B('breno',2)])]);
+A('h06_ryan_privado','CONDOMÍNIO · PERTO DA PORTARIA','18:10','house',`Ryan acompanha você até perto de uma parede coberta de hera, onde a voz do zelador já não alcança. Ele mexe na alça da mochila, tentando disfarçar o sorriso.
+
+Ryan: — O que foi? Me chamou pra ficar olhando pra minha cara?
+
+Você: — Talvez.
+
+Ryan: — Olha, por mim tudo bem. Mas se a Laisla aparecer, ela vai começar.
+
+Há um silêncio confortável. Vocês já deixaram claro que querem se aproximar, mas ninguém falou em namoro, nem precisa. Ryan toca de leve seus dedos e espera sua reação.`,[
+C('Beijar Ryan antes de subir','h06_ryan_beijo',[B('ryan',4),['romance','ryan',4],F('beijou_ryan')]),
+C('Abraçar Ryan e ficar pertinho dele','h06_ryan_abraco',[B('ryan',3),['romance','ryan',3]]),
+C('Provocar Ryan e roçar a mão na dele','h06_ryan_flerte',[B('ryan',2),['romance','ryan',2]])]);
+A('h06_ryan_beijo','PORTARIA · UM MOMENTO SÓ DE VOCÊS','18:12','house',`Você puxa Ryan delicadamente pela gola da camiseta. Ele sorri no meio da pergunta que ia fazer, mas não chega a terminá-la: seus lábios encontram os dele. Ryan retribui o beijo sem pressa, com uma mão na sua cintura.
+
+Quando vocês se afastam, ele mantém a testa encostada na sua por um instante.
+
+Ryan: — Pronto. Agora eu realmente não quero subir.
+
+Você: — Então não demora pra voltar.
+
+Ryan: — Não vou. E... gostei de ter vindo aqui.
+
+O técnico chama do outro lado do pátio. Ryan dá mais um beijo rápido na sua bochecha e retorna ao Bloco B. Você sobe para a casa de Laisla sorrindo.`,[go('h07','Subir para o jantar')]);
+A('h06_ryan_abraco','PORTARIA · PERTO DA HERA','18:12','house',`Você abre os braços e Ryan não hesita. Ele o envolve num abraço apertado e fica ali mais tempo do que qualquer um dos dois planejava. Quando você tenta se afastar, ele segura sua mão por mais um instante.
+
+Ryan: — A gente devia fazer mais isso sem precisar de uma desculpa.
+
+Você: — Quem disse que precisa?
+
+Ele ri baixinho e encosta um beijo na sua testa.
+
+Ryan: — Eu te encontro lá em cima, tá?
+
+O técnico chama, e Ryan corre de volta para o outro prédio, olhando por cima do ombro uma última vez.`,[go('h07','Subir para encontrar os amigos')]);
+A('h06_ryan_flerte','PORTARIA · POUCOS MINUTOS','18:12','house',`Você finge examinar a camiseta dele, que ainda está com uma mancha de poeira do equipamento de manutenção.
+
+Você: — Tá tentando me impressionar carregando escada agora?
+
+Ryan: — Funcionou?
+
+Você: — Vou pensar.
+
+Ele aproxima a mão da sua, entrelaçando os dedos por baixo da mochila, longe dos olhares do pátio.
+
+Ryan: — Pensa rápido, então. Tenho que subir.
+
+Você aperta os dedos dele uma última vez. Ryan vai embora com aquele sorriso convencido que, apesar de tudo, você adora.`,[go('h07','Subir para o jantar')]);
 A('h07','APARTAMENTO DE LAISLA · ENTRADA','18:17','house',`Laisla abre a porta antes de vocês tocarem a campainha. Usa um avental antigo, mal amarrado, e segura uma colher como se fosse uma arma.
 
 Laisla: — Quem falar “tá com cheiro bom” entra. Quem falar “cadê a comida” lava a louça.
@@ -250,7 +298,7 @@ Isabella: — E se o seu porta-retrato tiver uma pista?
 
 Laisla: — Eu quebro o porta-retrato.
 
-Breno se despede: ele prometeu buscar Samuel e verificar uma informação na oficina antes de voltar. Você tenta convencê-lo a ficar, mas ele explica que Samuel não está em condições de andar sozinho pela cidade, ainda mais se Allan morreu.
+Breno se despede: prometeu buscar Samuel e conferir uma informação na oficina antes de voltar. Você pede que fique mais um pouco, mas ele aperta sua mão, olha para o relógio e promete avisar assim que encontrar Samuel.
 
 Breno: — Me manda mensagem se precisar. Qualquer coisa. E não tenta resolver tudo sozinho.
 
@@ -845,16 +893,16 @@ Rayssa: — Eu sei. Você odeia principalmente quando é a única coisa intelige
 A frase arranca um sorriso quase imperceptível de Isabella. Ela abre o contato de Laisla e digita: “Nós estamos tentando a escada de serviço. Se não receberem outra mensagem, chamem ajuda.”
 
 Você, no quarto, recebe o aviso. A ausência física de Isabella deixa de ser uma informação confusa: existe uma rota separada e, por enquanto, elas estão tentando usá-la.`,[go('h29','Manter a comunicação discreta',[F('servico_preparado'),F('contato_b')])]);
-A('h29','COZINHA · ALLAN OU A CADEIRA VAZIA','20:19','house',`Se ele sobreviveu, o grupo precisa ajudá-lo a sair do apartamento sem agravar o que aconteceu no arquivo da estrada norte. Se morreu, não haverá uma cena impossível em que aparece para salvar os amigos: a memória dele pesa sobretudo sobre Samuel, longe dali.
+A('h29','LAVANDERIA · SEGUNDOS DE DESVANTAGEM','20:19','house',`Se ele sobreviveu, o grupo precisa ajudá-lo a sair do apartamento sem agravar o que aconteceu no arquivo da estrada norte. Se morreu, não haverá uma cena impossível em que aparece para salvar os amigos: a memória dele pesa sobretudo sobre Samuel, longe dali.
 
 Isabella e Rayssa precisam decidir como seguir, ainda que estejam separadas do grupo. Cada movimento pelo corredor pode atrair o mascarado. Um som de telefone chega até o quarto, abafado pelas batidas na porta.
 
 Pelo lado de fora, a polícia ainda não chegou. Um estalo no corredor indica que o mascarado voltou a se aproximar dos quartos. Os núcleos não sabem exatamente onde ele está.
 
 E, se Allan está ali, surge uma decisão difícil: ele vê um aparelho esquecido na mesa, que poderia registrar o ataque. Voltaria por uma possível prova ou abandonaria tudo para fugir com os amigos?`,[
-C('Mandar Allan priorizar a saída, sem voltar por provas','h30',[F('allan_cauteloso'),B('allan',3)],[['flag','allan_morto_c4',false]]),
-C('Pedir que Allan recupere o aparelho se houver passagem livre','h29allanRisk',[F('allan_risco')],[['flag','allan_morto_c4',false]]),
-C('Reconhecer que a sobrevivência vem antes de qualquer prova','h30',[F('respeitou_ausencia_allan')],[['flag','allan_morto_c4',true]])]);
+C('Chamar Allan para a porta da lavanderia','h30',[F('allan_cauteloso'),B('allan',3)],[['flag','allan_morto_c4',false]]),
+C('Apontar para o celular que ficou sobre a mesa','h29allanRisk',[F('allan_risco')],[['flag','allan_morto_c4',false]]),
+C('Tentar destravar a grade com Rayssa','h30',[F('respeitou_ausencia_allan')],[['flag','allan_morto_c4',true]])]);
 A('h29allanRisk','COZINHA · O APARELHO ESQUECIDO','20:20','forest',`Allan observa o telefone em cima da mesa. A tela está acesa, gravando a sala desde o primeiro grito. Talvez tenha filmado o mascarado; talvez esteja apontado apenas para uma parede.
 
 Allan: — Se a gente pegar isso, pelo menos vai ter uma prova. A polícia vai ter que acreditar na gente.
@@ -865,7 +913,7 @@ Ele atravessa a passagem com cuidado, pega o aparelho e volta, mas uma cadeira c
 
 Allan: — PORRA! ME AJUDA!
 
-Você tem poucos instantes para escolher se o grupo cria uma distração ou manda Allan abandonar o aparelho. A vontade de provar o crime não vale automaticamente mais do que a vida dele.`,[
+O mascarado ergue a faca novamente. A lâmina raspa o batente junto ao rosto de Allan, abrindo um corte em sua bochecha. O sangue escorre até o queixo. Isabella grita por ele enquanto Rayssa tenta alcançar um objeto no chão.`,[
 C('Pedir que largue o telefone e recue imediatamente','h30',[F('ferido_allan'),B('allan',2)]),
 C('Tentar criar uma distração para que ele fuja levando a prova','h29allanDanger',[F('erro_allan')])]);
 A('h29allanDanger','COZINHA · UM SEGUNDO A MAIS','20:21','forest',`O ruído improvisado funciona por um segundo. Allan dá dois passos com o aparelho na mão, mas a dor no braço o faz perder o equilíbrio. O mascarado avança novamente.
@@ -874,10 +922,10 @@ Allan: — EU NÃO CONSIGO!
 
 Rayssa chora do lado de dentro da lavanderia. A distância é pequena; o corredor parece interminável. Allan tenta erguer-se usando a mesa, ainda com o telefone apertado contra o peito.
 
-A última decisão não depende de coragem abstrata: para continuar vivo, ele precisa abandonar a gravação e aceitar que não vai conseguir salvar tudo de uma vez.`,[
+O metal brilha sobre a mesa. Allan tenta se levantar; a mão escorrega no sangue que manchou a borda. A figura mascarada se aproxima sem dizer uma palavra.`,[
 C('Mandar Allan abandonar o aparelho e mergulhar pela porta de serviço','h30',[F('ferido_allan'),F('perdeu_gravacao')]),
-C('Insistir que ele segure a prova e corra mesmo ferido','h29allandeath',[])]);
-A('h29allandeath','COZINHA · A PROVA QUE CUSTOU DEMAIS','20:22','forest',`Allan tenta manter o aparelho erguido e ganhar mais alguns passos. Não consegue. O mascarado o alcança junto à mesa, fora do campo de visão dos amigos no quarto.
+C('Pedir que ele continue correndo com o aparelho','h29allandeath',[])]);
+A('h29allandeath','COZINHA · A PROVA QUE CUSTOU DEMAIS','20:22','forest',`Allan tenta manter o aparelho erguido e ganhar mais alguns passos. Não consegue. O mascarado o alcança junto à mesa e atinge seu lado com a faca. Allan solta um grito curto, tenta se defender e cai contra as cadeiras. O sangue mancha a camiseta e se espalha entre os pés dos móveis.
 
 Rayssa grita por ajuda. O telefone cai e continua gravando o teto, mas o som de Allan chamando por Samuel desaparece.
 
@@ -1095,7 +1143,7 @@ Você olha para a escada e entende que chegou a hora.`,[go('h38','Mandar o prime
 
 // ATO VII — Cada pessoa atravessa separadamente, numa ordem definida pelo jogador.
 // As opções abaixo são reconstruídas ao abrir a tela. Os IDs são estáveis para os saves.
-A('h38','JANELA · A ESCOLHA DA ORDEM','20:39','forest',`A escada está pronta. Escolha quem atravessa primeiro entre as pessoas que chegaram à janela.`,[]);
+A('h38','JANELA · O VÃO ENTRE OS PRÉDIOS','20:39','forest',`A escada está pronta. Escolha quem atravessa primeiro entre as pessoas que chegaram à janela.`,[]);
 A('h38_attempt','ESCADA · PRIMEIRO MOVIMENTO','20:40','forest',`Cada travessia traz um novo risco.`,[]);
 A('h38_danger','ESCADA · O VENTO MUDA','20:41','forest',`A escada oscila perigosamente.`,[]);
 A('h38_ok','BLOCO B · MAIS UMA PESSOA A SALVO','20:42','town',`O sobrevivente alcança a janela do Bloco B.`,[]);
@@ -1148,7 +1196,7 @@ Ryan: — NÃO CONSIGO VOLTAR!
 
 Você e o técnico se aproximam. O protagonista tem uma escolha imediata: puxá-lo pelo braço, mesmo correndo o risco de ambos se machucarem, ou esperar que o técnico prenda a estrutura antes de tentar um resgate.
 
-O resultado também considera se a escada foi preparada corretamente e se Ryan já se colocou em perigo ao improvisá-la sozinho.`,[
+A estrutura bate contra a alvenaria e Ryan prende a respiração, tentando segurar o próprio peso.`,[
 C('Segurar Ryan pelo braço e puxá-lo imediatamente','h40pull',[B('ryan',4)]),
 C('Pedir que o técnico estabilize antes de puxá-lo','h40wait',[F('ryan_em_risco')]),
 C('Mandar Ryan se soltar da escada e apoiar os pés na parede','h40last',[F('ryan_em_risco')])]);
@@ -1169,17 +1217,17 @@ A('h40wait','BLOCO B · O SEGUNDO QUE NÃO VOLTA','20:59','forest',`O técnico p
 
 Técnico: — AGORA! VAI TER QUE PUXAR AGORA!
 
-Você se aproxima. Ryan tenta apoiar o pé na borda, mas a sola escorrega. A preparação da escada e a exposição anterior decidem se ainda há tempo para salvá-lo.
+Você se aproxima. Ryan tenta apoiar o pé na borda, mas a sola escorrega. A ponta do metal salta contra a parede. Ryan perde um dos apoios, fica pendurado pelo antebraço e começa a gritar por ajuda.
 
-Laisla grita seu nome do corredor. Rauanny tenta se levantar para ajudar, mesmo que esteja ferida. O problema agora não é saber quem é o mais corajoso. É que nem todas as decisões podem ser desfeitas quando o risco já começou.`,[go('h40ryanResult','Agarrar Ryan antes que o apoio se solte')]);
+Laisla grita seu nome do corredor. Rauanny tenta se levantar para ajudar, mesmo que esteja ferida. Ryan tenta agarrar a borda; as unhas raspam o parapeito. Sua voz falha quando a escada desce mais alguns centímetros.`,[go('h40ryanResult','Agarrar Ryan antes que o apoio se solte')]);
 A('h40last','BLOCO B · UMA INSTRUÇÃO IMPERFEITA','20:59','forest',`Ryan tenta mudar a posição do corpo para alcançar o parapeito. O movimento reduz a pressão num braço, mas deixa o outro sem apoio.
 
 Ryan: — EU TÔ TENTANDO!
 
 Você percebe que não pode simplesmente gritar instruções de longe. O técnico se aproxima, estende o braço e tenta agarrar Ryan pela roupa. Do outro lado, a máscara se afasta da janela, como se estivesse aguardando o resultado.
 
-Se a estrutura estiver estável, Ryan pode conseguir apoiar os pés e voltar. Caso contrário, a situação se transforma numa tentativa desesperada de resgate, e apenas a posição das pessoas pode impedi-lo de cair.`,[go('h40ryanResult','Tentar puxar Ryan para dentro')]);
-A('h40ryanResult','BLOCO B · RESULTADO DO RESGATE','21:00','forest',`O destino de Ryan depende das condições acumuladas.`,[]);
+O técnico segura a manga de Ryan e solta um grito quando sente o tecido escorregar. A escada raspa os tijolos, soltando poeira sobre o pátio.`,[go('h40ryanResult','Tentar puxar Ryan para dentro')]);
+A('h40ryanResult','BLOCO B · RESULTADO DO RESGATE','21:00','forest',`Ryan perde o apoio de um pé. O técnico avança até o parapeito, e você ergue as mãos para alcançá-lo.`,[]);
 
 // ATO VIII — A saída da lavanderia, a polícia e o luto. Nada corta para o final de repente.
 A('h41','CORREDOR DE SERVIÇO · RESPOSTAS INCOMPLETAS','21:03','house',`A portaria finalmente informa que um funcionário conseguiu chegar à grade de manutenção. As pessoas que permaneceram na lavanderia podem sair por aquela rota, sem precisar retornar ao quarto. Um policial já está subindo pelas escadas principais.
@@ -1190,7 +1238,7 @@ Sua mão treme ao responder. O telefone parece pesado demais para carregar todos
 
 Você: — Cadê a Isabella? Cadê a Rayssa? E o Allan?
 
-Ninguém tem a lista completa de quem está vivo. Você explica o que sabe, sem inventar certezas. Ryan, se está bem, procura uma cadeira para apoiar os joelhos. Rauanny se recusa a ser examinada antes de saber onde está Laisla. Cada um fala num tom diferente de urgência.
+Ninguém tem a lista completa de quem está vivo. Você explica o que sabe, sem inventar certezas. O lugar de Ryan entre vocês ainda parece estranho depois da travessia. Os sobreviventes pedem notícias de quem ficou no Bloco A. Cada um fala num tom diferente de urgência.
 
 A porta do apartamento se abre para um policial e uma funcionária do condomínio. Eles pedem que todo mundo se afaste das janelas. Pela primeira vez, chegam pessoas que não estão armadas de medo ou de facas.`,[
 C('Pedir que confirmem imediatamente a situação na lavanderia','h42a',[F('priorizou_resgate'),['trait','empatia',1]]),
@@ -1213,7 +1261,7 @@ Você: — A voz no telefone era distorcida. A máscara... não mostrava nada do
 
 Ele anota. Pela janela, vê-se um grupo de funcionários afastando curiosos do pátio. As sirenes continuam ligadas, embora ninguém esteja mais correndo entre os prédios.
 
-Você mostra a fotografia recebida durante o jantar, caso a tenha salvo. O policial parece mais interessado quando percebe que foi tirada dentro do apartamento. É a primeira vez que uma prova está diretamente ligada ao lugar do ataque.`,[go('h43','Esperar informações sobre os desaparecidos')]);
+Você descreve a fotografia enviada durante o jantar. O policial parece mais interessado quando percebe que foi tirada dentro do apartamento. É a primeira vez que uma prova está diretamente ligada ao lugar do ataque.`,[go('h43','Esperar informações sobre os desaparecidos')]);
 A('h42c','CORREDOR · A VOZ DE BRENO','21:07','phone',`Breno atende no primeiro toque.
 
 Breno: — {nome}? Pelo amor de Deus, fala comigo. A rua tá cheia de viatura e ninguém me deixa subir.
@@ -1260,7 +1308,7 @@ Você: — Você não chamou o mascarado.
 
 Laisla: — Eu sei. Mas foi na minha casa. Foi tudo na minha frente e eu não consegui... eu nem consegui achar minhas chaves.
 
-Rauanny se aproxima, se estiver viva, e segura a mão da amiga. Se uma das duas se perdeu durante a fuga, o espaço vazio entre as pessoas pesa ainda mais.
+Rauanny segura a mão de Laisla. As duas permanecem caladas por um longo momento.
 
 Você diz que ninguém precisava ter um plano perfeito para uma invasão. Laisla responde que gostaria de acreditar nisso. Não resolve o sentimento de culpa na hora, mas a faz parar de se acusar por um instante.
 
@@ -1513,7 +1561,7 @@ function rr(id,s){
  if(id==='h40ryanResult'){
   const severe=(f.c6_escada_solto||f.c6_escada_apressada)&&!f.c6_ryan_com_apoio&&!f.c6_escada_segura;
   if(severe&&countDeaths(s)<3){
-   return {...window.NODES.h40ryanResult,text:`O técnico tenta segurar a base, mas a escada cede do lado oposto. Ryan perde o último ponto de apoio antes que você consiga alcançar sua mão.\n\nOs sobreviventes gritam. Alguém tenta correr para a janela, mas o técnico manda todos se afastarem. O movimento termina rápido demais para que a mente de qualquer um aceite que acabou.\n\nRyan cai entre os dois blocos. Os amigos ficam imóveis, olhando para o lugar onde ele estava segundos antes. Ele salvou pessoas usando uma passagem que nunca deveria ter tentado recuperar sozinho.\n\nRyan havia ajudado todos que conseguiu alcançar, mas não conseguiu voltar daquela última tentativa. Para quem o amava, a ausência não tem nenhuma explicação capaz de torná-la menor.`,choices:[C('Afastar-se da janela depois da tragédia','h41',[['death','ryan']])]};
+   return {...window.NODES.h40ryanResult,text:`O técnico tenta segurar a base, mas a escada cede do lado oposto. Ryan perde o último ponto de apoio antes que você consiga alcançar sua mão.\n\nOs sobreviventes gritam. Alguém tenta correr para a janela, mas o técnico manda todos se afastarem. O movimento termina rápido demais para que a mente de qualquer um aceite que acabou.\n\nRyan cai entre os dois blocos. Os amigos ficam imóveis, olhando para o lugar onde ele estava segundos antes. Ele salvou pessoas usando uma passagem que nunca deveria ter tentado recuperar sozinho.\n\nRyan havia ajudado todos que conseguiu alcançar, mas não conseguiu voltar daquela última tentativa. Para quem o amava, a ausência não tem nenhuma explicação capaz de torná-la menor.`,choices:[C('Deixar a janela e procurar os outros','h41',[['death','ryan']])]};
   }
   return {...window.NODES.h40ryanResult,text:`O técnico consegue se apoiar na estrutura interna e prende Ryan pela roupa no instante em que a escada dá mais um tranco. Você puxa o braço dele e os três caem para dentro do apartamento.\n\nRyan não fala imediatamente. Fica no chão, encostado na parede, olhando as próprias mãos. Quando recupera a voz, solta um palavrão entre um riso e um choro.\n\nRyan: — Eu achei que tinha acabado. Achei mesmo.\n\nVocê: — Acabou de voltar pra cá. Agora não sai de perto.\n\nA janela é trancada e o técnico proíbe qualquer nova tentativa de atravessar. Ryan está vivo, embora machucado e abalado.`,choices:[C('Levar Ryan para junto dos sobreviventes','h41',[F('ferido_ryan')])]};
  }
@@ -1534,8 +1582,8 @@ function rr(id,s){
    t=t.replace('Laisla se encosta na parede. Rauanny segura o braço machucado ou simplesmente tenta respirar, dependendo do que aconteceu.',
     dead(s,'laisla')&&dead(s,'rauanny')?'O lugar onde Laisla e Rauanny deveriam estar está vazio. Ryan olha para as mãos, incapaz de aceitar as duas ausências.':dead(s,'laisla')?'Rauanny se encosta na parede, procurando por Laisla com o olhar mesmo sabendo que ela não chegou.':dead(s,'rauanny')?'Laisla se encosta na parede e aperta a fotografia da amiga contra o peito. Rauanny não chegou.':'Laisla se encosta na parede. Rauanny tenta recuperar o fôlego ao lado dela, e as duas procuram manter contato para não se separar.');
   }
-  if(id==='h44b'&&dead(s,'rauanny'))t=t.replace('Rauanny se aproxima, se estiver viva, e segura a mão da amiga. Se uma das duas se perdeu durante a fuga, o espaço vazio entre as pessoas pesa ainda mais.','O lugar que Rauanny ocuparia ao lado da amiga está vazio. Laisla tenta estender a mão e recua quando percebe que não há ninguém ali.');
-  if(id==='h44b'&&!dead(s,'rauanny'))t=t.replace('Rauanny se aproxima, se estiver viva, e segura a mão da amiga. Se uma das duas se perdeu durante a fuga, o espaço vazio entre as pessoas pesa ainda mais.','Rauanny se aproxima e segura a mão da amiga. As duas continuam tremendo, mas estão juntas.');
+  if(id==='h44b'&&dead(s,'rauanny'))t=t.replace('Rauanny segura a mão de Laisla. As duas permanecem caladas por um longo momento.','O lugar que Rauanny ocuparia ao lado da amiga está vazio. Laisla tenta estender a mão e recua quando percebe que não há ninguém ali.');
+  if(id==='h44b'&&!dead(s,'rauanny'))t=t.replace('Rauanny segura a mão de Laisla. As duas permanecem caladas por um longo momento.','Rauanny se aproxima e segura a mão da amiga. As duas continuam tremendo, mas estão juntas.');
   if(id==='h43')t=t.replace('Laisla tenta contar quantos amigos estavam no jantar. Pára no meio. Volta a contar. Rauanny segura sua mão e faz a contagem com ela, nome por nome.',dead(s,'laisla')&&dead(s,'rauanny')?'Você tenta listar todos que estavam no jantar. Os dois nomes que faltam parecem impossíveis de escrever.':dead(s,'laisla')?'Rauanny tenta contar quantos amigos estavam no jantar. Para ao pronunciar o nome de Laisla e cobre o rosto.':dead(s,'rauanny')?'Laisla tenta contar quantos amigos estavam no jantar. Para ao pronunciar o nome de Rauanny e abraça os joelhos.':'Laisla tenta contar quantos amigos estavam no jantar. Pára no meio. Volta a contar. Rauanny segura sua mão e faz a contagem com ela, nome por nome.');
   if(id==='h45')t=t.replace('Laisla: — Eu só queria que hoje fosse normal.',dead(s,'laisla')?'Breno: — Era pra ter sido só um jantar.':'Laisla: — Eu só queria que hoje fosse normal.');
   if(id==='h50a')t=t.replace('A primeira resposta é de Laisla, perguntando por Rauanny. Depois Ryan manda uma mensagem cheia de erros de digitação, provavelmente escrita com uma das mãos ainda tremendo.',`${!dead(s,'laisla')?'Laisla manda uma mensagem perguntando se os outros receberam atendimento.':'O telefone continua sem qualquer resposta de Laisla.'} ${!dead(s,'ryan')?'Ryan também envia uma mensagem cheia de erros de digitação, provavelmente escrita com uma das mãos ainda tremendo.':'A conversa com Ryan permanece em silêncio.'}`);

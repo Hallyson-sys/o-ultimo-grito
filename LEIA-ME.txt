@@ -21,3 +21,17 @@ Faça backup exportando cada slot importante e envie os arquivos extraídos do Z
 
 OBSERVAÇÃO
 Trata-se de uma revisão da V1.0; a revelação dos culpados continua reservada aos capítulos futuros.
+
+
+V1.0.2 — IMERSÃO E POLIMENTO (13/10/2026)
+=========================================
+- Interface durante a gameplay com menu recolhível ☰ OPÇÕES. Narrativas e escolhas ganham prioridade.
+- Escolha do interesse romântico no capítulo 5 NÃO significa namoro oficial.
+- Encontro de Ryan e protagonista na portaria permite beijar, abraçar ou flertar se a rota dele foi escolhida.
+- Continuidade dinâmica do capítulo 6: reencontro conhecido com Bella, destinos de Allan, Isabella, Laisla, Rauanny e Ryan, cenas do resgate e falas individuais na escada.
+- Narrativas deixam de avisar que uma escolha pode provocar morte.
+- Invasão com linguagem slasher mais direta, ferimentos e sangue; nova trilha original de perseguição mais intensa.
+- Os três slots e importação/exportação JSON permanecem com as chaves existentes.
+- Novidade técnica: polish.js DEVE ser publicado junto com index.html e os demais scripts.
+- Testes: sintaxe JS, caminhos, milhares de variações textuais e layout em 320/390/1365 px (simulado em Chromium).
+- Prefira exportar seu save antes de atualizar no Render.

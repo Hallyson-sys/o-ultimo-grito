@@ -204,3 +204,20 @@ button,input,select{touch-action:manipulation}
   .audio-preview button{width:100%}
 }
 @media(max-width:360px){header.app-header{grid-template-columns:61px minmax(0,1fr) 76px}.sound{width:76px;font-size:9px}}
+
+/* V1.0.2: interface focada na narrativa; recursos em menu nativo, recolhível. */
+.game-header{grid-template-columns:minmax(0,1fr) auto!important;min-height:67px;position:relative;z-index:20;padding:13px clamp(12px,4vw,38px)!important}
+.game-header .header-center{align-items:flex-start;text-align:left}
+.game-header .brand{font-size:clamp(13px,2vw,18px)!important;white-space:nowrap;letter-spacing:.15em!important}
+.game-header .top-info{text-align:left;display:block!important;letter-spacing:.1em!important;font-size:10px}
+.game-drawer{position:relative;z-index:50;justify-self:end}
+.game-drawer summary{list-style:none;cursor:pointer;user-select:none;border:1px solid #b67b8d7d;background:#17212c;color:#f9e2e9;min-height:44px;display:flex;align-items:center;justify-content:center;padding:11px 15px;border-radius:7px;font:750 11px Arial,sans-serif;letter-spacing:.1em}
+.game-drawer summary::-webkit-details-marker{display:none}
+.game-drawer[open] summary,.game-drawer summary:focus-visible{outline:2px solid #ffb2c0;outline-offset:2px}
+.drawer-items{position:absolute;right:0;top:calc(100% + 10px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:min(390px,calc(100vw - 26px));max-height:min(66vh,530px);overflow-y:auto;border:1px solid #c591a466;border-radius:11px;padding:14px;background:#071019fa;box-shadow:0 20px 65px #000d;backdrop-filter:blur(18px)}
+.drawer-items button{font:650 11px Arial,sans-serif;padding:13px 7px;min-height:46px;text-align:center;background:#1a2c38;border:1px solid #ffffff26;border-radius:6px;color:#f7e8ef;cursor:pointer}
+.drawer-items button:hover,.drawer-items button:focus-visible{border-color:#e9a9be;background:#2a3946}
+.play .dialogue{margin:clamp(28px,7vh,82px) auto 48px!important}
+.play .hud-left{margin-top:21px!important}
+.play .scene-accent{opacity:.17;pointer-events:none}
+@media(max-width:740px){.game-header .brand{font-size:12px!important;letter-spacing:.07em!important}.game-header .top-info{font-size:8px!important;white-space:normal}.game-drawer summary{padding:9px 10px;font-size:10px}.drawer-items{position:fixed;right:12px;top:66px;width:calc(100vw - 24px);max-width:390px;grid-template-columns:repeat(2,minmax(0,1fr))}.play .dialogue{margin:35px auto 25px!important}.play .hud-left{font-size:10px}}
