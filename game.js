@@ -85,8 +85,9 @@ const CLUE_DATA={
   moises_parou_portao:{title:'Moisés no portão',category:'Capítulo 3',text:'A presença ou movimentação de Moisés perto do portão levanta dúvidas sobre quanto ele sabe e quando chegou.'}
 };
 
+Object.assign(CLUE_DATA,window.UGRevisionClues||{});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const baseSave=(name,pronouns,look)=>({hero:{name:name.trim(),pronouns,look},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:10});
+const baseSave=(name,pronouns,look)=>({hero:{name:name.trim(),pronouns,look},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:11,socialReviewVersion:1});
 
 function chapterIdFromLabel(label=''){
   if(label.startsWith('PRÓLOGO')) return 'prologo';
@@ -112,13 +113,27 @@ function normalize(a){
   b.traits={...b.traits,...(a.traits||{})};
   b.romance={...b.romance,...(a.romance||{})};
   for(const id of Object.keys(b.romance)){b.romance[id]={atracao:0,ressentimento:0,...(b.romance[id]||{})};}
-  b.flags=a.flags&&typeof a.flags==='object'?a.flags:{};b.friendBonds=a.friendBonds&&typeof a.friendBonds==='object'?a.friendBonds:{};
+  b.flags=a.flags&&typeof a.flags==='object'?a.flags:{};b.friendBonds=a.friendBonds&&typeof a.friendBonds==='object'?{...a.friendBonds}:{};
+  // Importações da V1.0 preservam a afinidade que já existia e recebem apenas eventos antigos ainda não computados.
+  b.history=Array.isArray(a.history)?a.history.map(h=>({...h,effects:Array.isArray(h.effects)?[...h.effects]:[]})):[];
+  b.socialReviewVersion=a.socialReviewVersion||0;
+  if(b.socialReviewVersion<1&&window.UGReview?.socialForChoice){
+    for(const entry of b.history){
+      for(const [left,right,delta] of window.UGReview.socialForChoice(entry.node,entry.choice)){
+        const pair=[left,right].sort().join(':');
+        const from=Math.max(0,Math.min(100,relationBase(left,right)+(b.friendBonds[pair]||0)));
+        b.friendBonds[pair]=Math.max(-100,Math.min(100,(b.friendBonds[pair]||0)+delta));
+        const to=Math.max(0,Math.min(100,relationBase(left,right)+(b.friendBonds[pair]||0)));
+        entry.effects.push({type:'friendBond',key:pair,name:[left,right].map(id=>ELENCO.find(x=>x[0]===id)?.[1]||id).join(' ↔ '),from,to,value:delta});
+      }
+    }
+    b.socialReviewVersion=1;
+  }
   b.clues=Array.isArray(a.clues)?a.clues:[];
-  b.history=Array.isArray(a.history)?a.history:[];
   b.romanceEscolhido=['ryan','breno','rayssa','rauanny','solteiro'].includes(a.romanceEscolhido)?a.romanceEscolhido:null;
   if(!b.romanceEscolhido){const found=['ryan','breno','rayssa','rauanny'].find(id=>b.flags['romance_'+id+'_c5']);if(found)b.romanceEscolhido=found;else if(b.flags.romance_solteiro_c5)b.romanceEscolhido='solteiro';}
   b.updated=a.updated||Date.now();
-  b.saveVersion=9;
+  b.saveVersion=11;
   return b;
 }
 function slotKey(n){return SLOT_PREFIX+n}
@@ -134,7 +149,7 @@ function persist(){try{if(save)localStorage.setItem(slotKey(activeSlot),JSON.str
 function interp(s){const name=save?.hero?.name?.split(' ')[0]||'Você';return esc(s).replaceAll('{nome}',esc(name))}
 function formatted(s){return String(s||'').split(/\n\n/).map(part=>{let content=part.trim();if(!content)return '';const m=content.match(/^([A-Za-zÀ-ÿ ]{2,28}|Você):\s*[—-]\s*([\s\S]*)$/);if(m){return `<div class="spoken"><div class="speaker-name">${interp(m[1]==='Você'?(save?.hero?.name||'Você'):m[1])}</div><p>${interp(m[2])}</p></div>`}if(content==='UM ANO DEPOIS.'||(content.startsWith('ENQUANTO ISSO')||content.startsWith('PONTO DE VISTA:')))return `<div class="intertitle">${interp(content)}</div>`;return `<p class="narrative">${interp(content).replaceAll('\n','<br>')}</p>`}).join('')}
 function allowed(req){return !req||req.every(([type,key,val])=>type==='flag'?Boolean(save.flags[key])===Boolean(val):type==='clue'?save.clues.includes(key)===Boolean(val):type==='bond'?(save.bonds[key]||0)>=val:true)}
-function apply(effects){(effects||[]).forEach(([type,key,val])=>{if(type==='flag'){save.flags[key]=!!val;if(key.startsWith('romance_')&&key.endsWith('_c5')&&val)save.romanceEscolhido=key.slice(8,-3)}if(type==='clue'&&!save.clues.includes(key))save.clues.push(key);if(type==='set')save.flags[key]=val;if(type==='cross')save.flags['c6_crossed_'+key]=true;if(type==='death'){const deaths=window.UG6?.countDeaths?.(save)||0;if(deaths<3)save.flags['c6_morto_'+key]=true;else {save.flags['c6_ferida_'+key]=true;save.flags['c6_crossed_'+key]=true;}}if(type==='romance'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].atracao=Math.max(0,Math.min(100,save.romance[key].atracao+val))}if(type==='resent'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].ressentimento=Math.max(0,Math.min(100,save.romance[key].ressentimento+val))}if(type==='trait')save.traits[key]=(save.traits[key]||0)+val;if(type==='bond')save.bonds[key]=Math.max(0,Math.min(100,(save.bonds[key]||50)+val));if(type==='friendBond'&&Array.isArray(key)&&key.length===2){save.friendBonds??={};const pair=pairKey(key[0],key[1]);save.friendBonds[pair]=(save.friendBonds[pair]||0)+Number(val||0)}})}
+function apply(effects){(effects||[]).forEach(([type,key,val])=>{if(type==='flag'){save.flags[key]=!!val;if(key.startsWith('romance_')&&key.endsWith('_c5')&&val)save.romanceEscolhido=key.slice(8,-3)}if(type==='clue'&&!save.clues.includes(key))save.clues.push(key);if(type==='set')save.flags[key]=val;if(type==='cross')save.flags['c6_crossed_'+key]=true;if(type==='death'){const deaths=window.UG6?.countDeaths?.(save)||0;if(deaths<3)save.flags['c6_morto_'+key]=true;else {save.flags['c6_ferida_'+key]=true;save.flags['c6_crossed_'+key]=true;}}if(type==='romance'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].atracao=Math.max(0,Math.min(100,save.romance[key].atracao+val))}if(type==='resent'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].ressentimento=Math.max(0,Math.min(100,save.romance[key].ressentimento+val))}if(type==='trait')save.traits[key]=(save.traits[key]||0)+val;if(type==='bond')save.bonds[key]=Math.max(0,Math.min(100,(save.bonds[key]||50)+val));if(type==='friendBond'&&Array.isArray(key)&&key.length===2){save.friendBonds??={};const pair=pairKey(key[0],key[1]);save.friendBonds[pair]=Math.max(-100,Math.min(100,(save.friendBonds[pair]||0)+Number(val||0)))}})}
 
 function ui(body){app.innerHTML=`<div class="grain"></div><div class="ui">${body}</div>`;audio?.syncView(view)}
 function header(chapter='UMA HISTÓRIA DE LAKEWOOD',isLanding=false){
@@ -159,7 +174,7 @@ function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;r
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.0 · CAPÍTULO 6 · SAVES COMPATÍVEIS ENTRE VERSÕES</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.0 · TRILHA SONORA ORIGINAL · CAPÍTULO 6</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.0.1 · REVISÃO · CAPÍTULO 6 · SAVES COMPATÍVEIS</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.0.1 · REVISÃO · TRILHA SONORA ORIGINAL</span></footer></main>`);
 }
 function creator(){
   view='creator';
@@ -174,10 +189,26 @@ function game(){
 }
 function exportSave(){const data=save||getSave();if(!data){alert('Nenhuma partida para exportar.');return}const payload=JSON.stringify({game:'o-ultimo-grito',format:1,save:normalize(data)},null,2);const blob=new Blob([payload],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='o-ultimo-grito-slot-'+activeSlot+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 function importSave(){const picker=document.createElement('input');picker.type='file';picker.accept='.json,application/json';picker.onchange=async()=>{const f=picker.files?.[0];if(!f)return;if(f.size>2000000){alert('Arquivo muito grande.');return}try{const parsed=JSON.parse(await f.text());if(parsed.game!=='o-ultimo-grito'||parsed.format!==1)throw Error('Formato de salvamento incompatível.');const imported=normalize(parsed.save);if(!imported)throw Error('O ponto salvo não existe nesta versão ou os dados estão incompletos.');if(getSave()&&!confirm('Importar irá substituir APENAS o slot '+activeSlot+'. Deseja continuar?'))return;save=imported;persist();alert('Salvamento importado com sucesso!');game()}catch(e){alert('Não foi possível importar: '+e.message)}};picker.click()}
-function select(i){const n=sceneNode(save.node),choices=n.choices.filter(c=>allowed(c.requires)),c=choices[i];if(!c)return;audio?.cue('toque');const before={...save.bonds};apply(c.effects);save.history.push({node:n.id,choice:c.text,chapter:n.chapter,effects:(c.effects||[]).map(e=>({type:e[0],key:e[1],value:e[2],name:ELENCO.find(x=>x[0]===e[1])?.[1]||e[1],from:before[e[1]],to:save.bonds[e[1]]}))});save.node=c.to;save.updated=Date.now();persist();game()}
+function select(i){
+ const n=sceneNode(save.node),choices=n.choices.filter(c=>allowed(c.requires)),c=choices[i];if(!c)return;
+ audio?.cue('toque');const before={...save.bonds},beforePairs={...save.friendBonds};
+ const social=(window.UGReview?.socialForChoice?.(n.id,c.text)||[]).map(([a,b,delta])=>['friendBond',[a,b],delta]);
+ const effects=[...(c.effects||[]),...social];apply(effects);
+ save.history.push({node:n.id,choice:c.text,chapter:n.chapter,effects:effects.map(e=>{
+   if(e[0]==='friendBond'&&Array.isArray(e[1])){
+     const pair=pairKey(e[1][0],e[1][1]);
+     const from=relationBase(e[1][0],e[1][1])+(beforePairs[pair]||0);
+     const to=relationBase(e[1][0],e[1][1])+(save.friendBonds[pair]||0);
+     const name=e[1].map(id=>ELENCO.find(x=>x[0]===id)?.[1]||id).join(' ↔ ');
+     return {type:e[0],key:pair,value:e[2],name,from:Math.max(0,Math.min(100,from)),to:Math.max(0,Math.min(100,to))};
+   }
+   return {type:e[0],key:e[1],value:e[2],name:ELENCO.find(x=>x[0]===e[1])?.[1]||e[1],from:before[e[1]],to:save.bonds[e[1]]};
+ })});
+ save.node=c.to;save.updated=Date.now();persist();game();
+}
 function journal(){
   if(!save){menu();return} view='journal';
-  const rows=save.history.slice().reverse().map(h=>`<li><small>${esc(h.chapter)}</small><div>${esc(h.choice)}</div>${h.effects.filter(e=>e.type==='bond').length?`<span>${h.effects.filter(e=>e.type==='bond').map(e=>`${esc(e.name)}: ${e.from} → ${e.to}`).join(' · ')}</span>`:''}</li>`).join('');
+  const rows=save.history.slice().reverse().map(h=>`<li><small>${esc(h.chapter)}</small><div>${esc(h.choice)}</div>${h.effects.filter(e=>e.type==='bond'||e.type==='friendBond').length?`<span>${h.effects.filter(e=>e.type==='bond'||e.type==='friendBond').map(e=>`${esc(e.name)}: ${e.from} → ${e.to}`).join(' · ')}</span>`:''}</li>`).join('');
   ui(`<main class="landing scenic road">${header('DIÁRIO DE CONSEQUÊNCIAS')}<section class="panel wide"><div class="eyebrow">EFEITO BORBOLETA</div><h1>Suas escolhas deixam marcas.</h1><div class="dashboard"><div><h3>PERSONAGENS</h3>${ELENCO.map(p=>`<div class="bond"><span>${esc(p[1])}</span><div class="meter"><i style="width:${save.bonds[p[0]]||50}%"></i></div><strong>${save.bonds[p[0]]||50}</strong></div>`).join('')}</div><div><h3>ROMANCE ESCOLHIDO</h3><p class="note">${save.romanceEscolhido?save.romanceEscolhido==='solteiro'?'Você escolheu continuar solteiro.':esc(ELENCO.find(p=>p[0]===save.romanceEscolhido)?.[1]||'—'):'Ainda não definido — escolha no capítulo 5.'}</p><h3>AFINIDADES ROMÂNTICAS</h3>${['ryan','breno','rayssa','rauanny'].map(id=>`<p class="stat">${esc(ELENCO.find(x=>x[0]===id)?.[1]||id)} <strong>♥ ${save.romance?.[id]?.atracao||0} · Mágoas ${save.romance?.[id]?.ressentimento||0}</strong></p>`).join('')}<h3>TRAÇOS</h3>${Object.entries(save.traits).map(([k,v])=>`<p class="stat">${esc(k)} <strong>${v}</strong></p>`).join('')}<h3>DECISÕES (${save.history.length})</h3><ol class="history">${rows||'<li>Nenhuma decisão registrada.</li>'}</ol></div></div><div class="actions"><button class="primary" data-act="resume">VOLTAR À HISTÓRIA ↗</button><button class="secondary" data-act="clues">VER PISTAS</button><button class="back" data-act="menu">← Menu</button></div></section></main>`);
 }
 const TRAITS={
@@ -208,10 +239,11 @@ const RELATION_BASE={
  'allan:rauanny':70,'breno:laisla':43,'isabella:allan':65
 };
 function pairKey(a,b){return [a,b].sort().join(':')}
+function relationBase(a,b){const key=pairKey(a,b);return RELATION_BASE[key]??RELATION_BASE[key.split(':').reverse().join(':')]??55}
 function relationScore(a,b){
  if(b==='hero')return Math.max(0,Math.min(100,save?.bonds?.[a]??50));
  const pair=pairKey(a,b);
- const base=RELATION_BASE[pair]??RELATION_BASE[pair.split(':').reverse().join(':')]??55;
+ const base=relationBase(a,b);
  const offset=save?.friendBonds?.[pair]??0;
  const f=save?.flags||{};
  let event=0;

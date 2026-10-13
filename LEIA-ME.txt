@@ -1,52 +1,23 @@
-O ÚLTIMO GRITO — V1.0 | CAPÍTULO 6 — O SILÊNCIO TEM TESTEMUNHAS
-================================================================
+O ÚLTIMO GRITO — V1.0.1 | REVISÃO NARRATIVA E RELACIONAMENTOS
 
-NOVIDADE: CAPÍTULO 6 COMPLETO
-- Bella Gomes, irmã de Jullia, entra na investigação.
-- Jantar com conversas completas entre o elenco, inclusive cenas ligadas ao romance escolhido no capítulo 5.
-- Perseguição longa no apartamento de Laisla, inspirada na tensão de travessias entre prédios, com roteiro próprio.
-- Três perspectivas: protagonista, Isabella e Ryan.
-- Dois núcleos que podem escapar separadamente ou se reencontrar.
-- A ordem de travessia é escolhida durante o jogo; as opções mudam conforme quem está vivo e quem alcançou a janela.
-- Ferimentos e preparação da escada influenciam o risco.
-- Laisla, Rauanny, Isabella, Allan (se vivo) e Ryan podem morrer, com NO MÁXIMO três mortes no capítulo 6.
-- É possível terminar o capítulo 6 sem novas mortes.
-- Reações de sobreviventes e consequências investigativas e emocionais.
-- 111 novas cenas/nós e variações; percursos testados contêm cerca de 8.700 a 11.200 palavras de narrativa por partida, mas o tempo real varia de leitor para leitor.
-- Capítulo 6 aparece no menu de capítulos; as novas pistas constam no quadro de investigação.
-- Retratos oficiais do elenco e áudio original da V0.9.2 preservados.
+COMO ABRIR
+Extraia todos os arquivos e abra index.html no notebook. No iPhone, publique os arquivos pelo GitHub/Render e jogue usando Safari: a pré-visualização do app Arquivos não executa o jogo adequadamente.
 
-SALVAMENTOS E COMPATIBILIDADE
-- Continua usando os mesmos três slots de versões anteriores no mesmo navegador e domínio.
-- Saves dos capítulos 1 a 5 são compatíveis; ao chegar ao final do capítulo 5 você encontra a opção de iniciar o capítulo 6.
-- É possível exportar/importar saves para trocar de navegador/dispositivo.
-- Antes de atualizar o site, faça uma exportação do save como segurança.
-- Não renomeie os arquivos internos.
+NOVIDADES DESTA REVISÃO
+• Prólogo ampliado: escolhas de roupas, Samuel chegando com a van, interações iniciais e Bella Gomes apresentada antes da tragédia.
+• Bella tenta alcançar Jullia na mata, mas perde seu rastro antes do atropelamento. Ela desconhece o pacto e permanece acreditando que a irmã desapareceu.
+• Capítulo 2: conversa completa com Davi Moreira, incluindo respostas específicas às perguntas e despedida coerente.
+• Capítulo 4: cada um dos quatro encontros românticos foi ampliado, além de novas escolhas e uma fuga mais longa e arriscada para Allan.
+• Fim do capítulo 4: removido o aviso desatualizado de que o Capítulo 5 ainda não estava pronto.
+• Relações entre NPCs: eventos narrativos curados agora alteram afinidades nos perfis de ambos; mudanças também constam no diário.
+• Compatibilidade com três slots e formato de exportação/importação JSON existente. Progressos antigos permanecem no mesmo ponto. Eventos sociais previamente jogados podem atualizar as relações uma única vez quando o save antigo é carregado.
+• Preservados capítulos 1 a 6, retratos, música e layout mobile.
 
-NO NOTEBOOK (SEM INSTALAÇÃO)
-- Extraia o ZIP e abra o index.html em um navegador recente.
-- Todos os arquivos precisam ficar juntos, inclusive os retratos .webp, os sons .mp3 e chapter6.js.
+ARQUIVOS
+index.html, style.css, game.js, story.js, chapter2.js, chapter3.js, chapter4.js, chapter5.js, chapter6.js, review.js, sound.js, retratos .webp e sons .mp3.
 
-NO IPHONE/ANDROID
-- O aplicativo Arquivos do iPhone pode exibir uma prévia em branco do index.html, sem executar o jogo corretamente.
-- Para jogar no celular, publique o conteúdo em um site estático (Render, GitHub Pages etc.) e abra o endereço pelo Safari ou Chrome.
-- O botão ♪ LIGAR ativa o som após um toque do jogador, conforme as regras dos navegadores móveis.
+ATUALIZAR GITHUB/RENDER
+Faça backup exportando cada slot importante e envie os arquivos extraídos do ZIP à RAIZ do seu repositório (incluindo review.js), sobrescrevendo os anteriores. O Render implantará o último commit se a publicação automática estiver ativada.
 
-ATUALIZANDO NO GITHUB + RENDER
-1. Extraia este ZIP.
-2. Entre no repositório que já está ligado ao serviço Static Site do Render.
-3. Envie os arquivos DE DENTRO da pasta extraída para a raiz do repositório; substitua os antigos.
-4. Confirme o Commit changes na branch principal.
-5. O Render deve iniciar o deploy automaticamente se auto-deploy estiver ativado.
-6. Aguarde o status Live e atualize a aba do navegador.
-
-CONFIGURAÇÃO DO STATIC SITE NO RENDER
-- Root Directory: vazio
-- Build Command: echo "Site pronto"
-- Publish Directory: .
-
-OBSERVAÇÕES
-- Esta atualização NÃO inclui o capítulo 7.
-- A duração foi estimada pela quantidade de texto e escolhas; ainda recomendamos que uma pessoa teste uma partida completa cronometrada no dispositivo real.
-- O limite de três mortes é aplicado às decisões deste capítulo; o estado de Allan no capítulo 4 é respeitado.
-- Os arquivos de história e os sons podem ser usados offline no computador. O site online permite jogar no celular.
+OBSERVAÇÃO
+Trata-se de uma revisão da V1.0; a revelação dos culpados continua reservada aos capítulos futuros.
