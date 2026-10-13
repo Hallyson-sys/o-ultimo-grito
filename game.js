@@ -87,7 +87,7 @@ const CLUE_DATA={
 
 Object.assign(CLUE_DATA,window.UGRevisionClues||{});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const baseSave=(name,pronouns,look)=>({hero:{name:name.trim(),pronouns,look},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:11,socialReviewVersion:1});
+const baseSave=(name,pronouns,look)=>({hero:{name:name.trim(),pronouns,look},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:12,socialReviewVersion:1,knowledge:window.UGKnowledge?.empty?.()||null});
 
 function chapterIdFromLabel(label=''){
   if(label.startsWith('PRÓLOGO')) return 'prologo';
@@ -132,8 +132,9 @@ function normalize(a){
   b.clues=Array.isArray(a.clues)?a.clues:[];
   b.romanceEscolhido=['ryan','breno','rayssa','rauanny','solteiro'].includes(a.romanceEscolhido)?a.romanceEscolhido:null;
   if(!b.romanceEscolhido){const found=['ryan','breno','rayssa','rauanny'].find(id=>b.flags['romance_'+id+'_c5']);if(found)b.romanceEscolhido=found;else if(b.flags.romance_solteiro_c5)b.romanceEscolhido='solteiro';}
+  b.knowledge=window.UGKnowledge?.restore?.(a.knowledge,b)||a.knowledge||null;
   b.updated=a.updated||Date.now();
-  b.saveVersion=11;
+  b.saveVersion=12;
   return b;
 }
 function slotKey(n){return SLOT_PREFIX+n}
@@ -175,15 +176,15 @@ function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;r
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.0.2 · IMERSÃO · CAPÍTULO 6 · SAVES COMPATÍVEIS</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.0.2 · IMERSÃO · TRILHA SONORA ORIGINAL</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title">O <em>ÚLTIMO</em><br>GRITO<span class="dot">.</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.0.3 · MEMÓRIA INDIVIDUAL · CAPÍTULO 6</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.0.3 · IMERSÃO · TRILHA SONORA ORIGINAL</span></footer></main>`);
 }
 function creator(){
   view='creator';
   ui(`<main class="landing scenic house">${header('CRIAÇÃO DE PERSONAGEM')}<section class="panel creator"><div class="eyebrow">ANTES DE VOLTAR A LAKEWOOD</div><h1>Quem vai sobreviver?</h1><p>Você é o nono personagem dessa história. Os outros oito carregam o peso de um verão que ninguém deveria lembrar.</p><form id="creator"><label>SEU NOME COMPLETO<input name="name" maxlength="48" minlength="2" placeholder="Digite seu nome" required autocomplete="off"></label><div class="field-row"><label>PRONOMES<select name="pronouns"><option value="ela">Ela / dela</option><option value="ele">Ele / dele</option><option value="elu">Elu / delu</option></select></label><label>ESTILO VISUAL<select name="look"><option value="casual">Casual</option><option value="alternativo">Alternativo</option><option value="elegante">Elegante</option><option value="esportivo">Esportivo</option></select></label></div><p class="note">Os romances, as pistas e as consequências acompanharão esse personagem em todos os capítulos.</p><button class="primary full" type="submit">COMEÇAR PRÓLOGO ↗</button></form><button class="back" data-act="menu">← Voltar ao menu</button></section></main>`);
 }
-function sceneNode(id){const n=window.NODES?.[id];if(!n)return null;const resolved=window.UG6?.resolve?.(id,save)||n;return window.UGPolish?.resolve?.(id,save,resolved)||resolved;}
+function sceneNode(id){const n=window.NODES?.[id];if(!n)return null;const resolved=window.UG6?.resolve?.(id,save)||n;const polished=window.UGPolish?.resolve?.(id,save,resolved)||resolved;return window.UGKnowledge?.resolve?.(id,save,polished)||polished;}
 function game(){
-  view='game'; const n=sceneNode(save?.node); if(!n){menu();return}
+  view='game'; if(save?.node && window.UGKnowledge?.enter?.(save,save.node))persist(); const n=sceneNode(save?.node); if(!n){menu();return}
   const choices=n.choices.filter(c=>allowed(c.requires));
   ui(`<main class="play scenic ${esc(n.scene)}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${formatted(n.text)}</div><div class="choices">${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div></div><div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div></main>`);
   audio?.syncNode(n);
@@ -205,6 +206,7 @@ function select(i){
    }
    return {type:e[0],key:e[1],value:e[2],name:ELENCO.find(x=>x[0]===e[1])?.[1]||e[1],from:before[e[1]],to:save.bonds[e[1]]};
  })});
+ window.UGKnowledge?.go?.(save,n.id,c.to,effects);
  save.node=c.to;save.updated=Date.now();persist();game();
 }
 function journal(){

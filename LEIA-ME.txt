@@ -1,3 +1,23 @@
+O ÚLTIMO GRITO — V1.0.3 | MEMÓRIA INDIVIDUAL E NARRAÇÃO NATURAL
+
+NOVIDADES DA V1.0.3
+• Novo knowledge.js: cada personagem registra separadamente aquilo que presenciou, ouviu ou recebeu como confirmação. A origem do conhecimento e a cena de descoberta ficam preservadas no save.
+• Durante a travessia, os personagens registram quem viram chegar com vida e, quando ocorre uma morte diante deles, quem presenciou a tragédia.
+• Quem estava em outro núcleo só recebe informações completas no reencontro ou após o boletim do resgate; Samuel e Breno recebem as notícias ao chegar.
+• Narrações revistas no Capítulo 6: reencontros de Isabella e Rayssa, confirmação policial, reação de Samuel, travessia, situação dos sobreviventes após o ataque e mensagens da madrugada.
+• Retirados avisos sobre quais escolhas são perigosas e outros comentários que descreviam condições de ramificação ao invés de acontecimentos da história.
+• Migração automática dos saves antigos com reconstrução dos registros já conhecidos a partir do histórico de escolhas, sem recriar nem duplicar fatos após reabrir o jogo.
+• Mantidos capítulos 1–6, os 3 slots, romances sem namoro automático, menu recolhível, arte dos 8 personagens, música e layout mobile.
+
+COMO ATUALIZAR
+Exporte seus saves antes de substituir os arquivos. Envie TODOS os arquivos deste ZIP para a raiz do repositório, inclusive o NOVO knowledge.js. O endereço do Render deve permanecer o mesmo para preservar o armazenamento do navegador. Ao carregar um save antigo, a memória individual será reconstruída com as escolhas disponíveis no histórico.
+
+TESTES E LIMITAÇÕES
+Verificados: sintaxe JavaScript, 392 nós narrativos, 3.136 combinações de cenas/condições quanto a frases metalinguísticas, continuidade dos conhecimentos nas mortes de Isabella, resgate e reencontro, migração sem duplicidade e integridade do ZIP. Não foi possível completar um teste visual automatizado em navegador neste ambiente. Embora agora existam memórias para os principais acontecimentos do Capítulo 6, capítulos futuros devem registrar novos fatos de forma explícita ao serem desenvolvidos.
+
+---
+
+HISTÓRICO DE VERSÕES ANTERIORES
 O ÚLTIMO GRITO — V1.0.1 | REVISÃO NARRATIVA E RELACIONAMENTOS
 
 COMO ABRIR

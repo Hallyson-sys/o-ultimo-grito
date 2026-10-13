@@ -1154,7 +1154,7 @@ A('h39','BLOCO B · NÃO OLHEM PARA TRÁS','20:55','forest',`Ryan fecha a janela
 
 Ryan: — A gente conseguiu. A gente... conseguiu.
 
-Laisla se encosta na parede. Rauanny segura o braço machucado ou simplesmente tenta respirar, dependendo do que aconteceu. Se algum amigo morreu, o alívio não chega inteiro. O som que domina o apartamento não é de vitória: é de gente tentando entender quem conseguiu passar e quem ficou para trás.
+Laisla se encosta na parede. Rauanny aperta o antebraço e tenta recuperar o fôlego. O alívio não chega inteiro. Ainda faltam rostos naquela sala. O som que domina o apartamento não é de vitória: é de gente tentando entender quem conseguiu passar e quem ficou para trás.
 
 Do corredor vem a voz do técnico de manutenção chamando a polícia. Ele pergunta se todos os presentes já cruzaram. Ryan olha para a escada e para o telefone. Ainda falta confirmar o destino de quem tentou sair pela cozinha.
 
@@ -1183,7 +1183,7 @@ Você: — Tava. A gente não sabe qual caminho elas conseguiram usar.
 
 A máscara desaparece da janela de Laisla. Isso é pior do que ter o inimigo à vista: significa que ele voltou a se mover pelo apartamento. O ferro da escada range com o vento.
 
-Ryan apoia uma mão no parapeito. Se o aparelho se deslocar, ele estará perto demais da estrutura. A decisão de permanecer exposto cria um último risco que poderia ter sido evitado.`,[
+Ryan apoia uma mão no parapeito. Se o aparelho se deslocar, ele estará perto demais da estrutura. Uma rajada faz a ponta da escada bater contra a fachada. Ryan não afasta a mão do parapeito.`,[
 C('Chamar Ryan imediatamente para dentro e esperar a polícia','h41',[F('ryan_recuou')]),
 C('Pedir que Ryan tente alcançar a ponta da escada para soltá-la','h40risk',[F('ryan_voltou')])]);
 A('h40risk','BLOCO B · A ESCADA NÃO É UMA PONTE SEGURA','20:58','forest',`Ryan se inclina na direção da escada, tentando alcançar a cinta presa à parte externa da janela. A distância é pequena, mas suficiente para que precise apoiar parte do corpo para fora.
@@ -1194,7 +1194,7 @@ Do bloco oposto, o mascarado mexe na ponta da estrutura. O ferro vibra de um lad
 
 Ryan: — NÃO CONSIGO VOLTAR!
 
-Você e o técnico se aproximam. O protagonista tem uma escolha imediata: puxá-lo pelo braço, mesmo correndo o risco de ambos se machucarem, ou esperar que o técnico prenda a estrutura antes de tentar um resgate.
+Você e o técnico se aproximam ao mesmo tempo. Ryan grita seu nome. O apoio se desloca outra vez e ele tenta alcançar a moldura com a ponta dos dedos.
 
 A estrutura bate contra a alvenaria e Ryan prende a respiração, tentando segurar o próprio peso.`,[
 C('Segurar Ryan pelo braço e puxá-lo imediatamente','h40pull',[B('ryan',4)]),
@@ -1464,7 +1464,7 @@ Breno: — Então não precisa fechar agora.
 
 Vocês passam pela padaria onde encontraram Bella de tarde. A mesma placa está acesa, o mesmo ônibus dobra a esquina. A cidade segue repetindo gestos normais enquanto sua memória tenta entender como algumas horas puderam mudar tudo.
 
-Breno segura sua mão por alguns instantes, caso isso seja apropriado à relação entre vocês. Depois deixa que o silêncio exista sem parecer abandono.`,[go('h51','Aceitar a companhia e chegar em casa')]);
+Breno diminui a velocidade ao passar na esquina. Por alguns minutos, vocês não precisam encontrar palavras.`,[go('h51','Aceitar a companhia e chegar em casa')]);
 A('h51','LAKEWOOD · ÚLTIMA NOTIFICAÇÃO','23:57','phone',`O apartamento está escuro. Você coloca o telefone para carregar e tenta não voltar às imagens da travessia. As sirenes ainda parecem ecoar na sua cabeça.
 
 No mesmo instante, chega uma mensagem de um número que não está salvo. Não há fotografia, nem voz, nem máscara. Apenas uma frase:
@@ -1579,7 +1579,7 @@ function rr(id,s){
     else if(f.c6_b_junto)t=t.replace('Isabella e Rayssa precisam decidir como seguir, ainda que estejam separadas do grupo. Cada movimento pelo corredor pode atrair o mascarado. Um som de telefone chega até o quarto, abafado pelas batidas na porta.','Isabella e Rayssa conseguiram chegar ao quarto. Agora ajudam a segurar a barricada enquanto alguém procura uma saída pela janela. O reencontro trouxe alívio e menos espaço para se mover.');
   }
   if(id==='h39'){
-   t=t.replace('Laisla se encosta na parede. Rauanny segura o braço machucado ou simplesmente tenta respirar, dependendo do que aconteceu.',
+   t=t.replace('Laisla se encosta na parede. Rauanny aperta o antebraço e tenta recuperar o fôlego.',
     dead(s,'laisla')&&dead(s,'rauanny')?'O lugar onde Laisla e Rauanny deveriam estar está vazio. Ryan olha para as mãos, incapaz de aceitar as duas ausências.':dead(s,'laisla')?'Rauanny se encosta na parede, procurando por Laisla com o olhar mesmo sabendo que ela não chegou.':dead(s,'rauanny')?'Laisla se encosta na parede e aperta a fotografia da amiga contra o peito. Rauanny não chegou.':'Laisla se encosta na parede. Rauanny tenta recuperar o fôlego ao lado dela, e as duas procuram manter contato para não se separar.');
   }
   if(id==='h44b'&&dead(s,'rauanny'))t=t.replace('Rauanny segura a mão de Laisla. As duas permanecem caladas por um longo momento.','O lugar que Rauanny ocuparia ao lado da amiga está vazio. Laisla tenta estender a mão e recua quando percebe que não há ninguém ali.');
