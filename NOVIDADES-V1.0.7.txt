@@ -1,0 +1,55 @@
+O ÚLTIMO GRITO · V1.0.7 — SEGREDOS E DESCONFIANÇAS
+=========================================================
+
+NOVOS SISTEMAS INTEGRADOS AOS CAPÍTULOS ANTERIORES
+
+• Celular narrativo desde o Capítulo 1: mensagens próprias para os capítulos 1–6,
+  com respostas que alteram confiança, suspeitas e traços do protagonista.
+• Confiança e desconfiança: valores diferentes da afinidade já existente; acompanham
+  o que os amigos presenciaram e suas reações. Alguns NPCs tomam iniciativas
+  de acordo com confiança, perdas e situações do roteiro.
+• Mentiras e segredos: determinadas opções de ocultação ficam registradas por slot.
+  Situações posteriores podem trazer desconforto, novas suspeitas e reações.
+• Personalidade dinâmica: coragem, empatia, cautela e franqueza crescem com escolhas.
+• Inventário narrativo: objetos encontrados em cenas específicas podem ser usados
+  mais tarde. Inclui lanterna, registros, atadura, kit, fita, chave e anotações.
+• Exploração interativa: oportunidades nas cenas do prólogo e capítulos 1–6.
+• Decisões urgentes: cenas selecionadas de perigo usam relógio; o jogador toca
+  em COMEÇAR DECISÃO URGENTE quando estiver pronto. Se acabar o tempo,
+  a história segue com a última opção da cena. É possível DESATIVAR o cronômetro
+  em OPÇÕES > Sobrevivência, confiança e inventário (acessibilidade).
+• Iniciativas dos amigos: cenas específicas incluem ações autônomas baseadas no
+  estado da partida; o objetivo é aprofundar continuidade sem gerar mortes aleatórias.
+
+COMO JOGAR / ONDE ESTÁ CADA FUNÇÃO
+
+Na gameplay toque em ☰ OPÇÕES > Sobrevivência, confiança e inventário.
+As oportunidades de EXPLORAR e USAR OBJETOS surgem dentro das cenas relevantes.
+O celular continua em ☰ OPÇÕES > Celular.
+
+SALVAMENTOS E COMPATIBILIDADE
+
+Os 3 slots continuam independentes. Saves V1.0.6 e anteriores continuam válidos.
+As oportunidades de exploração anteriores à posição atual do save não são
+inventadas retroativamente: para vivê-las, jogue novamente essas cenas usando
+um novo slot ou uma partida antiga antes daquela cena. O histórico antigo,
+os relacionamentos e os romances não são apagados.
+
+PUBLICAÇÃO (GITHUB + RENDER)
+
+1. Extraia este ZIP.
+2. Envie TODOS os arquivos de dentro da pasta para a raiz do repositório,
+   no mesmo nível de index.html (NÃO apenas o arquivo ZIP).
+3. Inclua o arquivo NOVO: systems107.js.
+4. Confirme o commit; se o Render está conectado com deploy automático,
+   ele publicará a atualização. Faça backup dos saves antes.
+
+REQUISITOS: navegador moderno, sem Node.js/npm e sem serviços de rede.
+Continuam presentes: prólogo, capítulos 1–6, retratos, áudio, celulares,
+quadros de pistas, memórias, ferimentos e efeito borboleta.
+
+TESTES: verificação dos 392 nós e 642 transições narrativas; teste da sintaxe
+JavaScript; 39 cenários funcionais em Chromium embutido (320, 390 e 1365 px)
+para cenas, explorações, objetos e decisões urgentes, sem erros de script ou
+rolagem horizontal. Reprodução de áudio e experiência real no Safari do
+usuário não podem ser garantidas sem um teste no aparelho.

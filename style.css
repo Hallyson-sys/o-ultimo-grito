@@ -365,3 +365,12 @@ button,input,select{touch-action:manipulation}
  .phone-messages{padding:17px 12px!important}
  .phone-bubble p{font-size:14px!important}
 }
+
+
+/* V1.0.7 — escolhas situacionais, inventário, confiança, urgência acessível */
+.v107-explore,.v107-result,.v107-timer-ready,.v107-countdown{border:1px solid #bfa1ae52;background:linear-gradient(125deg,#161e30e8,#102330e8);padding:17px 19px;margin:16px 0;border-radius:12px}
+.v107-explore h3,.v107-timer-ready b{color:#f4adb4;font-size:12px;letter-spacing:.13em;text-transform:uppercase;margin:0 0 9px;display:block}
+.v107-explore p,.v107-timer-ready p{color:#d8dce2;font-size:15px;line-height:1.55;margin:8px 0 12px}.v107-explore-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.v107-explore-actions button{text-align:left;white-space:normal;letter-spacing:normal;font-size:14px;line-height:1.45;padding:13px}
+.v107-result{color:#f3d5db;line-height:1.6;border-color:#b99da53a;font-family:Georgia,serif}.v107-timer-ready button{width:100%;margin-top:8px}.v107-countdown{font-size:13px;color:#ffd3d7;display:flex;justify-content:space-between;align-items:center;border-color:#d75a68}.v107-countdown strong{font-size:22px;font-variant-numeric:tabular-nums;color:#fff}.choices[hidden]{display:none!important}
+.v107-dashboard{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:20px 0}.v107-dashboard h2,.v107-settings h2{font-size:17px;letter-spacing:.04em;color:#f3b3c1}.v107-trust-row{padding:11px 0;border-bottom:1px solid #ffffff22;display:grid;gap:5px}.v107-trust-row b{font-size:13px}.v107-trust-row small{font-size:12px;color:#afc2d1}.v107-track{height:6px;background:#31414b;border-radius:10px;overflow:hidden}.v107-track span{display:block;height:100%;background:linear-gradient(90deg,#9a465a,#ea8794);border-radius:10px}.v107-item{margin:12px 0;padding:13px;background:#13212d;border:1px solid #ffffff20;border-radius:9px}.v107-item b{color:#f5d6de}.v107-item p{margin:5px 0!important;font-size:13px!important}.v107-settings{border-top:1px solid #ffffff22;padding:20px 0;margin-top:16px}
+@media(max-width:740px){.v107-dashboard,.v107-explore-actions{grid-template-columns:1fr}.v107-explore,.v107-result,.v107-timer-ready,.v107-countdown{padding:13px 14px}.v107-explore-actions button{width:100%;font-size:14px}.v107-timer-ready button{white-space:normal;line-height:1.4}}
