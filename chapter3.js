@@ -70,7 +70,7 @@ Breno: — Eu usei a data da festa, o nome do Wi‑Fi da propriedade e umas senh
 
 Isabella: — Um encaminhamento pra onde?
 
-Breno: — Pra um computador de backup da marina velha dos Gomes. Aquele galpão perto do lago onde o pai dela guardava barco antigo.
+Breno: — Pra um computador de backup da marina velha dos Gomes. Aquele galpão perto do lago onde o pai dela guardava barco antigo. Parece uma cópia automática, não um envio feito naquela noite.
 
 Ryan: — Claro. Porque um psicopata e uma marina abandonada são exatamente o que faltava na nossa vida.
 
@@ -329,7 +329,7 @@ E.push(N('e11','DOCAS EXTERNAS','19:24','lake',`A perseguição explode para o l
 
 Do outro lado do píer, você vê algo brilhando preso ao corrimão: um pequeno fragmento metálico, talvez arrancado da roupa ou do equipamento da pessoa mascarada durante a corrida.
 
-Ao mesmo tempo, Breno vacila ao tentar pular um vão entre duas plataformas; Samuel, alguns metros atrás, grita para vocês tomarem cuidado.`,[
+O fragmento lembra o fecho de uma credencial ou de uma bolsa de ferramentas, mas está riscado demais para revelar qualquer identificação. Ao mesmo tempo, Breno vacila ao tentar pular um vão entre duas plataformas; Samuel, alguns metros atrás, grita para vocês tomarem cuidado.`,[
 C('Segurar Breno para ele atravessar','e12a',[['bond','breno',8],['flag','resgatou_breno_c3',true]]),
 C('Arrancar o fragmento metálico e continuar correndo','e12b',[['clue','distintivo_arranhado',true],['trait','cautela',1]]),
 C('Chutar a corrente para bloquear o caminho do agressor','e12c',[['trait','coragem',1]])

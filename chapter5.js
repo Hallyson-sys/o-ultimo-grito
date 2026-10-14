@@ -82,7 +82,7 @@ add('g05','SALA · O MAPA NA MESA','11:03','house',`Isabella estende um mapa imp
 
 Isabella: — O que a família e os policiais sabem é que Jullia desapareceu. O que a gente sabe é outra coisa. A gente colocou o corpo dela no lago. E agora alguém quer que a gente sofra antes de contar tudo.
 
-Breno: — A foto da van foi tirada de um lugar alto. A câmera precisa ter tido uma linha de visão limpa para o acostamento.
+Breno: — A foto da van veio de um lugar alto, perto da antiga cabine de serviço. A gente não sabe se alguém segurou uma câmera ou se recuperou uma gravação depois. Mas a linha de visão bate com o acostamento.
 
 Rauanny: — E o áudio dela? Aquele barulho de passos e galhos? Se tinha alguém na mata, talvez seja essa pessoa que tá atrás da gente.
 
@@ -265,7 +265,7 @@ Breno: — Ou alguém que sabia que a Jullia ia tentar sair.
 
 Rayssa: — Isso não muda o que a gente fez com ela. Mas pode explicar por que ela correu até a estrada.
 
-No fim da mensagem há uma imagem granulada de um crachá preso a um cordão vermelho. Sem rosto. Sem nome legível.`,[
+No fim da mensagem há uma imagem granulada de um crachá de apoio com detalhe azul, preso a um cordão avermelhado. É do tipo usado no serviço da propriedade, sem nome ou rosto legível. A imagem pode ser antiga.`,[
 C('Salvar a imagem e comparar com registros da mansão','g12a',[['clue','cracha_portao_c5',true]]),
 C('Pedir a Samuel que explique tudo que lembra do portão','g12b',[['flag','pressionou_samuel_portao_c5',true]]),
 C('Insistir que ninguém investigue sozinho','g12c',[['flag','grupo_protegido_c5',true]])]);

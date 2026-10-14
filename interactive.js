@@ -179,7 +179,11 @@ const CONNECTIONS=[
  {id:'rastro-digital',a:'registro_ameaca_celular_c6',b:'arquivo_foto_examinado_c6',title:'A ameaça e a imagem',text:'O texto ameaçador e a imagem tirada de dentro do apartamento parecem ter sido enviados com a mesma intenção: demonstrar vigilância. Não há prova sobre a autoria.'},
  {id:'fita-van',a:'arquivo_van_examinada',b:'testemunha_estrada',title:'A posição da câmera',text:'O enquadramento ajuda a delimitar pontos possíveis de observação na estrada. Isso não identifica o fotógrafo.'},
  {id:'voz-trilha',a:'arquivo_audio_examinado',b:'bella_trilha_c6',title:'A mata antes do atropelamento',text:'O áudio anterior ao acidente e o caminho descrito por Bella podem ajudar a reconstruir a sequência de acontecimentos.'},
- {id:'origem',a:'moises_parou_portao',b:'moises_relacao',title:'As contradições de Moisés',text:'Moisés aparece ligado ao portão e ao passado de Jullia. O que ele sentia naquela noite não comprova participação nos ataques.'}
+ {id:'origem',a:'moises_parou_portao',b:'moises_relacao',title:'As contradições de Moisés',text:'Moisés aparece ligado ao portão e ao passado de Jullia. O que ele sentia naquela noite não comprova participação nos ataques.'},
+ {id:'velas-memorial',a:'marca_cera_vermelha',b:'bilhete_ameaca',title:'O bilhete passou pelo memorial',text:'A cera remete às velas disponíveis na homenagem. O remetente pode ter usado material do local sem ter participado da festa um ano antes.'},
+ {id:'acesso-tecnico',a:'trilha_servico',b:'fita_vermelha_trilha',title:'A trilha foi usada recentemente',text:'A fita recente pode marcar uma passagem de manutenção. Ela não foi necessariamente deixada na noite do acidente.'},
+ {id:'backup-propriedade',a:'notebook_marina',b:'acesso_audio_c5',title:'Um arquivo recuperado depois',text:'O computador de backup poderia permitir copiar gravações antigas após o desaparecimento. Ainda não se sabe quem entrou nessa conta.'},
+ {id:'camera-estrada',a:'foto_van_origem',b:'cameras_mansao',title:'O acesso às câmeras antigas',text:'A origem da fotografia pode estar relacionada ao sistema de serviço da propriedade. É possível recuperar imagens sem ter estado presente na estrada naquela hora.'}
 ];
 const found=(s,d)=>clue(s,d.a)&&clue(s,d.b);
 function connect(s,id){const d=CONNECTIONS.find(c=>c.id===id);if(!d||!found(s,d)||s.interactive.connections.includes(id))return false;s.interactive.connections.push(id);s.interactive.events.push({type:'deduction',label:'Você relacionou duas pistas: '+d.title+'.',chapter:chapter(s)});return true;}

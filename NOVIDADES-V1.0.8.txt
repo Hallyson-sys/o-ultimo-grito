@@ -1,0 +1,42 @@
+O ÚLTIMO GRITO — V1.0.8 · PREPARAÇÃO PARA A RETA FINAL
+
+BASE: V1.0.7.1 (CONTINUIDADE DO CAPÍTULO 6)
+
+NOVAS FUNÇÕES
+1. Recapitulação personalizada por slot: acesse "ANTERIORMENTE · SUA HISTÓRIA" no menu principal ou "Anteriormente na sua história" em ☰ OPÇÕES durante a partida. Só mostra capítulos concluídos, respeitando o destino de Allan, as escolhas afetivas e os desfechos do condomínio.
+2. Registro interno de posição e informações testemunhadas: o motor conserva lugares confirmados nas cenas principais e diferencia o que alguém viu, ouviu ou soube depois. Não atribui uma informação só porque o jogador conhece uma cena de outro ponto de vista.
+3. Confrontos opcionais baseados em pistas já obtidas, com respostas e consequências: Moisés, Samuel e Bella. Se faltarem indícios, essas opções não aparecem.
+4. Iniciativas pontuais dos NPCs: preservação de mapa, resistência de Samuel e auxílio após o ataque, conforme relações, fatos e sobrevivência.
+
+REVISÃO DAS PISTAS (PRÓLOGO A CAPÍTULO 6)
+- Conferidas as 61 chaves de pistas registráveis em escolhas.
+- Unificada a presença de Bella na festa e a tentativa de alcançar Jullia na mata.
+- Diferenciado o fio de tecido da roupa de Bella da fita vermelha recente encontrada um ano depois.
+- Refinados o relato de Davi, a câmera da estrada, o arquivo da marina, os detalhes do crachá azul, o fragmento metálico e as pistas sobre o telefone antigo.
+- Ampliadas 4 conexões do quadro de investigação, sem atribuir culpados prematuramente.
+- Pistas ambíguas permanecem como hipóteses plausíveis, não como prova de um terceiro assassino.
+
+ARQUIVO NOVO: finale108.js
+
+ATENÇÃO A SPOILERS
+O relatório de auditoria para o AUTOR é um arquivo de download SEPARADO. NÃO está neste ZIP, pois explica elementos secretos dos antagonistas e não deve ser publicado no GitHub.
+
+SALVAMENTOS
+- Slots 1–3, exportação e importação JSON, retratos, efeitos sonoros, cronômetro opcional, celular, investigações e seis capítulos preservados.
+- Dados novos ficam em save.finale108. Saves antigos são migrados sem reescrever escolhas antigas.
+- Visitar uma cena já concluída não repete automaticamente um confronto ou decisão.
+
+TESTES
+- 399 nós narrativos e 654 ligações entre escolhas verificados, sem destinos ausentes.
+- Sintaxe de JavaScript conferida.
+- Recapitulação, compatibilidade do save e cenas com/sem evidência validadas.
+- UI testada em navegador montado em memória nas larguras 320, 390 e 1365 px (sem erros JS ou transbordamento horizontal nesses cenários).
+- Visita única e preservação dos dados verificados.
+- Não equivale a teste humano completo de todos os caminhos no iPhone; sempre exporte seus saves antes de atualizar.
+
+PUBLICAÇÃO PELO IPHONE OU COMPUTADOR
+1. Extraia o ZIP.
+2. Abra a pasta O_Ultimo_Grito_v1_0_8.
+3. Envie TODOS os arquivos contidos nela à RAIZ do repositório do GitHub (inclusive finale108.js).
+4. Confirme o commit na branch main.
+5. Aguarde o Render publicar, caso o deploy automático esteja ativo.

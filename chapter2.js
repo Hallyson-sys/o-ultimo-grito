@@ -333,7 +333,7 @@ Breno: — Ninguém sugeriu acampar.
 
 Ryan: — Ótimo. Vamos manter assim.
 
-Você encontra um pedaço de fita vermelha amarrado a um galho. Parece novo, mas a árvore tem marcas mais antigas, como se algo tivesse sido arrastado perto dali.
+Você encontra um pedaço de fita vermelha amarrado a um galho. Parece ter sido colocado recentemente, como as marcações de uma equipe de manutenção. No solo, riscos antigos lembram marcas de rodinhas ou de equipamento arrastado. Nenhum dos sinais prova quem passou ali um ano atrás.
 
 Breno: — Isso não tava na foto de ontem. Ou pelo menos eu não vi.
 
@@ -341,7 +341,7 @@ Seu telefone vibra, mesmo sem sinal aparente: “PAREM DE PROCURAR. VOCÊS JÁ E
 C('Fotografar a fita e não tocar nela','d14',[['clue','fita_vermelha_trilha',true],['trait','cautela',2]]),C('Seguir as marcas alguns metros','d14',[['clue','marcas_arrasto',true],['trait','coragem',1]]),C('Voltar antes de escurecer','d14',[['flag','evitou_risco_trilha',true]])]));
 E.push(N('d13f','ANTIGO GALPÃO · LAKEWOOD','16:52','town',`O antigo funcionário se chama Davi Moreira. Ele aceita falar com vocês na frente de um galpão onde guarda ferramentas. Não parece gostar de perguntas sobre os Gomes, mas fica visivelmente desconfortável ao ouvir o nome de Jullia.
 
-Davi: — A menina não era feliz naquela noite. Eu vi ela correndo na direção dos fundos. O namorado veio atrás, mas parou antes do portão.
+Davi: — A menina saiu correndo na direção dos fundos. Moisés veio do jardim atrás dela, mas parou na entrada. Não entrou na mata. Depois eu vi alguém mais jovem correndo pela passagem lateral; não consegui identificar.
 
 Rayssa: — Você contou isso à polícia?
 
@@ -502,7 +502,7 @@ Allan: — Eu quero fazer uma pergunta muito simples, e eu imploro que ninguém 
 
 O olhar de Samuel desvia para a janela. Isabella aperta os lábios. Breno observa o chão. Não é uma resposta. Também não é silêncio inocente.
 
-O telefone fixo da casa — que Isabella jura estar desligado há meses — começa a tocar.`,[
+O telefone fixo da casa — que Isabella jura não usar há meses — começa a tocar. A luz da base acende no canto da sala.`,[
 C('Atender antes que alguém impeça','d21a',[['flag','atendeu_fixo_c2',true],['trait','coragem',1]]),C('Pedir a Isabella para colocar no viva-voz','d21b',[['bond','isabella',4],['trait','cautela',1]]),C('Não atender e filmar o telefone tocando','d21c',[['clue','ligacao_telefone_fixo',true]])]));
 E.push(N('d21a','CASA DE ISABELLA · TELEFONE FIXO','20:21','phone',`Você tira o aparelho da base. Há estática e, por trás dela, o som abafado de água corrente.
 

@@ -121,3 +121,7 @@ V1.0.2 — IMERSÃO E POLIMENTO (13/10/2026)
 - Novidade técnica: polish.js DEVE ser publicado junto com index.html e os demais scripts.
 - Testes: sintaxe JS, caminhos, milhares de variações textuais e layout em 320/390/1365 px (simulado em Chromium).
 - Prefira exportar seu save antes de atualizar no Render.
+
+
+V1.0.8 — PREPARAÇÃO PARA A RETA FINAL
+Use a recapitulação no menu; para novas escolhas e rastreamento interno, inclua finale108.js na raiz do site. Consulte NOVIDADES-V1.0.8.txt.

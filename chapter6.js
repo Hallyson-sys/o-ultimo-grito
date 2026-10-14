@@ -19,7 +19,7 @@ A('h01','LAKEWOOD · CENTRO','16:12','town',`O centro de Lakewood voltou a enche
 
 Breno chamou você para encontrá-lo antes do jantar na casa de Laisla. Ele está à sombra de uma padaria, segurando uma pasta de documentos e dois cafés que já esfriaram.
 
-Breno: — A menina que trabalha na portaria da propriedade Gomes confirmou o crachá azul. Mas pediu pra gente não falar com ela de novo. Disse que alguém anda fazendo perguntas sobre as gravações antigas.
+Breno: — A menina que trabalha na portaria da propriedade Gomes reconheceu o modelo do crachá azul. Disse que podia ser de qualquer prestador de serviço e pediu pra gente não voltar lá. Alguém anda perguntando pelas gravações antigas.
 
 Você: — A gente sequer sabe em quem confiar.
 
@@ -76,7 +76,7 @@ Ela entrega um cartão simples, com um número de telefone escrito à mão. Depo
 Breno: — A gente vai ter que conversar com ela alguma hora. Mesmo que dê medo.`,[go('h03','Guardar o número de Bella',[['clue','bella_contato_c6']])]);
 A('h03','PRAÇA CENTRAL · BELLA GOMES','16:24','town',`Bella não se parece com a imagem de Jullia nos cartazes. Fala devagar, escolhe as palavras, mas segura o olhar quando faz uma pergunta. Ela mostra uma fotografia da festa no próprio celular: um grupo na varanda iluminada, a irmã ao fundo, quase escondida.
 
-Bella: — Na noite em que ela sumiu, eu estava em casa. Ouvi uma discussão pelo telefone. Jullia desligou na minha cara. Eu fui atrás, mas quando cheguei à entrada do bosque não consegui mais encontrar ela.
+Bella: — Naquela noite eu estava na propriedade. Ouvi a discussão perto do jardim e vi minha irmã saindo pela passagem dos fundos. Corri atrás dela, mas perdi Jullia entre os pinheiros. Não cheguei nem perto da estrada.
 
 Ela esfrega o polegar sobre a borda da capa do celular.
 
