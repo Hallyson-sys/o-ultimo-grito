@@ -29,7 +29,7 @@ function record(k,s,id,from=''){
  if(id==='h01'){many(['hero','breno','bella'],'bella:voltou_lakewood','presenciou');if(s.flags?.allan_morto_c4)many(CREW,'morte:allan','acontecimento_anterior');}
  if(id==='h03')many(['hero','breno','bella'],'bella:procurou_jullia_na_mata','conversa');
  if(id==='h17')many(apartment(s),'ataque:apartamento','presenciou');
- if(id==='h21')many(['hero','laisla','rauanny'],'nucleo:isabella_rayssa_separadas','telefone');
+ if(id==='h21'&&!s.flags?.c6_b_junto)many(['hero','laisla','rauanny'],'nucleo:isabella_rayssa_separadas','telefone');
  if(id==='h28isadeath')add('rayssa','ataque:isabella_ferida_gravemente','presenciou');
  if(id==='h29allandeath')many(['rayssa',...(!isDead(s,'isabella')?['isabella']:[])],'ataque:allan_ferido_gravemente','presenciou');
  if(id==='h34')add('ryan','ataque:apartamento','viu_da_janela');

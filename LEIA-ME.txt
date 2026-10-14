@@ -1,3 +1,6 @@
+ATUALIZAÇÃO V1.0.7.1 — Continuidade do Capítulo 6
+Leia também NOVIDADES-V1.0.7.1.txt. Inclua o arquivo continuity108.js ao publicar no GitHub.
+
 VERSÃO ATUAL: V1.0.7 — Segredos, Desconfiança e Sobrevivência.
 Leia NOVIDADES-V1.0.7.txt para as alterações e publicação.
 

@@ -1,0 +1,28 @@
+O ÚLTIMO GRITO — V1.0.7.1
+CORREÇÃO DE CONTINUIDADE DO CAPÍTULO 6
+
+CORREÇÕES
+- Nova escolha durante a invasão permite conduzir todos para o quarto de Laisla.
+- Quando todos estão no quarto, Isabella continua jogável, mas sua perspectiva se passa NO QUARTO. Não ocorre uma fuga paralela fictícia pela cozinha.
+- A rota em que Isabella, Rayssa e Allan (se vivo) realmente ficam separados continua disponível para as decisões que a provocam.
+- A opção de reunir os núcleos durante a fuga também passa a ser respeitada nos acontecimentos seguintes.
+- Escada, ordem de travessia, resgate e reencontro usam os personagens presentes e o caminho de fuga escolhido.
+- Se todos atravessaram e sobreviveram, o protagonista não pergunta por alguém que acabou de ver chegar. A polícia não inventa pessoas presas na lavanderia.
+- O resgate, os diálogos e as informações do policial distinguem quem chegou pela escada de quem usou a área de serviço.
+- A memória individual deixa de registrar a separação de Isabella/Rayssa quando o grupo permaneceu unido.
+- Diálogos de luto e reencontro consideram a morte anterior de Allan e as perdas do Capítulo 6.
+- Todas as cenas e IDs existentes permanecem compatíveis com saves antigos.
+
+ARQUIVO ADICIONADO
+continuity108.js — faz os ajustes de rota sem reescrever os demais capítulos.
+
+TESTES
+- 2.000 simulações de percursos (reunidos/separados), incluindo 741 percursos com ao menos uma morte; nenhuma saída narrativa quebrada.
+- Verificação dos destinos de Allan do Capítulo 4 e da passagem pela escada.
+- Teste Chromium com largura 390 px e sem erros de JavaScript ou transbordamento horizontal nos quatro estados apresentados.
+- Verificação de integridade do ZIP e sintaxe JavaScript.
+
+INSTALAÇÃO
+Extraia este ZIP. Envie TODOS os arquivos de dentro da pasta para a RAIZ do repositório no GitHub. Inclua o arquivo continuity108.js. O Render atualizará se o deploy automático estiver ativo.
+
+Os saves anteriores podem continuar no mesmo slot. As novas escolhas não aparecem retroativamente em cenas que você já concluiu; você pode ver a narração corrigida ao continuar por cenas ainda não realizadas, ou testar novas rotas em outro slot.
