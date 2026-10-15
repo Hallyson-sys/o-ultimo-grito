@@ -116,6 +116,10 @@
       const scene=node.scene||'';
       // Grandes perseguições já escritas: a trilha deve acompanhar o risco real,
       // sem depender da palavra 'perseguição' em cada fala individual.
+      if(/^j_(?:m0[234]|h0[23]|death_gate|m_death|crisis|move|escape|route|body|after_death|evidence)/.test(String(node.id)))return 'perseguicao';
+      if(/^j_(?:date|dinner)/.test(String(node.id)))return 'romance';
+      if(/^j_(?:talk|confide|listen|past|memory|funeral)/.test(String(node.id)))return 'amizade';
+      if(/^j_last_0[12]$/.test(String(node.id)))return 'luto';
       if(/^h(?:1[3-9]|2[0-9]|3[0-9]|40(?:risk|pull|last|wait|ryanResult)?|41)$/.test(String(node.id)))return 'perseguicao';
       if(/^h(?:4[3-9]|5[0-1])/.test(String(node.id)))return 'luto';
       if(/^h(?:0[6-9]|1[0-2])/.test(String(node.id)))return 'amizade';

@@ -1,0 +1,34 @@
+O ÚLTIMO GRITO — V1.1 · CAPÍTULO 7: A NOITE DOS TRAIDORES
+
+ATUALIZAÇÃO COMPLETA (não é um patch isolado): contém prólogo e capítulos 1 a 7, retratos e trilhas offline.
+
+NOVIDADES PRINCIPAIS
+• Capítulo 7 com 126 nós narrativos próprios e mais de 20 mil palavras em todos os caminhos combinados. Um caminho comum percorre aproximadamente 8 mil palavras; a duração de 45–55 minutos é uma META editorial ainda dependente de leitura real do jogador.
+• Conversa íntima com um amigo escolhido, com roteiro próprio por personagem disponível (Samuel, Breno, Allan, Ryan, Rauanny, Laisla, Rayssa, Isabella), respeito às mortes e limitações físicas. O jogador pode definir seu passado e sonhos, sem origem pessoal imposta.
+• Quatro jantares românticos exclusivos (Ryan, Breno, Rayssa, Rauanny), sem namoro oficial obrigatório. Quem permanece solteiro ou perdeu o interesse tem uma alternativa narrativa.
+• Ligações de Moisés conforme opção de atender, retornar ou deixar para depois; perspectivas alternadas de Moisés e do protagonista.
+• Três apresentações do assassinato de Moisés (presenciar, ouvir a ligação ou descobrir posteriormente), condicionadas pelas decisões. Assassinato de Moisés é um acontecimento fixo.
+• Descoberta do cadáver de Moisés suspenso em guincho de oficina numa rota; horror gráfico. Pode-se reduzir as descrições gráficas em ☰ OPÇÕES → SOBREVIVÊNCIA E RELAÇÕES, sem alterar as consequências.
+• Quem acompanha o protagonista na investigação é selecionado individualmente, respeitando mortes, ferimentos e recusas baseadas em confiança. As posições são persistidas, e não há companheiros que surgem magicamente em novos cômodos.
+• Três grandes momentos de perigo opcional para os amigos e até três mortes evitáveis por partida, persistidas em seus slots, fichas e memórias. O jogador pode terminar sem novas mortes entre os oito amigos.
+• Investigação ampliada com registros de serviço e provas recuperáveis de Moisés. As descobertas não revelam as responsáveis pelo mistério.
+• Fim do capítulo com o grupo sobrevivente reunido no hospital e três mensagens anônimas sobre a possibilidade de um traidor.
+• Mantém celular, quadro de pistas, efeito borboleta, inventário, confiança, perfis e áudio local.
+
+SALVAMENTOS
+• Mantém as três chaves locais 'ultimo-grito-slot-1/2/3'. Atualização mantém saves anteriores (V1.0.8). Faça uma exportação JSON por segurança antes de atualizar.
+• Quem terminou Capítulo 6 e está em 'fim10' terá o botão para iniciar o Capítulo 7. Não é necessário começar nova partida.
+• O capítulo não se inicia retroativamente; mortes e confidências novas surgem apenas nas cenas que o jogador percorre.
+
+PUBLICAR NO GITHUB/RENDER
+1. Extraia todo o ZIP.
+2. Envie TODOS os arquivos da pasta extraída para a RAIZ do seu repositório GitHub (incluindo o novo chapter7.js e o index.html atualizado).
+3. Confirme o commit. Render deverá implantar a nova versão conforme sua configuração de deploy.
+4. No iPhone, recarregue a página e, se ainda aparecer o menu antigo, faça a atualização completa da página.
+
+VERIFICAÇÕES
+• Análise estática dos destinos de escolha em todos os 126 nós, e simulação de partidas completas sem mortes e com três perdas.
+• Testes de interface Chromium em 320/390/1365px.
+• Duração ainda não aferida em uma partida humana.
+
+ARQUIVOS PARA CRIADOR: não publique notas de auditoria com revelações da história no repositório público.

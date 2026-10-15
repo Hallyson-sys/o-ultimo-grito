@@ -6,7 +6,7 @@
 const PEOPLE=['hero','rayssa','ryan','laisla','samuel','rauanny','allan','isabella','breno','bella','moises'];
 const CREW=['hero','rayssa','ryan','laisla','samuel','rauanny','allan','isabella','breno'];
 const empty=()=>({version:1,people:Object.fromEntries(PEOPLE.map(id=>[id,{}])),events:[],entered:[]});
-const isDead=(s,id)=>!!s.flags?.['c6_morto_'+id]||(id==='allan'&&!!s.flags?.allan_morto_c4);
+const isDead=(s,id)=>!!s.flags?.['c7_morto_'+id]||!!s.flags?.['c6_morto_'+id]||(id==='allan'&&!!s.flags?.allan_morto_c4);
 const apartment=(s)=>['hero','laisla','rauanny','isabella','rayssa',...(!s.flags?.allan_morto_c4?['allan']:[])];
 function set(k,person,fact,origin,at){
  if(!PEOPLE.includes(person))return false;

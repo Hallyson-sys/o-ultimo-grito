@@ -7,7 +7,7 @@ const restore=x=>{const y=safeObj(x);const replies={...safeObj(y.phoneReplies)};
 const chapter=s=>{const ch=window.NODES?.[s?.node]?.chapter||'';if(ch.startsWith('PRÓLOGO'))return 0;const m=ch.match(/CAPÍTULO\s+0?(\d+)/);return m?Number(m[1]):0;};
 const stage=s=>{const xs=[s?.node,...(s?.history||[]).map(h=>h.node)].filter(x=>typeof x==='string');let best=0;for(const id of xs){const m=id.match(/^h(\d+)/);if(m)best=Math.max(best,Number(m[1]));}return best;};
 const clue=(s,k)=>(s?.clues||[]).includes(k);
-const dead=(s,id)=>!!(id==='allan'&&s.flags?.allan_morto_c4)||!!s.flags?.['c6_morto_'+id];
+const dead=(s,id)=>!!(id==='allan'&&s.flags?.allan_morto_c4)||!!s.flags?.['c7_morto_'+id]||!!s.flags?.['c6_morto_'+id];
 const personName=id=>({ryan:'Ryan',breno:'Breno',rayssa:'Rayssa',rauanny:'Rauanny',laisla:'Laisla',allan:'Allan',isabella:'Isabella',samuel:'Samuel',bella:'Bella'})[id]||id;
 const msg=(who,text,time='')=>({who,text,time});
 const replyOptions={

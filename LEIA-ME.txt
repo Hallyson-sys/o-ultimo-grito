@@ -1,3 +1,6 @@
+VERSÃO ATUAL: V1.1 — CAPÍTULO 7: A NOITE DOS TRAIDORES.
+Leia NOVIDADES-V1.1.txt. IMPORTANTE: envie o novo arquivo chapter7.js ao GitHub junto de index.html e game.js.
+
 ATUALIZAÇÃO V1.0.7.1 — Continuidade do Capítulo 6
 Leia também NOVIDADES-V1.0.7.1.txt. Inclua o arquivo continuity108.js ao publicar no GitHub.
 

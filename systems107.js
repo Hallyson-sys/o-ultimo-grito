@@ -5,12 +5,12 @@ const ids=['rayssa','ryan','laisla','samuel','rauanny','allan','isabella','breno
 const names={rayssa:'Rayssa',ryan:'Ryan',laisla:'Laisla',samuel:'Samuel',rauanny:'Rauanny',allan:'Allan',isabella:'Isabella',breno:'Breno',bella:'Bella'};
 const clamp=(x,a=0,b=100)=>Math.min(b,Math.max(a,x));
 const pair=(a,b)=>[a,b].sort().join(':');
-const empty=()=>({version:1,trust:{},suspicion:{},secrets:{},personality:{coragem:50,empatia:50,cautela:50,franqueza:50},inventory:[],scenes:{},autonomy:{},responses:{},choices:{},events:[],timedOff:false});
-function restore(raw,save){const r=raw&&typeof raw==='object'?raw:{};const o=empty();o.trust={...(r.trust||{})};o.suspicion={...(r.suspicion||{})};o.secrets={...(r.secrets||{})};o.personality={...o.personality,...(r.personality||{})};o.inventory=Array.isArray(r.inventory)?r.inventory.filter(x=>typeof x==='string').slice(0,40):[];o.scenes={...(r.scenes||{})};o.autonomy={...(r.autonomy||{})};o.responses={...(r.responses||{})};o.choices={...(r.choices||{})};o.events=Array.isArray(r.events)?r.events.slice(-120):[];o.timedOff=Boolean(r.timedOff);return o;}
+const empty=()=>({version:1,trust:{},suspicion:{},secrets:{},personality:{coragem:50,empatia:50,cautela:50,franqueza:50},inventory:[],scenes:{},autonomy:{},responses:{},choices:{},events:[],timedOff:false,graphicOff:false});
+function restore(raw,save){const r=raw&&typeof raw==='object'?raw:{};const o=empty();o.trust={...(r.trust||{})};o.suspicion={...(r.suspicion||{})};o.secrets={...(r.secrets||{})};o.personality={...o.personality,...(r.personality||{})};o.inventory=Array.isArray(r.inventory)?r.inventory.filter(x=>typeof x==='string').slice(0,40):[];o.scenes={...(r.scenes||{})};o.autonomy={...(r.autonomy||{})};o.responses={...(r.responses||{})};o.choices={...(r.choices||{})};o.events=Array.isArray(r.events)?r.events.slice(-120):[];o.timedOff=Boolean(r.timedOff);o.graphicOff=Boolean(r.graphicOff);return o;}
 const state=s=>s.social107??(s.social107=restore(null,s));
 function chapter(s){const label=window.NODES?.[s?.node]?.chapter||'';if(label.startsWith('PRÓLOGO'))return 0;const m=label.match(/CAPÍTULO\s+0?(\d+)/);return m?Number(m[1]):0;}
 const stage=s=>Number((s.node||'').match(/^[a-z](\d+)/)?.[1]||0);
-const dead=(s,id)=>Boolean((id==='allan'&&s.flags?.allan_morto_c4)||s.flags?.['c6_morto_'+id]);
+const dead=(s,id)=>Boolean((id==='allan'&&s.flags?.allan_morto_c4)||s.flags?.['c7_morto_'+id]||s.flags?.['c6_morto_'+id]);
 function pairTrust(s,a,b){const k=pair(a,b);return clamp(55+(state(s).trust[k]||0));}
 function pairSuspicion(s,a,b){return clamp(12+(state(s).suspicion[pair(a,b)]||0));}
 function adjust(s,a,b,trust=0,suspicion=0){const x=state(s),k=pair(a,b);x.trust[k]=clamp((x.trust[k]||0)+trust,-55,45);x.suspicion[k]=clamp((x.suspicion[k]||0)+suspicion,-12,88);}

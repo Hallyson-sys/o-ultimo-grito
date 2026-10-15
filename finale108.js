@@ -6,7 +6,7 @@
 const N=window.NODES, HIST=window.HISTORIA;
 const PEOPLE=['hero','rayssa','ryan','laisla','samuel','rauanny','allan','isabella','breno','bella','moises'];
 const LABEL={hero:'você',rayssa:'Rayssa',ryan:'Ryan',laisla:'Laisla',samuel:'Samuel',rauanny:'Rauanny',allan:'Allan',isabella:'Isabella',breno:'Breno',bella:'Bella',moises:'Moisés'};
-const isDead=(s,p)=>!!(s?.flags?.['c6_morto_'+p]||(p==='allan'&&s?.flags?.allan_morto_c4));
+const isDead=(s,p)=>!!(s?.flags?.['c7_morto_'+p]||s?.flags?.['c6_morto_'+p]||(p==='allan'&&s?.flags?.allan_morto_c4));
 const empty=()=>({version:1,visited:[],persons:{},facts:{},confrontations:{},autonomy:{},recapsOpened:{}});
 function restore(raw,s){const r=raw&&typeof raw==='object'?raw:{};const n=empty();
  n.visited=Array.isArray(r.visited)?[...new Set(r.visited.filter(x=>typeof x==='string'))].slice(-800):[];
@@ -75,7 +75,7 @@ function onChoice(s,from,c){const st=state(s);if(c.to==='v108_moises')st.confron
  if(c.to==='v108_bella')st.confrontations.v108_bella=true;}
 const chapterOf=id=>{const n=N[id];const t=n?.chapter||'';return t.startsWith('PRÓLOGO')?0:Number(t.match(/CAPÍTULO\s+0?(\d+)/)?.[1]||0);};
 function reached(s){let mx=chapterOf(s?.node);for(const h of s?.history||[])mx=Math.max(mx,chapterOf(h.node));return mx;}
-function recap(s,limit){if(!s)return[];const r=reached(s),completed=s?.node==='fim10'?r:Math.max(-1,r-1),max=Math.min(completed,Number.isFinite(limit)?limit:completed);const clues=new Set(s.clues||[]),f=s.flags||{};const out=[];
+function recap(s,limit){if(!s)return[];const r=reached(s),completed=(s?.node==='fim10'||s?.node==='j_fim')?r:Math.max(-1,r-1),max=Math.min(completed,Number.isFinite(limit)?limit:completed);const clues=new Set(s.clues||[]),f=s.flags||{};const out=[];
  if(max>=0&&(s.history||[]).some(h=>chapterOf(h.node)===0))out.push({ch:0,title:'A noite da festa',lines:[
  'Você e os amigos foram à propriedade dos Gomes. A festa terminou em humilhação, acusações e uma fuga pela mata.',
  clues.has('bella_perdeu_jullia')?'Bella correu atrás de Jullia e a perdeu de vista entre as árvores.':'Jullia desapareceu na escuridão depois de sair da festa.',
@@ -87,6 +87,7 @@ function recap(s,limit){if(!s)return[];const r=reached(s),completed=s?.node==='f
  if(max>=4)out.push({ch:4,title:'O arquivo da estrada',lines:['A busca por provas sobre a van terminou em outro ataque.',f.allan_morto_c4?'Allan não sobreviveu. A ausência dele mudou a relação entre os amigos.':'Allan escapou do ataque, mas o grupo saiu abalado.',clues.has('foto_van_origem')?'O ângulo da foto da van apontou para a região da cabine de serviço.':'A origem dos registros da estrada continua sendo investigada.']});
  if(max>=5)out.push({ch:5,title:'Laços de sangue',lines:['Os amigos confrontaram suas culpas e novas informações sobre o portão dos Gomes.',s.romanceEscolhido&&s.romanceEscolhido!=='solteiro'?'Você decidiu investir em uma aproximação com '+(LABEL[s.romanceEscolhido]||'alguém do grupo')+'. Ainda não há namoro oficial.':'Você preferiu seguir sem uma rota romântica definida.',clues.has('cracha_portao_c5')?'Um crachá de apoio apareceu numa mensagem anônima, mas a identidade de quem o usava permanece incerta.':'A noite da festa ainda guarda lacunas.']});
  if(max>=6) {const deceased=['laisla','rauanny','isabella','allan','ryan'].filter(p=>!!f['c6_morto_'+p]);out.push({ch:6,title:'O apartamento de Laisla',lines:['Bella voltou a Lakewood procurando respostas sobre a irmã. Pouco depois, uma reunião entre amigos terminou em ataque.',f.c6_b_junto?'Os amigos conseguiram alcançar o quarto juntos e tentar a passagem entre os prédios.':'O grupo se dividiu durante a invasão e precisou encontrar saídas diferentes.',deceased.length?'A polícia confirmou a perda de '+deceased.map(x=>LABEL[x]).join(', ')+'.':'A fuga terminou sem novas mortes confirmadas no apartamento.',...(!deceased.length?['Os ferimentos e o medo acompanharam os sobreviventes depois do resgate.']:[])]});}
+ if(max>=7){const deaths=['samuel','breno','allan','ryan','rauanny'].filter(x=>!!f['c7_morto_'+x]); const met=Object.keys(f).filter(x=>x.startsWith('c7_conversou_')&&f[x]).map(x=>LABEL[x.slice('c7_conversou_'.length)]||x);out.push({ch:7,title:'A noite dos traidores',lines:[met.length?'Você conversou a sós com '+met[0]+' sobre o medo de não viver o próprio futuro.':'Você tentou encontrar um momento de paz depois do ataque ao condomínio.', 'Bella apresentou documentos de acesso à propriedade Gomes. Moisés pediu um encontro para contar algo que vinha escondendo.','O encontro na oficina terminou com a morte de Moisés. '+(clues.has('c7_registros_pos_desaparecimento')?'Você preservou registros de compras feitas depois do desaparecimento de Jullia.':'As principais provas continuam incompletas.'),deaths.length?'No ataque à oficina, também morreram '+deaths.map(x=>LABEL[x]||x).join(', ')+'.':'Todos os amigos presentes conseguiram escapar vivos da oficina.','Uma mensagem anônima deixou no ar a possibilidade de um traidor dentro do grupo.']});}
  return out;}
 // Revisão editorial do quadro de pistas: fatos observáveis, nunca spoilers do culpado.
 const clues={
