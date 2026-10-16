@@ -1,0 +1,15 @@
+O ÚLTIMO GRITO — V1.1.2 · DIÁLOGOS DO CAPÍTULO 7
+
+CORREÇÃO: falas misturadas a narradores foram separadas e passam a aparecer em cartões com borda vermelha e nome da pessoa que fala.
+
+ABRANGÊNCIA: as oito conversas de amizade, incluindo luto/funeral, e os quatro jantares românticos (convite, confidências, despedida). As falas explícitas já separadas continuam intactas.
+
+TÉCNICA: a rotina de montagem do capítulo recebe uma normalização específica para cenas de diálogo indireto com travessões. Ações permanecem como prosa, e travessões explicativos não são confundidos com falas. Também identificamos a fala de um guarda e uma voz não identificada na perseguição.
+
+COMPATIBILIDADE: os mesmos slots e dados de save; não é necessário reiniciar o prólogo. Ao recarregar uma cena atualizada, as falas passam a ser renderizadas corretamente. Cenas já concluídas não são reproduzidas automaticamente.
+
+CACHE: index.html solicita os novos chapter7.js e game.js com a versão 1.1.2 para evitar exibir texto de versão antiga após atualizar no Render.
+
+PUBLICAÇÃO: extraia o arquivo ZIP e envie todos os arquivos de dentro da pasta para a raiz do repositório GitHub; aguarde o deploy. Depois atualize a página no iPhone. Recomenda-se exportar os saves em JSON como precaução.
+
+FUTURO: função de replay de capítulos é planejamento futuro, não foi adicionada nesta correção.

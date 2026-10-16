@@ -33,23 +33,44 @@ function dramaticText(text,id,s){
  }
  const pov=(/^j_m0[1-9]$/.test(id)||id==='j_m_death_show')?'MOISÉS':/^j_npc[123]/.test(id)?'__SIDE__':/^j_(?:h0[1-9]|crisis|route|move|escape|police|after_death|body|evidence|death_gate|m_death_(?:hear|find))/.test(id)?'PROTAGONISTA':null;
  if(pov&&pov!=='__SIDE__')t='PONTO DE VISTA: '+pov+'\n\n'+t;
- // Audit of the older Ch7 text: make standalone spoken paragraphs for the old em-dash style.
- // Only infer a speaker where the scene unambiguously revolves around that individual.
+ // Cada rota deve separar fala, reação e ação. Não basta existir um travessão dentro da narração.
+ // O parser de cartões do jogo exige que a fala comece num parágrafo próprio: "Nome: — ...".
+ // Tratamos também os blocos mais antigos do jantar, luto e funeral, preservando o dono real da fala.
  const actor=/^j_(?:talk|confide|listen|past|memory|funeral)/.test(id)?Object.keys(L).find(x=>id.endsWith('_'+x)):
  /^j_(?:date_|dinner_)/.test(id)?Object.keys(ROMANCE_INVITE).find(x=>id.endsWith('_'+x)):null;
  if(actor){
   const label=L[actor];
+  const looksLikeStage=(fragment)=>/^(?:(?:Ele|Ela|O garçom|A atendente|A voz|Quando|Enquanto|Depois|Antes|Na saída|Ao sair|No corredor|O sorriso)\b|(?:pergunta|perguntou|admite|admitiu|explica|explicou|acrescenta|acrescentou|comenta|comentou|responde|respondeu|diz|disse|ri|riu|sorri|sorriu|suspira|suspirou)\b)/i.test(fragment);
   t=t.split('\n\n').map(para=>{
-    if(/^\s*(?:[A-Za-zÀ-ÿ ]{2,32}|Você):\s*—/.test(para)||!para.includes(' — '))return para;
-    // Speech followed by an attribution is split away from narration. Attributed to YOU only for 'você diz' etc.
-    return para.replace(/\s+—\s+([^—\n]{4,240}?)(?=\s+—\s+|$)/g,(all,utterance)=>{
-      const tail=utterance.match(/^(.*?)(?:\s+—\s+)(?:disse|comentou)$/);
-      if(/^(?:Ele|Ela|Você|O garçom|A atendente)\s+(?:ri|riu|pergunta|perguntou|diz|disse|sorri|responde|observa|acrescenta|admite|comenta|suspira|fica|passa|continua|ergue|olha)\b/i.test(utterance))return '\n\n'+utterance;
-      return '\n\n'+label+': — '+utterance.trim();
-    });
+   const original=para.trim();
+   if(!original||/^([A-Za-zÀ-ÿ ]{2,40}|Você):\s*—/.test(original))return para;
+   if(!/\s+—\s+/.test(original))return para; // travessão explicativo não é uma fala
+   const fragments=original.split(/\s+—\s+/);
+   const stage=fragments.shift().trim();
+   // "precisa de alguém — para ouvir" não é diálogo. Uma fala ocorre quando o trecho
+   // introdutório narra uma ação concreta de quem está conversando.
+   if(!new RegExp('(?:^|\\b)'+label+'\\b').test(stage)&&!/(?:^|\b)(?:Ele|Ela|Na saída|Ao sair)\b/.test(stage))return para;
+   const sections=[stage];
+   for(const fragmentRaw of fragments){
+    const fragment=fragmentRaw.trim();if(!fragment)continue;
+    if(looksLikeStage(fragment)){
+     // Quando já existe cartão com nome, "pergunta."/"acrescenta." sozinhos são redundantes.
+     if(/^(?:pergunta|perguntou|explica|explicou|acrescenta|acrescentou|comenta|comentou|diz|disse)[.!?]$/i.test(fragment))continue;
+     // Preservar ações físicas que realmente acrescentem algo à cena.
+     if(/^admite, desviando os olhos para o cardápio[.!?]$/i.test(fragment)){sections.push(label+' desvia os olhos para o cardápio.');continue;}
+     if(/^(?:pergunta|perguntou|admite|admitiu|explica|explicou|acrescenta|acrescentou|comenta|comentou|responde|respondeu|diz|disse)\b/i.test(fragment))sections.push(label+' '+fragment);
+     else sections.push(fragment);
+    }else sections.push(label+': — '+fragment);
+   }
+   return sections.join('\n\n');
   }).join('\n\n');
  }
-
+ // Algumas falas da oficina têm interlocutores anônimos por intenção do roteiro;
+ // ainda assim, o leitor deve distinguir fala de movimento, sem atribuir um nome falso.
+ if(id==='j_h01')t=t.replace('— Faz tempo que ninguém trabalha lá depois das dez. Se for encontrar alguém, não demore.',
+ '\n\nGuarda de trânsito: — Faz tempo que ninguém trabalha lá depois das dez. Se for encontrar alguém, não demore.');
+ if(id==='j_crisis1_help')t=t.replace('— NÃO PARA! — alguém grita.',
+ 'Uma voz ecoa no corredor.\n\nVoz no corredor: — NÃO PARA!');
  return t;
 }
 
