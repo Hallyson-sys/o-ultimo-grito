@@ -1,3 +1,6 @@
+VERSÃO ATUAL: V1.2 — CAPÍTULO 8: ÁGUAS TURVAS.
+Leia NOVIDADES-V1.2.txt. O pacote contém prólogo + capítulos 1 a 8. Envie TODOS os arquivos da pasta extraída à raiz do GitHub. Exporte seu save em JSON antes de atualizar.
+
 VERSÃO ATUAL: V1.1.4 — PERSPECTIVAS INDIVIDUAIS DA PERSEGUIÇÃO.
 Leia NOVIDADES-V1.1.4.txt. Envie todos os arquivos da pasta extraída para a raiz do GitHub. Exporte seu save antes da atualização.
 

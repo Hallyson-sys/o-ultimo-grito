@@ -13,7 +13,8 @@ const CHAPTERS=[
   {id:'cap4', short:'CAPÍTULO 04', title:'Fora de alcance', label:'CAPÍTULO 04 · FORA DE ALCANCE', start:'f01', summary:'O grupo é atraído para o arquivo da estrada norte; Allan corre perigo.'},
   {id:'cap5',short:'CAPÍTULO 05',title:'Laços de sangue',label:'CAPÍTULO 05 · LAÇOS DE SANGUE',start:'g01',summary:'O luto muda o grupo e você decide qual romance — ou nenhuma relação — quer seguir.'},
   {id:'cap6',short:'CAPÍTULO 06',title:'O silêncio tem testemunhas',label:'CAPÍTULO 06 · O SILÊNCIO TEM TESTEMUNHAS',start:'h01',summary:'Bella investiga o paradeiro da irmã. O jantar no apartamento de Laisla vira uma perseguição.'},
-  {id:'cap7',short:'CAPÍTULO 07',title:'A noite dos traidores',label:'CAPÍTULO 07 · A NOITE DOS TRAIDORES',start:'j01',summary:'Conversa íntima, jantar, investigação de Bella e Moisés, perspectivas alternadas e decisões que determinam quem consegue fugir da oficina.'}
+  {id:'cap7',short:'CAPÍTULO 07',title:'A noite dos traidores',label:'CAPÍTULO 07 · A NOITE DOS TRAIDORES',start:'j01',summary:'Conversa íntima, jantar, investigação de Bella e Moisés, perspectivas alternadas e decisões que determinam quem consegue fugir da oficina.'},
+  {id:'cap8',short:'CAPÍTULO 08',title:'Águas turvas',label:'CAPÍTULO 08 · ÁGUAS TURVAS',start:'k8_01',summary:'Depois da mensagem sobre o traidor, Bella segue os registros da estação do lago. Investigar a verdade pode custar caro.'}
 ];
 
 const CLUE_DATA={
@@ -95,7 +96,7 @@ const CLUE_DATA={
   moises_parou_portao:{title:'Moisés no portão',category:'Capítulo 3',text:'A presença ou movimentação de Moisés perto do portão levanta dúvidas sobre quanto ele sabe e quando chegou.'}
 };
 
-Object.assign(CLUE_DATA,window.UGRevisionClues||{},window.UGFinale108?.clues||{},window.UG7?.clues||{});
+Object.assign(CLUE_DATA,window.UGRevisionClues||{},window.UGFinale108?.clues||{},window.UG7?.clues||{},window.UG8?.clues||{});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const baseSave=(name,pronouns,look)=>({hero:{name:name.trim(),pronouns,look},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:19,socialReviewVersion:1,socialDepthVersion:1,knowledge:window.UGKnowledge?.empty?.()||null,interactive:inter?.empty?.()||null,social107:social?.empty?.()||null,finale108:window.UGFinale108?.empty?.()||null});
 
@@ -108,6 +109,7 @@ function chapterIdFromLabel(label=''){
   if(label.startsWith('CAPÍTULO 05')) return 'cap5';
   if(label.startsWith('CAPÍTULO 06')) return 'cap6';
   if(label.startsWith('CAPÍTULO 07')) return 'cap7';
+  if(label.startsWith('CAPÍTULO 08')) return 'cap8';
   return 'prologo';
 }
 function chapterMetaForNode(nodeId){const node=window.NODES?.[nodeId];return CHAPTERS.find(c=>c.id===chapterIdFromLabel(node?.chapter||''))||CHAPTERS[0]}
@@ -150,7 +152,7 @@ function normalize(a){
   b.social107=social?.restore?.(a.social107,b)||b.social107;
   b.finale108=window.UGFinale108?.restore?.(a.finale108,b)||b.finale108;
   b.updated=a.updated||Date.now();
-  b.saveVersion=19;
+  b.saveVersion=20;
   return b;
 }
 function slotKey(n){return SLOT_PREFIX+n}
@@ -196,19 +198,19 @@ function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;r
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="recap">ANTERIORMENTE · SUA HISTÓRIA</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="phone">CELULAR INTERATIVO</button><button class="secondary" data-act="butterfly">EFEITO BORBOLETA</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.1.4 · CAPÍTULO 7 — A NOITE DOS TRAIDORES</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.1.4 · LAKEWOOD</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="recap">ANTERIORMENTE · SUA HISTÓRIA</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="phone">CELULAR INTERATIVO</button><button class="secondary" data-act="butterfly">EFEITO BORBOLETA</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.2 · CAPÍTULO 8 — ÁGUAS TURVAS</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.2 · LAKEWOOD</span></footer></main>`);
 }
 function creator(){
   view='creator';
   ui(`<main class="landing scenic house">${header('CRIAÇÃO DE PERSONAGEM')}<section class="panel creator"><div class="eyebrow">ANTES DE VOLTAR A LAKEWOOD</div><h1>Quem vai sobreviver?</h1><p>Você é o nono personagem dessa história. Os outros oito carregam o peso de um verão que ninguém deveria lembrar.</p><form id="creator"><label>SEU NOME COMPLETO<input name="name" maxlength="48" minlength="2" placeholder="Digite seu nome" required autocomplete="off"></label><div class="field-row"><label>PRONOMES<select name="pronouns"><option value="ela">Ela / dela</option><option value="ele">Ele / dele</option><option value="elu">Elu / delu</option></select></label><label>ESTILO VISUAL<select name="look"><option value="casual">Casual</option><option value="alternativo">Alternativo</option><option value="elegante">Elegante</option><option value="esportivo">Esportivo</option></select></label></div><p class="note">Os romances, as pistas e as consequências acompanharão esse personagem em todos os capítulos.</p><button class="primary full" type="submit">COMEÇAR PRÓLOGO ↗</button></form><button class="back" data-act="menu">← Voltar ao menu</button></section></main>`);
 }
-function sceneNode(id){const n=window.NODES?.[id];if(!n)return null;const resolved=window.UG6?.resolve?.(id,save)||n;const polished=window.UGPolish?.resolve?.(id,save,resolved)||resolved;const known=window.UGKnowledge?.resolve?.(id,save,polished)||polished;const cons=window.UGConsequences?.resolve?.(id,save,known)||known;const linked=inter?.resolve?.(id,save,cons)||cons;const enriched=social?.sceneAddon?.(save,id,linked)||linked;const continuous=window.UG108?.resolve?.(id,save,enriched)||enriched;const finalised=window.UGFinale108?.resolve?.(id,save,continuous)||continuous;return window.UG7?.resolve?.(id,save,finalised)||finalised;}
+function sceneNode(id){const n=window.NODES?.[id];if(!n)return null;const resolved=window.UG6?.resolve?.(id,save)||n;const polished=window.UGPolish?.resolve?.(id,save,resolved)||resolved;const known=window.UGKnowledge?.resolve?.(id,save,polished)||polished;const cons=window.UGConsequences?.resolve?.(id,save,known)||known;const linked=inter?.resolve?.(id,save,cons)||cons;const enriched=social?.sceneAddon?.(save,id,linked)||linked;const continuous=window.UG108?.resolve?.(id,save,enriched)||enriched;const finalised=window.UGFinale108?.resolve?.(id,save,continuous)||continuous;const c7=window.UG7?.resolve?.(id,save,finalised)||finalised;return window.UG8?.resolve?.(id,save,c7)||c7;}
 function game(){
-  view='game'; if(save?.node && window.UG7?.enter?.(save,save.node))persist();if(save?.node && window.UGFinale108?.enter?.(save,save.node))persist(); if(save?.node && window.UGKnowledge?.enter?.(save,save.node))persist(); if(save?.node&&social?.enter?.(save,save.node))persist(); const n=sceneNode(save?.node); if(!n){menu();return}
+  view='game'; if(save?.node && window.UG8?.enter?.(save,save.node))persist(); if(save?.node && window.UG7?.enter?.(save,save.node))persist();if(save?.node && window.UGFinale108?.enter?.(save,save.node))persist(); if(save?.node && window.UGKnowledge?.enter?.(save,save.node))persist(); if(save?.node&&social?.enter?.(save,save.node))persist(); const n=sceneNode(save?.node); if(!n){menu();return}
   const choices=n.choices.filter(c=>allowed(c.requires));
   const active=inter?.activeAlert?.(save,n.id);
   const explore=social?.opportunity?.(save,n.id);const remembered=save?.social107?.scenes?.[n.id];
-  const emergency=window.UG7?.timer?.(save,n.id,choices)||social?.timer?.(save,n.id,choices);
+  const emergency=window.UG8?.timer?.(save,n.id,choices)||window.UG7?.timer?.(save,n.id,choices)||social?.timer?.(save,n.id,choices);
   if(urgentArmedNode!==n.id){urgentArmedNode=null;urgentRemaining=0;}
   const alertMarkup=active?`<aside class="narrative-alert" role="region" aria-label="Notificação recebida"><div class="notification-heading"><span class="notification-pulse" aria-hidden="true">●</span><b>CELULAR · ${esc(active.sender)}</b><span>${esc(active.time)}</span></div><p>${expandedAlert?esc(active.text):'Seu celular vibra com uma mensagem recebida agora.'}</p><div class="notification-actions">${expandedAlert?active.options.map(o=>`<button class="notification-option" data-alert-choice="${o.id}" data-alert-id="${active.id}">${esc(o.text)}</button>`).join(''):`<button class="notification-option" data-alert-open="${active.id}">LER AGORA</button>`}<button class="notification-skip" data-alert-choice="ignore" data-alert-id="${active.id}">${expandedAlert?'DEIXAR SEM RESPOSTA':'IGNORAR A NOTIFICAÇÃO'}</button></div></aside>`:'';
   const availableItems=social?.useOptions?.(save,n.id)||[]; const useMarkup=availableItems.length?`<section class=\"v107-explore\"><h3>OBJETOS À MÃO</h3><div class=\"v107-explore-actions\">${availableItems.map(o=>`<button class=\"secondary\" data-use-item=\"${o.id}\">${esc(o.label)}</button>`).join('')}</div></section>`:'';
@@ -218,7 +220,7 @@ function game(){
   ui(`<main class="play scenic ${esc(n.scene)}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${formatted(n.text)}</div>${alertMarkup}${sceneExtras}${usedMarkup}${useMarkup}${timeMarkup}<div class="choices" ${timedReady?'hidden':''}>${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div></div><div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div></main>`);
   audio?.syncNode(n);if(emergency&&!timedReady&&urgentArmedNode===n.id)startUrgentTick(n.id);
 }
-function startUrgentTick(id){if(urgentInterval)clearInterval(urgentInterval);urgentInterval=setInterval(()=>{if(view!=='game'||!save||save.node!==id){clearInterval(urgentInterval);urgentInterval=null;return}if(document.hidden)return;urgentRemaining--;const c=document.getElementById('v107-clock');if(c)c.textContent=Math.max(0,urgentRemaining)+'s';if(urgentRemaining<=0){clearInterval(urgentInterval);urgentInterval=null;urgentArmedNode=null;const n=sceneNode(id);const cc=n.choices.filter(v=>allowed(v.requires));if(cc.length){const fallback=window.UG7?.timer?.(save,id,cc)?.fallback;select(Number.isInteger(fallback)&&fallback>=0&&fallback<cc.length?fallback:cc.length-1);}}},1000);}
+function startUrgentTick(id){if(urgentInterval)clearInterval(urgentInterval);urgentInterval=setInterval(()=>{if(view!=='game'||!save||save.node!==id){clearInterval(urgentInterval);urgentInterval=null;return}if(document.hidden)return;urgentRemaining--;const c=document.getElementById('v107-clock');if(c)c.textContent=Math.max(0,urgentRemaining)+'s';if(urgentRemaining<=0){clearInterval(urgentInterval);urgentInterval=null;urgentArmedNode=null;const n=sceneNode(id);const cc=n.choices.filter(v=>allowed(v.requires));if(cc.length){const fallback=(window.UG8?.timer?.(save,id,cc)||window.UG7?.timer?.(save,id,cc))?.fallback;select(Number.isInteger(fallback)&&fallback>=0&&fallback<cc.length?fallback:cc.length-1);}}},1000);}
 function exportSave(){const data=save||getSave();if(!data){alert('Nenhuma partida para exportar.');return}const payload=JSON.stringify({game:'o-ultimo-grito',format:1,save:normalize(data)},null,2);const blob=new Blob([payload],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='o-ultimo-grito-slot-'+activeSlot+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 function importSave(){const picker=document.createElement('input');picker.type='file';picker.accept='.json,application/json';picker.onchange=async()=>{const f=picker.files?.[0];if(!f)return;if(f.size>2000000){alert('Arquivo muito grande.');return}try{const parsed=JSON.parse(await f.text());if(parsed.game!=='o-ultimo-grito'||parsed.format!==1)throw Error('Formato de salvamento incompatível.');const imported=normalize(parsed.save);if(!imported)throw Error('O ponto salvo não existe nesta versão ou os dados estão incompletos.');if(getSave()&&!confirm('Importar irá substituir APENAS o slot '+activeSlot+'. Deseja continuar?'))return;save=imported;persist();alert('Salvamento importado com sucesso!');game()}catch(e){alert('Não foi possível importar: '+e.message)}};picker.click()}
 function select(i){
@@ -227,6 +229,7 @@ function select(i){
  const social=[...(window.UGReview?.socialForChoice?.(n.id,c.text)||[]),...(window.UGConsequences?.socialForChoice?.(n.id,c,save)||[])].map(([a,b,delta])=>['friendBond',[a,b],delta]);
  const effects=[...(c.effects||[]),...social];apply(effects);
  window.UG107?.onChoice?.(save,n.id,c,effects);
+ window.UG8?.onChoice?.(save,n.id,c,effects);
  window.UGFinale108?.onChoice?.(save,n.id,c,effects);
  save.history.push({node:n.id,choice:c.text,chapter:n.chapter,effects:effects.map(e=>{
    if(e[0]==='friendBond'&&Array.isArray(e[1])){
@@ -254,7 +257,7 @@ const CAST_PORTRAITS=Object.freeze({
   rayssa:'rayssa.webp',ryan:'ryan.webp',laisla:'laisla.webp',samuel:'samuel.webp',
   rauanny:'rauanny.webp',allan:'allan.webp',isabella:'isabella.webp',breno:'breno.webp'
 });
-function characterDead(id){return (id==='allan'&&!!save?.flags?.allan_morto_c4)||!!save?.flags?.['c6_morto_'+id]||!!save?.flags?.['c7_morto_'+id];}
+function characterDead(id){return (id==='allan'&&!!save?.flags?.allan_morto_c4)||!!save?.flags?.['c6_morto_'+id]||!!save?.flags?.['c7_morto_'+id]||!!save?.flags?.['c8_morto_'+id];}
 function castPortrait(id,name,large=false){
   const image=CAST_PORTRAITS[id];
   if(!image)return `<div class="cast-portrait-placeholder" aria-hidden="true">${esc(name.charAt(0))}</div>`;
@@ -339,7 +342,7 @@ function clueCard(key){const meta=CLUE_DATA[key]||{title:key.replaceAll('_',' ')
 function cleanBubble(m){const txt=String(m.text||'').trim();const pre=String(m.who||'')+':';return txt.startsWith(pre)?txt.slice(pre.length).trim():txt;}
 function phoneScreen(){
  if(!save){menu();return}view='phone';
- const baseThreads=social?.phoneThreads?.(save,inter.threads(save))||inter.threads(save);const threads=window.UG7?.phoneThreads?.(save,baseThreads)||baseThreads;if(!threads.some(t=>t.id===phoneThread))phoneThread=threads[0]?.id||'grupo';
+ const baseThreads=social?.phoneThreads?.(save,inter.threads(save))||inter.threads(save);const c7threads=window.UG7?.phoneThreads?.(save,baseThreads)||baseThreads;const threads=window.UG8?.phoneThreads?.(save,c7threads)||c7threads;if(!threads.some(t=>t.id===phoneThread))phoneThread=threads[0]?.id||'grupo';
  const current=threads.find(t=>t.id===phoneThread),replies=social?.phoneChoices?.(save,current,inter.choicesFor(save,current))||inter.choicesFor(save,current);
  const nav=(tab,label)=>`<button class="phone-tab ${phoneTab===tab?'active':''}" data-phone-tab="${tab}">${label}</button>`;
  const chats=`<div class="phone-grid"><nav class="phone-threads" aria-label="Conversas disponíveis">${threads.length?threads.map(t=>{const latest=t.messages[t.messages.length-1];const preview=latest?`${latest.who==='Você'?'Você: ':''}${latest.text}`:t.sub;return `<button class="phone-thread ${t.id===phoneThread?'active':''}" data-phone-thread="${t.id}" aria-current="${t.id===phoneThread?'page':'false'}"><strong>${esc(t.name)}</strong><small class="phone-preview">${esc(preview)}</small></button>`}).join(''):'<p class="note">As conversas aparecem conforme você avança na história.</p>'}</nav><div class="phone-messages" aria-live="polite">${current?`<h3>${esc(current.name)}</h3><p class="phone-sub">${esc(current.sub)}</p>${current.messages.map(m=>`<div class="phone-bubble ${m.who==='Você'?'mine':m.who==='Sistema'?'system':''}"><small>${esc(m.who)}${m.time?' · '+esc(m.time):''}</small><p>${esc(cleanBubble(m))}</p></div>`).join('')}${replies.length?`<div class="phone-replies"><h4>Responder</h4>${replies.map(o=>`<button class="phone-reply" data-phone-reply="${o.id}" data-phone-key="${esc(current.replyKey)}">${esc(o.text)}</button>`).join('')}</div>`:''}`:'<p class="note">Nenhuma conversa disponível neste momento.</p>'}</div></div>`;
@@ -351,6 +354,20 @@ function notebookScreen(){if(!save){menu();return}view='notebook';ui(`<main clas
 function butterflyHistoryTitle(h){
  const c=String(h?.choice||'').trim(),node=String(h?.node||'').toLowerCase(),low=c.toLocaleLowerCase('pt-BR');
  if(!c||/^(?:continuar|prosseguir|ir até|voltar à história|seguir em frente|avançar|olhar novamente|retornar à perspectiva)/i.test(c))return null;
+ if(/^k8_/.test(node)){
+   if(/k8_0[12]|k8_accuse_self|k8_defend|k8_conflict/.test(node))return 'A noite em que o grupo se dividiu';
+   if(/k8_friend_/.test(node))return 'Uma conversa depois das acusações';
+   if(/k8_archive_store/.test(node))return 'Uma visita de Moisés à farmácia';
+   if(/k8_archive_service|k8_archive_photo|k8_bella_compare/.test(node))return 'A investigação de Bella nos arquivos';
+   if(/k8_bella_0[123]/.test(node))return 'Como Bella tentou escapar da estação';
+   if(/k8_station_0[12345]/.test(node))return 'A descoberta na Estação do Lago';
+   if(/k8_pov_|k8_r2_/.test(node))return 'Uma decisão de sobrevivência junto ao lago';
+   if(/k8_risk[12]|k8_hero_rescue/.test(node))return 'A escolha que mudou o resgate';
+   if(/k8_invite/.test(node))return 'Quem aceitou ir à estação';
+   if(/k8_after/.test(node))return 'As consequências da fuga';
+   if(/k8_last|k8_evidence/.test(node))return 'As evidências que sobraram da estação';
+   return 'Uma escolha no caminho da verdade';
+ }
  if(/j_funeral_choice_/.test(node))return /lembre do seu sonho|aconteça o que acontecer/i.test(c)?'Seu sonho foi confiado a um amigo':'Uma confidência guardada entre amigos';
  if(/j_funeral_/.test(node))return /vela|estrela|prédio/i.test(c)?'Uma despedida sob as estrelas':/música|foto|história engraçada/i.test(c)?'Uma despedida com música e lembranças':'Uma despedida reservada a quem ama você';
  if(/j_talk_end_/.test(node))return 'Uma promessa feita a um amigo';
@@ -418,7 +435,7 @@ app.addEventListener('click',e=>{
   const connect=e.target.closest('[data-connect]');if(connect&&save){if(inter.connect(save,connect.dataset.connect))persist();cluesScreen();return;}
   const use=e.target.closest('[data-use-item]');if(use&&save){if(social?.useItem?.(save,save.node,use.dataset.useItem)){persist();audio?.cue('toque')}game();return;}
   const exp=e.target.closest('[data-explore]');if(exp&&save){if(social?.act?.(save,save.node,exp.dataset.explore)){persist();audio?.cue('toque');}game();return;}
-  const urgent=e.target.closest('[data-urgent-start]');if(urgent&&save&&urgent.dataset.urgentStart===save.node){const now=sceneNode(save.node);const config=window.UG7?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)))||social?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)));if(config){urgentArmedNode=now.id;urgentRemaining=config.secs;game();}return;}
+  const urgent=e.target.closest('[data-urgent-start]');if(urgent&&save&&urgent.dataset.urgentStart===save.node){const now=sceneNode(save.node);const config=window.UG8?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)))||window.UG7?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)))||social?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)));if(config){urgentArmedNode=now.id;urgentRemaining=config.secs;game();}return;}
   const goreToggle=e.target.closest('[data-gore-toggle]');if(goreToggle&&save){social.state(save).graphicOff=!social.state(save).graphicOff;persist();systemsScreen();return;}
   const timedToggle=e.target.closest('[data-urgency-toggle]');if(timedToggle&&save){social.state(save).timedOff=!social.state(save).timedOff;urgentArmedNode=null;persist();systemsScreen();return;}
   const person=e.target.closest('[data-person]');if(person){castSelected=person.dataset.person;renderCast();return;}const slot=e.target.closest('[data-slot]');if(slot){activeSlot=Number(slot.dataset.slot);save=getSave();expandedAlert=false;selectedMedia=null;if(save)game();else creator();return;}const btn=e.target.closest('[data-act],[data-choice]'); if(!btn) return;

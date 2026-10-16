@@ -1,0 +1,39 @@
+O ÚLTIMO GRITO — V1.2 | CAPÍTULO 8: ÁGUAS TURVAS
+
+CONTEÚDO
+Esta edição inclui o jogo completo (prólogo e capítulos 1 a 8), os retratos, áudio, celular, investigação, efeito borboleta e os três slots de salvamento.
+
+NOVE SEQUÊNCIAS DO CAPÍTULO 8
+1. Discussão intensa entre os sobreviventes logo depois de «Boa noite, traidores», com acusações, defesas, alterações de afinidade e reações dependentes de quem está vivo.
+2. Amanhecer após a morte de Moisés: hospital, investigação policial, luto e primeiro diálogo com Bella.
+3. Bella jogável na biblioteca: três linhas de investigação, incluindo um registro de transação numa farmácia sem relação de produtos e sem revelar para quem seria a compra.
+4. Conversas independentes de Ryan, Breno, Rayssa, Rauanny, Laisla, Isabella, Allan e Samuel, somente quando estiverem vivos e disponíveis.
+5. Viagem à Estação do Lago com planejamento e convites variáveis. Nem todo mundo irá, e ferimentos/relacionamentos podem impedir a participação.
+6. Investigação com perspectivas do protagonista e de Bella: registros técnicos, fotografias, protocolo, envelope, imagem das duas estrelas e opções de preservar cópias.
+7. Perseguição: três decisões encadeadas para Bella e dois momentos possíveis de morte evitável entre os amigos. Cada acompanhante tem perigos e decisões próprios na sala das bombas ou na área externa. É difícil conseguir um resultado ideal; não há perda inevitável entre os oito amigos.
+8. Reencontro e atendimento: mortes, ferimentos e condições de Bella respeitados. Bella sempre sobrevive ao capítulo, mas pode sair quase ilesa, ferida ou hospitalizada.
+9. Conclusão investigativa: variações para prova completa, parcial ou perdida, sem revelar prematuramente o responsável pelos ataques.
+
+IMPORTANTE SOBRE MORTES E PISTAS
+As decisões nos diferentes setores consideram quem realmente acompanhou o protagonista. Um personagem morto em capítulos anteriores não reaparece. Até duas mortes entre os amigos são possíveis no Capítulo 8, ambas evitáveis; Bella não é uma vítima fatal neste capítulo.
+Os registros da farmácia apenas indicam transação/visita: não revelam medicamentos, paciente ou destinatário. A presença de Moisés na região, por si só, não estabelece uma conclusão sobre o desaparecimento.
+A perspectiva de Bella é jogável, mas não dá a ela acesso ao conhecimento privado de outros personagens.
+
+SALVAMENTOS
+Mantidas as três chaves localStorage «ultimo-grito-slot-1/2/3», sem substituição automática de partida ou recomeço. Um save salvo na conclusão do Capítulo 7 poderá iniciar o Capítulo 8. Fazer backup em JSON é recomendado. Cenas já concluídas NÃO são reproduzidas novamente apenas porque os arquivos foram atualizados. O botão para rejogar capítulos continua reservado para uma versão futura.
+
+PUBLICAR NO GITHUB / RENDER
+1. Exporte seu slot em JSON.
+2. Extraia este ZIP.
+3. Abra a pasta extraída e envie TODOS os arquivos DE DENTRO DELA para a raiz do repositório (incluindo chapter8.js, game.js, consequences.js, finale108.js, chapter7.js e index.html).
+4. Confirme o commit. Aguarde o deploy no Render.
+5. Recarregue a página do Safari após a publicação. Evite usar uma cópia antiga em cache.
+
+TESTES
+• Os 90 nós narrativos novos foram inspecionados quanto a ligações estáticas, e 1.500 percursos com decisões simuladas chegaram ao fim. Testados zero, um e dois óbitos evitáveis; Bella sempre viva com condições físicas variadas.
+• Uma rota simulada continha cerca de 7,6 mil palavras efetivamente percorridas. A meta de aproximadamente 60 minutos é referência de escrita, NÃO uma duração cronometricamente comprovada com pessoa real.
+• Sintaxe JS validada. Navegação e layout testados no Chromium, com viewport de 320, 390 e 1365 pixels, sem overflow horizontal nos cenários testados.
+• Testados a transição do capítulo 7 para o 8, quadro de pistas, timer de Bella, leitura de recapitulação e reconstrução de morte/ferimento a partir de um slot avançado.
+• Esses testes automatizados NÃO substituem uma partida manual completa no Safari do iPhone; variações ainda podem revelar problemas a corrigir.
+
+Esta pasta não contém o relatório privado de autoria nem spoiler sobre a identidade do mascarado.
