@@ -1,3 +1,6 @@
+VERSÃO ATUAL: V1.1.4 — PERSPECTIVAS INDIVIDUAIS DA PERSEGUIÇÃO.
+Leia NOVIDADES-V1.1.4.txt. Envie todos os arquivos da pasta extraída para a raiz do GitHub. Exporte seu save antes da atualização.
+
 VERSÃO ATUAL: V1.1.3 — POLIMENTO E CONTINUIDADE
 Leia NOVIDADES-V1.1.3.txt.
 

@@ -1,0 +1,37 @@
+O ÚLTIMO GRITO — V1.1.4 · PERSPECTIVAS INDIVIDUAIS E PERSEGUIÇÃO
+
+ESTA É UMA REVISÃO DA V1.1.3. O pacote contém o jogo inteiro, incluindo os sete capítulos, imagens e trilhas.
+
+1) BIFURCAÇÃO / OUTROS SETORES
+- O trecho que dizia “um amigo em outro setor pode estar esperando” foi substituído por narração dinâmica: quem está ao lado do protagonista, quem foi visto em outro setor e quem já confirmou estar a salvo.
+- Falas próximas ao protagonista respeitam o personagem presente. Não há um diálogo único atribuído indistintamente a todos os amigos.
+- Se você entrou sozinho, a narração não inventa companhia. Se houve divisão, ela não coloca alguém no mesmo corredor sem justificativa.
+
+2) PONTOS DE VISTA DOS AMIGOS
+- Breno: bombas hidráulicas, compressores e registros de pressão.
+- Ryan: guarita, monitores, cancela e manivela do estacionamento.
+- Samuel: caminhonete de reboque, corrente e trava do portão.
+- Allan: depósito de arquivos e ferramentas, corredor e estantes.
+- Isabella: painel elétrico, travas e sirene.
+- Rayssa: cabine de registros e pátio de veículos.
+- Laisla: passarela e acesso à doca sob chuva.
+- Rauanny: canal de drenagem, portinhola e piso alagado.
+- Cada personagem tem cenário, falas e escolhas próprias, além de duas etapas de decisão (preparação e fuga) quando recebe uma perspectiva jogável.
+- A segunda decisão reage à preparação escolhida. As consequências possíveis incluem fuga segura, ferimento ou morte evitável. A limitação existente de até três mortes evitáveis por partida continua.
+- Quem consegue sair do setor deixa de ser reescolhido como alguém preso na mesma posição. Os aliados presentes também têm seu deslocamento registrado.
+
+3) TEMPORIZADOR
+- Mantida a opção de desligar escolhas urgentes em ☰ OPÇÕES. O temporizador continua iniciando só quando o jogador toca em COMEÇAR DECISÃO URGENTE.
+- A ação automática no fim do tempo segue a opção de maior risco correspondente à preparação, e não apenas a última opção listada na tela.
+
+4) COMPATIBILIDADE
+- Mesmos slots localStorage e saves JSON existentes. Não há necessidade de reiniciar do prólogo.
+- Um save salvo antes de um trecho novo poderá jogá-lo normalmente. Um trecho já concluído não é repetido automaticamente; escolha anterior já registrada não é apagada.
+- Para segurança, exporte seu save antes de atualizar e envie TODOS os arquivos de dentro da pasta para a raiz do GitHub.
+
+5) TESTES REALIZADOS
+- 165 nós do Capítulo 7, sem ligações inválidas nas opções estáticas; 216 combinações de personagem, fase, preparo e fuga verificadas por código.
+- Percursos jogáveis no navegador para os oito amigos, incluindo telas de 320, 390 e 1365 px, duas etapas de escolhas, resultados e ausência de erros JS nos cenários testados.
+- Sintaxe de todos os arquivos JavaScript validada; arquivo ZIP verificado.
+
+IMPORTANTE: testes automatizados em Chromium não substituem jogar um caminho completo no Safari real. Faça uma cópia de seu save em JSON antes de publicar.

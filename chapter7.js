@@ -890,12 +890,161 @@ A mensagem de Moisés continua guardada. Ele pediu uma conversa reservada, mas n
 Você confere as notificações e decide aproveitar algumas horas longe das sirenes antes de responder a Moisés.`,[]);
 
 
-// Perspectivas dos outros núcleos: chamadas curtas entre riscos, uma cronologia contínua.
+// Cada personagem tem perigo, voz e decisões próprias. O setor decorre de c7_pos,
+// não do nome do alvo; os textos só usam um cenário se ele estiver naquele setor.
+const SIDE_PROFILES={
+ breno:{
+  name:'Breno',where:'manutencao',spot:'sala das bombas hidráulicas',
+  intro:'Breno segura o celular com a tela virada para baixo, tentando usar o brilho como reflexo. Uma mangueira de ar comprimido serpenteia entre as bancadas. A porta corta-fogo fechou atrás dele; adiante, o compressor volta a funcionar sozinho.',
+  line:'Breno: — Eu vi alguém mexer no registro. Tem ar passando aqui e eu não sei se essa tubulação aguenta.',
+  plans:[
+   ['Examinar o registro de pressão e procurar a válvula de alívio','Breno identifica um manômetro rachado e memoriza qual válvula desliga o compressor. A porta à esquerda vibra com a pressão.'],
+   ['Usar o reflexo da tela para observar quem está atrás da bancada','No reflexo do telefone, ele vê uma sombra atravessar a janela da cabine. A posição da sombra indica uma passagem livre perto dos arquivos.'],
+   ['Subir ao estrado de manutenção para alcançar a escotilha','Breno alcança o estrado, mas o piso metálico range. Ele fica acima do compressor, sem espaço para correr caso alguém suba atrás.']
+  ],
+  dilemma:'Uma mangueira se solta com um estalo e bate contra uma prateleira. Breno vê o mascarado entrar pela porta da oficina. Restam poucos segundos antes que a válvula seja alcançada.',
+  actions:['Desligar o compressor e passar por baixo da bancada','Contornar a cabine usando os reflexos do vidro','Pular para a escotilha antes que o mascarado chegue'],
+  safe:'Breno fecha a válvula, usa a queda da pressão para abrir a porta de inspeção e se esgueira para a saída. Um jato de ar atinge a máscara atrás dele, impedindo a aproximação.\n\nBreno: — Eu tô bem. Eu consegui. Só... preciso sentar quando sair daqui.',
+  hurt:'A mangueira estoura quando Breno passa. Um fragmento corta seu antebraço e ele cai sobre a bancada, mas alcança o corredor de inspeção antes do próximo ataque.\n\nBreno: — Droga... tá sangrando. Eu consigo andar. Só não me pede pra correr mais rápido.',
+  cost:'Breno salta sem verificar a escotilha. O metal cede e o prende junto ao compressor. O mascarado alcança a plataforma antes que ele consiga soltar a perna.\n\nBreno: — NÃO! ESPERA!\n\nO som do compressor encobre seu último grito.'},
+ samuel:{
+  name:'Samuel',where:'veiculos',spot:'garagem dos guinchos',
+  intro:'Samuel alcança uma caminhonete de reboque com a chave ainda no contato. O painel acende, mas o motor falha. Uma corrente de tração atravessa o chão, presa a uma roda de serviço. A lembrança da van na estrada o atinge quando sente o cheiro de combustível.',
+  line:'Samuel: — Eu sei dirigir essa porcaria. O problema é que tem alguém fechando o portão pelo controle.',
+  plans:[
+   ['Conferir o freio do reboque e a alavanca de emergência','Samuel localiza a trava manual do reboque. A roda está solta, mas o freio pode segurá-la por alguns segundos.'],
+   ['Acender os faróis para localizar o controle do portão','A luz revela a caixa elétrica perto da guarita e projeta a sombra de alguém junto à cancela. Samuel percebe uma passagem estreita entre dois veículos.'],
+   ['Pisar fundo e tentar atravessar a cancela com a caminhonete','A caminhonete avança alguns metros e morre. Samuel se vê parado diante de uma cancela reforçada, com o motor abafando os passos atrás dele.']
+  ],
+  dilemma:'Um carro de manutenção dispara o alarme. O mascarado passa entre dois veículos, aproximando-se da caminhonete. A corrente do reboque começa a arrastar no concreto.',
+  actions:['Soltar o freio e usar o reboque como bloqueio','Alcançar a caixa de controle pela lateral iluminada','Engatar a caminhonete e acelerar sem conferir o portão'],
+  safe:'Samuel libera a trava no momento certo. O reboque desliza o bastante para bloquear a passagem do mascarado, e ele alcança a calçada lateral.\n\nSamuel: — Hoje não. Eu não vou deixar outro carro acabar com alguém.',
+  hurt:'Uma corrente chicoteia quando Samuel passa perto da roda. O golpe abre um corte em sua mão e ele perde a chave no chão. Consegue saltar a mureta, mas o sangue marca o cimento.\n\nSamuel: — Minha mão... porra. Eu consigo segurar, só não deixa ele vir.',
+  cost:'Samuel acelera contra a cancela sem notar a corrente atravessada no chão. O eixo trava; ele bate a cabeça contra o volante. Antes que consiga abrir a porta, o mascarado alcança a cabine.\n\nSamuel: — NÃO, NÃO! ABRE ESSA PORTA!\n\nO vidro estilhaça quando a figura ergue a arma.'},
+ allan:{
+  name:'Allan',where:'manutencao',spot:'depósito de arquivos de manutenção',
+  intro:'Allan entra no depósito de peças procurando uma porta que dê ao pátio. Pastas úmidas ocupam uma estante até o teto. Um carrinho de ferramentas bloqueia metade da saída, e o rádio portátil ainda toca uma estação cheia de chiado.',
+  line:'Allan: — Se eu sair daqui, nunca mais reclamo que vocês fazem bagunça. É sério, olha esse inferno de armário.',
+  plans:[
+   ['Empurrar o carrinho para liberar a porta de inspeção','Allan desloca o carrinho apenas o suficiente para descobrir um corredor estreito. Anota que a roda pode emperrar quando for puxada.'],
+   ['Desligar o rádio e ouvir os passos atrás das estantes','O chiado desaparece. Allan distingue o barulho de botas no piso molhado e percebe que o mascarado vem pela porta principal, não pelo corredor lateral.'],
+   ['Subir pela estante e tentar alcançar o vitrô','A estante range sob seu peso. Allan chega perto do vitrô, mas uma das prateleiras começa a desprender-se da parede.']
+  ],
+  dilemma:'As pastas caem de uma prateleira. A pessoa mascarada entra e fecha a porta principal. Allan reconhece que só tem tempo de usar uma das saídas.',
+  actions:['Empurrar o carrinho para travar a entrada e usar a inspeção','Apagar a luz, seguir os passos e escapar pelo corredor lateral','Saltar para o vitrô antes que a estante tombe'],
+  safe:'Allan empurra o carrinho contra a porta na hora em que o mascarado tenta passar. A roda prende o batente e ele consegue alcançar o corredor de inspeção.\n\nAllan: — Samuel vai me ouvir contar essa história por uns vinte anos. Se eu sair daqui, claro.',
+  hurt:'A prateleira se rompe e raspa suas costas. Allan se joga atrás de uma mesa e alcança o corredor lateral mancando, pressionando o ferimento.\n\nAllan: — Ai! Tá, tá... eu tô vivo. O próximo arquivo que eu abrir vai ser na internet.',
+  cost:'A estante perde apoio quando Allan se lança para o vitrô. Ele cai entre as caixas e fica preso sob a estrutura. O mascarado chega antes que consiga liberar os ombros.\n\nAllan: — SAMUEL! ALGUÉM!\n\nA voz se perde no depósito fechado.'},
+ isabella:{
+  name:'Isabella',where:'manutencao',spot:'cabine de controle elétrico',
+  intro:'Isabella encontra uma sala com um quadro de energia antigo. Dois disjuntores estão identificados à mão e um deles alimenta a trava da porta externa. Um fio descascado encosta numa poça de água. A luz de emergência oscila.',
+  line:'Isabella: — Isso aqui não é complicado. É perigoso. São coisas diferentes. Preciso saber qual circuito ainda funciona.',
+  plans:[
+   ['Isolar a poça e identificar o disjuntor da porta','Isabella usa uma caixa plástica para atravessar a área molhada e anota a posição do interruptor correto.'],
+   ['Abrir o armário de plantas e localizar o cabo da sirene','No diagrama, ela encontra a fiação do alarme e vê que ele pode chamar atenção para a outra extremidade da cabine.'],
+   ['Puxar os dois disjuntores de uma vez para apagar as luzes','A iluminação morre por um instante. Isabella percebe tarde demais que também cortou a ventilação e o desbloqueio da saída.']
+  ],
+  dilemma:'Um estalo percorre o quadro. A trava elétrica começa a fechar enquanto uma sombra surge pelo vidro fosco. Isabella precisa escolher sem tocar no fio exposto.',
+  actions:['Desarmar só o circuito da trava e recuar pela plataforma seca','Ligar a sirene e cruzar atrás do armário de plantas','Atravessar a poça correndo para a porta escura'],
+  safe:'Isabella mantém os pés sobre a plataforma de borracha e desliga apenas o circuito da porta. A trava solta com um clique. Ela passa e prende a maçaneta do outro lado.\n\nIsabella: — Eu disse que tinha um circuito separado. Agora corre, Isa.',
+  hurt:'Uma faísca salta do painel ao lado de Isabella. Ela protege o rosto, mas o braço bate contra uma quina de metal. Alcança a saída com a mão dormente.\n\nIsabella: — Eu tô saindo. Isso não quer dizer que eu esteja bem.',
+  cost:'Isabella tenta cruzar o piso inundado no escuro. Um choque a derruba perto da maçaneta. O mascarado a encontra antes que ela consiga se levantar.\n\nIsabella: — NÃO ENCOSTA EM MIM!\n\nA porta se fecha sobre o resto da luta.'},
+ ryan:{
+  name:'Ryan',where:'veiculos',spot:'guarita do estacionamento',
+  intro:'Ryan está na guarita, cercado por monitores apagados. O portão automatizado trava a rua e um armário guarda uma sinalização refletiva de emergência. Um vidro lateral rachado oferece vista para a fila de carros.',
+  line:'Ryan: — O portão tá descendo sozinho. E eu tenho quase certeza de que não foi o vento que apertou esse botão.',
+  plans:[
+   ['Localizar a manivela manual do portão','Ryan encontra a manivela sob a mesa do vigia. O encaixe está enferrujado, mas a cancela pode subir sem eletricidade.'],
+   ['Usar os monitores desligados para observar o reflexo da rua','Ryan vê uma figura se movendo entre os carros refletidos na tela preta. Identifica a saída lateral e a direção de onde virá o ataque.'],
+   ['Passar pelo vidro rachado antes que o portão desça','Ryan empurra a janela, mas o vidro corta a manga e estala. O movimento denuncia sua posição dentro da guarita.']
+  ],
+  dilemma:'A cancela bate no limite inferior com um estrondo. O mascarado aparece entre os faróis apagados e força a porta da guarita. Ryan precisa deixar a sala antes que o vidro ceda.',
+  actions:['Usar a manivela para abrir espaço sob a cancela','Apagar a luz da guarita e seguir pela saída lateral','Sair pela janela rachada sem olhar o estacionamento'],
+  safe:'Ryan encaixa a manivela e força até abrir espaço para passar rastejando. Quando o mascarado entra na guarita, ele já está atrás do pilar de concreto.\n\nRyan: — CONSEGUI! Tá, Ryan, agora não inventa de comemorar.',
+  hurt:'O vidro da guarita se parte quando Ryan tenta alcançar a saída lateral. Os cacos cortam seu antebraço; ele rola sob a cancela e escapa deixando a manga encharcada.\n\nRyan: — Ai, caralho... tá doendo. Mas eu passei!',
+  cost:'Ryan salta pela janela sem perceber a grade de proteção do outro lado. A estrutura o prende contra a guarita enquanto a porta se abre atrás dele.\n\nRyan: — NÃO! TIRA ISSO!\n\nO mascarado ergue a lâmina antes que Ryan consiga soltar o casaco.'},
+ rayssa:{
+  name:'Rayssa',where:'veiculos',spot:'cabine de registro de entradas',
+  intro:'Rayssa encontra uma cabine onde motoristas assinavam entregas. Um rolo de papel do relógio de ponto está espalhado pelo chão. A porta que dá ao estacionamento abre para dentro, mas uma barra de segurança a impede de voltar.',
+  line:'Rayssa: — Tem um livro de entradas aqui. Eu posso tentar guardar uma página, mas a porta tá emperrando.',
+  plans:[
+   ['Soltar a barra e estudar a fechadura antes de sair','Rayssa consegue afastar a barra do trinco e identifica um acesso estreito à área de lavagem.'],
+   ['Usar o vidro da cabine para observar o pátio','Do reflexo, Rayssa vê uma passagem por trás da caminhonete e calcula quando os faróis de uma viatura iluminariam a área.'],
+   ['Puxar a persiana com força e sair pela janela','A persiana enrosca e faz barulho. Rayssa fica com um pé no parapeito e sem poder fechar a cabine atrás de si.']
+  ],
+  dilemma:'O relógio de ponto cai da parede. Uma silhueta atravessa as vagas mais próximas e a maçaneta da cabine gira. Rayssa segura a respiração por um segundo.',
+  actions:['Passar pela fechadura destravada e alcançar a lavagem','Usar a caminhonete para cobrir a passagem pelo pátio','Descer pela janela sem verificar a altura do parapeito'],
+  safe:'Rayssa mantém a porta entre si e a pessoa mascarada até alcançar a área de lavagem. Fecha a grade de serviço e segue para a rua, com o papel dobrado no bolso.\n\nRayssa: — Tá tudo bem... só preciso chegar até eles.',
+  hurt:'A persiana arrebenta quando Rayssa desce. A borda metálica corta sua mão e ela cai de joelhos no pátio. Consegue alcançar a rua antes que a sombra chegue à cabine.\n\nRayssa: — Minha mão... não para agora. Levanta.',
+  cost:'Rayssa desce pelo parapeito sem perceber a porta de grade travada abaixo. Fica encurralada entre a cabine e a saída fechada. O mascarado chega antes que consiga encontrar outra passagem.\n\nRayssa: — NÃO! POR FAVOR!\n\nO relógio de ponto continua apitando do outro lado do vidro.'},
+ laisla:{
+  name:'Laisla',where:'externa',spot:'passarela sobre a doca',
+  intro:'Laisla está na passarela de serviço que contorna o pátio. A chuva deixa o corrimão escorregadio. Uma escada dobrável foi deixada sobre uma caixa de ferramentas, e a porta da doca está presa por uma corrente.',
+  line:'Laisla: — Eu não vou ficar parada nesse negócio balançando. Preciso abrir um caminho antes que ele olhe pra cima.',
+  plans:[
+   ['Examinar os parafusos do corrimão e preparar a escada','Laisla percebe que o primeiro degrau da escada está torto. Apoia a base contra a parede firme e encontra um ponto para descer.'],
+   ['Ouvir o eco sob a passarela para localizar quem se aproxima','Ela distingue passos vindo da área dos contêineres, não da doca. Identifica um instante de silêncio para cruzar o vão.'],
+   ['Saltar direto para a cobertura da doca sem testar o piso','A cobertura cede um pouco sob seu peso. Laisla fica de joelhos sobre uma chapa molhada e não consegue voltar facilmente.']
+  ],
+  dilemma:'Um refletor ilumina a passarela. O mascarado atravessa o pátio e começa a subir a escada fixa. Laisla tem de deixar o corrimão antes que a pessoa a alcance.',
+  actions:['Usar a escada apoiada e descer pela parede externa','Esperar o reflexo apagar e atravessar até a porta da doca','Saltar pela cobertura enferrujada sem testar as chapas'],
+  safe:'Laisla desce pela escada apoiada, prende a corrente do lado de fora e alcança a rua pelo acesso da doca. A pessoa mascarada chega à passarela tarde demais.\n\nLaisla: — Eu odeio altura. Eu odeio esse lugar. E vou reclamar dos dois quando sair daqui.',
+  hurt:'A escada desliza e Laisla bate a perna na borda de uma chapa. Ela se agarra ao corrimão e alcança a porta da doca mancando.\n\nLaisla: — Ai! Tá, respira. Eu consigo chegar lá.',
+  cost:'Laisla salta sobre uma chapa enferrujada. O metal desaba e ela fica presa entre os suportes. O mascarado chega pela escada antes que consiga se soltar.\n\nLaisla: — SAI! ME SOLTA!\n\nO som da chuva engole o último pedido.'},
+ rauanny:{
+  name:'Rauanny',where:'externa',spot:'passagem do canal de drenagem',
+  intro:'Rauanny corre ao longo de uma cerca enferrujada ao lado do canal. A água da chuva sobe pelos tornozelos. Uma trava mantém fechada a portinhola de saída, enquanto o caminho ao lado do muro termina num bueiro aberto.',
+  line:'Rauanny: — Se eu tiver que voltar pra trás dessa cerca, pode apostar que eu vou arrancar essa merda do chão.',
+  plans:[
+   ['Verificar a trava da portinhola e apoiar o pé no muro','Rauanny encontra um ferrolho por dentro da grade e um bloco seco onde pode ganhar apoio sem entrar no canal.'],
+   ['Observar a correnteza para localizar a passagem rasa','Ela identifica uma faixa de concreto acima da água e marca mentalmente a rota até a portinhola.'],
+   ['Correr pelo canal alagado para cortar caminho','Rauanny entra na água e sente o piso afundar perto do bueiro. O barulho dos passos denuncia o caminho que escolheu.']
+  ],
+  dilemma:'Um ruído metálico vem do alto do muro. O mascarado aparece na passagem de serviço, cortando o retorno. A água bate mais forte contra o concreto.',
+  actions:['Levantar o ferrolho e passar pelo bloco seco','Acompanhar a faixa rasa antes que a corrente aumente','Saltar sobre o bueiro sem enxergar o outro lado'],
+  safe:'Rauanny ergue o ferrolho com as duas mãos, usa o bloco seco e cai do lado seguro da cerca. O mascarado tenta segui-la, mas a portinhola bate contra o muro.\n\nRauanny: — VEM AGORA, FILHO DA PUTA! Não... melhor não. Eu tô saindo daqui.',
+  hurt:'A água encobre um degrau. Rauanny escorrega e torce a perna ao alcançar a cerca. Consegue passar pela portinhola, mas precisa apoiar-se no muro para continuar.\n\nRauanny: — Minha perna! Droga... não vou ficar aqui.',
+  cost:'Rauanny pula sem ver a abertura do bueiro. Sua perna fica presa na grade sob a água. O mascarado desce a passagem antes que ela consiga se soltar.\n\nRauanny: — NÃO! EU NÃO VOU MORRER AQUI!\n\nO grito ecoa pelo canal vazio.'}
+};
+const SIDE_SAFE_ALT={
+ breno:'Breno acompanha o reflexo da janela do compressor e desliza até o corredor de arquivos no instante em que a sombra cruza a cabine. A porta se fecha antes que a pessoa mascarada alcance a bancada.\n\nBreno: — Eu consegui ver por onde ele vinha. Foi por pouco.',
+ samuel:'Samuel corre pelo acesso revelado pelos faróis e alcança a caixa de controle da cancela. Derruba a chave de segurança e a trava sobe o suficiente para escapar.\n\nSamuel: — Essa máquina nunca mais vai decidir pra onde eu vou.',
+ allan:'Allan desliga o rádio e apaga a lâmpada de leitura. Quando os passos chegam perto da estante, ele contorna a mesa pelo corredor lateral e empurra a porta antes que o mascarado possa segui-lo.\n\nAllan: — Tá. Deu certo. Sem comemorar alto, pelo amor de Deus.',
+ isabella:'Isabella alcança o fio indicado na planta e aciona a sirene. O alarme atrai a sombra para a extremidade oposta enquanto ela atravessa o corredor seco atrás do armário.\n\nIsabella: — Se essa pessoa quer saber onde eu tô, vai ter que olhar direito.',
+ ryan:'Ryan apaga o foco da guarita e espera a sombra se aproximar da porta principal. Sai pela passagem lateral identificada no reflexo do monitor e se esconde atrás de um pilar enquanto o mascarado vasculha a sala vazia.\n\nRyan: — Nunca achei que tela desligada ia salvar a minha vida.',
+ rayssa:'Rayssa usa o reflexo do vidro para atravessar atrás da caminhonete no momento em que a viatura ilumina o pátio. Alcança a saída sem expor o rosto ao mascarado e guarda a página de registros no bolso.\n\nRayssa: — Só mais alguns passos. Não olha pra trás.',
+ laisla:'Laisla espera a luz do refletor passar e cruza a passarela em direção à doca no intervalo de escuridão. Fecha a porta lateral atrás de si antes que os passos alcancem a escada.\n\nLaisla: — Certo. Nunca mais piso numa passarela dessas.',
+ rauanny:'Rauanny mantém os pés sobre a faixa rasa que identificou na correnteza e chega ao lado de dentro da portinhola. Um puxão no ferrolho libera a grade e ela passa antes que o mascarado atravesse o muro.\n\nRauanny: — Caralho... eu quase fui arrastada. Mas saí.'
+};
+const SIDE_VOICES={
+ breno:'Espera. Se a luz apagar de novo, a gente perde essa porta de vista.',
+ samuel:'Não volto por onde a gente veio. Essa entrada já tá comprometida.',
+ allan:'Tá bom, ótimo, três saídas horríveis. Qual delas tem menos chance de me matar?',
+ isabella:'Confere o mapa antes de correr. A gente não sabe se o corredor termina aberto.',
+ ryan:'Eu fico com você. Só aponta o caminho antes que esse maluco apareça.',
+ rayssa:'Tem uma saída ao lado dos carros. Podemos chegar lá sem cruzar o galpão.',
+ rauanny:'A gente não vai ficar esperando aqui. Se tiver que correr, corre agora.',
+ laisla:'Cuidado com aquela chapa. Tá solta e eu não quero perder ninguém nessa escada.'
+};
+const SIDE_COVER={
+ breno:'Eu fico aqui e vigio pelo reflexo da janela. Vai.',samuel:'Vai na frente. Se ele aparecer eu bato a porta.',allan:'Certo. Eu olho o corredor, mas não demora, por favor.',isabella:'Eu fico de olho na trava e aviso se ela mexer.',ryan:'Eu cubro a passagem. Me grita se ficar preso.',rayssa:'Eu seguro essa porta. Não olha pra trás ainda.',rauanny:'Vai logo! Eu vejo se ele sobe por aqui.',laisla:'Eu seguro a grade. Não põe a mão naquela borda.'
+};
+const SIDE_TIMES={1:['22:59','23:00','23:02'],2:['23:17','23:18','23:19'],3:['23:32','23:33','23:34']};
+const SIDE_WAYS=['a','b','c'];
+const SIDE_OUTCOMES=[['safe','hurt','cost'],['hurt','safe','cost'],['safe','cost','cost']];
+const sideNext=part=>part===1?'j_move2':part===2?'j_move3':'j_police';
+const sideName=(s,id)=>L[id]||'o personagem';
+const sideText=(text)=>String(text||'').replaceAll('\\n','\n');
+
+// Perspectivas dos outros núcleos: duas decisões por personagem e posição real.
 for(let part=1;part<=3;part++){
  N('j_npc'+part,'COMPLEXO · SETOR PARALELO',part===1?'22:59':part===2?'23:17':'23:32','warehouse',`O grupo do protagonista segue adiante. Em outro setor, um amigo precisa agir sem poder esperar uma ordem sua.`,[]);
  N('j_npc'+part+'_safe','COMPLEXO · OUTRO CAMINHO',part===1?'23:00':part===2?'23:18':'23:33','warehouse',`O setor fica para trás, mas ninguém pode parar até alcançar a saída.`,[g(part===1?'j_move2':part===2?'j_move3':'j_police','Retomar a perspectiva do protagonista')]);
  N('j_npc'+part+'_hurt','COMPLEXO · FUGA FERIDA',part===1?'23:01':part===2?'23:19':'23:34','warehouse',`A pessoa consegue escapar, mas deixa sangue e uma marca no caminho.`,[g(part===1?'j_move2':part===2?'j_move3':'j_police','Retomar a perspectiva do protagonista')]);
- N('j_npc'+part+'_cost','COMPLEXO · ÚLTIMO SINAL',part===1?'23:02':part===2?'23:19':'23:34','warehouse',`Um dos amigos não consegue sair. A consequência ficará registrada quando os demais receberem a notícia.`,[g(part===1?'j_move2':part===2?'j_move3':'j_police','Retomar a perspectiva do protagonista')]);
+ N('j_npc'+part+'_cost','COMPLEXO · ÚLTIMO SINAL',part===1?'23:02':part===2?'23:19':'23:34','warehouse',`O resultado da decisão será registrado no estado do personagem.`,[g(sideNext(part),'Retomar a perspectiva do protagonista')]);
+ for(const letter of SIDE_WAYS){
+  N('j_npc'+part+'_phase_'+letter,'COMPLEXO · PERIGO NO OUTRO SETOR',SIDE_TIMES[part][1],'warehouse','Uma segunda decisão será necessária antes de alcançar a saída.',[]);
+ }
 }
 
 // Cronologia da conversa: preservar a ordem em todas as oito rotas.
@@ -917,7 +1066,7 @@ function risk(s,part){const f=sel(s),where=f.c7_hero_pos;const region=part===1?'
 }
 
 function sideTarget(s,part){
- const f=sel(s);const others=party(s).filter(id=>!dead(s,id)&&f.c7_pos?.[id]!==f.c7_hero_pos&&f.c7_pos?.[id]!=='resgatado');
+ const f=sel(s);const others=party(s).filter(id=>!dead(s,id)&&f.c7_pos?.[id]===PREFERENCE[id]&&f.c7_pos?.[id]!==f.c7_hero_pos&&f.c7_pos?.[id]!=='resgatado');
  const order=part===1?['breno','isabella','allan','samuel','ryan','rauanny','laisla','rayssa']:part===2?['ryan','rauanny','laisla','samuel','breno','allan','isabella','rayssa']:['samuel','ryan','rayssa','breno','allan','rauanny','isabella','laisla'];
  return order.find(id=>others.includes(id))||null;
 }
@@ -935,7 +1084,14 @@ function chooseRoute(s,n){const f=sel(s);let next=n;
  return next;
 }
 function replaceChoice(to,text,effects=[]){return C(text,to,effects)}
-function timer(s,node,choices){if(!['j_crisis1','j_crisis2','j_crisis3','j_npc1','j_npc2','j_npc3'].includes(node)||!choices||choices.length<2)return null;if(window.UG107?.state?.(s)?.timedOff)return null;return {secs:node.startsWith('j_npc')?17:22,fallback:choices.length-1};}
+function timer(s,node,choices){
+ if(!(/^j_npc[123](?:_phase_[abc])?$/.test(node)||['j_crisis1','j_crisis2','j_crisis3'].includes(node))||!choices||choices.length<2)return null;
+ if(window.UG107?.state?.(s)?.timedOff)return null;
+ const m=node.match(/^j_npc([123])_phase_([abc])$/);
+ // Na segunda decisão o fim do tempo escolhe a saída mais exposta daquele preparo.
+ const dangerous=m?SIDE_OUTCOMES[SIDE_WAYS.indexOf(m[2])].indexOf('cost'):choices.length-1;
+ return {secs:m?14:node.startsWith('j_npc')?19:22,fallback:dangerous};
+}
 function enter(s,id){if(!s?.flags)return false;const f=s.flags;const stamp='c7_enter_'+id;if(f[stamp])return false;f[stamp]=true;let changed=true;
  if(id==='j_party_done'){f.c7_grupo=party(s).join(',');}
  if(id==='j_escape_setup'){partyPositions(s);}
@@ -948,6 +1104,14 @@ function enter(s,id){if(!s?.flags)return false;const f=s.flags;const stamp='c7_e
  }
  if(/^j_npc[123]$/.test(id)){
   partyPositions(s);const part=Number(id.slice(-1));f['c7_side_'+part]=sideTarget(s,part)||'';
+  const target=f['c7_side_'+part];
+  f['c7_side_origin_'+part]=target?f.c7_pos[target]:'';
+  f['c7_side_ally_'+part]=target?(party(s).filter(x=>x!==target&&!dead(s,x)&&f.c7_pos?.[x]===f.c7_pos[target])[0]||''):'';
+ }
+ const sideEnd=id.match(/^j_npc([123])_(?:safe|hurt|cost)$/);
+ if(sideEnd){const part=Number(sideEnd[1]),target=f['c7_side_'+part],ally=f['c7_side_ally_'+part];
+  if(target){partyPositions(s);f.c7_pos[target]='resgatado';}
+  if(ally&&!dead(s,ally)&&f.c7_pos?.[ally]!==f.c7_hero_pos)f.c7_pos[ally]='resgatado';
  }
  if(id==='j_last_01'){f.c7_moises_morto=true;}
  return changed;
@@ -1115,28 +1279,57 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
   const base='j_npc'+part;
   if(id===base){
     if(!target||dead(s,target)){
-      text='PONTO DE VISTA: PROTAGONISTA\n\nVocê confere as últimas mensagens: não há ninguém isolado em outro setor aguardando resgate neste momento. A saída continua adiante.';
-      cs=[g(part===1?'j_move2':part===2?'j_move3':'j_police','Prosseguir pela rota confirmada')];
+      const others=party(s).filter(x=>!dead(s,x));
+      text='PONTO DE VISTA: PROTAGONISTA\n\n'+(others.length?'Você consulta as últimas mensagens de '+names(others)+'. Nenhum deles está isolado em outro setor exigindo uma decisão sua agora.':'Você chegou sem acompanhantes à oficina. Não há outro ponto de vista para acompanhar neste trecho.')+' A saída segue pelo setor que você escolheu.';
+      cs=[g(sideNext(part),'Continuar pela sua rota')];
     }else{
-      const area=placeLabel[f.c7_pos?.[target]]||'corredor de serviço';
-      const companion=party(s).filter(x=>x!==target&&!dead(s,x)&&f.c7_pos?.[x]===f.c7_pos?.[target]);
-      const ally=companion[0];
-      location='COMPLEXO · '+area.toUpperCase();
-      text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+(part===1?'22h59':part===2?'23h17':'23h32')+'. O protagonista está em '+(placeLabel[f.c7_hero_pos]||'outro setor')+'. '+L[target]+' está no '+area+(ally?', junto de '+L[ally]:' e sem outro amigo ao alcance')+'. A porta que leva de volta ao grupo está fechada.\n\nUm estalo corta o ruído do exaustor. '+L[target]+' reconhece o ranger de um mecanismo antigo, seguido de passos no corredor vizinho. Uma sombra cruza a abertura. Para voltar ao portão, é preciso passar por uma sala estreita e alcançar um botão de emergência atrás de uma grade.\n\n'+L[target]+': — Merda. Não tem como voltar pelo mesmo caminho.\n\n'+(ally?L[ally]+': — Se a gente ficar parado, ele acha a gente. Decide logo.':'O celular vibra sem sinal suficiente para completar uma ligação. Ninguém pode escolher por '+L[target]+'.');
-      cs=[C('Forçar a grade usando o apoio da parede','j_npc'+part+'_safe',[F('side_salvou_'+target+'_'+part),['trait','coragem',1]]),
-      C('Usar o corredor estreito e proteger o braço com a jaqueta','j_npc'+part+'_hurt',[['injury7',target],F('side_feriu_'+target+'_'+part)]),
-      C('Correr pela porta iluminada sem verificar quem vem atrás','j_npc'+part+'_cost',[['death7',target],F('side_perdeu_'+target+'_'+part)])];
+      const area=f.c7_pos?.[target]||PREFERENCE[target],story=SIDE_PROFILES[target];
+      const ally=f['c7_side_ally_'+part];
+      const local=placeLabel[area]||'setor de serviço';
+      location='COMPLEXO · '+(story?.where===area?story.spot:local).toUpperCase();
+      const inPlace=story?.where===area;
+      const heading='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+(part===1?'22h59':part===2?'23h17':'23h32')+'. Você deixou o protagonista em '+(placeLabel[f.c7_hero_pos]||'outro setor')+'. '+L[target]+' está '+(inPlace?'na '+story.spot:'no '+local)+'.';
+      const company=ally&&!dead(s,ally)?' '+L[ally]+' também está ali e tenta encontrar outra saída. '+L[ally]+': — '+SIDE_COVER[ally]:' Não há outro amigo perto o suficiente para ajudar. O celular não consegue completar uma ligação.';
+      const intro=inPlace?story.intro+'\n\n'+story.line:
+       L[target]+' encontra uma porta corta-fogo emperrada no '+local+'. Há marcas recentes de lama junto à maçaneta e um corredor escuro ao lado. '+L[target]+': — Não vou entrar às cegas. Primeiro preciso descobrir por onde sair.';
+      text=heading+'\n\n'+intro+'\n\n'+company+'\n\nUma batida forte ecoa atrás da porta. '+L[target]+' precisa agir antes que os passos alcancem o setor.';
+      cs=(inPlace?story.plans:[['Testar a trava da porta antes de passar',''],['Ouvir os passos e procurar uma passagem lateral',''],['Correr pela saída mais próxima','']]).map((option,i)=>C(option[0],'j_npc'+part+'_phase_'+SIDE_WAYS[i],[S('side_plan_'+part,SIDE_WAYS[i]),['trait','cautela',i===0?1:0]]));
     }
   }
-  if(id===base+'_safe'&&target){
-    text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+L[target]+' apoia as costas contra a parede, prende a respiração e força a grade com o peso do corpo. O ferro entorta para fora, abrindo espaço suficiente para atravessar.\n\nUm braço coberto por tecido escuro tenta alcançar a fresta, mas '+L[target]+' fecha a passagem antes do golpe.\n\n'+L[target]+': — CONSEGUI! SAI DAÍ!\n\nA escada dos funcionários leva ao próximo setor. '+L[target]+' corre para a área iluminada, com os pulsos doloridos, mas vivo.';
+  const phaseMatch=id.match(new RegExp('^'+base+'_phase_([abc])$'));
+  if(phaseMatch){
+    const choice=SIDE_WAYS.indexOf(phaseMatch[1]),profile=SIDE_PROFILES[target];
+    if(!target||dead(s,target)||!profile){text='PONTO DE VISTA: PROTAGONISTA\n\nA comunicação foi interrompida e você precisa avançar.';cs=[g(sideNext(part),'Voltar à sua rota')];}
+    else{
+      location='COMPLEXO · '+profile.spot.toUpperCase();
+      const caution=recentInjury(s,target)?' Os ferimentos que '+L[target]+' carrega dos ataques anteriores tornam cada movimento mais doloroso.':'';
+      const ally=f['c7_side_ally_'+part];
+      text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+profile.plans[choice][1]+'\n\n'+profile.dilemma+caution;
+      if(ally&&!dead(s,ally))text+='\n\n'+L[ally]+': — '+(choice===2?'Cuidado! Essa saída não aguenta muito!':SIDE_VOICES[ally]);
+      cs=profile.actions.map((label,i)=>{
+       let outcome=SIDE_OUTCOMES[choice][i];
+       const effects=[F('side_desfecho_'+part,outcome),F('side_etapa_'+part+'_'+target),['trait','coragem',i===2?2:1]];
+       if(outcome==='safe'){effects.push(F('side_salvou_'+target+'_'+part),B(target,5));}
+       if(outcome==='hurt'){effects.push(['injury7',target],F('side_feriu_'+target+'_'+part));}
+       if(outcome==='cost'){effects.push(['death7',target],F('side_perdeu_'+target+'_'+part));}
+       return C(label,base+'_'+outcome,effects);
+      });
+    }
   }
-  if(id===base+'_hurt'&&target){
-    text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+L[target]+' encosta o ombro na grade e tenta passar de lado. O metal rasga a manga, ferindo o braço. A dor chega junto com um gosto de ferrugem na boca.\n\n'+L[target]+': — AAH! DROGA!\n\nA pessoa mascarada se aproxima pelo corredor atrás da grade. '+L[target]+' segura o ferimento, deixa sangue na maçaneta e atravessa uma porta de serviço para alcançar a saída. Escapou, mas precisará de atendimento.';
-  }
-  if(id===base+'_cost'&&target){
-    if(f['c7_morto_'+target])text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+L[target]+' corre para a luz sem conferir a trava do portão. O impacto da porta bloqueada joga seu corpo de volta contra a estrutura. A pessoa mascarada aparece a poucos passos.\n\n'+L[target]+': — NÃO! SAI DE PERTO DE MIM!\n\nUm golpe atinge seu ombro, outro o derruba. '+L[target]+' tenta se erguer, mas a passagem está fechada. O último som que escuta é o barulho de passos se afastando.\n\nMais tarde, o grupo receberá a confirmação de que '+L[target]+' morreu naquele setor.';
-    else text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+L[target]+' corre para a saída, mas a grade bloqueada o obriga a voltar. A pessoa mascarada o alcança e o fere. Um alarme dispara próximo à doca e o agressor recua diante das luzes que começam a acender. '+L[target]+' rasteja para a passagem de manutenção, ferido, mas vivo.';
+  const endMatch=id.match(new RegExp('^'+base+'_(safe|hurt|cost)$'));
+  if(endMatch&&target){
+    const profile=SIDE_PROFILES[target],kind=endMatch[1];
+    location='COMPLEXO · '+(f['c7_side_origin_'+part]&&f['c7_side_origin_'+part]!==profile.where?(placeLabel[f['c7_side_origin_'+part]]||'setor paralelo'):profile.spot).toUpperCase();
+    let result=kind==='cost'&&!dead(s,target)?profile.hurt:kind==='safe'&&f['c7_side_plan_'+part]==='b'?SIDE_SAFE_ALT[target]:profile[kind];
+    if(f['c7_side_origin_'+part]&&f['c7_side_origin_'+part]!==profile.where){
+      const position=placeLabel[f['c7_side_origin_'+part]]||'setor paralelo';
+      result=L[target]+' consegue sair do '+position+' pela passagem de serviço.'+(kind==='safe'?' Atravessa antes que a figura mascarada chegue à porta.':kind==='cost'&&dead(s,target)?' O mascarado o alcança atrás da última porta, impedindo a fuga.':' No esforço, se machuca e precisará de atendimento.');
+    }
+    const ally=f['c7_side_ally_'+part];
+    const note=ally&&!dead(s,ally)?'\n\n'+L[ally]+' alcança outra passagem e confirma pelo celular que está fora da área do ataque.':' ';
+    const status=kind==='cost'?(dead(s,target)?'O telefone de '+L[target]+' permanece sem resposta. A localização do último ataque será informada à polícia.':'O limite de perdas desta noite já foi atingido. '+L[target]+' sobreviveu, mas precisa de atendimento imediato.'):
+      kind==='hurt'?L[target]+' escapa ferido e pede socorro pelo telefone.':L[target]+' alcança a saída e confirma que está vivo.';
+    text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+sideText(result)+'\n\n'+status+note;
   }
  }
  for(const num of [1,2,3]){
@@ -1163,9 +1356,15 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
    else text+='\n\n'+L[t]+' continua vivo, mas gravemente ferido. A polícia precisará socorrê-lo; já ocorreram mortes demais nesta noite.';
    }}
  }
- if(id==='j_move2'||id==='j_move3'){
-  text+='\n\n'+(withHero().length?'Ainda se movem perto de você: '+names(withHero())+'.':'Você avança sem companhia no corredor.');
+ if(id==='j_move2'){
+  partyPositions(s);
+  const current=placeLabel[f.c7_hero_pos]||'corredor de serviço';
+  const beside=withHero();
+  const other=party(s).filter(x=>!dead(s,x)&&f.c7_pos[x]!==f.c7_hero_pos&&f.c7_pos[x]!=='resgatado');
+  const rescued=party(s).filter(x=>!dead(s,x)&&f.c7_pos[x]==='resgatado');
+  text='PONTO DE VISTA: PROTAGONISTA\n\nO caminho que você seguiu termina numa bifurcação sinalizada. Uma seta aponta para o estacionamento; outra, para a saída dos funcionários. Você está no '+current+'. A sirene que vem da marina ainda soa distante.\n\n'+(beside.length?'Você tem '+names(beside)+' ao seu lado. '+beside.map(x=>L[x]+': — '+SIDE_VOICES[x]).join('\n\n'):'Nenhum outro amigo está fisicamente ao seu lado neste momento.')+(other.length?'\n\nVocê confere as posições confirmadas por mensagem: '+other.map(x=>L[x]+' — '+(placeLabel[f.c7_pos[x]]||'setor não confirmado')).join('; ')+'. Ainda não sabe se todos conseguiram passar pelos bloqueios.':'')+(rescued.length?'\n\n'+names(rescued)+' já confirmou que alcançou uma saída. Você não precisa imaginá-los presos no corredor novamente.':'')+'\n\nVocê observa o chão molhado. Há uma trilha de marcas de sapatos em direção aos veículos, mas não sabe se são recentes. A decisão de qual passagem seguir depende do que está à sua frente, e não de algum perigo inventado em outro setor.';
  }
+ if(id==='j_move3')text+='\n\n'+(withHero().length?'Perto de você estão '+names(withHero())+'.':'Você avança sem companhia no corredor.');
  if(id==='j_police'){
   const losses=PERSONS.filter(x=>f['c7_morto_'+x]);
   text+='\n\n'+(losses.length?'Você informa aos agentes as mortes que presenciou ou que já foram confirmadas: '+names(losses)+'. A busca continua nos corredores; ninguém será descrito como vivo ao mesmo tempo em que seu corpo é encontrado.':'Até este ponto você não perdeu outro amigo durante a fuga. A polícia continua verificando os ferimentos de todos que chegaram à saída.');
