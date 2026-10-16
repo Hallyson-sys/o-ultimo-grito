@@ -1,0 +1,9 @@
+O ÚLTIMO GRITO — V1.1.3 · POLIMENTO E CONTINUIDADE
+
+1. ESCOLHA DO AMIGO: Corrigido o texto que apresentava ${L[id]} em vez do nome real. Funciona nas oito rotas, inclusive saves já em andamento.
+2. EFEITO BORBOLETA: substituídos títulos repetitivos como “Escolha que continua importando” por nomes ligados ao acontecimento; pequenas escolhas de navegação ficam fora do painel. Mantida a ordem do capítulo mais novo ao mais antigo.
+3. OFICINA: removidos parágrafos que descreviam duas realidades incompatíveis (“um dos amigos… se você veio sozinho”). A cena reconhece os convidados no save e identifica quem fala, por nome, via portão ou celular, sem teleportar quem está em outro setor.
+4. PERSEGUIÇÃO: melhor identificação de acompanhantes e falas nos setores, inclusive depois dos bloqueios. Variantes de gênero corrigidas para “presa/preso” conforme o alvo.
+5. SALVAMENTOS: mesmas chaves, mesma estrutura, sem reiniciar a partida; basta atualizar a página. Faça backup de cada slot antes de publicar.
+6. Os capítulos antigos, os áudios, as imagens e a história principal permanecem no pacote.
+7. A função de rejogar capítulos foi mantida como sugestão FUTURA e não faz parte desta correção.

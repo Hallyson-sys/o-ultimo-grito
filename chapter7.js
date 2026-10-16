@@ -224,7 +224,7 @@ const LOSS={
 for(const id of Object.keys(INTRO)){
  N('j_talk_'+id,'CAFETERIA · CONVERSA COM '+L[id].toUpperCase(),'13:24','town',`Você ergue a mão quando ${L[id]} se aproxima da mesa.\n\n${INTRO[id]}\n\nDurante alguns segundos, você e ${L[id]} observam as pessoas passando pela calçada. O intervalo sem sirenes parece raro demais para ser desperdiçado.\n\n${SOUL[id]}\n\nVocê não oferece uma solução imediata. Há coisas que precisam ser ouvidas antes de serem resolvidas.`,[
  C('Contar o que mais tem assustado você','j_confide_'+id,[B(id,4),['trait','empatia',2]]),
- C('Perguntar o que faria ${L[id]} se sentir melhor agora','j_listen_'+id,[B(id,5),['trait','empatia',2]])]);
+ C(`Perguntar o que faria ${L[id]} se sentir melhor agora`,'j_listen_'+id,[B(id,5),['trait','empatia',2]])]);
  N('j_confide_'+id,'CAFETERIA · SEM MÁSCARAS','13:37','town',`Você admite que sente medo até quando o telefone vibra. Conta que ficou olhando para as próprias mãos no hospital e não conseguia acreditar que elas tinham conseguido segurar alguém durante a fuga.\n\n${L[id]} não interrompe. A conversa perde a pressa. Você percebe que há várias maneiras de ficar em silêncio: sozinho, como quem não consegue pedir ajuda, e acompanhado, como quem finalmente não precisa se explicar.\n\nVocê: — Eu tenho medo de morrer antes de fazer tudo que eu queria. Não é só o que aconteceu. É tudo o que ainda não aconteceu.\n\n${SOUL[id]}\n\n${L[id]} segura a xícara por um momento. Não promete que ninguém vai morrer. Apenas continua ali, ouvindo.`,[g('j_past_'+id,'Continuar a conversa sem fugir do assunto')]);
  N('j_listen_'+id,'CAFETERIA · PALAVRAS DIFÍCEIS','13:37','town',`Você deixa o próprio medo para depois e pergunta o que ${L[id]} gostaria de conseguir fazer quando tudo isso acabar. A pergunta é simples, mas a resposta demora.\n\n${SOUL[id]}\n\nVocê: — Eu queria que a gente tivesse tempo de descobrir isso sem viver contando os dias.\n\nHá uma pausa. Vocês se lembram de uma tarde comum antes da festa de Jullia, quando a maior preocupação era conseguir chegar no horário ao cinema ou decidir onde comer. Não existe maneira de voltar àquela tarde, mas as lembranças ainda pertencem a vocês.\n\n${L[id]}: — Obrigado por perguntar de verdade.\n\nVocê percebe que essa conversa ficará entre os dois, a menos que um deles escolha partilhá-la mais tarde.`,[g('j_past_'+id,'Falar de sonhos, futuro e arrependimentos')]);
  N('j_past_'+id,'CAFETERIA · O FUTURO QUE FALTA','13:48','town',`O café já esfriou. Pela primeira vez desde a noite anterior, o assunto não é somente a pessoa de máscara. ${L[id]} pergunta o que você faria se pudesse se mudar de Lakewood amanhã, sem levar a culpa na bagagem.\n\nVocê pensa em quantas versões de uma vida existem antes de alguém escolher uma. Pode ser uma carreira artística, uma família que aceite quem você é, uma profissão comum, uma cidade diferente ou simplesmente acordar sem medo.\n\n${L[id]}: — Não precisa me contar a versão bonita. Pode falar a que parece impossível.\n\nO silêncio dá espaço a uma resposta que você guardava há muito tempo.`,[
@@ -496,7 +496,7 @@ Seu telefone recebe uma mensagem de Moisés: «Tô aqui. Entra pela parte dos fu
 
 Você percebe que ainda não houve uma explicação do motivo do medo dele. Moisés teve um ano para procurar a polícia, a família Gomes ou qualquer um do grupo. Por que escolher justamente aquela noite? Por que um galpão tão afastado?
 
-As pessoas que aceitaram o convite se aproximam por entradas distintas, conforme o plano combinado. Cada um escolheu estar ali depois da sua mensagem. Os demais continuam onde estavam, recuperando-se ou esperando notícias.
+Você verifica o celular para saber quem confirmou presença e em qual acesso ficará. O restante do grupo espera notícias longe da oficina.
 
 Um guarda de trânsito aponta o desvio. Você pergunta se conhece a oficina. Ele diz que costumava receber barcos apreendidos, mas está quase fechada. — Faz tempo que ninguém trabalha lá depois das dez. Se for encontrar alguém, não demore.
 
@@ -529,9 +529,9 @@ Seu celular mostra uma chamada de Moisés. Ela permanece na tela por alguns segu
 
 Você tenta ouvir melhor. Há barulho de metal, alguém respirando com dificuldade e uma voz distante chamando por socorro. A ligação oscila.
 
-Um dos amigos que aceitou o convite pergunta se devem entrar juntos. Se você veio sozinho, é uma dúvida que terá de resolver sem ajuda. O silêncio do prédio oferece pouco conforto. Há um portão de serviço à direita, acesso aos veículos à esquerda e uma porta lateral próxima à área externa.
+O silêncio do prédio oferece pouco conforto. Há um portão de serviço à direita, acesso aos veículos à esquerda e uma porta lateral próxima à área externa.
 
-Antes que decidam, a ligação de Moisés é interrompida com um estalo seco.
+Antes que você decida por qual passagem entrar, a ligação de Moisés é interrompida com um estalo seco.
 
 Você olha o relógio. Ele não sabe exatamente onde você está. E você ainda não consegue explicar o que acabou de ouvir.`,[
  C('Tentar ligar para Moisés outra vez, sem desligar ao primeiro sinal','j_m03',[F('hero_insistiu_chamada')]),
@@ -563,7 +563,7 @@ Você tenta lembrar se Moisés disse que estaria na recepção ou no depósito. 
 
 O telefone dele não atende.
 
-Você confere pelo telefone quais amigos confirmaram a chegada e por onde cada um pretende entrar. O grupo talvez esteja espalhado por acessos diferentes, ou talvez você tenha vindo sozinho. A última localização enviada não garante que todos continuem ali.
+Você consulta as últimas confirmações de chegada no celular. Nenhuma localização recebida garante que a pessoa permaneça no mesmo ponto depois de entrar.
 
 Uma sombra passa pela janela suja do galpão. O instinto manda correr na direção dela. A memória do apartamento manda pensar primeiro.`,[
  C('Entrar pela manutenção e procurar Moisés entre as salas de ferramentas','j_m04',[S('rota_inicial','manutencao')]),
@@ -1046,13 +1046,33 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
   const joined=party(s);text+='\n\n'+(joined.length?'Estão a caminho ou encontrarão você no acesso combinado: '+names(joined)+'.':'Ninguém conseguiu ou decidiu acompanhar você. Vai precisar lidar com a situação sozinho e contar com a polícia.');
   if(joined.includes('samuel')&&dead(s,'allan'))text+='\n\nSamuel mantém o celular na mão e evita comentar o nome de Allan. O luto pelo melhor amigo continua determinando como reage a qualquer pedido de ajuda.';
  }
+ if(id==='j_h02'){
+  partyPositions(s);
+  const companions=party(s).filter(x=>!dead(s,x));
+  if(companions.length){
+   const nearby=companions.find(x=>f.c7_pos?.[x]==='veiculos')||companions[0];
+   const far=companions.filter(x=>x!==nearby);
+   let arrivalNote=(f.c7_pos?.[nearby]==='veiculos'
+    ?L[nearby]+' está junto aos carros, a poucos metros da entrada. Olha para o portão sem tirar os olhos das janelas.\n\n'+L[nearby]+': — Você acha melhor entrarmos juntos? Eu não tô gostando desse silêncio.'
+    :'O telefone vibra. É '+L[nearby]+', falando da '+(placeLabel[f.c7_pos?.[nearby]]||'entrada combinada')+'.\n\n'+L[nearby]+': — Eu tô na minha entrada. Quer que a gente se reúna antes ou entre pelos acessos combinados?');
+   if(far.length)arrivalNote+='\n\n'+far.map(x=>L[x]+' confirmou o '+(placeLabel[f.c7_pos?.[x]]||'acesso combinado')).join('; ')+'. Você não pode enxergá-los daqui.';
+   text=text.replace('Antes que você decida por qual passagem entrar,',arrivalNote+'\n\nAntes que você decida por qual passagem entrar,');
+  }else text=text.replace('Antes que você decida por qual passagem entrar,','Você está sozinho diante do portão. Não há resposta de outro amigo no rádio nem no celular. Precisa escolher o acesso por conta própria.\n\nAntes que você decida por qual passagem entrar,');
+ }
+ if(id==='j_h03'){
+  partyPositions(s);
+  const companions=party(s).filter(x=>!dead(s,x));
+  text+='\n\n'+(companions.length
+   ?'Pelo celular, você recebe as últimas posições: '+companions.map(x=>L[x]+' — '+(placeLabel[f.c7_pos?.[x]]||'acesso ainda não confirmado')).join('; ')+'. Você não os vê todos do pátio, e nenhuma mensagem confirma que já estejam seguros.'
+   :'Você olha a lista de chamadas recentes. Ninguém aceitou vir com você; só a polícia recebeu o aviso, se você conseguiu enviá-lo.');
+ }
  if(id==='j_h01'){
   const companions=party(s);text+='\n\n'+(companions.length?'Você confere as respostas: '+names(companions)+' aceitaram acompanhá-lo. '+companions.map(x=>L[x]+' entrará pelo '+(placeLabel[PREFERENCE[x]]||'acesso principal')).join('; ')+'. Os outros amigos não estão no complexo.':'Você chegou sozinho. Nenhum outro amigo aceitou entrar no complexo com você.');
  }
  if(['j_h02','j_h03','j_escape_setup','j_route1','j_route2','j_move2','j_move3','j_crisis1','j_crisis2','j_crisis3'].includes(id)){
   partyPositions(s);
   const everyone=party(s).filter(x=>!dead(s,x));
-  if(!f.c7_hero_pos&&id.startsWith('j_h')){
+  if(!f.c7_hero_pos&&id.startsWith('j_h')&&id!=='j_h03'&&id!=='j_h02'){
     text+='\n\n'+(everyone.length?'Antes de entrar, você confirma pelo celular: '+names(everyone)+' estão a caminho pelos acessos previamente combinados.':'Você não recebeu confirmação de nenhum amigo presente na oficina.');
   }else{
     const sector=placeLabel[f.c7_hero_pos||'manutencao']||'setor de manutenção';
@@ -1135,10 +1155,10 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
   if(id===crisis+'_help'){const t=f[idRisk];if(t){
       text=text.replace('— NÃO PARA! — alguém grita.',L[t]+': — NÃO PARA!');
       text+='\n\n'+L[t]+' alcança você do outro lado. Está vivo, embora visivelmente abalado.\n\n'+L[t]+': — Tô aqui! Eu consegui!\n\nVocê espera ouvir sua respiração antes de começar a correr novamente.';
-      text=text.replace(/A pessoa consegue atravessar/g,L[t]+' consegue atravessar').replace(/A pessoa resgatada/g,L[t]).replace(/Quem você ajudou/g,L[t]).replace(/Alguém grita seu nome/g,L[t]+' grita seu nome').replace(/A pessoa que ajudou/g,L[t]);
+      text=text.replace(/A pessoa consegue atravessar/g,L[t]+' consegue atravessar').replace(/A pessoa resgatada/g,L[t]).replace(/Quem você ajudou/g,L[t]).replace(/Alguém grita seu nome/g,L[t]+' grita seu nome').replace(/A pessoa que ajudou/g,L[t]).replace(/A pessoa que você ajudou/g,L[t]).replace(/o amigo que você puxou/g,L[t]).replace(/O amigo que você puxou/g,L[t]);
    }}
   if(id===crisis+'_cost'){const t=f[idRisk];if(t){
-   text=text.replace(/A pessoa fica presa/g,L[t]+' fica preso').replace(/Uma pessoa fica presa/g,L[t]+' fica preso').replace(/a pessoa que ficou bloqueando a passagem/g,L[t]).replace(/o nome da pessoa perdida/g,'o nome de '+L[t]);
+   text=text.replace(/A pessoa fica presa/g,L[t]+' fica '+(['rayssa','rauanny','laisla','isabella'].includes(t)?'presa':'preso')).replace(/Uma pessoa fica presa/g,L[t]+' fica '+(['rayssa','rauanny','laisla','isabella'].includes(t)?'presa':'preso')).replace(/a pessoa que ficou bloqueando a passagem/g,L[t]).replace(/o nome da pessoa perdida/g,'o nome de '+L[t]).replace(/uma pessoa passar/g,'alguém passar');
    if(f['c7_morto_'+t])text+='\n\n'+L[t]+' morreu durante essa tentativa de fuga. Você sabe onde o viu pela última vez. A informação será levada à polícia; não será substituída por um reencontro impossível.';
    else text+='\n\n'+L[t]+' continua vivo, mas gravemente ferido. A polícia precisará socorrê-lo; já ocorreram mortes demais nesta noite.';
    }}
@@ -1157,7 +1177,7 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
  if(id==='j_last_02'){
   const live=survivors(s),deceased=Object.keys(L).filter(x=>dead(s,x));
   const present=live.filter(x=>!recentInjury(s,x));const byPhone=live.filter(x=>recentInjury(s,x));
-  text=`Os amigos que conseguiram vir pessoalmente estão reunidos na sala reservada: ${names(present)}. ${byPhone.length?'Em observação ou em repouso, '+names(byPhone)+' participa por chamada ou recebe notícias por mensagem, sem sair do atendimento.':'Nenhum dos sobreviventes precisou se afastar da conversa para receber novo atendimento.'}\n\n${deceased.length?'Os lugares de '+names(deceased)+' estão vazios. Ninguém olha para a porta esperando que eles cheguem.':'O grupo ainda pode se olhar sem contar outra ausência entre os oito amigos.'}\n\nBella chega depois que a equipe confirma que Moisés morreu. Mantém-se de pé perto da porta, evitando que a voz trema.\n\nBella: — Ele ia falar alguma coisa. Eu sei que ia. E agora ninguém consegue me dizer o quê.\n\n${live.includes('samuel')?'Samuel: — Como é que essa pessoa sempre sabe onde a gente tá? Alguém explica isso pra mim.':'Uma das pessoas presentes pergunta como o agressor descobriu o endereço e a hora do encontro.'}\n\n${live.includes('isabella')?'Isabella: — A gente precisa olhar as mensagens. Horários, destinatários. Acusar sem isso só vai acabar com o que resta da gente.':'Alguém pede que deixem os celulares sobre a mesa e confiram quem recebeu o endereço.'}\n\n${f.c7_grupo_sabe_encontro?'A localização foi anunciada no grupo. Muitas pessoas tiveram acesso ao endereço, embora isso não prove que alguma delas o repassou.':f.c7_bella_sabe_encontro?'Você contou o endereço a Bella, mas não divulgou a mensagem ao grupo todo. Ela confirma o horário em que soube, sem esconder o registro.':'Você não divulgou o endereço a ninguém do grupo. O mascarado só poderia saber por outro caminho ainda não esclarecido — e Moisés já tinha contatos fora desse círculo.'}\n\n${f.c7_prova_armario&&s.clues.includes('c7_registros_pos_desaparecimento')?'Você preservou comprovantes de compras feitas após o desaparecimento de Jullia. Eles podem esclarecer o que Moisés escondia, mas não revelam quem recebeu os materiais.':'As provas que você conseguiu alcançar não explicam sozinhas o que Moisés guardava.'}\n\nO silêncio aumenta. Um celular vibra. Outros aparelhos acendem com a mesma notificação. O número não está salvo.`;
+  text=`Os amigos que conseguiram vir pessoalmente estão reunidos na sala reservada: ${names(present)}. ${byPhone.length?'Em observação ou em repouso, '+names(byPhone)+' participa por chamada ou recebe notícias por mensagem, sem sair do atendimento.':'Nenhum dos sobreviventes precisou se afastar da conversa para receber novo atendimento.'}\n\n${deceased.length?'Os lugares de '+names(deceased)+' estão vazios. Ninguém olha para a porta esperando que eles cheguem.':'O grupo ainda pode se olhar sem contar outra ausência entre os oito amigos.'}\n\nBella chega depois que a equipe confirma que Moisés morreu. Mantém-se de pé perto da porta, evitando que a voz trema.\n\nBella: — Ele ia falar alguma coisa. Eu sei que ia. E agora ninguém consegue me dizer o quê.\n\n${live.includes('samuel')?'Samuel: — Como é que essa pessoa sempre sabe onde a gente tá? Alguém explica isso pra mim.':(present.length?L[present[0]]+': — Como o mascarado sabia do encontro? A gente precisa conferir quem recebeu o endereço.':'Bella pergunta como o mascarado descobriu o endereço e a hora do encontro.')}\n\n${live.includes('isabella')?'Isabella: — A gente precisa olhar as mensagens. Horários, destinatários. Acusar sem isso só vai acabar com o que resta da gente.':(present.length?L[present.find(x=>x!=='samuel')||present[0]]+': — Vamos conferir o histórico de mensagens antes de acusar qualquer pessoa.':'Bella pede que confiram o histórico das mensagens.')}\n\n${f.c7_grupo_sabe_encontro?'A localização foi anunciada no grupo. Muitas pessoas tiveram acesso ao endereço, embora isso não prove que alguma delas o repassou.':f.c7_bella_sabe_encontro?'Você contou o endereço a Bella, mas não divulgou a mensagem ao grupo todo. Ela confirma o horário em que soube, sem esconder o registro.':'Você não divulgou o endereço a ninguém do grupo. O mascarado só poderia saber por outro caminho ainda não esclarecido — e Moisés já tinha contatos fora desse círculo.'}\n\n${f.c7_prova_armario&&s.clues.includes('c7_registros_pos_desaparecimento')?'Você preservou comprovantes de compras feitas após o desaparecimento de Jullia. Eles podem esclarecer o que Moisés escondia, mas não revelam quem recebeu os materiais.':'As provas que você conseguiu alcançar não explicam sozinhas o que Moisés guardava.'}\n\nO silêncio aumenta. Um celular vibra. Outros aparelhos acendem com a mesma notificação. O número não está salvo.`;
  }
  if(id.startsWith('j_talk_end_')){const farewell=f.c7_funeral_hero;if(farewell==='estrelas')text+='\n\nVocê lembra da imagem de uma noite estrelada sobre os prédios de Lakewood. Talvez um dia aquela lembrança seja apenas um jeito bonito de contar como sobreviveu.';else if(farewell==='musica')text+='\n\nVocê sorri ao pensar em fotos vergonhosas e na música que escolheria para uma despedida. Prefere, por enquanto, criar memórias novas para colocar nessas fotos.';else if(farewell==='intimidade')text+='\n\nVocê sente alívio ao perceber que pode escolher quem faz parte de sua história. Não precisa de uma multidão para tornar uma vida importante.';}
  if(window.UG107?.state?.(s)?.graphicOff){
