@@ -12,12 +12,53 @@ const S=(key,val)=>['set','c7_'+key,val];
 const B=(id,n)=>['bond',id,n], Q=id=>['clue',id];
 const g=(to,text='Continuar',effects=[])=>C(text,to,effects);
 const L={breno:'Breno',samuel:'Samuel',allan:'Allan',ryan:'Ryan',rauanny:'Rauanny',laisla:'Laisla',rayssa:'Rayssa',isabella:'Isabella'};
+const ROMANCE_INVITE={
+ ryan:'Ryan: — Tá livre hoje à noite? Eu achei um bistrô perto da estação. E antes que pergunte, sim, eu li as avaliações.\n\nVocê: — Você tá me chamando pra jantar?\n\nRyan: — Tô. Sem compromisso de parecer normal, mas com direito a sobremesa. Eu queria ficar um pouco com você.',
+ breno:'Breno: — Você consegue sair hoje? Achei um restaurante na praça. É pequeno e a música não é alta.\n\nVocê: — Parece que você pesquisou bastante.\n\nBreno: — Pesquisei. Eu quero conversar sem dez pessoas interrompendo. Se você topar, claro.',
+ rayssa:'Rayssa: — Posso fazer um convite meio fora de hora? Queria te levar num restaurante que eu gosto. Só a gente, hoje.\n\nVocê: — Depois dessa madrugada toda?\n\nRayssa: — Justamente. Eu preciso te ver fora daquele hospital, nem que seja por uma hora.',
+ rauanny:'Rauanny: — Hoje à noite, você e eu. Pizzaria da avenida. Topa?\n\nVocê: — Isso foi um convite ou uma ordem?\n\nRauanny: — Um convite, seu besta. Só não me faz ficar esperando, porque eu vou comer sua parte.'
+};
+// Splits explicit speeches and the older narration-embedded '— dialogue — says' form.
+function dramaticText(text,id,s){
+ let t=String(text||'');
+ const love=s?.romanceEscolhido;
+ if(id==='j14'){
+   t=t.replace(/Antes que consiga responder, chega uma mensagem de quem havia combinado de jantar com você\.[\s\S]*?Uma noite quase normal\. Talvez a última oportunidade de respirar antes de ouvir Moisés\./,
+   love&&ROMANCE_INVITE[love]&&!dead(s,love)&&!recentInjury(s,love)?'Antes de responder a Moisés, surge uma notificação de '+L[love]+'. Você abre a conversa.\n\n'+ROMANCE_INVITE[love]+'\n\nA ideia de uma noite com '+L[love]+' faz você sorrir. Ainda há uma mensagem de Moisés para resolver, mas por algumas horas a vida pode ser maior do que a investigação.':
+   'Você guarda o telefone. A noite continua, e você pensa em fazer uma refeição tranquila antes de decidir como responder a Moisés.');
+ }
+ if(id==='j20'){
+  t=love&&ROMANCE_INVITE[love]&&!dead(s,love)&&!recentInjury(s,love)?'18h44. Você confere o endereço que '+L[love]+' enviou.\n\n'+L[love]+': — Tá de pé nosso jantar?\n\nVocê: — Tá. Me manda a localização certinha, já tô saindo.\n\nVocê avisa que está a caminho. Entre sirenes distantes e vitrines acesas, pensar em encontrar '+L[love]+' faz você reduzir o passo pela primeira vez hoje.':
+  '18h44. Você decide sair para comer alguma coisa e respirar longe das câmeras e das sirenes. O telefone continua no bolso. Moisés ainda espera uma resposta, mas você precisa de alguns minutos sem fugir de nada.';
+ }
+ const pov=(/^j_m0[1-9]$/.test(id)||id==='j_m_death_show')?'MOISÉS':/^j_npc[123]/.test(id)?'__SIDE__':/^j_(?:h0[1-9]|crisis|route|move|escape|police|after_death|body|evidence|death_gate|m_death_(?:hear|find))/.test(id)?'PROTAGONISTA':null;
+ if(pov&&pov!=='__SIDE__')t='PONTO DE VISTA: '+pov+'\n\n'+t;
+ // Audit of the older Ch7 text: make standalone spoken paragraphs for the old em-dash style.
+ // Only infer a speaker where the scene unambiguously revolves around that individual.
+ const actor=/^j_(?:talk|confide|listen|past|memory|funeral)/.test(id)?Object.keys(L).find(x=>id.endsWith('_'+x)):
+ /^j_(?:date_|dinner_)/.test(id)?Object.keys(ROMANCE_INVITE).find(x=>id.endsWith('_'+x)):null;
+ if(actor){
+  const label=L[actor];
+  t=t.split('\n\n').map(para=>{
+    if(/^\s*(?:[A-Za-zÀ-ÿ ]{2,32}|Você):\s*—/.test(para)||!para.includes(' — '))return para;
+    // Speech followed by an attribution is split away from narration. Attributed to YOU only for 'você diz' etc.
+    return para.replace(/\s+—\s+([^—\n]{4,240}?)(?=\s+—\s+|$)/g,(all,utterance)=>{
+      const tail=utterance.match(/^(.*?)(?:\s+—\s+)(?:disse|comentou)$/);
+      if(/^(?:Ele|Ela|Você|O garçom|A atendente)\s+(?:ri|riu|pergunta|perguntou|diz|disse|sorri|responde|observa|acrescenta|admite|comenta|suspira|fica|passa|continua|ergue|olha)\b/i.test(utterance))return '\n\n'+utterance;
+      return '\n\n'+label+': — '+utterance.trim();
+    });
+  }).join('\n\n');
+ }
+
+ return t;
+}
+
 const dead=(s,id)=>!!s?.flags?.['c7_morto_'+id]||!!s?.flags?.['c6_morto_'+id]||(id==='allan'&&!!s?.flags?.allan_morto_c4);
-const recentInjury=(s,id)=>!!s?.flags?.['c6_ferida_'+id]||(window.UGConsequences?.injury?.(s,id)?.severity||0)>=2;
+const recentInjury=(s,id)=>!!s?.flags?.['c7_ferido_'+id]||!!s?.flags?.['c6_ferida_'+id]||(window.UGConsequences?.injury?.(s,id)?.severity||0)>=2;
 const trust=(s,id)=>window.UG107?.pairTrust?.(s,'hero',id)??50;
-const party=s=>['samuel','breno','allan','ryan','rauanny'].filter(id=>s?.flags?.['c7_inv_'+id]&&!dead(s,id));
+const party=s=>Object.keys(L).filter(id=>s?.flags?.['c7_inv_'+id]&&!dead(s,id));
 const use=(s,k)=>!!window.UG107?.item?.(s,k);
-const allowed=s=>['samuel','breno','allan','ryan','rauanny'].filter(id=>!dead(s,id));
+const allowed=s=>Object.keys(L).filter(id=>!dead(s,id));
 const choices=()=>{};
 
 // ATO I — PRIMEIRA MANHÃ. Os amigos não aparecem vivos se morreram nos capítulos anteriores.
@@ -59,14 +100,62 @@ No grupo, os amigos conversam aos poucos sobre quem saiu do hospital e quem prec
 O que vai ser dito ali não precisa chegar ao restante dos amigos. Pode continuar sendo uma lembrança dos dois.`,[]);
 
 const INTRO={
- ryan:`Ryan demora a reconhecer o próprio pedido quando você diz que queria conversar. — Falar de quê? Do tempo? Das nove maneiras que eu achei que ia morrer? — Ele esboça uma piada, mas o sorriso desaparece no meio. Ryan tira o casaco e deixa o celular virado para baixo. — Tá. Desculpa. Eu fico idiota quando tô com medo. Pode falar. Eu tô aqui.`,
- breno:`Breno chega antes do horário e ocupa a cadeira de costas para a parede. Traz dois cafés, mas só bebe depois que você dá o primeiro gole. — Eu queria perguntar se você dormiu — diz —, só que isso soa ridículo depois de ontem. Ele aproxima o copo e observa as próprias mãos. — A gente pode só ficar sentado, se for melhor. Não precisa preencher o silêncio comigo.`,
- rayssa:`Rayssa tenta sorrir quando vê você, mas a expressão não se sustenta. Ela pergunta se quer algo para comer e espera que você se acomode antes de puxar a cadeira. — Passei a noite pensando no que eu devia ter feito diferente — confessa. — Aí me dei conta de que faz um ano que eu penso nisso. Se quiser, a gente fala de outra coisa. Ou de tudo.`,
- rauanny:`Rauanny se senta com cuidado, afastando a cadeira com o pé. Observa o curativo que aparece sob a manga e revira os olhos quando você pergunta se está doendo. — Um pouquinho. Eu não sou de vidro. — A frase sai automática. Depois ela suspira. — Foi mal. Ontem eu me dei conta de como é horrível depender das pessoas. Eu quase prefiro sentir dor a pedir ajuda.`,
- laisla:`Laisla coloca a bolsa ao lado da cadeira, como se ainda estivesse arrumando a mesa do apartamento. Demora para pedir uma bebida. — Eu fico lembrando da comida que eu tinha preparado. — Ela ri sem vontade. — Olha que merda de coisa pra pensar. Só que eu queria uma noite boa pra todo mundo. Uma noite comum. E agora aquele lugar parece outra vida.`,
- isabella:`Isabella chega segurando uma pasta com papéis do hospital. — Antes que pergunte: sim, eu comi; não, não dormi; e sim, tô tratando de marcar retorno. — Ela larga a pasta e respira fundo. — Pronto, terminei de tentar controlar tudo. Você me chamou pra conversar. Sobre o quê? Pode começar pelo que não quer contar pra ninguém.`,
- allan:`Allan se aproxima exagerando uma reverência, como se ainda fosse possível transformar o encontro em espetáculo. O gesto termina com uma careta quando mexe no braço. — Tá vendo? Meu talento pra drama agora tem efeitos especiais. — Ele se senta. — Brincadeira. Eu vim porque você pediu. E porque passar a noite sozinho com meus pensamentos foi uma péssima ideia.`,
- samuel:`Samuel chega com olheiras profundas e a chave do carro presa ao dedo. Senta sem tirar a jaqueta. — Eu sabia que você ia querer conversar. — Ele encara a mesa. — Só não sabia se ia conseguir ouvir. Toda vez que alguém começa a falar de culpa, eu penso na van. E, quando penso na van, volto praquela estrada. Mas pode falar. Eu tô tentando não fugir de tudo.`
+ ryan:`Ryan chega com o casaco sobre o braço e uma expressão cansada. Olha o cardápio sem realmente ler.
+
+Ryan: — Falar de quê? Do tempo? Das nove maneiras que eu achei que ia morrer?
+
+Ele tenta sorrir, mas a brincadeira não chega aos olhos. Vira o celular para baixo sobre a mesa.
+
+Ryan: — Tá, desculpa. Eu fico idiota quando tô com medo. Pode falar. Eu tô aqui.`,
+ breno:`Breno chega antes do horário e ocupa a cadeira de costas para a parede. Traz dois cafés e empurra um na sua direção.
+
+Breno: — Eu queria perguntar se você dormiu.
+
+Ele observa as próprias mãos, envergonhado.
+
+Breno: — Só que isso soa ridículo depois de ontem. A gente pode ficar sentado, se for melhor. Não precisa preencher o silêncio comigo.`,
+ rayssa:`Rayssa tenta sorrir ao ver você, mas a expressão não dura. Pergunta se quer algo para comer, depois puxa a cadeira.
+
+Rayssa: — Passei a noite pensando no que eu devia ter feito diferente.
+
+Ela roda a colher dentro da xícara vazia.
+
+Rayssa: — Aí me dei conta de que faz um ano que eu penso nisso. Se quiser, a gente fala de outra coisa. Ou de tudo.`,
+ rauanny:`Rauanny se senta com cuidado. Você olha para o curativo que aparece por baixo da manga e pergunta se ela está sentindo dor.
+
+Rauanny: — Um pouquinho. Eu não sou de vidro.
+
+A resposta sai depressa demais. Ela percebe e abaixa os olhos.
+
+Rauanny: — Foi mal. Ontem eu vi como é horrível depender das pessoas. Eu quase prefiro sentir dor a pedir ajuda.`,
+ laisla:`Laisla coloca a bolsa ao lado da cadeira, como se ainda estivesse arrumando a mesa do apartamento. Demora para pedir uma bebida.
+
+Laisla: — Eu fico lembrando da comida que eu tinha preparado.
+
+Ela ri sem vontade, esfregando a borda do guardanapo.
+
+Laisla: — Olha que merda de coisa pra pensar. Eu só queria uma noite boa pra todo mundo. Uma noite comum. E agora aquele lugar parece outra vida.`,
+ isabella:`Isabella chega com uma pasta de papéis do hospital e a deposita sobre a mesa.
+
+Isabella: — Antes que pergunte: sim, eu comi; não, não dormi; e sim, tô tentando marcar o retorno.
+
+Ela suspira, como se o ar tivesse ficado preso desde a madrugada.
+
+Isabella: — Pronto. Terminei de tentar controlar tudo. Você me chamou pra conversar. Sobre o quê? Pode começar pelo que não quer contar pra ninguém.`,
+ allan:`Allan se aproxima exagerando uma reverência. O gesto termina com uma careta quando o braço machucado reclama.
+
+Allan: — Tá vendo? Meu talento pra drama agora tem efeitos especiais.
+
+Ele se senta sem fazer a habitual segunda piada.
+
+Allan: — Brincadeira. Eu vim porque você pediu. E porque ficar sozinho com meus pensamentos ontem foi uma péssima ideia.`,
+ samuel:`Samuel chega com olheiras profundas e a chave do carro presa ao dedo. Senta sem tirar a jaqueta.
+
+Samuel: — Eu sabia que você ia querer conversar.
+
+Ele encara o fundo do copo.
+
+Samuel: — Só não sabia se ia conseguir ouvir. Toda vez que alguém fala de culpa, penso na van. E quando penso na van, volto pra estrada. Pode falar. Tô tentando não fugir de tudo.`
 };
 const FUNERAL={
  ryan:'Ryan pensa por um tempo e diz que gostaria de uma reunião com músicas ruins que ele adora, fotos em que aparece fazendo caretas e amigos que continuassem contando suas piadas, mesmo as que nunca tiveram graça.',
@@ -81,11 +170,27 @@ const FUNERAL={
 const SOUL={
  ryan:`Ryan: — Eu aprendi a fazer graça antes de aprender a pedir socorro. Se todo mundo ri, ninguém pergunta o que tá acontecendo de verdade. Só que na janela do condomínio eu vi gente gritando meu nome e percebi que uma piada não segurava a escada. Achei que vocês iam me odiar se eu não conseguisse. Você sabe como é? Ser o cara que mantém o clima leve e, de repente, não saber mais como fazer isso?`,
  breno:`Breno: — Eu sempre gostei de observar antes de entrar numa conversa. Na escola me chamavam de esquisito, mas eu só precisava entender se tinha espaço pra mim. Você foi uma das primeiras pessoas que não fez eu me sentir uma visita. E agora eu fico pensando no quanto eu demoro pra agir. Às vezes vejo algo estranho, fico conferindo se não tô exagerando, e quando decido falar pode ser tarde.`,
- rayssa:`Rayssa: — Eu tenho medo de me tornar uma pessoa que só sabe pedir desculpas. Tem coisas que eu queria apagar e não consigo. E mesmo quando alguém me perdoa, eu continuo lembrando do rosto de quem eu magoei. — Ela respira fundo. — Eu não tô pedindo pra você resolver isso. Queria só que soubesse que às vezes o silêncio não é indiferença. Às vezes é a vergonha de não saber por onde começar.`,
+ rayssa:`Rayssa: — Eu tenho medo de me tornar uma pessoa que só sabe pedir desculpas. Tem coisas que eu queria apagar e não consigo. E mesmo quando alguém me perdoa, continuo lembrando do rosto de quem magoei.
+
+Rayssa respira fundo e aperta as mãos sob a mesa.
+
+Rayssa: — Eu não tô pedindo pra você resolver isso. Queria só que soubesse que às vezes o silêncio não é indiferença. Às vezes é a vergonha de não saber por onde começar.`,
  rauanny:`Rauanny: — A Laisla sempre dizia que eu puxava briga até com cadeira fora do lugar. Eu achava engraçado. Ela me conhece quando eu tô sendo insuportável, quando tô triste e quando eu queria sumir. Aí vem um cara de máscara e eu percebo que posso perder essa pessoa num segundo. Não me pede pra ser calma o tempo inteiro. Eu ainda tô aprendendo a ter medo sem transformar isso em raiva.`,
- laisla:`Laisla: — Todo mundo acha que eu sou a pessoa que junta a galera. Marca horário, lembra aniversário, pergunta se comeu. Eu gosto disso. Só que ontem fui eu que chamei todo mundo pra minha casa. Fico tentando encontrar um jeito de não me sentir responsável. — Ela aperta o guardanapo. — Eu não queria ter convidado ninguém pra uma armadilha. Eu queria que a gente lembrasse daquela noite como a última vez que riu junto.`,
- isabella:`Isabella: — Na minha cabeça tudo tem uma lista. Se conferir os horários, se guardar as provas, se organizar a fuga, então ninguém morre. É idiota, eu sei. As pessoas não são uma planilha. Só que quando eu paro de resolver alguma coisa, começo a pensar no que eu não consegui impedir. — Ela olha pela janela. — Tenho pavor de fazer uma escolha e alguém pagar por ela.`,
- allan:`Allan: — Eu ficava imaginando que, quando a gente saísse da faculdade, ia ter foto de formatura, apartamento apertado, festa ruim e conta pra pagar. O Samu ia continuar me ligando pra reclamar de qualquer coisa. E eu ia reclamar dele de volta. — O sorriso some. — Aí eu fiquei preso naquele arquivo. Por um momento achei que ia morrer sem ter vivido metade das coisas que vivia adiando.`,
+ laisla:`Laisla: — Todo mundo acha que eu sou a pessoa que junta a galera. Marca horário, lembra aniversário, pergunta se comeu. Eu gosto disso. Só que ontem fui eu que chamei todo mundo pra minha casa. Fico tentando encontrar um jeito de não me sentir responsável.
+
+Laisla aperta o guardanapo.
+
+Laisla: — Eu não queria ter convidado ninguém pra uma armadilha. Eu queria que a gente lembrasse daquela noite como a última vez que riu junto.`,
+ isabella:`Isabella: — Na minha cabeça tudo tem uma lista. Se conferir os horários, se guardar as provas, se organizar a fuga, então ninguém morre. É idiota, eu sei. As pessoas não são uma planilha. Só que quando eu paro de resolver alguma coisa, começo a pensar no que eu não consegui impedir.
+
+Isabella olha pela janela.
+
+Isabella: — Tenho pavor de fazer uma escolha e alguém pagar por ela.`,
+ allan:`Allan: — Eu ficava imaginando que, quando a gente saísse da faculdade, ia ter foto de formatura, apartamento apertado, festa ruim e conta pra pagar. O Samu ia continuar me ligando pra reclamar de qualquer coisa. Eu ia reclamar dele de volta.
+
+O sorriso de Allan desaparece.
+
+Allan: — Aí eu fiquei preso naquele arquivo. Por um momento achei que ia morrer sem ter vivido metade das coisas que vivia adiando.`,
  samuel:`Samuel: — Você sabe que eu lembro do impacto toda vez que fecho os olhos, né? Não tem noite que eu não volte pra estrada. Tem hora que eu imagino como teria sido se eu tivesse freado um segundo antes. Ou ligado pra ambulância. Ou dito não quando começaram a falar do lago. A pior parte é que eu continuo vivo. E não sei como viver sem fingir que não aconteceu.`
 };
 const LOSS={
@@ -96,25 +201,25 @@ const LOSS={
  allan:{lost:'samuel',text:''}
 };
 for(const id of Object.keys(INTRO)){
- N('j_talk_'+id,'CAFETERIA · CONVERSA COM '+L[id].toUpperCase(),'13:24','town',`Você ergue a mão quando ${L[id]} se aproxima da mesa.\n\n${INTRO[id]}\n\nDurante alguns segundos, vocês observam as pessoas passando pela calçada. O intervalo sem sirenes parece raro demais para ser desperdiçado.\n\n${SOUL[id]}\n\nVocê não oferece uma solução imediata. Há coisas que precisam ser ouvidas antes de serem resolvidas.`,[
+ N('j_talk_'+id,'CAFETERIA · CONVERSA COM '+L[id].toUpperCase(),'13:24','town',`Você ergue a mão quando ${L[id]} se aproxima da mesa.\n\n${INTRO[id]}\n\nDurante alguns segundos, você e ${L[id]} observam as pessoas passando pela calçada. O intervalo sem sirenes parece raro demais para ser desperdiçado.\n\n${SOUL[id]}\n\nVocê não oferece uma solução imediata. Há coisas que precisam ser ouvidas antes de serem resolvidas.`,[
  C('Contar o que mais tem assustado você','j_confide_'+id,[B(id,4),['trait','empatia',2]]),
- C('Perguntar o que faria essa pessoa se sentir melhor agora','j_listen_'+id,[B(id,5),['trait','empatia',2]])]);
- N('j_confide_'+id,'CAFETERIA · SEM MÁSCARAS','13:37','town',`Você admite que sente medo até quando o telefone vibra. Conta que ficou olhando para as próprias mãos no hospital e não conseguia acreditar que elas tinham conseguido segurar alguém durante a fuga.\n\n${L[id]} não interrompe. A conversa perde a pressa. Você percebe que há várias maneiras de ficar em silêncio: sozinho, como quem não consegue pedir ajuda, e acompanhado, como quem finalmente não precisa se explicar.\n\n— Eu tenho medo de morrer antes de fazer tudo que eu queria — você diz. — Não é só o que aconteceu. É tudo o que ainda não aconteceu.\n\n${SOUL[id]}\n\nA pessoa diante de você segura a xícara por um momento. Não promete que ninguém vai morrer. Apenas continua ali, ouvindo.`,[g('j_past_'+id,'Continuar a conversa sem fugir do assunto')]);
- N('j_listen_'+id,'CAFETERIA · PALAVRAS DIFÍCEIS','13:37','town',`Você deixa o próprio medo para depois e pergunta o que ${L[id]} gostaria de conseguir fazer quando tudo isso acabar. A pergunta é simples, mas a resposta demora.\n\n${SOUL[id]}\n\nVocê: — Eu queria que a gente tivesse tempo de descobrir isso sem viver contando os dias.\n\nHá uma pausa. Vocês se lembram de uma tarde comum antes da festa de Jullia, quando a maior preocupação era conseguir chegar no horário ao cinema ou decidir onde comer. Não existe maneira de voltar àquela tarde, mas as lembranças ainda pertencem a vocês.\n\n— Obrigado por perguntar de verdade — ${L[id]} diz, num tom baixo.\n\nVocê percebe que essa conversa ficará entre os dois, a menos que um deles escolha partilhá-la mais tarde.`,[g('j_past_'+id,'Falar de sonhos, futuro e arrependimentos')]);
- N('j_past_'+id,'CAFETERIA · O FUTURO QUE FALTA','13:48','town',`O café já esfriou. Pela primeira vez desde a noite anterior, o assunto não é somente a pessoa de máscara. ${L[id]} pergunta o que você faria se pudesse se mudar de Lakewood amanhã, sem levar a culpa na bagagem.\n\nVocê pensa em quantas versões de uma vida existem antes de alguém escolher uma. Pode ser uma carreira artística, uma família que aceite quem você é, uma profissão comum, uma cidade diferente ou simplesmente acordar sem medo.\n\n— Não precisa me contar a versão bonita — ${L[id]} comenta. — Pode falar a que parece impossível.\n\nO silêncio dá espaço a uma resposta que você guardava há muito tempo.`,[
+ C('Perguntar o que faria ${L[id]} se sentir melhor agora','j_listen_'+id,[B(id,5),['trait','empatia',2]])]);
+ N('j_confide_'+id,'CAFETERIA · SEM MÁSCARAS','13:37','town',`Você admite que sente medo até quando o telefone vibra. Conta que ficou olhando para as próprias mãos no hospital e não conseguia acreditar que elas tinham conseguido segurar alguém durante a fuga.\n\n${L[id]} não interrompe. A conversa perde a pressa. Você percebe que há várias maneiras de ficar em silêncio: sozinho, como quem não consegue pedir ajuda, e acompanhado, como quem finalmente não precisa se explicar.\n\nVocê: — Eu tenho medo de morrer antes de fazer tudo que eu queria. Não é só o que aconteceu. É tudo o que ainda não aconteceu.\n\n${SOUL[id]}\n\n${L[id]} segura a xícara por um momento. Não promete que ninguém vai morrer. Apenas continua ali, ouvindo.`,[g('j_past_'+id,'Continuar a conversa sem fugir do assunto')]);
+ N('j_listen_'+id,'CAFETERIA · PALAVRAS DIFÍCEIS','13:37','town',`Você deixa o próprio medo para depois e pergunta o que ${L[id]} gostaria de conseguir fazer quando tudo isso acabar. A pergunta é simples, mas a resposta demora.\n\n${SOUL[id]}\n\nVocê: — Eu queria que a gente tivesse tempo de descobrir isso sem viver contando os dias.\n\nHá uma pausa. Vocês se lembram de uma tarde comum antes da festa de Jullia, quando a maior preocupação era conseguir chegar no horário ao cinema ou decidir onde comer. Não existe maneira de voltar àquela tarde, mas as lembranças ainda pertencem a vocês.\n\n${L[id]}: — Obrigado por perguntar de verdade.\n\nVocê percebe que essa conversa ficará entre os dois, a menos que um deles escolha partilhá-la mais tarde.`,[g('j_past_'+id,'Falar de sonhos, futuro e arrependimentos')]);
+ N('j_past_'+id,'CAFETERIA · O FUTURO QUE FALTA','13:48','town',`O café já esfriou. Pela primeira vez desde a noite anterior, o assunto não é somente a pessoa de máscara. ${L[id]} pergunta o que você faria se pudesse se mudar de Lakewood amanhã, sem levar a culpa na bagagem.\n\nVocê pensa em quantas versões de uma vida existem antes de alguém escolher uma. Pode ser uma carreira artística, uma família que aceite quem você é, uma profissão comum, uma cidade diferente ou simplesmente acordar sem medo.\n\n${L[id]}: — Não precisa me contar a versão bonita. Pode falar a que parece impossível.\n\nO silêncio dá espaço a uma resposta que você guardava há muito tempo.`,[
  C('Contar sobre o sonho de criar arte e ser reconhecido por isso','j_memory_'+id,[S('sonho_hero','arte'),B(id,3)]),
  C('Falar sobre conflitos familiares e a vontade de ser aceito como é','j_memory_'+id,[S('sonho_hero','aceitacao'),B(id,5)]),
  C('Admitir que só deseja uma vida tranquila, cercada de quem ama','j_memory_'+id,[S('sonho_hero','paz'),B(id,3)]),
  C('Dizer que ainda não sabe o que quer, apenas deseja viver para descobrir','j_memory_'+id,[S('sonho_hero','descoberta'),B(id,3)])]);
- N('j_memory_'+id,'CAFETERIA · UMA CONFIDÊNCIA','14:02','town',`A resposta sai mais devagar do que você esperava. Não parece um discurso ensaiado; existem frases que você interrompe para encontrar a palavra certa e outras que quase não consegue pronunciar.\n\n${L[id]} não tenta transformar a conversa numa lição de vida. Escuta sem medir seus sonhos, sem exigir que você saiba exatamente o que deseja.\n\nDo lado de fora, a chuva começa a marcar pequenos pontos no vidro. Você acompanha as gotas escorrendo até a moldura da janela.\n\n— Tem uma coisa horrível que eu fiquei pensando ontem — você confessa. — Se tudo isso acabar comigo, eu vou deixar tanta coisa inacabada.\n\n${L[id]} ergue o olhar.\n\n— Então me fala uma coisa que você gostaria que alguém lembrasse de você. Uma coisa sua. Não da festa. Não da estrada. Sua.\n\nA pergunta parece grande demais. Mesmo assim, vocês ficam ali esperando que alguma resposta apareça.`,[g('j_funeral_'+id,'Responder e falar do futuro')]);
- N('j_funeral_'+id,'CAFETERIA · PROMESSAS E FUNERAIS','14:10','town',`Você acaba rindo de nervoso. — Tá querendo escrever meu obituário?\n\n${L[id]} também ri, baixinho. — Desculpa. Foi mórbido. Mas depois do que aconteceu... sei lá. Eu pensei na morte mais do que queria.\n\nA conversa deriva para um assunto absurdo: como seriam os funerais que vocês escolheriam se pudessem planejar tudo? A ideia começa desconfortável, quase ofensiva, até se transformar num jeito inesperado de falar sobre o que os dois consideram bonito.\n\nVocê pensa num lugar de despedida que tenha algum sentido para a sua história, e não para o segredo da estrada. Talvez as estrelas, talvez música alta, talvez poucas pessoas reunidas em silêncio. O que importa é poder escolher a lembrança que deixaria.\n\n${FUNERAL[id]}\n\nA conversa atravessa um sorriso desconfortável. — Eu espero que a gente só precise decidir isso daqui a muito, muito tempo — ${L[id]} diz.\n\nVocê: — Eu também.\n\nO último gole de café está frio. Lá fora, a chuva já diminuiu.`,[
+ N('j_memory_'+id,'CAFETERIA · UMA CONFIDÊNCIA','14:02','town',`A resposta sai mais devagar do que você esperava. Não parece um discurso ensaiado; existem frases que você interrompe para encontrar a palavra certa e outras que quase não consegue pronunciar.\n\n${L[id]} não tenta transformar a conversa numa lição de vida. Escuta sem medir seus sonhos, sem exigir que você saiba exatamente o que deseja.\n\nDo lado de fora, a chuva começa a marcar pequenos pontos no vidro. Você acompanha as gotas escorrendo até a moldura da janela.\n\nVocê: — Tem uma coisa horrível que eu fiquei pensando ontem. Se tudo isso acabar comigo, eu vou deixar tanta coisa inacabada.\n\n${L[id]} ergue o olhar.\n\n${L[id]}: — Então me fala uma coisa que você gostaria que alguém lembrasse de você. Uma coisa sua. Não da festa. Não da estrada. Sua.\n\nA pergunta parece grande demais. Mesmo assim, vocês ficam ali esperando que alguma resposta apareça.`,[g('j_funeral_'+id,'Responder e falar do futuro')]);
+ N('j_funeral_'+id,'CAFETERIA · PROMESSAS E FUNERAIS','14:10','town',`Você acaba rindo de nervoso.\n\nVocê: — Tá querendo escrever meu obituário?\n\n${L[id]} também ri, baixinho.\n\n${L[id]}: — Desculpa. Foi mórbido. Mas depois do que aconteceu... sei lá. Eu pensei na morte mais do que queria.\n\nA conversa deriva para um assunto absurdo: como seriam os funerais que vocês escolheriam se pudessem planejar tudo? A ideia começa desconfortável, quase ofensiva, até se transformar num jeito inesperado de falar sobre o que os dois consideram bonito.\n\nVocê pensa num lugar de despedida que tenha algum sentido para a sua história, e não para o segredo da estrada. Talvez as estrelas, talvez música alta, talvez poucas pessoas reunidas em silêncio. O que importa é poder escolher a lembrança que deixaria.\n\n${FUNERAL[id]}\n\nA conversa atravessa um sorriso desconfortável.\n\n${L[id]}: — Eu espero que a gente só precise decidir isso daqui a muito, muito tempo.\n\nVocê: — Eu também.\n\nO último gole de café está frio. Lá fora, a chuva já diminuiu.`,[
  C('Imaginar velas no alto de um prédio, olhando a cidade e as estrelas','j_funeral_choice_'+id,[S('funeral_hero','estrelas')]),
  C('Imaginar música, fotos antigas e histórias engraçadas','j_funeral_choice_'+id,[S('funeral_hero','musica')]),
  C('Preferir uma despedida discreta, somente com quem ama você','j_funeral_choice_'+id,[S('funeral_hero','intimidade')])]);
- N('j_funeral_choice_'+id,'CAFETERIA · UMA PROMESSA','13:34','town',`Você explica como gostaria que as pessoas se lembrassem de sua vida. Não como alguém que foi atacado ou que participou de um pacto horrível, mas como alguém que amou, sonhou e tentou fazer algo com os próprios dias.\n\n${L[id]} escuta e faz uma pergunta que você não esperava: — Quer que eu guarde essa ideia? Não como uma despedida. Como um jeito de lembrar o que você quer viver.\n\nVocê sente o peso da promessa. Não sabe se terá coragem de pedir isso, mas sabe que a resposta ficará entre vocês.`,[
+ N('j_funeral_choice_'+id,'CAFETERIA · UMA PROMESSA','14:16','town',`Você explica como gostaria que as pessoas se lembrassem de sua vida. Não como alguém que foi atacado ou que participou de um pacto horrível, mas como alguém que amou, sonhou e tentou fazer algo com os próprios dias.\n\n${L[id]} escuta com atenção.\n\n${L[id]}: — Quer que eu guarde essa ideia? Não como uma despedida. Como um jeito de lembrar o que você quer viver.\n\nVocê sente o peso da promessa. Não sabe se terá coragem de pedir isso, mas sabe que a resposta ficará entre vocês.`,[
  C('Pedir que guardem essa conversa só entre vocês','j_talk_end_'+id,[F('confidencia_guardada'),B(id,4)]),
  C('Pedir que essa pessoa lembre do seu sonho, aconteça o que acontecer','j_talk_end_'+id,[F('promessa_sonho'),B(id,5)])]);
- N('j_talk_end_'+id,'CAFETERIA · DESPEDIDA','14:21','town',`Quando vocês se levantam, a tarde já avançou. ${L[id]} espera você guardar o celular antes de sair da mesa. A conversa não resolveu o caso; tampouco desfez o medo. Mas, pela primeira vez, o silêncio entre vocês não parece ser uma ameaça.\n\nPerto da porta, vocês se abraçam. É um gesto simples, demorado o bastante para lembrar que ambos ainda estão vivos.\n\n— Amigos até a morte? — alguém diz, meio brincando, meio pedindo uma promessa.\n\nVocê pensa em responder com outra piada, mas acaba apertando o abraço. — Amigos enquanto a gente puder escolher. E, se depender de mim, por muito tempo.\n\nA rua continua molhada, o trânsito continua barulhento, e Lakewood continua tendo um assassino à solta. Ainda assim, por alguns minutos, você não se sentiu sozinho.\n\nAo alcançar a esquina, encontra uma notificação de Bella perguntando se você pode comparecer à biblioteca municipal. Há informações sobre a propriedade que ela quer mostrar pessoalmente.`,[g('j10','Ir ao encontro de Bella')]);
+ N('j_talk_end_'+id,'CAFETERIA · DESPEDIDA','14:21','town',`Quando vocês se levantam, a tarde já avançou. ${L[id]} espera você guardar o celular antes de sair da mesa. A conversa não resolveu o caso; tampouco desfez o medo. Mas, pela primeira vez, o silêncio entre vocês não parece ser uma ameaça.\n\nPerto da porta, vocês se abraçam. É um gesto simples, demorado o bastante para lembrar que ambos ainda estão vivos.\n\n${L[id]}: — Amigos até a morte?\n\nVocê pensa em responder com uma brincadeira, mas aperta o abraço.\n\nVocê: — Amigos enquanto a gente puder escolher. E, se depender de mim, por muito tempo.\n\nA rua continua molhada, o trânsito continua barulhento, e Lakewood continua tendo um assassino à solta. Ainda assim, por alguns minutos, você não se sentiu sozinho.\n\nAo alcançar a esquina, encontra uma notificação de Bella perguntando se você pode comparecer à biblioteca municipal. Há informações sobre a propriedade que ela quer mostrar pessoalmente.`,[g('j10','Ir ao encontro de Bella')]);
 }
 // ATO II — BELLA: sem onisciência, sem mentiras retroativas sobre a mata.
 N('j10','BIBLIOTECA MUNICIPAL · SALA DE CONSULTA','15:08','town',`Bella está numa mesa de canto, cercada por envelopes e uma pasta plástica transparente. Os cachos longos estão presos por uma presilha; ela veste camiseta larga, calça baggy e tênis de sola gasta. Não se levanta para cumprimentar você. Apenas empurra uma cadeira com o pé.
@@ -139,7 +244,9 @@ Você se inclina sobre os papéis. Bella espera, braços cruzados, para descobri
  C('Questionar por que Bella guardou tudo isso por tanto tempo','j11c',[F('bella_cobrou'),['trait','cautela',1]])]);
 N('j11a','BIBLIOTECA · MAPA DE SERVIÇO','15:18','town',`Você compara as datas das imagens com o que tem salvo no celular. O registro não identifica uma pessoa específica, mas delimita um horário em que a passagem poderia ter sido utilizada sem ser vista pela festa.
 
-Bella aproxima a cadeira. — Tá. Isso ajuda. Só que eu já ouvi tanta teoria de gente querendo ser detetive que agora eu preciso separar o que alguém viu daquilo que a gente só acha.
+Bella aproxima a cadeira.
+
+Bella: — Tá. Isso ajuda. Só que eu já ouvi tanta teoria de gente querendo ser detetive que agora eu preciso separar o que alguém viu daquilo que a gente só acha.
 
 Você mostra o detalhe do crachá e o enquadramento da fotografia da van. Bella observa os dois objetos durante mais tempo do que o esperado, depois tira uma foto da comparação — não do seu celular inteiro.
 
@@ -166,7 +273,9 @@ Bella: — Eu queria odiar o Moisés. Seria mais fácil. Só que ele parece uma 
 
 O comentário faz você se lembrar do aviso enigmático que ele deu após o ataque ao apartamento. Talvez exista uma conversa que nunca chegou a terminar.
 
-Bella fecha a pasta e suspira. — Se ele falar com você, por favor, me conta pelo menos que ele tá vivo e onde pode ser encontrado. Não preciso da senha do celular dele. Preciso de respostas sobre a minha irmã.`,[g('j12','Continuar verificando os arquivos')]);
+Bella fecha a pasta e suspira.
+
+Bella: — Se ele falar com você, por favor, me conta pelo menos que ele tá vivo e onde pode ser encontrado. Não preciso da senha do celular dele. Preciso de respostas sobre a minha irmã.`,[g('j12','Continuar verificando os arquivos')]);
 N('j11c','BIBLIOTECA · UMA PERGUNTA DESCONFORTÁVEL','15:18','town',`Bella mantém o olhar firme quando você pergunta por que não mostrou os documentos antes.
 
 Bella: — Porque eu não tinha os documentos antes. E porque eu não devia explicação pra ninguém sobre o dia em que consegui entrar no quarto da minha irmã sem começar a chorar. Isso responde?
@@ -225,7 +334,7 @@ Você lê duas vezes. O homem que passou meses evitando Bella e hesitando sobre 
 
 Antes que consiga responder, chega uma mensagem de quem havia combinado de jantar com você. É o primeiro convite em muito tempo que não envolve documentos, câmeras ou o assassino.
 
-Uma noite quase normal. Talvez a última oportunidade de respirar antes de ouvir Moisés.`,[g('j20','Responder à pessoa que convidou você para jantar')]);
+Uma noite quase normal. Talvez a última oportunidade de respirar antes de ouvir Moisés.`,[g('j20','Conferir os planos para esta noite')]);
 
 // ATO IV — CADA ROTA ROMÂNTICA É ESCRITA SEPARADAMENTE.
 const DATE_DREAM={
@@ -242,21 +351,35 @@ const ROM={
 };
 for(const id of Object.keys(ROM)){
  const d=ROM[id];
- N('j_dinner_'+id,d.place,'19:12','town',`${d.intro}\n\nO restaurante está cheio de conversas pequenas: talheres, pedidos, pessoas comentando o trânsito. Você descobre que é possível prestar atenção num cardápio e ainda carregar um ano inteiro de culpa.\n\nVocês pedem alguma coisa para dividir. Há um intervalo agradável em que falam de música, lembranças ruins de escola e os planos que tinham antes de Lakewood virar sinônimo de medo.\n\nPor um momento, a pessoa diante de você parece menos um sobrevivente e mais alguém que escolheu passar a noite na sua companhia.`,[
+ N('j_dinner_'+id,d.place,'19:12','town',`${d.intro}\n\nO restaurante está cheio de conversas pequenas: talheres, pedidos, pessoas comentando o trânsito. Você descobre que é possível prestar atenção num cardápio e ainda carregar um ano inteiro de culpa.\n\n${L[id]} lê o cardápio em voz alta, mas para na terceira opção: os dois perceberam que estão com mais fome do que imaginavam. Vocês pedem algo para dividir.\n\n${L[id]}: — Eu tava pensando em cancelar. Não por causa de você. Eu fiquei olhando meu armário e achei ridículo escolher roupa depois de ontem.\n\nVocê: — Ainda bem que não cancelou. Eu também quase desisti de sair.\n\n${L[id]}: — Então vamos tentar comer. Se a comida for ruim, pelo menos a gente pode reclamar juntos.\n\nVocês experimentam o primeiro prato e, pela primeira vez no dia, discutem algo tão simples quanto o tempero.`,[
  C('Contar uma lembrança engraçada de quando se conheceram','j_date_chat_'+id,[B(id,4),['romance',id,5]]),
  C('Perguntar sobre um sonho que ninguém conhece','j_date_chat_'+id,[B(id,3),['romance',id,6]])]);
- N('j_date_chat_'+id,d.place,'19:27','town',`A conversa atravessa a primeira parte do jantar quase sem esforço. Vocês lembram de um dia em que o grupo inteiro discutiu durante quinze minutos para escolher um filme, só para acabar vendo metade porque alguém esqueceu a senha da televisão.\n\n${DATE_DREAM[id]}\n\nVocê ri de verdade. A risada parece estranha depois de tudo. ${L[id]} percebe e sorri também, mas não transforma o momento numa lição sobre superação.\n\nQuando a comida chega, vocês dividem o prato e discutem quem ficou com a melhor parte. Aos poucos o assunto muda: trabalho, faculdade, mudanças, amigos que seguirão caminhos diferentes. Há uma delicadeza em falar de futuro depois de noites em que ninguém tinha certeza de que existiria manhã.\n\n${d.private}\n\nVocê percebe que não é uma declaração ensaiada. A pessoa do outro lado da mesa está oferecendo uma parte de si que não costuma mostrar aos outros.`,[
- C('Dizer que gosta de estar com essa pessoa, mesmo sem ter respostas','j_date_close_'+id,[B(id,4),['romance',id,7]]),
- C('Admitir que tem medo de se apegar e perder mais alguém','j_date_close_'+id,[B(id,3),['trait','empatia',2]])]);
+ N('j_date_chat_'+id,d.place,'19:27','town',`A conversa atravessa a primeira parte do jantar quase sem esforço. Vocês lembram de um dia em que o grupo inteiro discutiu durante quinze minutos para escolher um filme, só para acabar vendo metade porque alguém esqueceu a senha da televisão.\n\n${DATE_DREAM[id]}\n\nVocê ri de verdade. A risada parece estranha depois de tudo. ${L[id]} percebe e sorri também, mas não transforma o momento numa lição sobre superação.\n\nQuando a comida chega, vocês dividem o prato e discutem quem ficou com a melhor parte. Aos poucos o assunto muda: trabalho, faculdade, mudanças, amigos que seguirão caminhos diferentes. Há uma delicadeza em falar de futuro depois de noites em que ninguém tinha certeza de que existiria manhã.\n\n${d.private}\n\nVocê percebe que não é uma declaração ensaiada. ${L[id]} está contando algo que normalmente guardaria para si.`,[
+ C('Dizer que gosta de estar com essa pessoa, mesmo sem ter respostas','j_date_personal_'+id,[B(id,4),['romance',id,7]]),
+ C('Admitir que tem medo de se apegar e perder mais alguém','j_date_personal_'+id,[B(id,3),['trait','empatia',2]])]);
  N('j_date_close_'+id,d.place,'19:44','town',`O garçom passa oferecendo sobremesa. Vocês decidem compartilhar uma, mais para prolongar a conversa do que pela fome.\n\n${d.desire}\n\nVocê fala sobre o quanto mudou desde o verão passado. Não quer transformar o encontro numa promessa formal, nem pedir que alguém esqueça tudo o que aconteceu. Só quer viver um instante que pertença aos dois.\n\nA sobremesa chega. Você tenta prestar atenção no sabor, mas continua lembrando da conversa e do modo como a mão de ${L[id]} se aproxima da sua.\n\nA conversa se alonga sobre pequenos hábitos que vocês ainda não conheciam: a bebida preferida de cada um, o que fazem quando não conseguem dormir, qual música colocariam numa viagem longa. Nenhuma dessas respostas resolve o caso que deixou a cidade em pânico. Ainda assim, são respostas que você queria saber. Vocês dividem o último pedaço da sobremesa e riem de uma discussão ridícula sobre quem deveria ficar com ele.\n\nDo lado de fora, um carro acelera de repente e você se assusta. ${L[id]} repara, mas espera seu corpo relaxar antes de perguntar se está tudo bem. Essa paciência vale mais do que uma frase pronta.`,[
  C('Aproximar-se e beijar a pessoa de quem gosta','j_date_call_'+id,[B(id,5),['romance',id,8],F('beijo_jantar')]),
  C('Apertar sua mão e continuar conversando','j_date_call_'+id,[B(id,4),['romance',id,5],F('carinho_jantar')])]);
- N('j_date_call_'+id,d.place,'20:02','phone',`O encontro segue num ritmo tranquilo. Vocês falam sobre lugares que gostariam de conhecer, músicas que marcaram a adolescência e como seria passar uma semana inteira sem ouvir a palavra «assassino». É quase possível imaginar essa semana.\n\nSeu celular vibra dentro do bolso. Você pensa em ignorar, acreditando ser outra discussão no grupo. Quando olha, vê o nome de Moisés.\n\nEle escreveu mais cedo pedindo uma conversa. Agora está ligando.\n\n${L[id]} percebe a mudança no seu rosto.\n\n— Quem é?\n\nVocê mostra a tela. A música ambiente parece diminuir, embora ninguém tenha tocado no volume. O telefone continua vibrando.\n\nNão existe uma resposta elegante. Atender pode acabar com a noite. Ignorar pode significar perder o momento em que Moisés finalmente decide falar.`,[
+ N('j_date_call_'+id,d.place,'20:02','phone',`O encontro segue num ritmo tranquilo. Vocês falam sobre lugares que gostariam de conhecer, músicas que marcaram a adolescência e como seria passar uma semana inteira sem ouvir a palavra «assassino». É quase possível imaginar essa semana.\n\nSeu celular vibra dentro do bolso. Você pensa em ignorar, acreditando ser outra discussão no grupo. Quando olha, vê o nome de Moisés.\n\nEle escreveu mais cedo pedindo uma conversa. Agora está ligando.\n\n${L[id]} percebe a mudança no seu rosto.\n\n${L[id]}: — Quem é?\n\nVocê mostra a tela. A música ambiente parece diminuir, embora ninguém tenha tocado no volume. O telefone continua vibrando.\n\nNão existe uma resposta elegante. Atender pode acabar com a noite. Ignorar pode significar perder o momento em que Moisés finalmente decide falar.`,[
  C('Atender Moisés sem sair da mesa','j_call_answer',[F('ligacao_atendida'),F('par_conhece_moises'),['trait','coragem',1]]),
  C('Pedir licença e atender do lado de fora','j_call_answer',[F('ligacao_atendida'),F('par_conhece_moises'),F('ligacao_reservada')]),
  C('Silenciar, guardar o telefone e decidir retornar depois','j_call_missed',[F('ligacao_perdida'),['trait','cautela',1]])]);
- N('j_date_exit_'+id,'RUAS DO CENTRO · APÓS O JANTAR','20:24','road',`${d.after}\n\nVocê gostaria que a noite terminasse com essa lembrança. Um abraço, o ar fresco, alguém com quem conversar depois de um dia interminável.\n\nMas há uma chamada de Moisés esperando uma resposta ou uma conversa interrompida que precisa ser concluída. Seu telefone parece pesado demais no bolso.\n\n${L[id]} percebe seu olhar. — Vai. Descobre o que ele quer. Só não tenta resolver tudo sozinho sem pelo menos falar onde você tá.\n\nVocês se despedem. Nenhum dos dois sabe quanto tempo aquela despedida vai durar.`,[g('j30','Ler a nova mensagem de Moisés')]);
+ N('j_date_exit_'+id,'RUAS DO CENTRO · APÓS O JANTAR','20:24','road',`${d.after}\n\nVocê gostaria que a noite terminasse com essa lembrança. Um abraço, o ar fresco, alguém com quem conversar depois de um dia interminável.\n\nMas há uma chamada de Moisés esperando uma resposta ou uma conversa interrompida que precisa ser concluída. Seu telefone parece pesado demais no bolso.\n\n${L[id]} percebe seu olhar.\n\n${L[id]}: — Vai. Descobre o que ele quer. Só não tenta resolver tudo sozinho sem me falar onde você tá.\n\nVocês se despedem. Nenhum dos dois sabe quanto tempo aquela despedida vai durar.`,[g('j30','Ler a nova mensagem de Moisés')]);
 }
+
+const DINNER_CONVERSATIONS={
+ ryan:`Ryan vira o guardanapo onde desenhou o cachorro enorme e aponta para uma linha torta.\n\nRyan: — Essa é a minha sala. O sofá tá virado pra televisão e o cachorro já destruiu dois travesseiros.\n\nVocê: — E você trabalha com quê nessa sua vida imaginária?\n\nRyan: — Sei lá. Pensei em trabalhar com rádio. Minha mãe vivia falando que eu não calava a boca nem dormindo. Eu gravava programa falso no gravador dela. Entrevistava meus brinquedos, sério.\n\nEle imita a voz de apresentador e você ri.\n\nVocê: — E os convidados respondiam?\n\nRyan: — Respondiam melhor do que metade dos caras da escola.\n\nO garçom traz uma porção de batatas. Ryan pega uma e olha para a janela.\n\nRyan: — Um dia meu pai ouviu uma das gravações. Eu devia ter uns doze. Ele riu tanto que eu achei que tava me zoando. Depois ele perguntou quando ia ter o próximo episódio. Passei a semana inteira preparando.\n\nVocê: — Você nunca me contou isso.\n\nRyan: — Porque é uma vergonha. Mas acho que eu sinto falta daquele menino. Ele falava pelos cotovelos sem ter medo de parecer idiota.\n\nVocê pergunta se ele ainda guarda o gravador. Ryan diz que está numa caixa em casa, junto de ingressos de cinema e uma camisa de futebol que nunca coube direito.\n\nRyan: — Você me ajudaria a gravar outro? A gente podia fazer um sobre histórias ridículas da nossa cidade. Sem máscara. Sem assassinato. Só coisa boba.\n\nVocê: — Com a condição de eu poder escolher a música de abertura.\n\nRyan: — Aí já tá querendo mandar demais. Mas tudo bem.\n\nEle fica quieto pela primeira vez, olhando sua mão próxima da dele.\n\nRyan: — Eu queria que você soubesse uma coisa. Quando eu faço graça e você não ri, eu não fico ofendido. Eu gosto que você perceba quando eu tô fingindo que tá tudo certo. Não precisa rir pra cuidar de mim.`,
+ breno:`Breno desliza o celular até você e abre uma pasta de fotos. Não são retratos de pessoas: um cachorro dormindo sobre uma pilha de roupas, o reflexo de uma bicicleta numa poça, um senhor numa padaria lendo jornal de cabeça para baixo.\n\nVocê: — Espera. Esse homem tá lendo o jornal invertido?\n\nBreno: — Tava. Fiquei uns dez minutos tentando entender se ele tinha percebido. No fim descobri que ele só tava esperando a esposa voltar do caixa. Nem lia aquilo.\n\nVocê: — Você coleciona momentos estranhos de desconhecidos?\n\nBreno: — Mais ou menos. Minha avó me dava uma câmera velha quando eu passava as férias com ela. A gente saía pra fotografar as coisas que ninguém ia lembrar no dia seguinte. Uma parede pintada, um gato na janela, o último ônibus.\n\nEle passa para outra imagem. A fotografia de uma cadeira vazia à beira de uma mesa.\n\nBreno: — Essa foi no dia em que ela morreu. Não a cadeira, óbvio. A foto foi depois do enterro. Eu não quis fotografar ninguém chorando. Só queria registrar que aquela cadeira tinha sido dela.\n\nVocê fica alguns segundos sem falar.\n\nVocê: — Posso te perguntar uma coisa? Quando você tá quieto, o que tá acontecendo aí dentro?\n\nBreno: — Às vezes muita coisa. Às vezes nada. Com você eu não fico calculando tanto. Eu penso no que quero dizer e demoro, só isso.\n\nVocê: — Não precisa correr.\n\nBreno: — É. Eu tô começando a entender.\n\nA sobremesa chega e ele pergunta se você prefere a parte de chocolate. Quando você responde, Breno separa a porção sem fazer cerimônia.\n\nBreno: — Se um dia a gente conseguir sair de Lakewood por uma semana, eu queria te mostrar o lugar onde ela morava. Tem uma ponte pequena e um banco de madeira. Acho que você ia gostar. Não é uma proposta de casamento, tá? É só... um lugar importante pra mim.`,
+ rayssa:`Rayssa mexe a colher no copo de suco, observando o gelo bater contra o vidro.\n\nRayssa: — A Isa sempre dizia que eu demorava três horas pra escolher presente de aniversário. Ela tava certa.\n\nVocê: — Três horas?\n\nRayssa: — Teve uma vez que eu atravessei a cidade pra encontrar uma caneca específica. Era horrível, tinha um gato com óculos. Eu comprei porque ela comentou aquilo uma única vez.\n\nVocê: — E ela gostou?\n\nRayssa: — Falou que era a coisa mais feia que já tinha ganhado. Usa até hoje.\n\nEla ri, mas logo fica olhando para a mesa.\n\nRayssa: — Eu guardo detalhes assim porque tenho medo de esquecer das pessoas. No celular tem uma lista: a bebida que cada amigo pede, os filmes que vocês odeiam, aniversário, uma frase que alguém soltou sem pensar.\n\nVocê: — Você fez uma lista minha?\n\nRayssa: — Fiz. Não vou mostrar. Tá muito vergonhosa.\n\nVocê: — Agora eu preciso saber.\n\nRayssa: — Anotei que você fica mexendo na manga quando tá nervoso. E que sempre deixa a última batata pros outros, mesmo querendo comer.\n\nVocê tenta protestar, mas ela aponta para sua mão perto do prato.\n\nRayssa: — Viu? Até agora.\n\nO garçom traz outra bebida. Rayssa agradece pelo nome, depois olha para você com um cuidado diferente.\n\nRayssa: — Eu queria ser alguém de quem as pessoas lembrassem por uma coisa boa. Não só pelos erros.\n\nVocê: — Você ainda tem tempo de fazer coisas boas.\n\nRayssa: — Eu espero. Só não quero usar isso como desculpa pra fugir do que já fiz.\n\nEla ergue os olhos, como se fosse dizer mais. Em vez disso, pergunta como você gostaria de passar um domingo que não terminasse numa tragédia. Você descreve uma tarde simples; pela primeira vez ela escuta sem olhar para o celular.`,
+ rauanny:`Rauanny já separou os pedaços de pizza por tamanho quando você percebe que ela deixou os maiores do seu lado.\n\nVocê: — Você fez isso de propósito?\n\nRauanny: — O quê?\n\nVocê: — Ficou com os menores.\n\nRauanny: — Tá reclamando de ganhar comida? Come antes que eu me arrependa.\n\nEla conta que aprendeu a dirigir com um tio que perdia a paciência quando errava uma marcha. Na terceira aula, estacionou o carro e se recusou a voltar até ele pedir desculpa.\n\nVocê: — Aposto que foi tranquilo.\n\nRauanny: — Tranquilíssimo. Ele ficou meia hora na calçada gritando que eu era teimosa. Eu gritava de volta que ele era um péssimo professor. No final minha tia apareceu com pão de queijo e mandou os dois calarem a boca.\n\nVocê: — Você fala com esse tio hoje?\n\nRauanny: — Falo. Ele aprendeu a pedir desculpa e eu aprendi a não responder tudo berrando. Mais ou menos.\n\nEla empurra o copo na sua direção para você provar o refrigerante que pediu por engano.\n\nRauanny: — Antes do acidente eu queria entrar num curso de mecânica. Sempre gostei de entender por que as coisas quebram. Quando contei, teve gente falando que não combinava comigo.\n\nVocê: — Por quê?\n\nRauanny: — Porque eles não me conhecem. Acham que eu só sei fazer barulho. Eu gostaria de consertar um carro inteiro sozinha. Pintar de uma cor ridícula e sair dirigindo pela estrada.\n\nVocê: — Eu iria de carona.\n\nRauanny: — Você não pode escolher a música.\n\nVocê: — Isso já é abuso.\n\nEla ri e encosta a mão na sua.\n\nRauanny: — Eu brigo pra caramba. Mas quando gosto de alguém, eu fico. Mesmo quando a pessoa fica insuportável. Então, se eu te disser que tô com medo, não faz cara de pena. Só fica comigo um pouco, tá?`
+};
+for(const id of Object.keys(ROM)){
+ N('j_date_personal_'+id,ROM[id].place,'19:39','town',DINNER_CONVERSATIONS[id],[
+ C('Contar uma lembrança sua que ainda não tinha dividido','j_date_close_'+id,[B(id,3),['romance',id,3]]),
+ C('Aproximar sua mão e perguntar se podem repetir a noite','j_date_close_'+id,[B(id,4),['romance',id,4]])]);
+}
+
+N('j30','AVENIDA · A MENSAGEM DE MOISÉS','20:28','phone',`Você relê o endereço enviado por Moisés e se prepara para sair.`,[g('j15','Seguir para o encontro')]);
 // Sem romance e perda de par não viram jantar com um morto.
 N('j_dinner_friend','LANCHONETE DO CENTRO · UMA NOITE COMUM','19:12','town',`Você decidiu não começar um romance — ou perdeu alguém com quem sonhava viver mais noites assim. Em vez de fingir que outra pessoa ocupa o lugar vazio, escolhe uma mesa numa lanchonete e pede algo simples.
 
@@ -330,7 +453,7 @@ A resposta demora. Alguém manda apenas um coração. Outro responde que você n
 
 Você fecha o mapa e guarda o celular no bolso.`,[g('j_m01','Acompanhar Moisés enquanto ele chega à oficina')]);
 
-N('j_m01','PONTO DE VISTA: MOISÉS · OFICINA ANTIGA','21:17','warehouse',`Moisés estaciona diante de um galpão de portões enferrujados. O lugar pertenceu a uma oficina que prestava serviço para barcos e pequenos guinchos. Ainda existem ferramentas, uma plataforma elevatória e um braço de suspensão preso ao teto por correntes pesadas. A energia de emergência funciona em apenas metade das lâmpadas.
+N('j_m01','MOISÉS · OFICINA ANTIGA','21:17','warehouse',`Moisés estaciona diante de um galpão de portões enferrujados. O lugar pertenceu a uma oficina que prestava serviço para barcos e pequenos guinchos. Ainda existem ferramentas, uma plataforma elevatória e um braço de suspensão preso ao teto por correntes pesadas. A energia de emergência funciona em apenas metade das lâmpadas.
 
 Ele carrega um envelope de papel grosso e um telefone antigo. Há cópias de comprovantes, alguns horários anotados à mão e um endereço que não pretende dizer em voz alta antes de conversar com o protagonista.
 
@@ -346,13 +469,13 @@ Moisés decide esperar, por mais alguns minutos, no interior do galpão.`,[
  C('Guardar os comprovantes num armário de manutenção','j_h01',[F('moises_guardou_doc')]),
  C('Levar tudo no bolso para entregar pessoalmente','j_h01',[F('moises_levou_doc')]),
  C('Fotografar os documentos no telefone antigo','j_h01',[F('moises_fotografou_doc')])]);
-N('j_h01','PONTO DE VISTA: PROTAGONISTA · ESTRADA DA MARINA','21:28','road',`Você atravessa uma avenida quase vazia, observando os letreiros que se apagam nas lojas. O mapa marca o estacionamento da oficina como destino, mas a rua anterior está em obras. Será necessário contornar os depósitos para alcançar a entrada certa.
+N('j_h01','PROTAGONISTA · ESTRADA DA MARINA','21:28','road',`Você atravessa uma avenida quase vazia, observando os letreiros que se apagam nas lojas. O mapa marca o estacionamento da oficina como destino, mas a rua anterior está em obras. Será necessário contornar os depósitos para alcançar a entrada certa.
 
 Seu telefone recebe uma mensagem de Moisés: «Tô aqui. Entra pela parte dos fundos se o portão da frente estiver fechado.»
 
 Você percebe que ainda não houve uma explicação do motivo do medo dele. Moisés teve um ano para procurar a polícia, a família Gomes ou qualquer um do grupo. Por que escolher justamente aquela noite? Por que um galpão tão afastado?
 
-Há pessoas com você somente se aceitaram o convite. Cada um escolheu estar ali depois da sua mensagem. Os demais continuam onde estavam, recuperando-se ou esperando notícias.
+As pessoas que aceitaram o convite se aproximam por entradas distintas, conforme o plano combinado. Cada um escolheu estar ali depois da sua mensagem. Os demais continuam onde estavam, recuperando-se ou esperando notícias.
 
 Um guarda de trânsito aponta o desvio. Você pergunta se conhece a oficina. Ele diz que costumava receber barcos apreendidos, mas está quase fechada. — Faz tempo que ninguém trabalha lá depois das dez. Se for encontrar alguém, não demore.
 
@@ -360,7 +483,7 @@ Você guarda o conselho, embora o tom dele não pareça tranquilizador.`,[
  C('Avisar a polícia sobre o local antes de entrar','j_m02',[F('policia_preavisada'),['trait','cautela',2]]),
  C('Pedir a um amigo que registre sua posição pelo celular','j_m02',[F('amigo_tem_posicao'),['trait','empatia',1]]),
  C('Seguir diretamente para não deixar Moisés esperando','j_m02',[F('hero_apressou'),['trait','coragem',2]])]);
-N('j_m02','PONTO DE VISTA: MOISÉS · SALA DE FERRAMENTAS','21:42','warehouse',`Uma lâmpada pisca no corredor. Moisés sai da sala de manutenção e confere a entrada. A cadeira que encostou à porta lateral continua no lugar, mas há pegadas úmidas perto de uma pilha de pneus. Ele não se lembra de ter passado ali.
+N('j_m02','MOISÉS · SALA DE FERRAMENTAS','21:42','warehouse',`Uma lâmpada pisca no corredor. Moisés sai da sala de manutenção e confere a entrada. A cadeira que encostou à porta lateral continua no lugar, mas há pegadas úmidas perto de uma pilha de pneus. Ele não se lembra de ter passado ali.
 
 Moisés: — Tem alguém aí?
 
@@ -379,13 +502,13 @@ Moisés dá dois passos para trás. Não pergunta se aquilo é uma brincadeira. 
 Moisés: — Por favor, atende...`,[
  C('Procurar a saída pelo corredor das ferramentas','j_h02',[F('moises_rota_manutencao')]),
  C('Recuar até a plataforma elevatória','j_h02',[F('moises_rota_elevador')])]);
-N('j_h02','PONTO DE VISTA: PROTAGONISTA · ENTRADA DO COMPLEXO','21:47','road',`Você alcança o quarteirão da oficina e vê uma luz de emergência atrás das janelas sujas. O portão principal está entreaberto. Perto dele, um carro estacionado de modo torto parece ter sido abandonado às pressas.
+N('j_h02','PROTAGONISTA · ENTRADA DO COMPLEXO','21:47','road',`Você alcança o quarteirão da oficina e vê uma luz de emergência atrás das janelas sujas. O portão principal está entreaberto. Perto dele, um carro estacionado de modo torto parece ter sido abandonado às pressas.
 
 Seu celular mostra uma chamada de Moisés. Ela permanece na tela por alguns segundos, interrompida por um sinal fraco na região dos depósitos.
 
 Você tenta ouvir melhor. Há barulho de metal, alguém respirando com dificuldade e uma voz distante chamando por socorro. A ligação oscila.
 
-Uma pessoa que veio com você pergunta se deveriam entrar todos juntos ou primeiro confirmar o endereço. O silêncio do prédio oferece pouco conforto. Há um portão de serviço à direita, acesso aos veículos à esquerda e uma porta lateral próxima à área externa.
+Um dos amigos que aceitou o convite pergunta se devem entrar juntos. Se você veio sozinho, é uma dúvida que terá de resolver sem ajuda. O silêncio do prédio oferece pouco conforto. Há um portão de serviço à direita, acesso aos veículos à esquerda e uma porta lateral próxima à área externa.
 
 Antes que decidam, a ligação de Moisés é interrompida com um estalo seco.
 
@@ -393,7 +516,7 @@ Você olha o relógio. Ele não sabe exatamente onde você está. E você ainda 
  C('Tentar ligar para Moisés outra vez, sem desligar ao primeiro sinal','j_m03',[F('hero_insistiu_chamada')]),
  C('Guardar o celular e avançar pela entrada para ganhar tempo','j_m03',[F('hero_entrada_rapida')]),
  C('Avisar à emergência sobre o pedido de ajuda','j_m03',[F('hero_pediu_socorro')])]);
-N('j_m03','PONTO DE VISTA: MOISÉS · PRIMEIRO GOLPE','21:54','warehouse',`O mascarado avança entre dois veículos cobertos por lonas. Moisés tenta se proteger com o braço, mas a lâmina rasga a manga e abre um ferimento. O choque o faz gritar e recuar contra uma bancada. Ferramentas despencam em cascata pelo chão.
+N('j_m03','MOISÉS · PRIMEIRO GOLPE','21:54','warehouse',`O mascarado avança entre dois veículos cobertos por lonas. Moisés tenta se proteger com o braço, mas a lâmina rasga a manga e abre um ferimento. O choque o faz gritar e recuar contra uma bancada. Ferramentas despencam em cascata pelo chão.
 
 Moisés: — AAAAAH! CARALHO!
 
@@ -411,7 +534,7 @@ O telefone volta a vibrar. É uma oportunidade de falar, mas também um objeto q
  C('Manter a ligação aberta para que alguém ouça o que acontece','j_h03',[F('moises_celular_ativo')]),
  C('Esconder o telefone num vão e tentar correr mais leve','j_h03',[F('moises_celular_escondido')]),
  C('Usar o telefone como lanterna e buscar a saída superior','j_h03',[F('moises_celular_lanterna')])]);
-N('j_h03','PONTO DE VISTA: PROTAGONISTA · PÁTIO DE CARGA','22:00','warehouse',`O pátio tem três acessos. Pela esquerda, o estacionamento termina numa fileira de carros de serviço. Adiante, uma porta leva à área de manutenção. Pela direita, uma passagem sem cobertura acompanha o muro até a rua de trás.
+N('j_h03','PROTAGONISTA · PÁTIO DE CARGA','22:00','warehouse',`O pátio tem três acessos. Pela esquerda, o estacionamento termina numa fileira de carros de serviço. Adiante, uma porta leva à área de manutenção. Pela direita, uma passagem sem cobertura acompanha o muro até a rua de trás.
 
 Você ouve um ruído abafado vindo do galpão. Não dá para saber se foi um grito ou uma máquina desligando. Uma luz acende no segundo andar e desaparece quase imediatamente.
 
@@ -419,15 +542,13 @@ Você tenta lembrar se Moisés disse que estaria na recepção ou no depósito. 
 
 O telefone dele não atende.
 
-Você olha para as pessoas que vieram com você. Algumas ficam observando as saídas, outras conferem os celulares e o caminho de volta. Uma ansiedade silenciosa toma o grupo quando a sombra volta a se mover atrás das janelas.
-
-Você olha para os acessos iluminados e tenta lembrar por qual deles cada amigo entrou. A dúvida sobre quem está perto pesa tanto quanto o medo da sombra no galpão.
+Você confere pelo telefone quais amigos confirmaram a chegada e por onde cada um pretende entrar. O grupo talvez esteja espalhado por acessos diferentes, ou talvez você tenha vindo sozinho. A última localização enviada não garante que todos continuem ali.
 
 Uma sombra passa pela janela suja do galpão. O instinto manda correr na direção dela. A memória do apartamento manda pensar primeiro.`,[
  C('Entrar pela manutenção e procurar Moisés entre as salas de ferramentas','j_m04',[S('rota_inicial','manutencao')]),
  C('Verificar o estacionamento e os veículos mais próximos','j_m04',[S('rota_inicial','veiculos')]),
  C('Contornar o muro pela saída externa','j_m04',[S('rota_inicial','externa')])]);
-N('j_m04','PONTO DE VISTA: MOISÉS · SALA DO GUINCHO','22:08','warehouse',`A plataforma de suspensão ocupa o centro da sala. Correntes grossas descem do braço mecânico; um gancho industrial enferrujado balança acima de um bloco de motores antigos. Moisés entra pelo corredor de manutenção e procura outro caminho, mas encontra a porta oposta presa por uma barra de ferro.
+N('j_m04','MOISÉS · SALA DO GUINCHO','22:08','warehouse',`A plataforma de suspensão ocupa o centro da sala. Correntes grossas descem do braço mecânico; um gancho industrial enferrujado balança acima de um bloco de motores antigos. Moisés entra pelo corredor de manutenção e procura outro caminho, mas encontra a porta oposta presa por uma barra de ferro.
 
 O sangue marca sua passagem pelo concreto. Ele se apoia numa bancada e tenta manter a respiração sob controle. O ferimento na lateral parece pior do que o do braço. Cada vez que se move, uma dor aguda atravessa seu corpo.
 
@@ -446,7 +567,7 @@ N('j_death_gate','OFICINA · A VERDADE SE APROXIMA','22:12','warehouse',`Os pass
 Do lado de fora, o protagonista ainda tenta encontrar o acesso correto. Duas pessoas podem estar separadas por uma única parede sem que consigam se ouvir.
 
 É o último instante antes que as escolhas feitas por ambos passem a se encontrar.`,[]);
-N('j_m_death_show','PONTO DE VISTA: MOISÉS · O CONFRONTO FINAL','22:14','warehouse',`Moisés alcança a alavanca da plataforma e a puxa com as duas mãos. Um ruído áspero ecoa por toda a sala. A corrente se move, prendendo a passagem por onde o mascarado avança. Durante um segundo, há espaço para fugir.
+N('j_m_death_show','MOISÉS · O CONFRONTO FINAL','22:14','warehouse',`Moisés alcança a alavanca da plataforma e a puxa com as duas mãos. Um ruído áspero ecoa por toda a sala. A corrente se move, prendendo a passagem por onde o mascarado avança. Durante um segundo, há espaço para fugir.
 
 Ele tenta subir à passarela. O ferimento na lateral o faz perder a força no segundo degrau. A mão escorrega. Moisés cai contra uma peça metálica e grita de dor.
 
@@ -465,7 +586,7 @@ A máscara continua voltada para ele. Não há rosto, nome nem confissão.
 Quando tudo termina, o galpão fica silencioso. Moisés não volta a respirar.
 
 Do corredor externo, chega o ruído de uma porta sendo empurrada. Alguém se aproxima.`,[g('j_after_death','Voltar à perspectiva do protagonista',[F('moises_morto'),F('hero_presenciou_desfecho')])]);
-N('j_m_death_hear','PONTO DE VISTA: PROTAGONISTA · CHAMADA ABERTA','22:14','phone',`A ligação se reconecta por um instante. Você leva o aparelho ao ouvido, correndo em direção à porta que parece levar ao centro do galpão.
+N('j_m_death_hear','PROTAGONISTA · CHAMADA ABERTA','22:14','phone',`A ligação se reconecta por um instante. Você leva o aparelho ao ouvido, correndo em direção à porta que parece levar ao centro do galpão.
 
 Moisés: — NÃO! ME ESCUTA! POR FAVOR!
 
@@ -484,7 +605,7 @@ A chamada termina.
 Você fica imóvel diante de uma porta fechada. Seu reflexo aparece na tela apagada. Há sangue perto da soleira, mas você ainda não viu de quem é.
 
 O silêncio não confirma nada. E, mesmo assim, você já sabe que não chegou a tempo de impedir alguma coisa terrível.`,[g('j_after_death','Abrir caminho para dentro do galpão',[F('moises_morto'),F('hero_ouviu_morte'),Q('c7_chamada_ataque')])]);
-N('j_m_death_find','PONTO DE VISTA: PROTAGONISTA · PORTAS FECHADAS','22:15','warehouse',`O galpão está silencioso demais quando você consegue abrir a primeira porta. Sua lanterna encontra uma cadeira caída, marcas de arrasto no concreto e um casaco preso num pedaço de metal. Não há ninguém na sala de ferramentas.
+N('j_m_death_find','PROTAGONISTA · PORTAS FECHADAS','22:15','warehouse',`O galpão está silencioso demais quando você consegue abrir a primeira porta. Sua lanterna encontra uma cadeira caída, marcas de arrasto no concreto e um casaco preso num pedaço de metal. Não há ninguém na sala de ferramentas.
 
 Você chama Moisés. Sua voz volta como eco pelos corredores. Um telefone toca em algum lugar do prédio, abafado, como se estivesse escondido sob algo pesado.
 
@@ -551,14 +672,14 @@ Você coloca o celular no bolso e escolhe o primeiro ponto de encontro.`,[
  C('Tentar encontrar a saída pelo corredor externo','j_route1',[S('hero_pos','externa')])]);
 N('j_route1','COMPLEXO · PRIMEIRO DESLOCAMENTO','22:49','warehouse',`Você atravessa a passagem escolhida enquanto os alarmes de emergência começam a soar ao longe. Há portas fechadas, pontos sem iluminação e lugares onde uma única pessoa consegue passar por vez.
 
-O telefone vibra com uma mensagem de quem conseguiu verificar outro setor. Você recebe informações parciais — não uma visão mágica do que está acontecendo em todas as áreas. Algumas pessoas não têm sinal. Outras preferem se esconder a falar.
+Você tenta atualizar as últimas posições dos amigos pelo celular, mas o sinal oscila. Não sabe se quem estava em outro corredor conseguiu avançar; terá de descobrir quando puder falar com a pessoa. Você recebe informações parciais — não uma visão mágica do que está acontecendo em todas as áreas. Algumas pessoas não têm sinal. Outras preferem se esconder a falar.
 
 Você marca uma porta de referência na mensagem e espera alguns segundos por resposta. O som não atravessa todas aquelas paredes; será preciso encontrar o mesmo acesso para se reunir.
 
 Você encosta a mão numa parede para recuperar o fôlego. Não consegue tirar a imagem de Moisés da cabeça. Quando uma sombra se move à frente, seu corpo reage antes que você saiba se é uma pessoa ou apenas um plástico solto.
 
 A única certeza é que ainda não estão em segurança.`,[g('j_crisis1','Continuar pela passagem')]);
-N('j_crisis1','COMPLEXO · PRIMEIRO MOMENTO DE RISCO','22:53','warehouse',`O barulho da corrente ecoa do outro lado da parede. Uma porta se fecha ao fundo e o caminho escolhido fica mais estreito. Você ouve alguém chamando, mas não consegue saber de qual corredor a voz veio.
+N('j_crisis1','COMPLEXO · PRIMEIRO MOMENTO DE RISCO','22:53','warehouse',`O barulho da corrente ecoa do outro lado da parede. Uma porta se fecha ao fundo e o caminho escolhido fica mais estreito. Você escuta um grito abafado na curva, sem ter certeza de que direção veio. Segue o caminho pelo qual entrou, conferindo a passagem à sua frente.
 
 É necessário agir depressa.`,[]);
 N('j_crisis1_safe','COMPLEXO · O PRIMEIRO BLOQUEIO','22:56','warehouse',`Você alcança a próxima porta e a segura aberta tempo suficiente para conferir o corredor. Uma caixa de ferramentas cai atrás de você, espalhando peças pelo chão. O mascarado aparece por um instante no acesso principal, mas a distância é suficiente para impedir que chegue até a porta antes que você a feche.
@@ -567,7 +688,7 @@ Seu coração dispara. Você recua e verifica o mapa de saída outra vez. Não d
 
 A última comunicação dos amigos mostra que a polícia foi acionada ou está a caminho. A informação traz alívio, mas não dá um minuto exato para a chegada.
 
-Você precisa seguir para outro ponto de encontro.`,[g('j_move2','Avançar para a próxima área')]);
+Você precisa seguir para outro ponto de encontro.`,[g('j_npc1','Avançar para a próxima área')]);
 N('j_crisis1_help','ÁREA DE MANUTENÇÃO · A PORTA','22:56','warehouse',`Você retorna pelo corredor apesar dos passos cada vez mais próximos. Há um instante de pânico quando a porta parece presa dos dois lados, mas o mecanismo cede depois de um puxão e de uma pancada no metal.
 
 Vocês conseguem atravessar juntos. A lâmina acerta a lateral de uma bancada no lugar em que uma mão estava segundos antes. O impacto lança faíscas pequenas, e o som acompanha vocês até a curva seguinte.
@@ -576,7 +697,7 @@ Vocês conseguem atravessar juntos. A lâmina acerta a lateral de uma bancada no
 
 Você obedece. Não fica tempo suficiente para saber se o agressor tropeçou ou desistiu. O corredor termina numa escada de serviço que leva a outro setor.
 
-A pessoa resgatada respira com dificuldade, mas responde quando você chama seu nome. Não é uma vitória tranquila. É apenas mais uma chance de continuar vivo.`,[g('j_move2','Seguir antes que o mascarado encontre a escada')]);
+O amigo que você puxou pela passagem responde quando você chama seu nome. Não é uma vitória tranquila. É apenas mais uma chance de continuar vivo.`,[g('j_npc1','Seguir antes que o mascarado encontre a escada')]);
 N('j_crisis1_cost','ÁREA DE MANUTENÇÃO · A PORTA FECHADA','22:57','warehouse',`Você tenta escolher entre alcançar a passagem e voltar para a pessoa que ficou para trás. O tempo desaparece numa sequência de ruídos: metal retorcido, um grito, uma batida seca contra a porta.
 
 O mascarado alcança o corredor antes que você consiga abrir o bloqueio. Você vê um movimento brusco da lâmina e uma mancha de sangue espalhando-se sobre a parede. A porta volta a fechar com força.
@@ -585,7 +706,7 @@ Você grita, bate no metal e tenta puxar a maçaneta até machucar os dedos. Do 
 
 Quando a passagem finalmente cede, já não há tempo de desfazer o que aconteceu. Você se obriga a recuar para não ficar preso na mesma armadilha.
 
-A lembrança daquela escolha acompanhará você muito depois de conseguir sair do galpão.`,[g('j_move2','Sair da passagem e tentar encontrar os outros')]);
+A lembrança daquela escolha acompanhará você muito depois de conseguir sair do galpão.`,[g('j_npc1','Sair da passagem e tentar encontrar os outros')]);
 N('j_move2','CORREDORES DE SERVIÇO · OUTRA SAÍDA','23:04','warehouse',`O corredor se divide perto de uma placa quebrada. Uma seta aponta para o estacionamento. Outra indica a saída dos funcionários, que contorna o pátio externo. Há marcas antigas de botas no piso, mas nenhuma recente o bastante para dizer por onde o mascarado passou.
 
 Você verifica a posição das pessoas que realmente vieram com você. Um amigo em outro setor pode estar esperando uma resposta. Você se lembra de quem precisou de ajuda na passagem anterior e sente o peso daqueles nomes ao escolher outra saída.
@@ -602,7 +723,7 @@ N('j_route2','COMPLEXO · O SEGUNDO SETOR','23:10','road',`A passagem escolhida 
 
 A chuva voltou. Sob as lâmpadas externas, as gotas parecem fios brancos atravessando o ar. No estacionamento, a água começa a cobrir as marcas no chão. Perto da saída dos funcionários, uma grade vibra com o vento.
 
-Você vê movimento no limite da iluminação. Pode ser alguém tentando se esconder, procurando a própria saída ou simplesmente a sombra de uma lona. Só consegue distinguir depois de se aproximar.
+Uma lona mexe no limite da iluminação, puxada pelo vento que atravessa a grade. Só consegue distinguir depois de se aproximar.
 
 A próxima decisão não será sobre provas. Será sobre quem consegue continuar correndo e quem precisa de ajuda.`,[g('j_crisis2','Aproximar-se com cuidado')]);
 N('j_crisis2','PÁTIO EXTERNO · SEGUNDO MOMENTO DE RISCO','23:13','road',`A luz de uma lanterna varre o muro. Um objeto cai de uma escada de manutenção, e o barulho anuncia que não há muito tempo antes que alguém chegue até vocês.
@@ -612,30 +733,30 @@ N('j_crisis2_help','PÁTIO EXTERNO · O RESGATE','23:16','road',`Você se abaixa
 
 Mas a passagem cede.
 
-— VEM! AGORA! — você grita.
+Você: — VEM! AGORA!
 
 A pessoa consegue atravessar e se apoia em você antes de recuperar o equilíbrio. O agressor investe contra a grade, que vibra sob o impacto. Você corre sem olhar de novo.
 
-Do lado de fora, a chuva encobre os gritos por alguns segundos. Não significa que estão seguros. Só significa que alcançaram o próximo acesso sem perder mais ninguém.`,[g('j_move3','Seguir para o estacionamento')]);
+Do lado de fora, a chuva encobre os gritos por alguns segundos. Não significa que estão seguros. Só significa que alcançaram o próximo acesso sem perder mais ninguém.`,[g('j_npc2','Seguir para o estacionamento')]);
 N('j_crisis2_cost','PÁTIO EXTERNO · UMA ESCOLHA TARDE DEMAIS','23:16','road',`Você tenta alcançar a passagem, mas o caminho estreito impede que os dois se movam ao mesmo tempo. Uma pessoa fica presa entre a grade e o corredor. O mascarado se aproxima pelo lado que vocês não conseguem bloquear.
 
 A lâmina aparece no intervalo entre os tubos de metal. O primeiro golpe atinge o ombro; outro segue antes que você consiga tirar a grade do lugar. O grito atravessa a chuva e se interrompe de maneira abrupta.
 
 Você tenta puxar a estrutura mais uma vez, mas percebe que continuar ali entregará outra vida ao agressor.
 
-O corpo fica do outro lado. Você se afasta cambaleando, com o nome do amigo preso na garganta. A chuva lava parte do sangue do piso, sem conseguir apagar a cena da sua memória.`,[g('j_move3','Recuar antes que o mascarado alcance você')]);
-N('j_crisis2_safe','PÁTIO EXTERNO · CHUVA SOBRE O CONCRETO','23:16','road',`Você alcança a grade e verifica que não há ninguém preso do outro lado. O som que ouviu veio de uma chapa solta, batendo numa estrutura de metal. Não existe motivo para imaginar pessoas onde elas não estão.
+O corpo fica do outro lado. Você se afasta cambaleando, com o nome do amigo preso na garganta. A chuva lava parte do sangue do piso, sem conseguir apagar a cena da sua memória.`,[g('j_npc2','Recuar antes que o mascarado alcance você')]);
+N('j_crisis2_safe','PÁTIO EXTERNO · CHUVA SOBRE O CONCRETO','23:16','road',`Você alcança a grade e verifica que não há ninguém preso do outro lado. O som que ouviu veio de uma chapa solta, batendo numa estrutura de metal. A chapa balançando era a única coisa que se movia naquele trecho. Você aproveita para seguir.
 
 O mascarado aparece no extremo oposto do pátio. Você corre pelo acesso externo, usando a curva do muro para quebrar a linha de visão. O corredor conduz à saída dos veículos, onde há mais iluminação e a possibilidade de encontrar a polícia.
 
-Seu telefone vibra: uma mensagem curta confirma que a viatura enviada ao bairro está a caminho. Você não sabe se chegará a tempo de impedir outro ataque. Não pode parar para descobrir.`,[g('j_move3','Correr para a última saída')]);
+Seu telefone vibra: uma mensagem curta confirma que a viatura enviada ao bairro está a caminho. Você não sabe se chegará a tempo de impedir outro ataque. Não pode parar para descobrir.`,[g('j_npc2','Correr para a última saída')]);
 N('j_move3','ESTACIONAMENTO · PORTÃO PRINCIPAL','23:23','road',`As faixas amarelas do estacionamento estão quase apagadas. Há carros abandonados de manutenção, uma caminhonete com o capô aberto e uma cancela que deveria permitir a passagem para a rua. Você encontra o portão quase fechado e percebe que será necessário acionar o mecanismo manual.
 
 Os passos que se aproximam vêm do lado do galpão. Uma pessoa mascarada emerge por uma passagem entre os depósitos. Está molhada pela chuva, mas continua carregando a mesma lâmina. Não há sinal de outro agressor; é possível que tenha feito o trajeto pelos corredores paralelos enquanto vocês procuravam a saída.
 
 Uma viatura acende as luzes do outro lado do quarteirão. Os policiais ainda precisam alcançar o portão. O tempo até a chegada deles parece maior do que deveria.
 
-Você tenta manter a calma, mas a memória do corpo de Moisés e dos possíveis amigos feridos volta de uma só vez. Não pode salvar pessoas imaginárias. Precisa lidar com quem chegou ao estacionamento de verdade.`,[g('j_crisis3','Organizar a travessia do último bloqueio')]);
+Você tenta manter a calma, mas a memória do corpo de Moisés e dos possíveis amigos feridos volta de uma só vez. Não consegue atravessar sem ouvir o som do mecanismo. Ajusta a mão na alavanca e procura uma abertura para os amigos que continuam próximos.`,[g('j_crisis3','Organizar a travessia do último bloqueio')]);
 N('j_crisis3','ESTACIONAMENTO · ÚLTIMO MOMENTO DE RISCO','23:26','road',`O mecanismo do portão emperra. As luzes de emergência piscam, e o mascarado atravessa a fileira de carros em direção à saída.
 
 Você precisa escolher imediatamente como agir.`,[]);
@@ -645,7 +766,7 @@ Os dois atravessam o vão enquanto o mascarado se aproxima. A lâmina acerta a b
 
 Luzes azuis e vermelhas iluminam o asfalto. Uma voz de policial exige que todos se afastem do portão. O mascarado recua para dentro da oficina e desaparece por um corredor lateral antes que as viaturas possam fechar o acesso.
 
-Você está vivo. A pessoa que ajudou também. Não parece uma vitória; parece apenas uma dívida com a sorte e com o esforço desesperado de continuar correndo.`,[g('j_police','Alcançar os policiais e pedir socorro')]);
+Você está vivo. A pessoa que ajudou também. Não parece uma vitória; parece apenas uma dívida com a sorte e com o esforço desesperado de continuar correndo.`,[g('j_npc3','Alcançar os policiais e pedir socorro')]);
 N('j_crisis3_cost','ESTACIONAMENTO · DIANTE DAS VIATURAS','23:30','road',`O portão abre apenas o suficiente para uma pessoa passar. O mascarado surge na passagem entre os carros e força uma escolha que você não consegue adiar. Há um empurrão, um choque de metal, o som de alguém caindo junto à cancela.
 
 Você tenta voltar, mas a lâmina encontra primeiro a pessoa que ficou bloqueando a passagem. O golpe a atinge profundamente, e o sangue escorre pela guia de concreto. Um segundo ataque interrompe a tentativa de se levantar.
@@ -654,14 +775,14 @@ As sirenes se aproximam. Um policial grita para que você recue. Você se vê fo
 
 Quando os agentes alcançam a entrada, o agressor já desapareceu por uma rota de manutenção. Você tenta explicar o que aconteceu, mas o nome da pessoa perdida sai apenas depois da terceira tentativa.
 
-A noite não termina no instante em que as viaturas chegam. Para você, parte dela ficará presa para sempre naquela cancela.`,[g('j_police','Contar aos policiais quem ficou para trás')]);
+A noite não termina no instante em que as viaturas chegam. Para você, parte dela ficará presa para sempre naquela cancela.`,[g('j_npc3','Contar aos policiais quem ficou para trás')]);
 N('j_crisis3_safe','ESTACIONAMENTO · A CANCELA','23:30','road',`Você corre entre dois veículos e alcança o mecanismo manual do portão. A estrutura resiste, depois cede com um estalo. Do outro lado, uma viatura se aproxima com os faróis acesos.
 
 Não há outro amigo preso na passagem. Você consegue sair sem precisar deixar alguém para trás. Ainda assim, o mascarado chega perto o bastante para fazer a lâmina riscar a lataria de um carro a poucos centímetros de você.
 
 O policial aponta para a rua e exige que você corra. Quando olha para trás, vê a figura recuando para os depósitos, aproveitando os corredores que a polícia ainda não cercou.
 
-Você se agacha na calçada, tentando respirar. O mundo cheira a chuva, gasolina e sangue. Os sons do galpão começam a parecer distantes, como se pertencessem a outra noite.`,[g('j_police','Pedir aos policiais que verifiquem todo o complexo')]);
+Você se agacha na calçada, tentando respirar. O mundo cheira a chuva, gasolina e sangue. Os sons do galpão começam a parecer distantes, como se pertencessem a outra noite.`,[g('j_npc3','Pedir aos policiais que verifiquem todo o complexo')]);
 N('j_police','RUA DA OFICINA · RESGATE','23:37','road',`Uma policial se agacha diante de você. Pergunta se está ferido, se consegue dizer seu nome completo e quantas pessoas entraram no complexo. Você responde uma pergunta por vez, sem inventar posições de quem não viu.
 
 Outras viaturas cercam os depósitos. Um paramédico prepara uma maca, e o rádio confirma que encontraram sinais de luta na sala do guincho. Você tenta contar o que aconteceu com Moisés, mas a garganta se fecha quando precisa descrever o que viu.
@@ -745,7 +866,16 @@ N('j20','LAKEWOOD · UM CONVITE À NOITE','18:44','town',`A noite começa a cair
 
 A mensagem de Moisés continua guardada. Ele pediu uma conversa reservada, mas não disse quando ligaria de novo. Enquanto espera, decide ao menos jantar.
 
-Talvez seja a chance de conversar com a pessoa de quem vem se aproximando desde o Capítulo 5. Talvez seja uma noite de descanso, sem uma rota romântica definida. Você não sabe quanto tempo terá antes que o telefone interrompa a paz.`,[]);
+Você confere as notificações e decide aproveitar algumas horas longe das sirenes antes de responder a Moisés.`,[]);
+
+
+// Perspectivas dos outros núcleos: chamadas curtas entre riscos, uma cronologia contínua.
+for(let part=1;part<=3;part++){
+ N('j_npc'+part,'COMPLEXO · SETOR PARALELO',part===1?'22:59':part===2?'23:17':'23:32','warehouse',`O grupo do protagonista segue adiante. Em outro setor, um amigo precisa agir sem poder esperar uma ordem sua.`,[]);
+ N('j_npc'+part+'_safe','COMPLEXO · OUTRO CAMINHO',part===1?'23:00':part===2?'23:18':'23:33','warehouse',`O setor fica para trás, mas ninguém pode parar até alcançar a saída.`,[g(part===1?'j_move2':part===2?'j_move3':'j_police','Retomar a perspectiva do protagonista')]);
+ N('j_npc'+part+'_hurt','COMPLEXO · FUGA FERIDA',part===1?'23:01':part===2?'23:19':'23:34','warehouse',`A pessoa consegue escapar, mas deixa sangue e uma marca no caminho.`,[g(part===1?'j_move2':part===2?'j_move3':'j_police','Retomar a perspectiva do protagonista')]);
+ N('j_npc'+part+'_cost','COMPLEXO · ÚLTIMO SINAL',part===1?'23:02':part===2?'23:19':'23:34','warehouse',`Um dos amigos não consegue sair. A consequência ficará registrada quando os demais receberem a notícia.`,[g(part===1?'j_move2':part===2?'j_move3':'j_police','Retomar a perspectiva do protagonista')]);
+}
 
 // Cronologia da conversa: preservar a ordem em todas as oito rotas.
 for(const n of nodes){
@@ -755,15 +885,22 @@ for(const n of nodes){
 }
 
 const readablePeople=(s)=>Object.keys(INTRO).filter(id=>!dead(s,id)&&!recentInjury(s,id));
-const PERSONS=['samuel','breno','allan','ryan','rauanny'];
-const PREFERENCE={samuel:'veiculos',ryan:'veiculos',breno:'manutencao',allan:'manutencao',rauanny:'externa'};
+const PERSONS=Object.keys(L);
+const PREFERENCE={samuel:'veiculos',ryan:'veiculos',breno:'manutencao',allan:'manutencao',rauanny:'externa',isabella:'manutencao',laisla:'externa',rayssa:'veiculos'};
 const placeLabel={veiculos:'estacionamento',manutencao:'manutenção',externa:'passagem externa'};
 const survivors=s=>Object.keys(L).filter(id=>!dead(s,id));
 const sel=s=>s?.flags||{};
 function risk(s,part){const f=sel(s),where=f.c7_hero_pos;const region=part===1?'manutencao':part===2?'externa':'veiculos';if(where!==region)return null;const p=party(s);const now=p.filter(id=>f.c7_pos?.[id]===where&&!dead(s,id));
- const priorities=part===1?['allan','breno','ryan','samuel','rauanny']:part===2?['rauanny','samuel','allan','ryan','breno']:['ryan','breno','samuel','rauanny','allan'];
+ const priorities=part===1?['allan','breno','isabella','ryan','samuel','rauanny','laisla','rayssa']:part===2?['rauanny','laisla','samuel','allan','ryan','breno','isabella','rayssa']:['ryan','samuel','rayssa','breno','rauanny','allan','laisla','isabella'];
  return priorities.find(x=>now.includes(x))||null;
 }
+
+function sideTarget(s,part){
+ const f=sel(s);const others=party(s).filter(id=>!dead(s,id)&&f.c7_pos?.[id]!==f.c7_hero_pos&&f.c7_pos?.[id]!=='resgatado');
+ const order=part===1?['breno','isabella','allan','samuel','ryan','rauanny','laisla','rayssa']:part===2?['ryan','rauanny','laisla','samuel','breno','allan','isabella','rayssa']:['samuel','ryan','rayssa','breno','allan','rauanny','isabella','laisla'];
+ return order.find(id=>others.includes(id))||null;
+}
+
 function partyPositions(s){const f=sel(s);if(!f.c7_pos||typeof f.c7_pos!=='object')f.c7_pos={};for(const id of party(s))if(!f.c7_pos[id])f.c7_pos[id]=PREFERENCE[id];}
 function groupWithHero(s){partyPositions(s);return party(s).filter(id=>s.flags.c7_pos[id]===s.flags.c7_hero_pos&&!dead(s,id));}
 function moveGroup(s,from,to){partyPositions(s);for(const id of party(s))if(s.flags.c7_pos[id]===from&&trust(s,id)>=45)s.flags.c7_pos[id]=to;}
@@ -777,7 +914,7 @@ function chooseRoute(s,n){const f=sel(s);let next=n;
  return next;
 }
 function replaceChoice(to,text,effects=[]){return C(text,to,effects)}
-function timer(s,node,choices){if(!['j_crisis1','j_crisis2','j_crisis3'].includes(node)||!choices||choices.length<2)return null;if(window.UG107?.state?.(s)?.timedOff)return null;return {secs:22,fallback:choices.length-1};}
+function timer(s,node,choices){if(!['j_crisis1','j_crisis2','j_crisis3','j_npc1','j_npc2','j_npc3'].includes(node)||!choices||choices.length<2)return null;if(window.UG107?.state?.(s)?.timedOff)return null;return {secs:node.startsWith('j_npc')?17:22,fallback:choices.length-1};}
 function enter(s,id){if(!s?.flags)return false;const f=s.flags;const stamp='c7_enter_'+id;if(f[stamp])return false;f[stamp]=true;let changed=true;
  if(id==='j_party_done'){f.c7_grupo=party(s).join(',');}
  if(id==='j_escape_setup'){partyPositions(s);}
@@ -787,6 +924,9 @@ function enter(s,id){if(!s?.flags)return false;const f=s.flags;const stamp='c7_e
  if(id==='j_move3'){const old=f.c7_hero_pos||'externa';moveGroup(s,old,'veiculos');f.c7_hero_pos='veiculos';}
  if(id==='j_crisis1'||id==='j_crisis2'||id==='j_crisis3'){
   const key=id==='j_crisis1'?'c7_alvo_1':id==='j_crisis2'?'c7_alvo_2':'c7_alvo_3';f[key]=risk(s,id==='j_crisis1'?1:id==='j_crisis2'?2:3)||'';
+ }
+ if(/^j_npc[123]$/.test(id)){
+  partyPositions(s);const part=Number(id.slice(-1));f['c7_side_'+part]=sideTarget(s,part)||'';
  }
  if(id==='j_last_01'){f.c7_moises_morto=true;}
  return changed;
@@ -807,6 +947,28 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
   const lost=['laisla','rauanny','isabella','allan','ryan'].filter(x=>dead(s,x));
   text+=lost.length?'\n\nA notícia mais difícil já foi confirmada: '+names(lost)+'. Nenhuma conversa pode substituir essas pessoas. Você evita olhar para os lugares que deveriam ocupar.':'\n\nOs oito amigos sobreviveram ao ataque ao apartamento, embora alguns ainda precisem de cuidados. O alívio não apaga o que aconteceu.';
  }
+
+ if(id==='j02'){
+  if(dead(s,'breno'))text=text.replace('Breno enviou uma mensagem perguntando se você conseguiu descansar.','Você encontra mensagens da equipe do hospital perguntando se alguém precisa de apoio. O nome de Breno não aparece entre os novos recados.');
+  if(dead(s,'samuel'))text=text.replace('Samuel escreveu e apagou alguma coisa no grupo, várias vezes.','O grupo fica silencioso depois de algumas tentativas de conversa. Samuel já não pode responder.');
+ }
+ if(id==='j13'){
+  if(dead(s,'isabella'))text=text.replace('Isabella e os outros respondem em horários diferentes.','Os sobreviventes respondem em horários diferentes, sem novas mensagens de Isabella.');
+  if(dead(s,'samuel'))text=text.replace('Samuel quer saber quem teve acesso às informações.','Os sobreviventes querem saber quem teve acesso às informações.');
+  if(dead(s,'breno'))text=text.replace('Breno pede que verifiquem o horário original da captura.','O protagonista registra o horário original da captura para comparação.');
+  if(dead(s,'ryan'))text=text.replace('Ryan tenta impedir que a conversa se transforme em uma caça às bruxas.','Ninguém sabe como impedir que a conversa vire uma caça às bruxas.');
+ }
+ if(id==='j14'){
+  if(dead(s,'samuel'))text=text.replace('Samuel envia apenas: «Não dá pra continuar fingindo que é coincidência».','Alguém escreve: «Não dá pra continuar fingindo que é coincidência».');
+  if(dead(s,'breno'))text=text.replace('Breno pede que ninguém apague nada.','Você pede que ninguém apague nada.');
+ }
+ if(id==='j_talk_rauanny'&&dead(s,'laisla'))text=text.replace('Ela me conhece quando', 'Ela me conhecia quando').replace('posso perder essa pessoa num segundo','perdi essa pessoa num segundo');
+ if(id==='j_date_personal_rayssa'&&dead(s,'isabella'))text=text.replace('Usa até hoje.','Usava até o último aniversário.').replace('Ela ri, mas logo fica olhando para a mesa.','Rayssa tenta rir, mas os olhos ficam úmidos ao lembrar de Isabella. Ela pousa os talheres antes de continuar.');
+ if(id==='j15'){
+  if(dead(s,'breno'))text=text.replace('Breno manda uma mensagem perguntando se você ainda está fora.','Uma notificação antiga de Breno permanece salva, mas não chega nenhuma mensagem nova dele.');
+  if(dead(s,'samuel'))text=text.replace('Samuel quer saber se apareceu alguma novidade sobre o mascarado.','No grupo, alguém pergunta se apareceu alguma novidade sobre o mascarado.');
+ }
+
  if(id==='j03'){
   const can=readablePeople(s);cs=can.map(p=>C('Chamar '+L[p]+' para uma conversa reservada','j_talk_'+p,[F('conversou_'+p)]));
   if(!can.length)cs=[g('j03_none','Respeitar a recuperação dos outros e ficar um pouco só')];
@@ -863,7 +1025,22 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
   const joined=party(s);text+='\n\n'+(joined.length?'Estão a caminho ou encontrarão você no acesso combinado: '+names(joined)+'.':'Ninguém conseguiu ou decidiu acompanhar você. Vai precisar lidar com a situação sozinho e contar com a polícia.');
   if(joined.includes('samuel')&&dead(s,'allan'))text+='\n\nSamuel mantém o celular na mão e evita comentar o nome de Allan. O luto pelo melhor amigo continua determinando como reage a qualquer pedido de ajuda.';
  }
- if(id==='j_h01')text+='\n\n'+(party(s).length?'Os participantes confirmados recebem seu endereço. Isso não significa que todos tenham chegado ao mesmo corredor; cada um se aproxima por uma entrada.':'Você não tem companhia física nesse local.');
+ if(id==='j_h01'){
+  const companions=party(s);text+='\n\n'+(companions.length?'Você confere as respostas: '+names(companions)+' aceitaram acompanhá-lo. '+companions.map(x=>L[x]+' entrará pelo '+(placeLabel[PREFERENCE[x]]||'acesso principal')).join('; ')+'. Os outros amigos não estão no complexo.':'Você chegou sozinho. Nenhum outro amigo aceitou entrar no complexo com você.');
+ }
+ if(['j_h02','j_h03','j_escape_setup','j_route1','j_route2','j_move2','j_move3','j_crisis1','j_crisis2','j_crisis3'].includes(id)){
+  partyPositions(s);
+  const everyone=party(s).filter(x=>!dead(s,x));
+  if(!f.c7_hero_pos&&id.startsWith('j_h')){
+    text+='\n\n'+(everyone.length?'Antes de entrar, você confirma pelo celular: '+names(everyone)+' estão a caminho pelos acessos previamente combinados.':'Você não recebeu confirmação de nenhum amigo presente na oficina.');
+  }else{
+    const sector=placeLabel[f.c7_hero_pos||'manutencao']||'setor de manutenção';
+    const same=everyone.filter(x=>f.c7_pos[x]===f.c7_hero_pos);
+    const elsewhere=everyone.filter(x=>f.c7_pos[x]!==f.c7_hero_pos);
+    text+='\n\nVocê está no '+sector+'. '+(same.length?'Ao seu lado: '+names(same)+'.':'Nenhum amigo está ao seu lado agora.')+' '+(elsewhere.length?'Em outros setores, conforme as últimas posições confirmadas: '+elsewhere.map(x=>L[x]+' — '+(placeLabel[f.c7_pos[x]]||'posição não confirmada')).join('; ')+'. Essas posições não revelam o que está acontecendo com eles.':'Não há outro núcleo de amigos separado neste momento.');
+  }
+ }
+
  if(id==='j_death_gate'){const route=chooseRoute(s,id);const label=route==='j_m_death_show'?'Acompanhar os últimos instantes no guincho':route==='j_m_death_hear'?'Ouvir a ligação instável': 'Seguir as marcas no corredor';cs=[g(route,label)];}
  if(id==='j_after_death'){
   cs=(f.c7_hero_presenciou_desfecho)?[g('j_evidence','Afastar-se e tentar preservar as evidências')]:[g('j_body','Verificar o que está pendurado no guincho')];
@@ -891,6 +1068,36 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
   const elsewhere=party(s).filter(x=>!at.includes(x));if(elsewhere.length)text+='\n\n'+names(elsewhere)+' permanece em outra parte do complexo. Você só recebe informações se houver comunicação.';
   location='COMPLEXO · '+(placeLabel[f.c7_hero_pos||'manutencao']).toUpperCase();
  }
+
+ for(let part=1;part<=3;part++){
+  const target=f['c7_side_'+part];
+  const base='j_npc'+part;
+  if(id===base){
+    if(!target||dead(s,target)){
+      text='PONTO DE VISTA: PROTAGONISTA\n\nVocê confere as últimas mensagens: não há ninguém isolado em outro setor aguardando resgate neste momento. A saída continua adiante.';
+      cs=[g(part===1?'j_move2':part===2?'j_move3':'j_police','Prosseguir pela rota confirmada')];
+    }else{
+      const area=placeLabel[f.c7_pos?.[target]]||'corredor de serviço';
+      const companion=party(s).filter(x=>x!==target&&!dead(s,x)&&f.c7_pos?.[x]===f.c7_pos?.[target]);
+      const ally=companion[0];
+      location='COMPLEXO · '+area.toUpperCase();
+      text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+(part===1?'22h59':part===2?'23h17':'23h32')+'. O protagonista está em '+(placeLabel[f.c7_hero_pos]||'outro setor')+'. '+L[target]+' está no '+area+(ally?', junto de '+L[ally]:' e sem outro amigo ao alcance')+'. A porta que leva de volta ao grupo está fechada.\n\nUm estalo corta o ruído do exaustor. '+L[target]+' reconhece o ranger de um mecanismo antigo, seguido de passos no corredor vizinho. Uma sombra cruza a abertura. Para voltar ao portão, é preciso passar por uma sala estreita e alcançar um botão de emergência atrás de uma grade.\n\n'+L[target]+': — Merda. Não tem como voltar pelo mesmo caminho.\n\n'+(ally?L[ally]+': — Se a gente ficar parado, ele acha a gente. Decide logo.':'O celular vibra sem sinal suficiente para completar uma ligação. Ninguém pode escolher por '+L[target]+'.');
+      cs=[C('Forçar a grade usando o apoio da parede','j_npc'+part+'_safe',[F('side_salvou_'+target+'_'+part),['trait','coragem',1]]),
+      C('Usar o corredor estreito e proteger o braço com a jaqueta','j_npc'+part+'_hurt',[['injury7',target],F('side_feriu_'+target+'_'+part)]),
+      C('Correr pela porta iluminada sem verificar quem vem atrás','j_npc'+part+'_cost',[['death7',target],F('side_perdeu_'+target+'_'+part)])];
+    }
+  }
+  if(id===base+'_safe'&&target){
+    text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+L[target]+' apoia as costas contra a parede, prende a respiração e força a grade com o peso do corpo. O ferro entorta para fora, abrindo espaço suficiente para atravessar.\n\nUm braço coberto por tecido escuro tenta alcançar a fresta, mas '+L[target]+' fecha a passagem antes do golpe.\n\n'+L[target]+': — CONSEGUI! SAI DAÍ!\n\nA escada dos funcionários leva ao próximo setor. '+L[target]+' corre para a área iluminada, com os pulsos doloridos, mas vivo.';
+  }
+  if(id===base+'_hurt'&&target){
+    text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+L[target]+' encosta o ombro na grade e tenta passar de lado. O metal rasga a manga, ferindo o braço. A dor chega junto com um gosto de ferrugem na boca.\n\n'+L[target]+': — AAH! DROGA!\n\nA pessoa mascarada se aproxima pelo corredor atrás da grade. '+L[target]+' segura o ferimento, deixa sangue na maçaneta e atravessa uma porta de serviço para alcançar a saída. Escapou, mas precisará de atendimento.';
+  }
+  if(id===base+'_cost'&&target){
+    if(f['c7_morto_'+target])text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+L[target]+' corre para a luz sem conferir a trava do portão. O impacto da porta bloqueada joga seu corpo de volta contra a estrutura. A pessoa mascarada aparece a poucos passos.\n\n'+L[target]+': — NÃO! SAI DE PERTO DE MIM!\n\nUm golpe atinge seu ombro, outro o derruba. '+L[target]+' tenta se erguer, mas a passagem está fechada. O último som que escuta é o barulho de passos se afastando.\n\nMais tarde, o grupo receberá a confirmação de que '+L[target]+' morreu naquele setor.';
+    else text='PONTO DE VISTA: '+L[target].toUpperCase()+'\n\n'+L[target]+' corre para a saída, mas a grade bloqueada o obriga a voltar. A pessoa mascarada o alcança e o fere. Um alarme dispara próximo à doca e o agressor recua diante das luzes que começam a acender. '+L[target]+' rasteja para a passagem de manutenção, ferido, mas vivo.';
+  }
+ }
  for(const num of [1,2,3]){
   const crisis='j_crisis'+num, idRisk='c7_alvo_'+num,target=f[idRisk];
   if(id===crisis){
@@ -904,8 +1111,16 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
         C('Seguir pela abertura antes que o mascarado chegue','j_crisis'+num+'_cost',[['death7',val],F('deixou_'+val+'_'+num),['trait','cautela',1]])];
     }
   }
-  if(id===crisis+'_help'){const t=f[idRisk];if(t)text+='\n\n'+L[t]+' alcança você do outro lado. Está vivo, embora visivelmente abalado. Você espera ouvir sua respiração antes de começar a correr novamente.';}
-  if(id===crisis+'_cost'){const t=f[idRisk];if(t)text+='\n\n'+L[t]+' morreu durante essa tentativa de fuga. Você sabe onde o viu pela última vez. A informação será levada à polícia; não será substituída por um reencontro impossível.';}
+  if(id===crisis+'_help'){const t=f[idRisk];if(t){
+      text=text.replace('— NÃO PARA! — alguém grita.',L[t]+': — NÃO PARA!');
+      text+='\n\n'+L[t]+' alcança você do outro lado. Está vivo, embora visivelmente abalado.\n\n'+L[t]+': — Tô aqui! Eu consegui!\n\nVocê espera ouvir sua respiração antes de começar a correr novamente.';
+      text=text.replace(/A pessoa consegue atravessar/g,L[t]+' consegue atravessar').replace(/A pessoa resgatada/g,L[t]).replace(/Quem você ajudou/g,L[t]).replace(/Alguém grita seu nome/g,L[t]+' grita seu nome').replace(/A pessoa que ajudou/g,L[t]);
+   }}
+  if(id===crisis+'_cost'){const t=f[idRisk];if(t){
+   text=text.replace(/A pessoa fica presa/g,L[t]+' fica preso').replace(/Uma pessoa fica presa/g,L[t]+' fica preso').replace(/a pessoa que ficou bloqueando a passagem/g,L[t]).replace(/o nome da pessoa perdida/g,'o nome de '+L[t]);
+   if(f['c7_morto_'+t])text+='\n\n'+L[t]+' morreu durante essa tentativa de fuga. Você sabe onde o viu pela última vez. A informação será levada à polícia; não será substituída por um reencontro impossível.';
+   else text+='\n\n'+L[t]+' continua vivo, mas gravemente ferido. A polícia precisará socorrê-lo; já ocorreram mortes demais nesta noite.';
+   }}
  }
  if(id==='j_move2'||id==='j_move3'){
   text+='\n\n'+(withHero().length?'Ainda se movem perto de você: '+names(withHero())+'.':'Você avança sem companhia no corredor.');
@@ -932,7 +1147,7 @@ function resolve(id,s,n){if(!n||!s)return n;const f=sel(s);let text=n.text, cs=[
   const lost=PERSONS.filter(x=>f['c7_morto_'+x]);
   text+='\n\n'+(lost.length?'Nesta noite você perdeu também '+names(lost)+'. O destino deles está registrado e continuará importando nos próximos capítulos.':'Todos os amigos que sobreviveram aos capítulos anteriores também conseguiram sair vivos desta investigação.');
  }
- return {...n,text,choices:cs,location};
+ text=dramaticText(text,id,s);return {...n,text,choices:cs,location};
 }
 const clues={
  c7_livro_servico:{title:'Livro de entradas da propriedade',category:'Capítulo 7 · Bella',text:'Um registro de manutenção delimita a movimentação perto da guarita dos Gomes. Não identifica o assassino.'},

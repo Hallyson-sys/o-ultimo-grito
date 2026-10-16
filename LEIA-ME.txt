@@ -1,3 +1,7 @@
+VERSÃO ATUAL: V1.1.1 — CAPÍTULO 7 REVISADO (DIÁLOGOS, JANTARES, PERSEGUIÇÃO E PISTAS).
+Leia NOVIDADES-V1.1.1.txt antes de atualizar. Envie TODOS os arquivos do pacote extraído para a raiz do repositório, principalmente chapter7.js, game.js e index.html.
+IMPORTANTE: Exporte seus saves antes de atualizar. Se você já passou por uma cena, o jogo não a repetirá automaticamente; para experimentar uma nova ramificação, será necessário rejogar a cena usando outro slot ou um save anterior.
+
 VERSÃO ATUAL: V1.1 — CAPÍTULO 7: A NOITE DOS TRAIDORES.
 Leia NOVIDADES-V1.1.txt. IMPORTANTE: envie o novo arquivo chapter7.js ao GitHub junto de index.html e game.js.
 

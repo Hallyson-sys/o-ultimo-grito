@@ -1,0 +1,42 @@
+O ÚLTIMO GRITO — V1.1.1 · CAPÍTULO 7 REVISADO
+
+Esta é uma versão COMPLETA do jogo: prólogo + capítulos 1, 2, 3, 4, 5, 6 e 7. Não é um patch isolado.
+
+1. DIÁLOGOS E NARRAÇÃO
+• Separação visual mais consistente de falas e ações no capítulo 7, utilizando cartões com o nome do personagem.
+• Reescrita das apresentações das oito conversas íntimas; ações ficam na narração e falas identificadas nos cartões.
+• Ajustes nas falas de Bella e nas despedidas, com correções de horários e gênero de perspectiva.
+
+2. JANTARES E RELACIONAMENTOS
+• Convites individualizados de Ryan, Breno, Rayssa e Rauanny, citando nomes e com troca de mensagens contextualizada.
+• Diálogos e assuntos particulares dos quatro romances: história pessoal, sonhos e intimidade, sem namoro oficial automático.
+• Um novo momento de conversa interativa e de escolhas para cada jantar; alternativa para quem está solteiro ou perdeu/tem parceiro em recuperação.
+• Continuidade caso Isabella tenha morrido: Rayssa não fala da amiga no tempo presente como se estivesse viva.
+
+3. PERSEGUIÇÃO E PONTOS DE VISTA
+• Intertítulos “PONTO DE VISTA: MOISÉS”, “PROTAGONISTA” e amigos isolados, mostrando claramente quem está sendo controlado.
+• Mais momentos jogáveis com os amigos isolados, com três resultados possíveis (escapar, ferir-se ou morrer), consequências persistentes e cronômetro opcional.
+• Lista explícita de convidados que realmente foram para a oficina, setores da perseguição e amigos presentes com o protagonista.
+• Convites disponíveis para amigos vivos e em condições físicas de participar; ninguém morto reaparece automaticamente.
+• Resgate com nomes concretos, acompanhamento por setores e até três mortes evitáveis entre os amigos.
+• Mantidas três formas de viver o desfecho fatal de Moisés, inclusive a descoberta do corpo, conforme as escolhas, sem revelar quem usa a máscara.
+
+4. CORREÇÕES DO MENU
+• “Pistas e conexões” não trava quando uma pista antiga ou recente não tem categoria definida.
+• Efeito borboleta mostra os acontecimentos mais recentes primeiro, organizado do Capítulo 7 para os anteriores, sem spoilers do futuro.
+
+5. SAVE, COMPATIBILIDADE E LIMITES
+• Mesmas chaves de salvamento e três slots da V1.1, normalizados para V1.1.1.
+• Sua partida pode continuar de onde parou. Cenas já ultrapassadas não são reexecutadas retroativamente: use um slot anterior ou novo jogo para testar os diálogos e ramificações atualizados.
+• A duração real varia com leitura e escolhas; não há cronômetro de leitura humana embutido nem garantia de um número exato de minutos.
+• O áudio, retratos, mobile e capítulos 1–6 permanecem no pacote.
+
+PUBLICAÇÃO
+Exporte um backup JSON dos saves. Extraia o ZIP e envie TODOS os arquivos de dentro da pasta “O_Ultimo_Grito_v1_1_1” para a RAIZ do seu repositório GitHub. index.html, chapter7.js e game.js precisam ser sobrescritos pelos novos arquivos. Publique no Render como anteriormente.
+
+TESTES
+• 555 nós narrativos totais / 156 nós no Capítulo 7 verificados contra suas escolhas: nenhum destino inexistente.
+• 1.500 percursos simulados até o final, com 0 a 3 mortes evitáveis entre os amigos.
+• Navegação real em Chromium com larguras 320, 390 e 1365 px, sem transbordamento lateral ou erros JavaScript nos cenários testados.
+• Testado “Pistas e conexões” com pistas antigas/novas e efeito borboleta com ordenação decrescente dos capítulos.
+• Os testes automatizados não substituem uma partida humana integral no Safari do iPhone.
