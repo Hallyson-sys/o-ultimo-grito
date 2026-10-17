@@ -1,3 +1,14 @@
+O ÚLTIMO GRITO — V1.2.1 · CAPÍTULO 8 REVISADO
+
+Novidades e correções nesta versão: consulte NOVIDADES-V1.2.1.txt.
+
+ATUALIZAÇÃO SEM PERDER O SAVE
+1. No jogo atual, abra as opções e exporte cada slot importante para JSON.
+2. Extraia este ZIP. Envie todos os arquivos de dentro desta pasta para a raiz do seu repositório GitHub (sem criar uma subpasta extra).
+3. Aguarde a publicação do Render e recarregue o site no navegador. Se necessário, feche e abra a aba para atualizar o cache.
+4. Continue normalmente no slot existente. O save não é apagado pela atualização dos arquivos no GitHub.
+5. Cenas que você já percorreu não serão reexecutadas automaticamente. As novas ramificações surgem ao alcançá-las numa partida ou save anterior.
+
 VERSÃO ATUAL: V1.2 — CAPÍTULO 8: ÁGUAS TURVAS.
 Leia NOVIDADES-V1.2.txt. O pacote contém prólogo + capítulos 1 a 8. Envie TODOS os arquivos da pasta extraída à raiz do GitHub. Exporte seu save em JSON antes de atualizar.
 

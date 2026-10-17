@@ -1,0 +1,21 @@
+O ÚLTIMO GRITO — V1.2.1 · CAPÍTULO 8 REVISTO
+
+Versão completa e offline, com todos os capítulos 1–8, trilhas e retratos.
+
+MELHORIAS:
+- Discussão após o Capítulo 7 ampliada com acusações explícitas entre Isabella/Samuel, Allan/Samuel, Rauanny/Breno, Laisla/Rauanny e intervenções de Ryan e Rayssa (só se estiverem vivos); consequências e reações à acusação do protagonista.
+- Nova conclusão da conversa com Bella antes do POV dela na biblioteca.
+- Flashback afetivo Bella/Jullia, numa lembrança com bolo de aniversário e estrelas, sem antecipar revelações.
+- Conversas ampliadas e exclusivas para os oito amigos: diálogo pessoal, plano de futuro, temor, reconciliação e possibilidade de falar com um segundo amigo disponível.
+- Mensagem do interesse romântico (Ryan, Breno, Rayssa ou Rauanny): opção de responder, trocar mensagens e registrar a conversa; ou deixar no vácuo, afetando afinidade e gerando resposta magoada. Cenas solo/luto preservadas.
+- Remoção da fala explícita sobre supostos cuidados recebidos por Jullia. Registro da farmácia permanece sem lista de produtos.
+- Conclusão adaptada a Bella levemente ferida, gravemente ferida ou no hospital, sem alternativas condicionais escritas para o jogador.
+- Mais cenas de consequência, investigação, deslocamento seguro e depoimentos, para melhorar o ritmo e aproximar a duração desejada.
+- Continuidade dos dois riscos evitáveis, do registro de posição dos acompanhantes, da investigação e da ponte para o Capítulo 9.
+
+SALVAMENTOS:
+- Mesmas chaves dos 3 slots. Não apaga saves. Faça exportação do save JSON antes da atualização.
+- Cenas já percorridas não serão reapresentadas automaticamente; cenas ainda não percorridas usam novos textos, escolhas e ramificações.
+- Não foram alterados os resultados já gravados no capítulo 8.
+
+TESTES: execução de 1.200 simulações de navegação em estados variados; revisão de opções, finais, romances e três estados de Bella. Duração estimada — requer teste humano.

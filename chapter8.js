@@ -49,7 +49,21 @@ Você: — Não dá pra fingir que essa mensagem não chegou pra todos nós.
 
 Ninguém discorda. O que começa como silêncio logo se transforma em vozes sobrepostas. Não é só a ameaça. É o fato de terem sobrevivido a tantas noites e ainda não conseguirem explicar quem está entregando seus passos.
 
-A policial pediu que preservassem o histórico. As mensagens continuam intactas, iluminando a mesa como pequenas acusações.`,[G('k8_02','Ouvir as acusações antes de tomar partido'),G('k8_02','Pedir calma e exigir que confiram os horários',[['trait','cautela',1]])]);
+A policial pediu que preservassem o histórico. As mensagens continuam intactas, iluminando a mesa como pequenas acusações.`,[G('k8_debate','Deixar que todos digam o que estão guardando'),G('k8_debate','Pedir calma e exigir que confiram os horários',[['trait','cautela',1]])]);
+N('k8_debate','HOSPITAL · SALA RESERVADA','00:50','house',`O que parecia um momento de silêncio começa a virar discussão quando uma cadeira é empurrada para trás.
+
+Você conhece aquelas vozes desde antes da estrada. Sabe quando Samuel está perdendo a paciência e quando Isabella tem algo a dizer, mas espera o momento de mostrar uma prova. Só que hoje o medo muda a expressão de todos.
+
+O celular na mesa continua com a mesma mensagem: «Boa noite, traidores».
+
+Você: — Antes que alguém saia acusando o primeiro nome que vier à cabeça, a gente precisa lembrar do que sabe.
+
+A resposta não vem de uma pessoa só. Vem de quem ainda está ali e não aguenta mais guardar a raiva.
+
+A enfermeira passa no corredor e pede que baixem as vozes. Ninguém parece ter escutado.`,[
+ C('Dizer que suspeitas não são provas','k8_02',[F('tentou_mediar'),['trait','cautela',1]]),
+ C('Perguntar quem sabia do encontro com Moisés','k8_02',[F('cobrou_acesso'),['trait','franqueza',1]]),
+ C('Admitir que também está com medo de ser traído','k8_02',[F('admitiu_medo'),['trait','empatia',1]])]);
 N('k8_02','HOSPITAL · SALA RESERVADA','00:52','house',`O começo da discussão é desordenado. A morte de Moisés coloca uma pergunta sobre cada cadeira ocupada: quem sabia onde ele estaria? As vozes se cruzam; uma cadeira arranha o piso e uma mão bate na mesa com força suficiente para silenciar o corredor.
 
 A porta permanece encostada. Do lado de fora, passos se aproximam, param e se afastam novamente. Você reconhece essa dinâmica: na noite do acidente, os amigos também falaram todos de uma vez até que o grupo tomou uma decisão terrível.
@@ -84,7 +98,36 @@ Você fica parado no corredor, ouvindo o ar-condicionado. Na tela, a conversa do
 
 Lá fora, a chuva começa a bater nas vidraças do hospital. A próxima vez em que precisar pedir ajuda talvez não baste escrever «vem comigo».
 
-Você olha os nomes que continuam no grupo. Alguns já não poderão responder nunca mais.`,[G('k8_03','Deixar que a madrugada termine')]);
+Você olha os nomes que continuam no grupo. Alguns já não poderão responder nunca mais.`,[G('k8_debate_end','Encarar as consequências do que foi dito')]);
+N('k8_debate_end','HOSPITAL · CORREDOR','01:07','house',`A porta da sala se fecha. Você ainda ouve uma voz pedindo que ninguém apague mensagens, seguida por uma resposta irritada que não consegue distinguir.
+
+O corredor cheira a desinfetante. Não parece o mesmo lugar onde vocês chegaram tentando se abraçar depois da oficina.
+
+Você pega o celular. Há pessoas para quem seria fácil escrever uma desculpa, outras que provavelmente deixariam a mensagem sem resposta. A última vez que o grupo decidiu tudo num impulso, alguém desapareceu e o mundo de vocês se partiu.
+
+Você se senta perto da máquina de água e espera que a respiração volte ao normal. Ninguém precisa acreditar que a discussão resolveu alguma coisa. Ela apenas deixou claro que os próximos pedidos de ajuda talvez tenham respostas diferentes.`,[
+ C('Enviar ao grupo os horários que puder comprovar','k8_noite_separados',[F('enviou_horarios'),Q('c8_horarios_conferidos')]),
+ C('Mandar mensagem privada a quem você magoou','k8_noite_separados',[F('tentou_reaproximar'),['trait','empatia',1]]),
+ C('Guardar o telefone e respeitar a distância de quem saiu','k8_noite_separados',[F('respeitou_distancia'),['trait','cautela',1]])]);
+N('k8_noite_separados','HOSPITAL · SALA DE ESPERA','01:17','house',`A máquina de café faz um barulho alto demais para aquele corredor. Você compra uma bebida que nem tem vontade de tomar, só para ter alguma coisa entre as mãos.
+
+Uma enfermeira passa com uma caixa de máscaras descartáveis. Reconhece o grupo pela movimentação da madrugada anterior e pergunta se alguém precisa que ela chame um médico.
+
+Você: — Não. Só... se alguém perguntar por mim, tô aqui.
+
+Ela assente e segue o caminho.
+
+Ao olhar o celular, você percebe como a discussão dividiu até as conversas particulares. Antes, qualquer coisa engraçada era enviada para o grupo inteiro. Agora há mensagens privadas, perguntas pela metade, pedidos de desculpa que terminam sem resposta.
+
+Você abre uma fotografia antiga de todos reunidos num aniversário. Samuel está abraçado a Allan; Ryan faz uma careta no fundo; Isabella tenta impedir que alguém derrube o bolo. Laisla, Rauanny, Rayssa e Breno aparecem em lugares diferentes da mesa, mas ninguém parece precisar perguntar onde está o outro.
+
+A foto não prova que todos confiavam em todos. Só mostra que havia uma época em que vocês conseguiam passar uma noite inteira pensando em outras coisas.
+
+Alguém se aproxima pelo corredor. Por um instante, você se prepara para ouvir outra acusação. O rosto que aparece não tem raiva, apenas cansaço.
+
+Você percebe que ainda existe uma diferença entre estar magoado e desejar que uma pessoa morra. Precisa se lembrar disso antes da próxima decisão.`,[
+ C('Perguntar se a pessoa quer apenas companhia em silêncio','k8_03',[F('apoiou_madrugada'),['trait','empatia',1]]),
+ C('Conferir novamente os horários para não alimentar suspeitas falsas','k8_03',[F('reviu_depoimentos'),['trait','cautela',1]])]);
 N('k8_03','HOSPITAL · MANHÃ SEGUINTE','08:13','town',`PONTO DE VISTA: PROTAGONISTA
 
 O dia amanhece cinzento, com um noticiário repetindo as poucas informações liberadas sobre o ataque na oficina. A reportagem não tem todas as respostas. Você também não.
@@ -111,9 +154,28 @@ O silêncio entre vocês é interrompido por um ônibus freando na rua. Bella er
 Bella: — Tô conseguindo consultar uns arquivos de manutenção. Não quero te arrastar pra nada, mas eu vou olhar. E se você aparecer, não vai poder me oferecer uma mentira bonita e esperar que eu agradeça.
 
 A última frase fica entre vocês, mais pesada do que um convite.`,[
- C('Perguntar se ela quer companhia e prometer transparência','k8_05',[F('bella_confianca'),['trait','empatia',2]]),
- C('Oferecer somente as provas que já foram preservadas','k8_05',[F('bella_provas'),['trait','cautela',1]]),
- C('Dizer que ela está se colocando em risco demais','k8_05',[F('bella_advertida'),['trait','coragem',1]])]);
+ C('Perguntar se ela quer companhia e prometer transparência','k8_bella_despedida',[F('bella_confianca'),['trait','empatia',2]]),
+ C('Oferecer somente as provas que já foram preservadas','k8_bella_despedida',[F('bella_provas'),['trait','cautela',1]]),
+ C('Dizer que ela está se colocando em risco demais','k8_bella_despedida',[F('bella_advertida'),['trait','coragem',1]])]);
+N('k8_bella_despedida','HOSPITAL · CALÇADA','08:46','town',`Você permanece junto de Bella. Os carros passam molhando a sarjeta, e ela parece procurar um modo de encerrar a conversa sem afastar você por completo.
+
+Bella: — Desculpa se eu tô falando atravessado. Eu sei que você também perdeu gente. Não é uma competição de quem tá pior.
+
+Você: — Eu não quero disputar nada com você.
+
+Bella: — Ainda bem. Porque eu sou péssima perdedora.
+
+Ela tenta rir. O sorriso dura pouco. Do outro lado da rua, alguém derruba um copo de café e os dois se assustam com o estalo do plástico.
+
+Bella: — Antes, quando eu passava por aqui, comprava dois pães de queijo. Um pra mim e outro pra Ju. Ela reclamava que o meu era maior e depois roubava metade.
+
+Você: — E você deixava?
+
+Bella: — Eu fingia que ficava puta. Era mais divertido.
+
+O ônibus que Bella precisa pegar encosta no ponto. Ela fecha o zíper da jaqueta, conferindo o bolso com as chaves e o telefone.
+
+Bella: — Vou atrás dos papéis. Não porque eu acho que tenho respostas. Porque eu cansei de viver só com o que as pessoas dizem que aconteceu.`,[G('k8_05','Deixar Bella seguir para a biblioteca e retomar a perspectiva dela')]);
 N('k8_05','BIBLIOTECA DE LAKEWOOD · ARQUIVO','12:04','town',`PONTO DE VISTA: BELLA GOMES
 
 A biblioteca municipal não tem o cheiro de lugar onde se encontra um segredo. Cheira a papel úmido, produtos de limpeza e café frio. Bella coloca um caderno sobre a mesa e abre o arquivo de solicitações que conseguiu consultar com autorização da funcionária.
@@ -188,9 +250,86 @@ Bella: — Você ainda me deve aquele casaco, sua chata.
 Ela apaga a tela antes que a bibliotecária repare no sorriso que não conseguiu segurar.
 
 Não é uma descoberta policial. É uma lembrança de que a pessoa desaparecida era mais que um nome num arquivo. Bella dobra as folhas e decide que não vai permitir que a história de Jullia seja reduzida àquela estrada.`,[
- C('Compartilhar com o protagonista todas as páginas úteis','k8_bella_message',[F('bella_compartilhou'),F('bella_exata'),['trait','franqueza',1]]),
- C('Guardar uma das anotações até conferir a fonte','k8_bella_message',[F('bella_guardou'),['trait','cautela',1]]),
- C('Enviar somente a localização da estação','k8_bella_message',[F('bella_local'),['trait','cautela',1]])]);
+ C('Compartilhar com o protagonista todas as páginas úteis','k8_flashback_inicio',[F('bella_compartilhou'),F('bella_exata'),['trait','franqueza',1]]),
+ C('Guardar uma das anotações até conferir a fonte','k8_flashback_inicio',[F('bella_guardou'),['trait','cautela',1]]),
+ C('Enviar somente a localização da estação','k8_flashback_inicio',[F('bella_local'),['trait','cautela',1]])]);
+N('k8_flashback_inicio','BELLA · LEMBRANÇA · CASA DOS GOMES','UM ANO ANTES','house',`PONTO DE VISTA: BELLA GOMES — LEMBRANÇA
+
+A foto no telefone traz outra tarde de volta, meses antes da festa em que Jullia desapareceu.
+
+Chovia tão forte que as luzes da sala precisaram ficar acesas às três da tarde. Bella tinha chegado encharcada, as meias fazendo barulho no piso. Na cozinha, Jullia tentava acender uma vela de aniversário num bolo torto comprado às pressas.
+
+Jullia: — Você prometeu que chegava antes das duas.
+
+Bella: — E você prometeu que ia ser um bolo normal. A gente tá quites.
+
+Jullia: — Esse bolo custou uma fortuna!
+
+Bella: — Então foi um assalto. Tem cara de ter caído no chão e alguém colado com cobertura.
+
+Jullia segura o riso por dois segundos. No terceiro, ri tão alto que a vela apaga.
+
+Jullia: — Parabéns. Agora acende de novo, engraçadinha.
+
+Bella observa a irmã procurar o isqueiro. Jullia ficava insuportável quando planejava alguma coisa: precisava que tudo estivesse bonito, que todo mundo chegasse no horário, que ninguém percebesse o trabalho que ela tinha tido.
+
+Mas aquele bolo torto era só para as duas. E Jullia tinha lembrado do sabor favorito de Bella.
+
+Bella: — Tá. Foi fofo. Não se acostuma.
+
+Jullia: — Repete que eu vou gravar.
+
+Bella: — Vai sonhando, Ju.
+
+Jullia entrega o primeiro pedaço à irmã. A tempestade continua lá fora; dentro da cozinha, ninguém tem pressa.`,[
+ C('Lembrar o presente escondido na gaveta','k8_flashback_final',[F('bella_memoria_presente')]),
+ C('Lembrar a pequena briga que virou piada','k8_flashback_final',[F('bella_memoria_briga')])]);
+N('k8_flashback_final','BELLA · LEMBRANÇA · QUARTO DAS IRMÃS','UM ANO ANTES','house',`PONTO DE VISTA: BELLA GOMES — LEMBRANÇA
+
+Mais tarde, as duas estão sentadas no chão do quarto. Bella tenta pintar duas estrelas numa caixa de madeira. O pincel é grosso demais, e a tinta começa a escorrer.
+
+Jullia: — Você não vai deixar isso desse jeito, né?
+
+Bella: — Nossa, desculpa, senhora diretora de arte. Quer pegar o pincel e fazer você mesma?
+
+Jullia: — Quero.
+
+Bella: — Pois não vai. São minhas estrelas.
+
+Jullia acaba usando a ponta de um palito para ajeitar a segunda estrela. A primeira continua torta. Em vez de apagá-la, faz a sua ao lado igualmente torta.
+
+Jullia: — Pronto. Agora parece que a gente fez juntas.
+
+Bella: — A gente fez juntas.
+
+Jullia: — Eu sei. Era essa a ideia, idiota.
+
+As duas riem. Bella encosta a cabeça no ombro da irmã por um instante, sem cerimônia. Jullia, que brigara com ela por causa de um casaco naquela manhã, ajeita a coberta sobre os ombros das duas.
+
+Jullia: — Quando eu tiver minha casa, você pode ficar lá se quiser. Só não vai roubar minhas roupas.
+
+Bella: — Você roubou meu moletom ontem.
+
+Jullia: — É diferente.
+
+Bella: — Por quê?
+
+Jullia: — Porque eu sou a irmã mais velha. Tenho autorização divina.
+
+Bella empurra Jullia com o ombro. A caixa cai de lado, e as duas precisam resgatar os pincéis antes que manchem o tapete.`,[G('k8_flashback_volta','Deixar a lembrança terminar')]);
+N('k8_flashback_volta','BIBLIOTECA · MESA DE LEITURA','12:41','town',`PONTO DE VISTA: BELLA GOMES
+
+Bella volta a enxergar a mesa da biblioteca. A foto antiga ainda está aberta na tela, mas agora há uma gota molhando seu polegar.
+
+Ela limpa o rosto com a manga, irritada consigo mesma.
+
+Bella: — Parabéns, imbecil. Chorando em cima de documento público.
+
+O telefone tem uma notificação antiga: uma lembrança automática da galeria, as duas sorrindo com a caixa de estrelas nas mãos. Bella fecha a janela antes de abrir outro arquivo.
+
+Não sabe se o que encontrou na biblioteca tem alguma relação com Jullia. Não quer transformar um desenho em prova de nada. Só precisa descobrir o que aconteceu, e conseguir lembrar da irmã sem ver sempre a mesma noite.
+
+Ao recolher as folhas, percebe que ainda não respondeu ao protagonista.`,[G('k8_bella_message','Enviar as informações verificadas ao protagonista')]);
 N('k8_bella_message','BIBLIOTECA · CORREDOR','12:44','phone',`PONTO DE VISTA: BELLA GOMES
 
 Bella desce as escadas da biblioteca enquanto envia uma mensagem ao protagonista. Olha duas vezes para o endereço antes de confirmar o envio. Ela sabe que a confiança entre os amigos ficou abalada depois da morte de Moisés. Não pretende criar outra teoria no grupo sem verificar se os dados são verdadeiros.
@@ -199,7 +338,36 @@ Uma moto passa fazendo barulho na avenida. Bella quase deixa o telefone cair qua
 
 Bella: — Maravilha. Agora até escapamento me faz passar vergonha.
 
-Ela respira mais devagar, confere se as fotos estão salvas e espera a resposta. Existe uma estação abandonada junto ao lago. Há registros que indicam visitas posteriores ao desaparecimento. Isso é o que ela pode afirmar. Todo o resto permanece em aberto.`,[G('k8_06','Retomar o ponto de vista do protagonista')]);
+Ela respira mais devagar, confere se as fotos estão salvas e espera a resposta. Existe uma estação abandonada junto ao lago. Há registros que indicam visitas posteriores ao desaparecimento. Isso é o que ela pode afirmar. Todo o resto permanece em aberto.`,[G('k8_saida_biblioteca','Acompanhar Bella saindo da biblioteca')]);
+N('k8_saida_biblioteca','BIBLIOTECA · SAÍDA LATERAL','12:51','town',`PONTO DE VISTA: BELLA GOMES
+
+Antes de sair, Bella volta ao balcão para devolver o crachá de visitante.
+
+Bibliotecária: — Você encontrou o que estava procurando?
+
+Bella: — Ainda não. Mas dessa vez consigo dizer o que falta.
+
+Bibliotecária: — Parece um começo.
+
+Bella: — Parece uma semana de trabalho extra. Desculpa, não quis ser grossa.
+
+A funcionária sorri e aponta para uma pequena etiqueta de devolução que Bella esqueceu de assinar.
+
+Bibliotecária: — Se ficar precisando de outras páginas, faça outro pedido. Aqui a gente não pode entregar arquivo particular sem protocolo, mas você pode acompanhar o andamento.
+
+Bella: — Eu sei. Valeu por não me expulsar quando eu comecei a xingar a impressora.
+
+Do lado de fora, o sol finalmente atravessa as nuvens por alguns segundos. Bella para perto de um muro baixo e olha novamente a fotografia com Jullia.
+
+Bella: — Eu queria tanto contar pra você que encontrei alguma coisa, Ju. Mesmo que fosse só mais uma pergunta idiota.
+
+Uma mensagem de uma colega antiga pergunta se Bella vai comparecer a uma reunião da faculdade naquela semana. Ela não lembra a última vez em que respondeu a uma pergunta sobre aulas, sem precisar falar de polícia ou desaparecimento.
+
+Bella: — Hoje não. Mas obrigada por lembrar de mim.
+
+Ela guarda o telefone com a tela virada para dentro do bolso e caminha na direção do ponto de ônibus. Pela primeira vez na tarde, parece uma pessoa que também precisa chegar em casa, tomar banho e continuar viva.`,[
+ C('Conferir que as fotos foram realmente salvas antes de seguir','k8_06',[F('bella_organizou_imagens')]),
+ C('Avisar ao protagonista que ainda não tem uma conclusão','k8_06',[F('bella_evitou_suspeitas')])]);
 N('k8_06','PRAÇA CENTRAL · TARDE','14:07','town',`PONTO DE VISTA: PROTAGONISTA
 
 Você chega à praça antes do horário combinado. As mesas externas da padaria estão sendo recolhidas porque a previsão anuncia chuva. Uma senhora alimenta pombos perto da fonte, e duas crianças discutem a vez de usar um balanço.
@@ -336,22 +504,229 @@ Rayssa: — Eu sinto medo. E sinto falta de quando podia olhar pra vocês sem pe
 
 Ela baixa os olhos. Você percebe a tristeza, mas não tem como saber a origem de cada lembrança que a atravessa.`,effect:'culpa'}
 };
+const FRIEND_MORE={
+ samuel:{deep:`Samuel gira a tampa da garrafa sem conseguir soltá-la.
+
+Samuel: — Na oficina, quando eu achei que não ia sair, só consegui pensar que eu não lembrava a última conversa boa que tive com a minha mãe. Nem uma mensagem normal. Eu deixei tudo virando pedido de desculpa.
+
+Você: — Você não precisa fingir que tá tudo normal pra conseguir falar com ela.
+
+Samuel: — Eu sei. Mas qual parte eu conto? «Oi, mãe, quase morri ontem, ainda sonho com uma pessoa que a gente deixou no lago»? Tem coisa que não dá pra enfiar numa conversa sobre arroz no almoço.
+
+Ele finalmente abre a garrafa, toma um gole e faz uma careta.
+
+Samuel: — Tá quente. Claro que tá.
+
+Você percebe que Samuel evita mencionar a van olhando diretamente para você. Ele aperta a garrafa com tanta força que o plástico afunda.
+
+Samuel: — Se eu te perguntar o que você teria feito naquela noite, você me responde de verdade? Ou vai tentar me poupar como todo mundo?`,soft:`Samuel: — Quando o Allan me mandava mensagem, era só foto de coisa idiota. Agora cada notificação parece uma cobrança.`,dream:`Samuel: — Antes de tudo isso, eu queria juntar dinheiro pra abrir uma oficina pequena, sabe? Não uma garagem como a de ontem. Um lugar meu, sem gente mandando em tudo. Agora nem sei se consigo olhar pra um motor.`,closing:`Samuel deixa as chaves sobre a mesa.
+
+Samuel: — Eu não quero que você me absolva. Quero que, quando a gente tiver que escolher outra vez, alguém tenha coragem de dizer que tá errado. Inclusive eu.
+
+Você: — Eu vou tentar. E vou te cobrar quando você tentar decidir sozinho por todo mundo.
+
+Samuel: — Justo. Pode cobrar. Só... não some sem falar comigo, tá?`},
+ allan:{deep:`Allan passa o polegar pela tela do telefone até chegar a uma fotografia tremida em que Samuel está fantasiado de um personagem de filme.
+
+Allan: — Essa aqui ele me proibiu de postar. Eu tenho umas cinquenta iguais. Nunca gostei de deixar ele ganhar discussão.
+
+Você: — Vocês brigavam de verdade?
+
+Allan: — Brigava. Coisa boba. Às vezes eu achava que eu precisava fazer todo mundo rir o tempo todo pra merecer estar no grupo.
+
+Ele fica sério antes de continuar.
+
+Allan: — Teve um dia que eu cheguei numa festa querendo ir embora. O Samuel percebeu e me acompanhou até a esquina. Nem perguntou por que eu tava mal. Só falou que não precisava voltar se eu não quisesse.
+
+Você: — E você voltou?
+
+Allan: — Voltei porque eu quis. É isso que eu tô tentando explicar. Agora parece que a gente tá ficando junto porque tem medo de ficar sozinho. Eu queria que ainda fosse uma escolha.`,soft:`Allan: — Não me pede pra escolher um culpado sem saber. Eu quero ficar do lado do Samu, mas ficar do lado dele não é dar razão pra toda merda que ele fala.`,dream:`Allan: — Eu queria fazer uma viagem sem destino com vocês. Parar em cidade feia, tirar foto de placa engraçada e ficar reclamando da comida. É um sonho muito besta, eu sei.`,closing:`Allan finalmente prova a vitamina, já quase sem gelo.
+
+Allan: — Tá horrível. Sabe o que é engraçado? Eu pedi justamente porque parecia coisa de quando a gente não tinha problema sério.
+
+Você: — Você pode pedir outra.
+
+Allan: — Não. Vou beber isso aqui. É importante lembrar que eu ainda sei tomar uma decisão ruim sem ninguém morrer por causa dela.
+
+Ele sorri de canto, e você sorri também.`},
+ isabella:{deep:`Isabella vira uma folha e empurra o papel até você.
+
+Isabella: — Repara nesses dois horários. Eles não provam nada sozinhos. Uma ligação foi registrada às dez e pouco, outra informação aparece depois. A minha cabeça insiste que, se eu achar a ordem certa, tudo vai se encaixar.
+
+Você: — E você tá dormindo quanto?
+
+Isabella: — Não muda de assunto.
+
+Você: — É o mesmo assunto.
+
+Ela fecha os olhos por um instante.
+
+Isabella: — Tá. Dormi três horas. E na segunda acordei achando que tinha alguém mexendo na maçaneta. Não tinha. Era o cano do prédio. Eu conferi duas vezes.
+
+Você deixa que ela guarde os papéis.
+
+Isabella: — Eu sei que acabo falando como se todo mundo fosse burro. Não é isso. É que eu morro de medo de deixar passar um detalhe que podia ter salvado alguém.`,soft:`Isabella: — A Rayssa pediu pra eu largar o celular ontem. Eu fiquei com raiva. Talvez ela só quisesse que eu respirasse. Eu nem sei mais distinguir cuidado de cobrança.`,dream:`Isabella: — Eu queria estudar fora por um semestre. Viver numa cidade onde ninguém conhecesse essa história. Eu nunca falei porque parecia egoísmo querer ir embora.`,closing:`Isabella empilha os papéis, mas deixa um bilhete escrito com a própria letra.
+
+Isabella: — Meu número você já tem. Se eu disser alguma coisa cruel de novo, não precisa aceitar só porque eu tô assustada.
+
+Você: — Eu também não quero que você aceite tudo que eu falo.
+
+Isabella: — Ótimo. Então ainda conseguimos discutir sem tentar destruir um ao outro.`},
+ laisla:{deep:`A garçonete pergunta se Laisla quer outro café. Ela olha para a xícara intocada e pede água.
+
+Laisla: — Minha mãe mandou mensagem perguntando se eu queria que ela buscasse minhas coisas no apartamento. Eu fiquei dez minutos pensando qual coisa eu queria de lá. Não consegui lembrar de nada sem lembrar do corredor.
+
+Você: — Você não precisa voltar enquanto não quiser.
+
+Laisla: — Só que era a minha casa. Eu escolhi cada luminária horrível. A Rauanny me ajudou a carregar a mesa. Eu fiz vocês comerem macarrão queimado na primeira semana.
+
+Ela ri, mas o riso não segura as lágrimas.
+
+Laisla: — Eu me odeio por ficar pensando em prato e cortina quando tem gente que não voltou daquela noite.
+
+Você: — Não é errado sentir falta das coisas pequenas.
+
+Laisla pega o copo com as duas mãos, como se estivesse frio.
+
+Laisla: — Eu só queria que aquele lugar continuasse sendo meu. Não um cenário de onde todo mundo quase morreu.`,soft:`Laisla: — Eu fico com medo de dizer pra Rauanny que tô assustada. Ela já carrega coisa demais. Mas aí fico brava quando ela tenta decidir por mim.`,dream:`Laisla: — Eu queria ter uma mesa tão grande que sempre coubesse mais alguém. Gente falando ao mesmo tempo, reclamando do tempero. É estranho querer isso depois de tudo?`,closing:`Quando vocês levantam, Laisla pega o guardanapo dobrado e enfia no bolso sem perceber.
+
+Você: — Você tá levando o guardanapo.
+
+Laisla: — Ah, pelo amor de Deus. Tá vendo? Nem roubar eu sei fazer direito.
+
+Ela ri de verdade pela primeira vez na conversa. É pouco, mas você guarda aquele som.`},
+ rauanny:{deep:`Rauanny observa a garota de skate levantar do chão, limpar o joelho e tentar novamente.
+
+Rauanny: — Ela caiu umas cinco vezes e continua. Quando eu era menor, eu também achava que bastava levantar.
+
+Você: — Agora é diferente?
+
+Rauanny: — Agora eu sei que tem queda que você levanta e continua com dor por meses. Isso me deixa com uma raiva absurda.
+
+Ela aponta para o próprio braço, ainda sensível.
+
+Rauanny: — O pior é quando todo mundo começa a me tratar como se eu fosse de vidro. Eu não quero provar nada pra ninguém. Só quero poder dizer quando consigo e quando não consigo.
+
+Você: — Eu posso perguntar antes de tentar ajudar.
+
+Rauanny: — Isso. E acreditar na resposta.
+
+O vento faz o toldo do quiosque bater. Rauanny encolhe os ombros por reflexo, irritada por ter se assustado.
+
+Rauanny: — Desculpa. Eu tô brava com o mundo inteiro hoje.`,soft:`Rauanny: — Se a Laisla disser que precisa de espaço, eu vou dar. Só não quero confundir espaço com deixar alguém sozinha no pior momento.`,dream:`Rauanny: — Eu queria aprender a surfar. Engraçado, né? Depois de tudo que aconteceu perto de água, ainda tenho vontade de entrar no mar. Só não quero ter medo pra sempre.`,closing:`Rauanny se apoia no banco antes de levantar.
+
+Rauanny: — Não fala pros outros que eu fiquei sentimental. Tenho uma reputação muito importante a preservar.
+
+Você: — Qual? A de discutir com um quiosque fechado?
+
+Rauanny: — Exatamente. E tô ganhando.`},
+ breno:{deep:`Breno vira o livro sobre a mesa. Entre as páginas, há uma passagem marcada com um tíquete antigo de cinema.
+
+Breno: — Fui sozinho naquele dia. Tava cheio de gente lá dentro, mas foi a primeira vez que eu não me senti observado.
+
+Você: — Você preferia ficar sozinho?
+
+Breno: — Eu prefiro quando posso escolher. Às vezes, no meio de vocês, eu começo a falar e alguém termina minha frase. Aí eu penso que talvez ninguém quisesse ouvir mesmo.
+
+Você: — Eu quero ouvir.
+
+Ele olha para você antes de responder.
+
+Breno: — Eu acredito. Só demorei pra acreditar que você ia querer continuar ouvindo quando eu não tivesse nada impressionante pra dizer.
+
+Uma moça pede ajuda para alcançar um livro alto. Breno se levanta, entrega o volume e volta sem cerimônia.
+
+Breno: — Parece idiota, mas isso eu sei fazer. Coisa pequena. Ficar perto de alguém, oferecer ajuda, não precisar virar herói. Ontem parecia que todo mundo precisava provar alguma coisa.`,soft:`Breno: — Eu tenho medo de prometer que vou proteger você e acabar mentindo. Prefiro dizer que vou tentar voltar, porque isso eu consigo cumprir com honestidade.`,dream:`Breno: — Eu queria desenhar uma cidade inteira. Não mapas de investigação; ruas, fachadas, gente que não precisa olhar por cima do ombro. Tenho um caderno guardado pra isso.`,closing:`Breno fecha o livro e o empurra na sua direção.
+
+Breno: — Fica com ele até a gente se encontrar outra vez. Não é pra você ler agora. Só quero ter um motivo idiota pra te cobrar depois.
+
+Você: — Eu vou cuidar.
+
+Breno: — Eu sei. Só não esquece de cuidar de você também.`},
+ ryan:{deep:`Ryan apoia os braços sobre a mesa. O sorriso aparece e desaparece tão depressa que você quase não percebe.
+
+Ryan: — Depois do ataque no apartamento, fiquei tentando lembrar o rosto de todo mundo antes de abrir a porta. Isso é uma coisa horrível pra se dizer, né?
+
+Você: — É uma coisa horrível de viver.
+
+Ryan: — Pois é. Eu sempre fui o cara que dizia «relaxa, vai dar certo». Aí, quando ouvi alguém gritando meu nome, eu não tinha a menor ideia do que fazer.
+
+Ele passa a mão pelos cabelos.
+
+Ryan: — A gente se acostuma a achar que coragem é fazer piada quando tá assustado. Mas teve um momento em que eu só queria que alguém dissesse que tava com medo também.
+
+Você: — Eu tô.
+
+Ryan respira fundo, como se essa confissão tivesse dado a ele permissão para respirar também.
+
+Ryan: — Obrigado por não fingir. Já é mais do que metade de Lakewood consegue fazer.`,soft:`Ryan: — Não quero que você me proteja de tudo. Quero que você me diga quando precisa de mim, mesmo se eu não conseguir fazer nada além de ficar do seu lado.`,dream:`Ryan: — Eu queria montar uma banda horrível com a galera. Nem precisa tocar bem. A graça era a gente discutir qual música seria a menos vergonhosa pra começar.`,closing:`Ryan tira um guardanapo do bolso e escreve um endereço de lanchonete.
+
+Ryan: — O lugar da comida ruim que eu te prometi. Tô colocando por escrito porque eu tô cansado de promessa que evapora.
+
+Você: — Você sabe que eu vou cobrar.
+
+Ryan: — Você pode cobrar. Mas talvez eu deixe você escolher a sobremesa.`},
+ rayssa:{deep:`Rayssa olha para as próprias mãos por tempo demais.
+
+Rayssa: — Minha mãe mandou uma foto de quando a gente era mais novo. Eu tava com o cabelo completamente errado. Todo mundo sorria como se isso fosse garantia de alguma coisa.
+
+Você: — Você sente falta daquela época?
+
+Rayssa: — Eu sinto falta de não medir cada palavra antes de dizer.
+
+Você: — Ontem você ficou quieta quando começaram as acusações.
+
+Rayssa: — Eu queria falar, mas cada vez que abria a boca alguém tava chorando ou gritando. Não consegui descobrir o que ajudaria.
+
+Ela alisa uma folha caída no banco.
+
+Rayssa: — Às vezes penso que se eu tivesse insistido numa conversa antes daquela festa, alguma coisa seria diferente. Aí penso que não dá pra voltar lá e escolher por todo mundo.
+
+Você: — Você também merece poder falar do que sente.
+
+Rayssa ergue os olhos, emocionada, mas não oferece uma explicação completa para o que está carregando.`,soft:`Rayssa: — Eu tenho medo de que um dia você olhe pra mim e não reconheça mais a pessoa com quem conversava na escola. Eu sei que isso parece dramático.`,dream:`Rayssa: — Eu queria viajar com a Isabella uma vez sem ficar olhando a hora. Só uma viagem de verdade. Aquelas em que tudo dá errado e depois vira história pra contar.`,closing:`Rayssa se levanta, mas demora um pouco para pegar a bolsa.
+
+Rayssa: — Obrigada por ficar. Mesmo depois de ontem.
+
+Você: — A gente não precisa concordar em tudo pra se ouvir.
+
+Rayssa: — Eu espero conseguir lembrar disso quando as coisas apertarem de novo.`}
+};
 for(const [id,d] of Object.entries(COMPANION_SCENES)){
+ const x=FRIEND_MORE[id];
  N('k8_friend_'+id,d.place,'14:19','town',`PONTO DE VISTA: PROTAGONISTA
 
 ${d.start}
 
-A conversa não apaga o que aconteceu na sala do hospital. Ainda assim, vocês conseguem se escutar sem o restante do grupo discutindo ao mesmo tempo. A rua continua viva ao redor, independente dos medos que trouxeram para a mesa.`,[
- C('Perguntar como '+L[id]+' pretende lidar com o medo','k8_friend_end_'+id,[B(id,3),F('conversou_'+id)]),
- C('Contar sobre o próprio medo e ouvir a resposta','k8_friend_end_'+id,[B(id,2),F('conversou_'+id),['trait','empatia',1]]),
- C('Pedir desculpa por alguma palavra dita na discussão','k8_friend_end_'+id,[B(id,4),F('reconciliou_'+id)])]);
- N('k8_friend_end_'+id,d.place,'14:31','town',`${d.choose}
+Do outro lado da mesa, ${L[id]} finalmente parece menos preocupado em escolher as palavras perfeitas. O barulho da rua obriga vocês a se aproximarem para continuar a conversa.`,[
+ C('Perguntar como '+L[id]+' está convivendo com o medo','k8_friend_reflect_'+id,[S('tema_'+id,'medo'),B(id,3),F('conversou_'+id)]),
+ C('Contar sobre o próprio medo e escutar a resposta','k8_friend_reflect_'+id,[S('tema_'+id,'pessoal'),B(id,2),F('conversou_'+id),['trait','empatia',1]]),
+ C('Pedir desculpas pela discussão antes de ouvir','k8_friend_reflect_'+id,[S('tema_'+id,'desculpa'),B(id,4),F('conversou_'+id)])]);
+ N('k8_friend_reflect_'+id,d.place,'14:26','town',`PONTO DE VISTA: PROTAGONISTA
 
-Você deixa ${L[id]} terminar a frase antes de responder. Há muito que não foi resolvido, mas agora conhece uma preocupação que não apareceria no grupo de mensagens.
+${x.deep}
 
-Quando se despedem, ${L[id]} guarda o telefone e pergunta se você vai avisar quando chegar em casa. É uma pergunta simples. Você promete tentar.`,[G('k8_07','Voltar à investigação')]);
+Vocês não chegam a uma resposta imediata. A conversa demora mais que os cafés; há pausas em que nenhum dos dois precisa fingir que está tudo bem.`,[
+ C('Perguntar sobre algo que '+L[id]+' ainda quer fazer quando isso acabar','k8_friend_response_'+id,[S('profundo_'+id,'sonho'),B(id,2)]),
+ C('Conversar sobre o medo de perder mais alguém','k8_friend_response_'+id,[S('profundo_'+id,'perda'),B(id,2)]),
+ C('Perguntar o que poderia ajudar hoje, sem prometer o impossível','k8_friend_response_'+id,[S('profundo_'+id,'apoio'),B(id,3)])]);
+ N('k8_friend_response_'+id,d.place,'14:33','town',`PONTO DE VISTA: PROTAGONISTA
+
+${d.choose}
+
+A conversa não apaga o que foi dito na discussão do hospital. Você tenta não interromper ${L[id]}, e recebe a mesma atenção quando precisa procurar as palavras.`,[
+ C('Falar de um plano pequeno para a próxima semana','k8_friend_end_'+id,[F('plano_'+id),B(id,2)]),
+ C('Pedir que vocês possam discordar sem abandonar a amizade','k8_friend_end_'+id,[F('promessa_'+id),B(id,3)])]);
+ N('k8_friend_end_'+id,d.place,'14:42','town',`PONTO DE VISTA: PROTAGONISTA
+
+${x.closing}
+
+A conversa chegou a um lugar que nenhuma mensagem enviada no grupo teria alcançado. Vocês se despedem sabendo que ainda existem perguntas sem resposta.`,[G('k8_friend_close_'+id,'Despedir-se e conferir se alguém mais quer conversar')]);
+ N('k8_friend_close_'+id,d.place,'14:47','town',`Você observa ${L[id]} se afastar entre as pessoas. O encontro não apagou os gritos da madrugada, mas agora você conhece algo mais íntimo do que uma versão dos acontecimentos.
+
+Seu telefone volta a vibrar. Ainda há outros amigos com quem você não conseguiu conversar. E há a mensagem de Bella esperando uma resposta.`,[G('k8_06','Voltar à lista de contatos')]);
 }
-N('k8_unavailable','PRAÇA · BANCO VAZIO','14:22','town',`Você tenta encontrar companhia, mas nenhuma das pessoas disponíveis pode sair agora. Algumas seguem em observação; outras precisam de espaço depois da discussão.
+N('k8_unavailable','PRAÇA · BANCO VAZIO','14:22','town',`Você confere os contatos e decide não marcar outro encontro agora. Alguns amigos estão em observação; outros precisam de espaço depois da discussão. Você também precisa recuperar o fôlego.
 
 Em vez de insistir, você guarda o telefone e fica alguns minutos olhando a fonte. Não ter com quem conversar não significa que aquelas amizades acabaram. Significa que nem todos conseguem enfrentar a mesma manhã da mesma maneira.
 
@@ -367,6 +742,27 @@ Bella: — A gente DEVE avisar a polícia. Isso não resolve a dúvida do arquiv
 Ela envia mais uma mensagem: um desenho simplificado dos corredores e do canal de drenagem. Parte da planta foi digitalizada com resolução ruim, mas ao menos mostra por onde a água escoa.
 
 Você lembra da advertência da investigadora. Ir até lá significa assumir um risco real. E arrastar pessoas feridas ou que não confiam em você poderá tornar tudo pior.`,[
+ C('Ler a planta e combinar um ponto de encontro seguro','k8_prepare',[F('leu_planta'),['trait','cautela',2]]),
+ C('Rever as fotos dos registros antes de sair','k8_prepare',[F('releu_fotos'),['trait','cautela',1]]),
+ C('Avisar que só aceitará entrar se houver uma rota de volta','k8_prepare',[F('plano_saida'),['trait','coragem',1]])]);
+N('k8_romance_resposta','PRAÇA · MENSAGENS PRIVADAS','15:11','phone',`PONTO DE VISTA: PROTAGONISTA
+
+Você volta à conversa particular. O aplicativo informa que a outra pessoa está disponível para receber mensagens. Depois do que aconteceu na oficina, uma resposta pequena parece exigir mais cuidado do que um discurso inteiro.
+
+Você começa a digitar. Apaga a primeira frase porque ficou formal demais. Tenta de novo.`,[
+ C('Dizer que também sente saudade da noite que passaram juntos','k8_romance_continua',[F('respondeu_romance'),S('tom_romance','carinho'),['trait','empatia',1]]),
+ C('Contar que está com medo e pedir para conversarem com calma','k8_romance_continua',[F('respondeu_romance'),S('tom_romance','medo'),['trait','franqueza',1]])]);
+N('k8_romance_continua','PRAÇA · MENSAGENS PRIVADAS','15:14','phone',`Você vê os três pontinhos na tela. Eles desaparecem, voltam e somem de novo.
+
+Uma notificação comum de um grupo qualquer aparece por cima da conversa. Você a ignora. O que está sendo dito agora merece atenção.
+
+A resposta finalmente chega, e desta vez você não precisa imaginá-la lendo nas entrelinhas.`,[G('k8_07_decidir','Guardar a conversa e continuar a investigação',[F('conversa_romance_terminou')])]);
+N('k8_romance_silencio','PRAÇA · MENSAGENS PRIVADAS','15:13','phone',`Você lê a mensagem, começa uma resposta e apaga tudo antes de enviar. Talvez porque ainda esteja pensando na oficina. Talvez porque não encontre um jeito de explicar que está com medo de demonstrar carinho e perder alguém outra vez.
+
+O aviso de leitura permanece na tela. Você bloqueia o celular e atravessa a praça. O silêncio pode ter sido necessário para você, mas do outro lado da conversa não existe maneira de adivinhar isso.`,[G('k8_07_decidir','Guardar o telefone e continuar a investigação',[F('vacuo_romance')])]);
+N('k8_07_decidir','PRAÇA · TELEFONE','15:17','phone',`A mensagem de Bella ainda está no topo da tela, com o endereço da estação e uma fotografia parcial da planta de drenagem.
+
+Você confere o que realmente sabe, sem transformar palpite em certeza. A investigação não vai esperar indefinidamente, mas isso não apaga as conversas que ficaram no telefone.`,[
  C('Ler a planta e combinar um ponto de encontro seguro','k8_prepare',[F('leu_planta'),['trait','cautela',2]]),
  C('Rever as fotos dos registros antes de sair','k8_prepare',[F('releu_fotos'),['trait','cautela',1]]),
  C('Avisar que só aceitará entrar se houver uma rota de volta','k8_prepare',[F('plano_saida'),['trait','coragem',1]])]);
@@ -408,8 +804,37 @@ O plano parece cauteloso até o momento em que Bella reconhece, num mural atrás
 Bella: — Tá vendo aquela sequência? É o mesmo código. Não colocaram ali à toa.
 
 Uma gota de chuva cai sobre o papel. Logo depois, outra.`,[
- C('Registrar os acompanhantes e seguir todos pela entrada sinalizada','k8_station_01',[F('entrada_juntos')]),
- C('Pedir que os acompanhantes esperem no acesso externo enquanto você e Bella consultam a guarita','k8_station_01',[F('entrada_separada')])]);
+ C('Registrar os acompanhantes e seguir todos pela entrada sinalizada','k8_viagem_estacao',[F('entrada_juntos')]),
+ C('Pedir que os acompanhantes esperem no acesso externo enquanto você e Bella consultam a guarita','k8_viagem_estacao',[F('entrada_separada')])]);
+N('k8_viagem_estacao','ESTAÇÃO · ÁREA DE ENTRADA','16:24','lake',`PONTO DE VISTA: PROTAGONISTA
+
+O portão de acesso range quando o vento muda. Bella avança até a placa de interdição, lê duas vezes o trecho ainda legível e volta para a guarita sem tentar forçar a corrente.
+
+Bella: — Minha irmã odiava quando eu fazia alguma coisa sem pensar. Ela ia me chamar de cabeça-dura se me visse aqui.
+
+Você: — Ela conhecia você bem.
+
+Bella: — Conhecia. Às vezes mais do que eu queria.
+
+O telefone vibra. Cada pessoa que aceitou o convite foi orientada a compartilhar a última posição antes de entrar. Você não envia a mesma pergunta três vezes; espera as confirmações chegarem e não transforma o silêncio de alguém em notícia de morte.
+
+Bella encosta as costas no muro da guarita, observando a margem escurecer com a aproximação da chuva.
+
+Bella: — Eu não quero que ninguém se machuque por minha causa.
+
+Você: — Então, se a coisa ficar perigosa, a gente volta.
+
+Bella: — Eu sei. Só que eu passei um ano ouvindo que tava procurando fantasma. Quando finalmente tenho um endereço de verdade, é difícil fingir que não quero entrar correndo.
+
+Você: — Querer uma resposta não significa precisar morrer por ela.
+
+Bella: — Não fala como se fosse frase de calendário. Mas... valeu.
+
+O barulho de uma caminhonete vindo pela estrada faz vocês se afastarem do caminho. O motorista reduz a velocidade para passar por uma poça e segue sem olhar para a estação. Nenhum dos dois tenta adivinhar se ele estava observando vocês.
+
+O prédio antigo continua imóvel. Ainda existe a escolha de registrar o que puderem com segurança, manter as pessoas informadas e sair se a estrutura piorar.`,[
+ C('Pedir que confirmem posição antes de se aproximar da guarita','k8_station_01',[F('reconfirmou_posicoes')]),
+ C('Revisar a fotografia do mapa com Bella','k8_station_01',[F('mapa_revisado'),['trait','cautela',1]])]);
 N('k8_station_01','ESTAÇÃO DO LAGO · GUARITA','16:32','lake',`PONTO DE VISTA: PROTAGONISTA
 
 A guarita tem uma janela rachada e um livro de visitas preso por uma corrente. Os trilhos da cerca estão cobertos de folhas e a placa de advertência perdeu metade das letras. O lago aparece por entre a vegetação, quieto demais para um lugar onde a história de vocês começou a desmoronar.
@@ -799,7 +1224,24 @@ Bella: — Eu sei. Só me deixa dizer onde tá o negócio antes que alguém jogu
 
 Do prédio vem um estouro surdo. Ninguém volta. A polícia isola a instalação, e a chuva finalmente diminui sobre a margem.
 
-Você procura os rostos que ainda consegue reconhecer. A soma não é apenas um número. Cada pessoa que chega carrega uma escolha, uma ferida ou a ausência de alguém.`,[G('k8_after_02','Conferir os feridos e as informações preservadas')]);
+Você procura os rostos que ainda consegue reconhecer. A soma não é apenas um número. Cada pessoa que chega carrega uma escolha, uma ferida ou a ausência de alguém.`,[G('k8_socorro_reacoes','Aguardar notícias de cada setor')]);
+N('k8_socorro_reacoes','ESTRADA DO LAGO · RESGATE','18:39','road',`PONTO DE VISTA: PROTAGONISTA
+
+A equipe de resgate pede que ninguém atravesse a fita de isolamento. Um rádio chia repetindo números e posições; um bombeiro anota os nomes que vocês conseguem confirmar.
+
+Você tenta ligar para o primeiro contato que ainda aparece como indisponível. Não consegue. Desta vez, não inventa explicações. Entrega o horário da última comunicação a quem pode procurar de verdade.
+
+Uma funcionária do atendimento oferece uma manta térmica. Você aceita sem perceber como suas mãos estão frias.
+
+Bella está recebendo ajuda alguns metros adiante. A luz das ambulâncias alterna vermelho e azul no rosto dela. Você não sabe como fazer com que o tempo entre a chegada dos socorristas e uma notícia pareça mais curto.
+
+Você se lembra da frase que ouviu na noite anterior: que alguém do grupo poderia estar colaborando com o assassino. A suspeita ainda existe, mas na estrada há uma tarefa mais urgente do que descobrir quem começou a mentira. É saber quem chegou à saída.
+
+Um policial se aproxima com uma relação de nomes. Pede que você confirme apenas as pessoas que realmente viu, não aquelas sobre quem ouviu alguém falar durante a fuga.
+
+Você responde com cuidado. Nunca imaginou que dar um nome pudesse exigir tanta coragem.`,[
+ C('Informar as últimas posições verificáveis de quem ficou para trás','k8_after_02',[F('depoimento_preciso'),['trait','franqueza',1]]),
+ C('Pedir que a equipe priorize quem está ferido','k8_after_02',[F('priorizou_feridos'),['trait','empatia',1]])]);
 N('k8_after_02','HOSPITAL · CORREDOR DE ATENDIMENTO','20:15','town',`As cadeiras do hospital são as mesmas da noite anterior. Você se pergunta quantas vezes uma pessoa pode atravessar a mesma porta antes de começar a achar que nunca mais vai voltar para casa.
 
 Uma assistente social oferece água aos sobreviventes. A polícia anota as últimas posições confirmadas. Pessoas que permaneceram fora da estação não são descritas como se tivessem participado da perseguição; recebem notícias por mensagem ou comparecem ao hospital quando podem.
@@ -811,12 +1253,33 @@ Você se lembra do desenho das estrelas no batente, da voz de Moisés antes de m
 Nenhum desses elementos é uma resposta. Mas já não parecem três histórias separadas.
 
 Quando o médico permite, você se aproxima de Bella. Ela segura o celular com dificuldade e pede para conferir uma única fotografia antes de dormir.`,[
- C('Pedir que Bella descanse e guardar os arquivos de maneira segura','k8_evidence',[F('bella_recebe_apoio'),['trait','empatia',1]]),
- C('Conversar sobre o que as duas investigações conseguiram comprovar','k8_evidence',[F('bella_conversou_resultados')]),
- C('Perguntar o que ela lembra da estação sem insistir se estiver mal','k8_evidence',[F('bella_ouvida'),['trait','cautela',1]])]);
+ C('Pedir que Bella descanse e guardar os arquivos de maneira segura','k8_depoimento_estacao',[F('bella_recebe_apoio'),['trait','empatia',1]]),
+ C('Conversar sobre o que as duas investigações conseguiram comprovar','k8_depoimento_estacao',[F('bella_conversou_resultados')]),
+ C('Perguntar o que ela lembra da estação sem insistir se estiver mal','k8_depoimento_estacao',[F('bella_ouvida'),['trait','cautela',1]])]);
+N('k8_depoimento_estacao','HOSPITAL · DEPOIMENTO','20:42','town',`PONTO DE VISTA: PROTAGONISTA
+
+Uma investigadora traz dois envelopes transparentes e uma pequena lista de protocolos. Não pede que você imagine o que estava dentro dos papéis perdidos. Quer saber apenas a origem das informações disponíveis.
+
+Investigadora: — Preciso distinguir o que você viu pessoalmente do que outra pessoa encontrou. Se uma foto foi tirada por Bella, é importante que o registro diga isso.
+
+Você: — E se um dos documentos se perdeu?
+
+Investigadora: — Então a gente registra que não tem mais o original. Ninguém melhora uma prova inventando a parte que não sobrou.
+
+Você acompanha a separação das páginas. Alguns registros vieram da biblioteca. Outros podem ter sido fotografados na estação. A diferença parece pequena até que você tenta lembrar de quem segurava cada coisa durante o ataque.
+
+Perto da sala de atendimento, uma mulher ri nervosamente ao falar com a família pelo telefone. O som atravessa o corredor. Você pensa em quantas pessoas naquele hospital tiveram uma noite ruim sem saber absolutamente nada sobre Lakewood, Jullia ou Moisés.
+
+Investigadora: — Vocês passaram por situações graves. Ainda assim, não vão precisar solucionar isso sozinhos. Deixem nosso pessoal verificar as datas e os acessos.
+
+Você concorda em entregar cópias do que foi preservado, mantendo o registro das fontes.
+
+Quando ela se afasta, resta uma conversa difícil com Bella. A noite não acabou. Você precisa encontrar um jeito de perguntar o que ela descobriu sem fazer parecer que os ferimentos dela são menos importantes que um documento.`,[
+ C('Conversar com Bella sobre o que pode realmente ser confirmado','k8_evidence',[F('separou_fontes')]),
+ C('Perguntar primeiro se Bella quer continuar a conversa agora','k8_evidence',[F('respeitou_recuperacao'),['trait','empatia',1]])]);
 N('k8_evidence','HOSPITAL · SALA DE VISITAS','21:04','town',`PONTO DE VISTA: PROTAGONISTA
 
-Bella autoriza que você veja as informações que foram preservadas. Algumas estão em fotografias; outras podem ter ficado nos arquivos recolhidos pelos investigadores. O que não foi encontrado permanece desconhecido.
+Bella compartilha com você as informações que foram realmente preservadas. Algumas estão em fotografias; outras podem ter ficado nos arquivos recolhidos pelos investigadores. O que não foi encontrado permanece desconhecido.
 
 Vocês tentam reconstruir uma linha do tempo sem completar os buracos com imaginação. Moisés visitou lugares próximos ao lago depois do desaparecimento. A estação continuou aparecendo em documentos administrativos. Uma anotação indica movimentação de materiais, mas não informa o conteúdo dos produtos nem quem os recebeu.
 
@@ -828,12 +1291,12 @@ Bella: — É. Só que eu tô cansada de perguntar pra gente que acaba morta.
 
 Ela olha para a parede e respira devagar. A lembrança de Jullia parece ocupar a sala inteira. Pela primeira vez, você percebe que Bella talvez não esteja procurando uma pessoa desaparecida: esteja procurando o momento em que poderia ter feito alguma coisa diferente.
 
-Os registros não mostram o assassino. Nem confirmam que Jullia recebeu cuidados. Mas apontam para dias depois daquela noite, quando todos acreditavam que a história já havia acabado.`,[G('k8_last_01','Comparar as datas uma última vez')]);
+Os documentos não identificam quem esteve na estação. Registram apenas movimentações posteriores ao desaparecimento, quando todos acreditavam que aquela história já tinha acabado.`,[G('k8_last_01','Comparar as datas uma última vez')]);
 N('k8_last_01','HOSPITAL · DOCUMENTOS E CELULAR','21:18','phone',`PONTO DE VISTA: PROTAGONISTA
 
-Você alinha o que realmente conseguiu preservar. Um registro administrativo, uma imagem incompleta e o histórico do encontro de Moisés são peças de histórias maiores. Nenhuma traz um nome escrito no lugar onde seria mais fácil encontrá-lo.
+Você organiza apenas as informações que realmente chegaram ao seu alcance. As anotações independentes da biblioteca e o histórico do encontro de Moisés ajudam a identificar datas, mas não revelam quem circulou por ali.
 
-Bella consulta as datas em silêncio. Mesmo se estiver hospitalizada e sem condições de se sentar, pode ouvir as informações pelo telefone e confirmar quais arquivos vieram da biblioteca.
+As datas estão dispostas por ordem, sem tentar preencher intervalos que os arquivos não explicam.
 
 Você: — Moisés esteve na região depois do desaparecimento. Isso a gente consegue provar.
 
@@ -848,7 +1311,7 @@ O telefone mostra a última mensagem que Moisés conseguiu enviar antes de morre
 Você fecha a pasta sem encontrar uma resposta. Pela primeira vez, não é o silêncio daquela noite que assusta. São os meses que vieram depois.`,[G('k8_last_02','Ouvir o que Bella concluiu')]);
 N('k8_last_02','LAKEWOOD · NOITE','21:27','town',`PONTO DE VISTA: PROTAGONISTA
 
-Bella encontra forças para olhar para você. O corredor está quase vazio. Do lado de fora, a chuva se transformou em neblina baixa, cobrindo a rua com uma luz difusa.
+Bella volta os olhos para você. Do outro lado da janela, o corredor está quase vazio. Do lado de fora, a chuva se transformou em neblina baixa, cobrindo a rua com uma luz difusa.
 
 Bella: — Eu achei que tava tentando descobrir por que minha irmã desapareceu.
 
@@ -937,6 +1400,7 @@ function bellaOutcome(s){const f=s.flags;const before=Number(!!(f.c8_planta_bell
 }
 function enter(s,id){if(!s?.flags||!id.startsWith('k8_'))return false;const f=s.flags,stamp='c8_enter_'+id;if(f[stamp])return false;f[stamp]=true;
  if(id==='k8_invited')positions(s);
+ if(id.startsWith('k8_friend_end_'))f['c8_social_visit_'+id.slice('k8_friend_end_'.length)]=true;
  if(id==='k8_bella_out')bellaOutcome(s);
  if(id==='k8_risk1'){positions(s);f.c8_risk1_target=candidate(s,1)||'';}
  if(id==='k8_risk2_pov'){positions(s);f.c8_risk2_target=candidate(s,2)||'';}
@@ -956,6 +1420,83 @@ const ROMANCE_LINES={
 };
 function resolve(id,s,n){if(!n||!id.startsWith('k8_'))return n;const f=s.flags||{};let text=n.text,choices=[...(n.choices||[])],location=n.location;
  const live=alive(s),inArea=invited(s);const group=names(live);const inPerson=names(inArea);
+ if(id==='k8_debate'){
+  const say=(a,b,v)=>{if(live.includes(a)&&live.includes(b))text+='\n\n'+v;};
+  say('isabella','samuel',`Isabella: — Você disse que ninguém podia saber da oficina, Samuel. Mas a gente viu as mensagens. Você também perguntou quem ia e a que horas.
+
+Samuel: — EU PERGUNTEI PORQUE O MOISÉS IA FALAR DAQUELA NOITE! PORQUE EU TAVA LÁ NO VOLANTE!
+
+Isabella: — Então para de gritar e explica o que você contou.
+
+Samuel: — Eu não contei porra nenhuma pro assassino! Não tenta me fazer repetir aquele acidente como se você não tivesse no carro também.
+
+Isabella: — Eu tava. E justamente por isso não vou fingir que foi tudo igual pra cada um de nós.
+
+Samuel afasta a cadeira com tanta força que ela bate na parede.`);
+  say('allan','samuel',`Allan: — Samu, olha pra mim. Para de berrar. Ela pode fazer pergunta, mas ninguém aqui vai te pendurar numa parede porque você tava dirigindo.
+
+Samuel: — Você vai ficar me defendendo até quando, Allan?
+
+Allan: — Até você parar de agir como se eu tivesse te defendendo de todas as escolhas erradas. Eu tô te defendendo de uma acusação sem prova. É diferente.
+
+Allan: — E, Isabella, você sabe muito bem que ele nem tava sozinho naquela noite.`);
+  say('rauanny','breno',`Rauanny: — Então vamos falar da pessoa que passa metade do tempo sozinha e some quando a gente precisa? Breno, você fica perto de todo mundo, mas nunca diz o que tá fazendo.
+
+Breno: — Eu saio quando preciso respirar. Eu sempre fiz isso. Você sabe.
+
+Rauanny: — E a gente sabe onde você tava quando a mensagem chegou?
+
+Breno: — Não. Porque ninguém perguntou. Você podia ter mandado mensagem em vez de guardar isso pra me acusar na frente de todo mundo.
+
+Rauanny: — Eu não tô acusando, tô perguntando.
+
+Breno: — Do jeito que você falou, não parece.`);
+  say('laisla','rauanny',`Laisla: — Rauanny, para. Eu te amo, mas você não pode chegar apontando pro Breno só porque ele não fala tanto quanto a gente.
+
+Rauanny: — Eu tô tentando pensar em quem podia estar onde a gente não via.
+
+Laisla: — Então pensa. Só não usa a timidez de uma pessoa como prova de assassinato. Eu já deixei um mascarado entrar na minha casa. Não preciso começar a ter medo dos amigos também.
+
+Rauanny: — Você acha que eu não tô com medo?!
+
+Laisla: — Eu sei que tá. Eu também tô.`);
+  say('ryan','isabella',`Ryan: — Eu sei que a Isa quer organizar tudo. Eu também quero. Mas a gente quase se matou pra sair daquele apartamento. Não dá pra usar cada segundo em que alguém ficou fora de vista como se fosse uma confissão.
+
+Isabella: — Não foi isso que eu disse.
+
+Ryan: — Eu ouvi. Só tô pedindo pra gente não se destruir antes de encontrar quem tá fazendo isso.`);
+  if(live.includes('rayssa'))text+='\n\nRayssa: — Todo mundo tá tentando achar uma explicação que doa menos. Se a gente transformar medo em certeza, amanhã nem vai ter grupo pra discutir.\n\nEla aperta os dedos contra a manga. Ninguém sabe se aquela tentativa de apaziguar ajuda ou irrita mais.';
+  if(live.includes('samuel'))text+='\n\nSamuel volta a olhar para você.\n\nSamuel: — E você, '+hero(s)+'? Vai ficar em silêncio? Você falou com o Moisés. Quem mais sabia do encontro?';
+  else if(live.length)text+='\n\n'+L[live[0]]+': — E você, '+hero(s)+'? Você recebeu a ligação. Quem mais conhecia o lugar?';
+  if(live.length<3)text+='\n\nA sala tem poucas pessoas, mas o silêncio entre as falas é ainda pior. Não há vozes suficientes para esconder as suspeitas.';
+ }
+ if(id==='k8_debate_end'){
+  if(f.c8_defendeu){const chosen=f.c8_defendeu;if(live.includes(chosen))text+='\n\n'+L[chosen]+': — Você não precisava ter concordado comigo. Obrigado por me deixar terminar a frase.';}
+  if(f.c8_foi_acusado)text+='\n\nVocê ainda sente o peso de ser chamado pelo nome diante de todos. Mesmo quem ficou em silêncio ouviu a acusação.';
+  if(f.c8_tentou_reaproximar)text+='\n\nVocê escreve uma mensagem curta, sem cobrar resposta. O aparelho continua silencioso por algum tempo.';
+ }
+ if(id==='k8_bella_despedida'){
+  if(f.c8_bella_confianca)text+='\n\nBella: — Se você for mesmo comigo, não inventa desculpa pra me poupar. Eu prefiro uma verdade horrível a ouvir outra vez que «vai ficar tudo bem».\n\nVocê: — Eu não vou prometer uma coisa que não consigo garantir.\n\nBella: — Já é alguma coisa.';
+  else if(f.c8_bella_provas)text+='\n\nBella: — Então me mostra só o que você tem. Sem me dizer o que eu devo concluir. Eu consigo lidar com um papel incompleto. Com mentira eu tô ficando sem paciência.';
+  else if(f.c8_bella_advertida)text+='\n\nBella: — Eu sei que é perigoso. Você acha que eu esqueci como a minha irmã sumiu? Só não fala comigo como se eu fosse uma criança que perdeu a chave de casa.\n\nVocê: — Eu não quis fazer isso.\n\nBella: — Então a gente começa de novo.';
+ }
+ if(id==='k8_flashback_final'){
+  if(f.c8_bella_memoria_presente)text+='\n\nJullia entrega a Bella um pequeno porta-chaves pintado à mão. Não é bonito nem caro. Bella reconhece duas estrelas feitas com tinta prateada.\n\nBella: — Você é muito ruim em guardar segredo.\n\nJullia: — Eu escondi uma semana!\n\nBella: — Você me perguntou cinco vezes se eu gostava de estrelas.\n\nJullia: — E você não percebeu!';
+  else text+='\n\nBella: — Você lembra daquela vez que a gente ficou três dias sem se falar por causa do meu moletom?\n\nJullia: — Não foram três dias. Foram quatro, porque você é dramática.\n\nBella: — VOCÊ que chorou quando eu falei que ia doar o casaco.\n\nJullia: — Porque era meu preferido, sua insensível.\n\nAs duas desatam a rir de novo.';
+ }
+ if(id.startsWith('k8_friend_reflect_')){
+  const who=id.slice('k8_friend_reflect_'.length),d=FRIEND_MORE[who];const kind=f['c8_tema_'+who];
+  if(d){text+='\n\n'+(kind==='desculpa'?'Você: — Eu vim aqui porque o que eu disse ontem pode ter machucado você. Não quero pedir desculpa só pra receber perdão depressa.\n\n'+L[who]+': — Então me deixa falar sem você me interromper.':'Você: — Eu não tenho certeza do que falar. Só sei que não queria que você atravessasse tudo isso sozinho.\n\n'+L[who]+': — Eu precisava ouvir alguém dizer isso sem fazer promessa impossível.');}
+ }
+ if(id.startsWith('k8_friend_response_')){
+  const who=id.slice('k8_friend_response_'.length),d=FRIEND_MORE[who],kind=f['c8_profundo_'+who];
+  if(d)text+='\n\n'+(kind==='sonho'?d.dream:kind==='perda'?d.soft+'\n\nVocê: — Às vezes eu fico procurando o que eu poderia ter feito antes. Mas não quero esquecer as pessoas que ainda estão aqui.':'Você: — Eu não tenho como resolver o que aconteceu na oficina. Mas posso te perguntar de novo amanhã se você quer companhia.\n\n'+d.soft);
+ }
+ if(id==='k8_06'){
+  const met=ids.filter(x=>f['c8_social_visit_'+x]);
+  if(met.length===1)text='PONTO DE VISTA: PROTAGONISTA\n\nVocê sai do primeiro encontro com o coração menos apertado, mas a tarde ainda não terminou. Há outro amigo com quem talvez valha a pena conversar, desde que ele esteja disposto e fisicamente disponível.\n\nO telefone mostra alguns nomes que não responderam desde a discussão. Você não vai insistir com quem pediu distância.';
+  if(met.length>=2)text='PONTO DE VISTA: PROTAGONISTA\n\nDepois de duas conversas demoradas, você percebe como cada amigo está enfrentando uma dor diferente. Não há tempo para encontrar mais ninguém agora, e você não quer transformar o cuidado em uma lista de visitas.\n\nA mensagem de Bella continua esperando no celular. A tarde vai avançando.';
+ }
  if(id==='k8_01'){
   const deadList=ids.filter(x=>dead(s,x));
   text+='\n\n'+(deadList.length?'Os lugares vazios de '+names(deadList)+' tornam a sala menor. Não há resposta para quem já não pode se defender.':'Todos os oito amigos conseguiram sobreviver às perseguições anteriores. Isso não significa que ainda consigam confiar uns nos outros.');
@@ -994,17 +1535,34 @@ function resolve(id,s,n){if(!n||!id.startsWith('k8_'))return n;const f=s.flags||
  }
  if(id==='k8_bella_message'){text+='\n\n'+(f.c8_bella_compartilhou?'Bella enviou fotografias de todas as páginas que julgou verificáveis, inclusive os trechos que contradizem sua hipótese inicial.':f.c8_bella_guardou?'Bella enviou o endereço e avisou que ainda precisa confirmar uma anotação antes de mostrar a página inteira.':'Bella encaminhou apenas a localização e disse que não pretende chamar suspeita de prova.');}
  if(id==='k8_06'){
-  const willing=live.filter(x=>!heavy(s,x)&&trust(s,x)>=34);
-  const reluctant=live.filter(x=>!willing.includes(x));
-  if(reluctant.length)text+='\n\n'+names(reluctant)+' não está disponível para um encontro agora. Pode ser pelo atendimento médico ou pela maneira como a discussão terminou. Você respeita isso.';
+  const met=ids.filter(x=>f['c8_social_visit_'+x]); const willing=met.length>=2?[]:live.filter(x=>!heavy(s,x)&&trust(s,x)>=34&&!f['c8_social_visit_'+x]);
+  const reluctant=live.filter(x=>!willing.includes(x)&&!f['c8_social_visit_'+x]);
+  if(reluctant.length)text+='\n\n'+names(reluctant)+' não marcou um novo encontro. Pode ser pela recuperação médica, pela discussão ou pela necessidade de ficar a sós. Você respeita a decisão.';
   choices=willing.map(x=>C('Conversar a sós com '+L[x],'k8_friend_'+x,[S('amigo_escolhido',x)]));
-  choices.push(C('Dar espaço aos outros e seguir com a investigação','k8_unavailable',[F('sem_conversa')]));
+  choices.push(C(met.length?'Encerrar as conversas e conferir a investigação':'Dar espaço aos outros e seguir com a investigação',met.length?'k8_07':'k8_unavailable',[F('sem_conversa')]));
  }
  if(id==='k8_07'){
   const love=s.romanceEscolhido;
-  if(ROMANCE_LINES[love]&&!dead(s,love))text+='\n\n'+L[love]+' manda uma mensagem particular, antes de você sair.\n\n'+ROMANCE_LINES[love]+'\n\nVocê lê duas vezes. Não é uma promessa de namoro nem uma solução para o medo. É uma pessoa específica tentando permanecer perto.';
+  if(ROMANCE_LINES[love]&&!dead(s,love)){text+='\n\n'+L[love]+' manda uma mensagem particular, antes de você sair.\n\n'+ROMANCE_LINES[love]+'\n\nVocê lê duas vezes. Não é uma promessa de namoro nem uma solução para o medo. É uma pessoa específica tentando permanecer perto.';choices=[C('Responder a '+L[love]+' agora','k8_romance_resposta',[B(love,2)]),C('Ler e deixar para responder depois','k8_romance_silencio',[F('vacuo_romance'),B(love,-2)])];}
   else if(love&&love!=='solteiro'&&dead(s,love))text+='\n\nVocê encontra a última conversa com '+L[love]+' entre as mensagens antigas. Não há uma resposta nova. A ausência torna a ideia de voltar ao lago mais difícil de suportar.';
   if(f.c8_reagiu_acusacao)text+='\n\nVocê percebe que certas pessoas ainda não responderam depois de sua reação no hospital. Não pode fingir que a relação está resolvida.';
+ }
+ if(id==='k8_romance_continua'){
+  const l=s.romanceEscolhido; const tone=f.c8_tom_romance;
+  const answers={
+   ryan:tone==='medo'?`Você: — Eu tô com medo de acontecer alguma coisa com você antes de a gente ter outra noite dessas.\n\nRyan: — Eu também tô. E eu odeio não ter uma piada boa pra isso. Mas gosto de saber que você ainda quer me ver.\n\nVocê: — Quero. Só não sei o que prometer.\n\nRyan: — Então não promete. Me chama quando precisar. Eu faço o mesmo.`:`Você: — Ainda tô devendo aquela discussão séria sobre sobremesa. E queria outra noite com você.\n\nRyan: — Agora sim uma mensagem que merece print. Vou usar contra você quando escolher o sabor mais esquisito do cardápio.\n\nVocê: — Você já escolheu o mais esquisito da outra vez.\n\nRyan: — E você gostou de mim mesmo assim.`,
+   breno:tone==='medo'?`Você: — Eu queria te ver de novo, mas tô assustado demais pra fingir que tá tudo normal.\n\nBreno: — Ainda bem que você não fingiu. Eu percebo quando você começa a responder como se estivesse preenchendo formulário.\n\nVocê: — Eu faço isso?\n\nBreno: — Um pouco. Não precisa. Eu posso ficar aqui e conversar até o assunto ficar menos pesado.`:`Você: — Eu gostei de ficar com você naquela noite. Queria repetir, sem pressa.\n\nBreno: — Eu fiquei pensando na tua mão perto da minha em cima da mesa. Parece uma coisa pequena, mas eu lembro de cada segundo.\n\nVocê: — A gente tem tempo pra outras coisas pequenas.\n\nBreno: — É disso que eu tenho saudade.`,
+   rayssa:tone==='medo'?`Você: — Eu tô assustada com a ideia de perder você. Ontem parecia que nada era seguro.\n\nRayssa: — Eu sei. Às vezes eu acordo e fico esperando o telefone tocar com outra notícia horrível.\n\nVocê: — Eu não quero passar esse medo sozinho.\n\nRayssa: — Nem eu. Obrigada por me dizer.`:`Você: — Eu gostei do jantar, Ray. Gostei de estar com você sem ter que encontrar resposta pra tudo.\n\nRayssa: — Eu também. Fiquei com medo de você achar que eu tava distante. Às vezes tô tentando organizar coisa demais na cabeça.\n\nVocê: — Eu queria outra noite assim.\n\nRayssa: — Eu queria muito.`,
+   rauanny:tone==='medo'?`Você: — Eu tô com medo de te perder. E sei que você odeia quando alguém tenta te proteger de tudo.\n\nRauanny: — Odeio mesmo. Mas gosto quando a pessoa pergunta como eu tô, em vez de decidir por mim.\n\nVocê: — Então como você tá?\n\nRauanny: — Com dor, com sono e querendo te beijar de novo quando essa semana horrível acabar.`:`Você: — Tô pensando naquele jantar. Acho que você tava linda quando riu da minha cara.\n\nRauanny: — Você sabe que eu não preciso de motivo pra rir da tua cara, né?\n\nVocê: — Sei. Mesmo assim quero repetir.\n\nRauanny: — Quero também. E dessa vez você escolhe a música, mas não reclama do preço.`};
+  if(answers[l])text+='\n\n'+answers[l];
+ }
+ if(id==='k8_romance_silencio'){
+  const l=s.romanceEscolhido;if(L[l])text+='\n\nNa lista de conversas, o nome de '+L[l]+' permanece junto do aviso de leitura. A outra pessoa não sabe que você ficou vários minutos olhando a tela sem conseguir responder.';
+ }
+ if(id==='k8_07_decidir'){
+  const l=s.romanceEscolhido;
+  if(L[l]&&f.c8_vacuo_romance&&!dead(s,l))text+='\n\nUma última notificação chega de '+L[l]+': «Vi que você leu. Sei que tá difícil, mas podia ter me dito que precisava de espaço. Espero que você esteja bem.» Você sente o peso da mensagem sem conseguir desfazer o silêncio automaticamente.';
+  else if(L[l]&&f.c8_respondeu_romance)text+='\n\nO contato com '+L[l]+' termina com uma despedida simples e uma promessa de avisar quando chegar a um lugar seguro. Não é um compromisso oficial; é uma tentativa de não desaparecer um da vida do outro.';
  }
  if(id==='k8_prepare'){text+='\n\nBella: — A única regra que eu faço questão é não fingir que sabe onde alguém tá se não tiver recebido confirmação. Eu cansei de gente sumindo e os outros inventando um final pra história.';}
  if(id==='k8_invite'){
@@ -1082,10 +1640,18 @@ function resolve(id,s,n){if(!n||!id.startsWith('k8_'))return n;const f=s.flags||
   if(f.c8_prova==='completa')text+='\n\nO envelope original foi preservado em condições que permitem conferir páginas e códigos. Nenhuma anotação exige inventar destinatários.';
   else if(f.c8_prova==='parcial')text+='\n\nO original se perdeu, mas fotografias ou notas permitem recuperar algumas datas. Os detalhes ausentes continuam ausentes.';
   else text+='\n\nNão há envelope original nem fotografia completa. Bella abre os registros que consultou na biblioteca. Só esses dados independentes podem sustentar a nova hipótese.';
-  if(s.clues.includes('c8_registro_farmacia'))text+='\n\nO recibo da farmácia aparece novamente. Ele mostra estabelecimento, valor e dia, mas não lista o que Moisés comprou; não há motivo para afirmar que era remédio ou que alguém recebeu tratamento.';
-  if(f.c8_bella_condicao==='hospital')text=text.replace('Bella autoriza que você veja as informações que foram preservadas.','Bella autoriza por chamada, do quarto de observação, que você veja as informações preservadas.');
+  if(s.clues.includes('c8_registro_farmacia'))text+='\n\nO recibo da farmácia aparece novamente. Ele mostra estabelecimento, valor e dia, mas não lista o que Moisés comprou; não permite identificar itens, pessoas ou motivos da compra.';
+  if(f.c8_bella_condicao==='hospital'){location='HOSPITAL · QUARTO DE OBSERVAÇÃO';text=text.replace('Bella compartilha com você as informações que foram realmente preservadas.','Bella está no quarto de observação. Você mostra as informações recuperadas pela tela do telefone, e ela orienta quais registros da biblioteca podem ser conferidos.').replace('Ela olha para a parede e respira devagar.','Bella observa a parede clara do quarto e respira devagar.');}else if(f.c8_bella_condicao==='grave')text=text.replace('Bella compartilha com você as informações que foram realmente preservadas.','Bella se acomoda com a perna imobilizada antes de dividir com você os documentos recuperados.');else text=text.replace('Bella compartilha com você as informações que foram realmente preservadas.','Bella se senta à mesa e abre os registros preservados, ainda com pequenos curativos nas mãos.');
+ }
+ if(id==='k8_last_01'){
+  if(f.c8_bella_condicao==='hospital'){location='HOSPITAL · CHAMADA COM BELLA';text=text.replace('As datas estão dispostas por ordem, sem tentar preencher intervalos que os arquivos não explicam.','No telefone, Bella acompanha a comparação das datas do quarto de observação. Ela não pode sair da cama, mas reconhece os arquivos que consultou mais cedo.').replace('Bella: — E existe papel demais passando por aquela estação pra eu acreditar que ela tava completamente vazia.','Bella: — Mesmo daqui eu tô olhando pra essas datas e pensando: por que esse lugar aparece tantas vezes nos registros?');}
+  else if(f.c8_bella_condicao==='grave')text=text.replace('As datas estão dispostas por ordem, sem tentar preencher intervalos que os arquivos não explicam.','Bella permanece com a perna imobilizada enquanto vocês alinham as datas. Ela pede para deixar o papel mais perto, sem precisar levantar.');
+  else text=text.replace('As datas estão dispostas por ordem, sem tentar preencher intervalos que os arquivos não explicam.','Bella chega com passos cautelosos e pequenos curativos nas mãos. Ela se senta ao seu lado para conferir as datas preservadas.');
  }
  if(id==='k8_last_02'){
+  if(f.c8_bella_condicao==='hospital'){location='HOSPITAL · QUARTO DE BELLA';text=text.replace('Bella volta os olhos para você. Do outro lado da janela, o corredor está quase vazio.','Bella vira a cabeça na direção da sua voz. Você está sentado ao lado de sua cama no quarto de observação. O monitor faz um ruído baixo, e ela não consegue mover a perna enfaixada sem sentir dor.').replace('Bella volta a olhar para a janela.','Bella segura a beirada do cobertor e olha para a janela do quarto.');}
+  else if(f.c8_bella_condicao==='grave')text=text.replace('Bella volta os olhos para você. Do outro lado da janela, o corredor está quase vazio.','Bella se acomoda na cadeira com a perna imobilizada antes de voltar os olhos para você. O corredor está quase vazio.');
+  else text=text.replace('Bella volta os olhos para você. Do outro lado da janela, o corredor está quase vazio.','Bella atravessa o corredor com pequenos curativos nas mãos, para ao seu lado e volta os olhos para você.');
   const lost=ids.filter(x=>f['c8_morto_'+x]);if(lost.length)text+='\n\nA lembrança de '+names(lost)+' torna a palavra «verdade» mais difícil de pronunciar. A busca custou vidas e ainda não terminou.';
  }
  return {...n,text,choices,location};
@@ -1093,6 +1659,8 @@ function resolve(id,s,n){if(!n||!id.startsWith('k8_'))return n;const f=s.flags||
 function timer(s,id,choices){if(!s||!id.startsWith('k8_')||s.social107?.timedOff)return null;if(/^k8_bella_0[123]$/.test(id))return {secs:18,fallback:choices.length-1};if(/^k8_(?:pov_follow_|r2_follow_)/.test(id))return {secs:15,fallback:choices.length-1};return null;}
 function phoneThreads(s,base){if(!s||!s.flags?.c8_enter_k8_01)return base;const threads=base.map(t=>({...t,messages:[...(t.messages||[])]}));
  const get=(id,name)=>{let t=threads.find(x=>x.id===id);if(!t){t={id,name,sub:'Mensagens de Lakewood',messages:[],replyKey:''};threads.push(t)}return t;};
+ const love=s.romanceEscolhido;
+ if(L[love]&&ROMANCE_LINES[love]&&!dead(s,love)&&s.flags.c8_enter_k8_07){const t=get(love,L[love]);t.messages.push({who:L[love],time:'CAPÍTULO 8 · TARDE',text:ROMANCE_LINES[love].replace(/^\w+: — /,'')});if(s.flags.c8_respondeu_romance){t.messages.push({who:'Você',time:'CAPÍTULO 8 · TARDE',text:s.flags.c8_tom_romance==='medo'?'Tô com medo, mas queria conversar com você e não ficar sozinho nessa.':'Eu gostei muito de estar com você naquele jantar. Queria outra noite assim.'});t.messages.push({who:L[love],time:'CAPÍTULO 8 · TARDE',text:'Eu também queria. Me avisa quando chegar em segurança, tá?'});}else if(s.flags.c8_enter_k8_07_decidir&&s.flags.c8_vacuo_romance)t.messages.push({who:L[love],time:'CAPÍTULO 8 · MAIS TARDE',text:'Vi que você leu. Podia ter dito que precisava de espaço. Espero que esteja bem.'});}
  if(s.flags.c8_enter_k8_bella_message){get('bella','Bella Gomes').messages.push({who:'Bella',time:'CAPÍTULO 8 · TARDE',text:'Encontrei registros da antiga estação do lago. Quero verificar as datas. Não vou acusar ninguém com base em palpite.'});}
  if(s.flags.c8_enter_k8_invited){get('bella','Bella Gomes').messages.push({who:'Bella',time:'CAPÍTULO 8 · ESTAÇÃO',text:'Me confirma seu acesso quando chegar. Sem inventar localização de ninguém, pelo amor de Deus.'});}
  if(s.flags.c8_enter_k8_bella_out){get('bella','Bella Gomes').messages.push({who:'Bella',time:'CAPÍTULO 8 · FUGA',text:s.flags.c8_hospital_bella?'Consegui chegar à margem, mas tô machucada. Preciso de ajuda médica.':'Saí pela margem. Tô viva. Confere os outros, por favor.'});}
