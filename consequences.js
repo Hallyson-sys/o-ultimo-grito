@@ -8,7 +8,7 @@ const NAMES={hero:'Você',rayssa:'Rayssa',ryan:'Ryan',laisla:'Laisla',samuel:'Sa
 const FRIEND_BASE={};
 const clamp=(n,min,max)=>Math.min(max,Math.max(min,n));
 const pair=(a,b)=>[a,b].sort().join(':');
-const killed=(s,id)=>!!s?.flags?.['c8_morto_'+id]||!!s?.flags?.['c7_morto_'+id]||!!s?.flags?.['c6_morto_'+id]||(id==='allan'&&!!s?.flags?.allan_morto_c4);
+const killed=(s,id)=>!!s?.flags?.['c9_morto_'+id]||!!s?.flags?.['c8_morto_'+id]||!!s?.flags?.['c7_morto_'+id]||!!s?.flags?.['c6_morto_'+id]||(id==='allan'&&!!s?.flags?.allan_morto_c4);
 const wounds={
  ferida_rauanny:{id:'primeira_fuga',person:'rauanny',part:'braço e joelho',label:'Cortes e contusões na primeira fuga',severity:1,source:'Capítulo 2'},
  ferida_allan_c4:{id:'arquivo_allan',person:'allan',part:'braço',label:'Ferimento no braço durante a fuga do arquivo',severity:2,source:'Capítulo 4'},
@@ -32,12 +32,15 @@ function eventInjuries(s,id){
  if(id==='ryan'&&f.c6_ferido_ryan&&!f.c6_ferida_ryan)result.push({id:'resgate_ryan',person:id,part:'mãos e costas',label:'Contusões ao proteger a escada',severity:1,source:'Capítulo 6'});
  if(f['c7_ferido_'+id])result.push({id:'oficina_'+id,person:id,part:BODY[id]||'corpo',label:'Ferimento durante a fuga da oficina',severity:1,source:'Capítulo 7'});
  if(f['c8_grave_'+id])result.push({id:'estacao_'+id,person:id,part:id==='bella'?'perna e ombro':BODY[id]||'corpo',label:id==='bella'?'Ferimentos durante a fuga da estação do lago':'Ferimento grave na estação do lago',severity:id==='bella'&&f.c8_hospital_bella?3:2,source:'Capítulo 8'});
+ if(f['c9_ferido_'+id])result.push({id:'casa_lago_'+id,person:id,part:BODY[id]||'corpo',label:'Ferimento durante a perseguição na casa do lago',severity:2,source:'Capítulo 9'});
  return result;
 }
 function injury(s,id){const items=eventInjuries(s,id);return {items,severity:items.reduce((max,w)=>Math.max(max,w.severity),0),parts:[...new Set(items.map(x=>x.part))]};}
 function knowsDeath(s,person,victim){if(person===victim)return false;if(victim==='allan'&&s.flags?.allan_morto_c4)return true;
  return !!s.knowledge?.people?.[person]?.['morte:'+victim] || (s.node==='fim10'&&!!s.flags?.['c6_morto_'+victim]);}
 function memories(s,id){if(killed(s,id))return [];const result=[];const f=s.flags||{};
+ if(f['c9_chat_done_'+id])result.push({id:'c9_sorvete_'+id,title:'A conversa na sorveteria',description:'Uma conversa longa sobre medo, futuro e lembranças antes do aniversário de Lakewood.',weight:2});
+ if(f.c9_enter_k9_reunion_luto&&Object.keys(f).some(k=>k.startsWith('c9_morto_')&&f[k]))result.push({id:'c9_perdas',title:'A noite do último jogo',description:'Os sobreviventes enfrentaram perdas e uma perseguição durante a comemoração do aniversário da cidade.',weight:3});
  if(f.c7_conversou_id&&f.c7_conversou_id===id)result.push({id:'conversa_c7',title:'Uma conversa para lembrar',description:'Vocês dividiram medos e sonhos durante a tarde em Lakewood.',weight:2});
  if(f['c7_conversou_'+id])result.push({id:'amigos_ate_a_morte_c7',title:'A conversa antes da oficina',description:'Uma conversa íntima sobre futuro, medos e o desejo de sobreviver.',weight:2});
  for(const lost of ['samuel','breno','allan','ryan','rauanny'])if(f['c7_morto_'+lost]&&id!=='hero'&&id!==lost&&f.c7_enter_j_last_02)result.push({id:'luto_c7_'+lost,title:'A perda de '+NAMES[lost],description:'A notícia da morte na oficina pesa no grupo mesmo depois da chegada dos policiais.',weight:2});

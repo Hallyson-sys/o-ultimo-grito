@@ -1,0 +1,24 @@
+O ÚLTIMO GRITO — V1.3 · UM ÚLTIMO JOGO
+
+Esta é uma VERSÃO DE TESTE do Capítulo 9. Prólogo e capítulos 1–8 preservados.
+
+Novo capítulo:
+- Memorial e despedidas individuais para todos os amigos falecidos no save.
+- Sorveteria com duas conversas por partida (três etapas de escolhas para cada personagem).
+- Anúncio da confraternização na casa do lago e celebração do aniversário de Lakewood.
+- Flashback de Bella e Jullia com Anna, figura exclusiva da memória.
+- Conversa sobre pistas ambíguas e suspeitas sem confirmação de culpa.
+- Mensagens e visita romântica quando há um interesse disponível.
+- Escolha de evento, desaparecimento, transmissão do sequestro e ameaça à casa.
+- Três momentos de perigo fatal com consequências individuais, evitáveis por preparação e decisões coerentes.
+- Reencontro, luto e chegada ao deck; identidade dos mascarados fica para o Capítulo 10.
+- Início do Capítulo 9 pelo botão do desfecho do Capítulo 8.
+- Novas pistas e status de ferimentos/mortes persistidos no save existente.
+
+IMPORTANTE:
+- Faça EXPORTAR SAVE antes de substituir os arquivos do GitHub. Os slots usam as mesmas chaves antigas.
+- Jogue no iPhone e me envie qualquer print de erro, inconsistência ou cena que precise de mais desenvolvimento.
+- Testes executados: node --check de game.js/chapter9.js/consequences.js; 1500 percursos simulados sem erros de referências;
+  NÃO foi possível abrir o navegador de testes deste ambiente por bloqueio de acesso local.
+- A duração real NÃO foi cronometrada por pessoa; parte do conteúdo é opcional conforme quem está vivo.
+- Atenção à cópia da pasta: index.html, chapter9.js, game.js, consequences.js e demais arquivos devem ficar juntos na raiz do repositório.
