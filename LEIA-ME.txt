@@ -1,3 +1,12 @@
+O ÚLTIMO GRITO — V1.2.2 · CAPÍTULO 8: CONSEQUÊNCIAS E DESPEDIDAS
+
+ATUALIZAÇÃO: versão completa, com prólogo e capítulos 1–8. Leia NOVIDADES-V1.2.2.txt.
+
+IMPORTANTE: Antes de atualizar, exporte seus saves dos slots em arquivos JSON.
+Extraia este ZIP e envie TODOS os arquivos do interior da pasta extraída para a raiz do repositório GitHub; o Render deverá atualizar o site.
+NÃO envie a pasta inteira como subdiretório: index.html e chapter8.js devem ficar na raiz.
+Os saves existentes continuam compatíveis. As cenas já ultrapassadas NÃO serão repetidas automaticamente; as revisões aparecem quando você alcança uma cena ou usa um save anterior.
+
 O ÚLTIMO GRITO — V1.2.1 · CAPÍTULO 8 REVISADO
 
 Novidades e correções nesta versão: consulte NOVIDADES-V1.2.1.txt.

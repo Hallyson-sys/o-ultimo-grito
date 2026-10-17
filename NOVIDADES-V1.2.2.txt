@@ -1,0 +1,21 @@
+O ÚLTIMO GRITO — V1.2.2 | CAPÍTULO 8: CONSEQUÊNCIAS E DESPEDIDAS
+
+CORREÇÕES
+- O protagonista chama Breno, Laisla, Samuel etc. pelo nome nas cenas em que defende alguém, com resposta de quem foi defendido e de um interlocutor contrário ainda vivo.
+- As desavenças do grupo diminuem efetivamente as relações NPC x NPC no save (Isabella/Samuel, Rauanny/Breno, Allan/Isabella, Laisla/Rauanny etc.); Allan defender Samuel também fortalece a amizade entre os dois. Valores são limitados e aplicados UMA única vez, até mesmo para saves antigos que já passaram pela discussão.
+- Cenas de morte individuais, com pontos de vista e narrativas completas para as vítimas dos dois riscos da estação. O status registrado e a narração são o mesmo. A opção de suavizar violência agora também vale para essas cenas.
+- Cena adicional de luto no hospital após mortes registradas no Capítulo 8, com falas individualizadas dos sobreviventes, ênfase nas pessoas mais próximas, participação de Bella conforme sua condição e lembrança adicional quando morreu o interesse romântico.
+- Os intertítulos “PONTO DE VISTA: PROTAGONISTA” foram retirados do Capítulo 8; continuam apenas para Bella e os outros personagens temporariamente controlados.
+- Robustez reforçada em saves retomados diretamente num nó de desfecho de perseguição, mesmo sem o registro interno de localização inicializado.
+
+CONTINUIDADE
+- Não altera a identidade do mascarado nem revela segredos dos capítulos 9–10.
+- Não modifica os critérios de sobrevivência previamente existentes nem os estados já salvos. Os dois riscos fatais permanecem evitáveis; Bella não morre no Capítulo 8.
+- Não altera as chaves dos três slots nem exige reiniciar o jogo.
+- Após publicar no Render, recarregue o navegador. Novas cenas só aparecem ao percorrer o trecho relevante; não é possível retroceder na mesma linha do tempo sem um save anterior.
+
+TESTES
+- Sintaxe JavaScript; 1.000 caminhos completos simulados, com zero, uma ou duas mortes.
+- Testes de vínculos, defesa com nomes, três resultados de risco, cenas fatais e luto.
+- Navegador Chromium em memória: teste de cena de defesa e de Allan, além do luto, em telas de 320 e 390 px; sem erros JS ou transbordamento horizontal nos cenários testados.
+- Ainda é importante testar uma partida humana completa no Safari/iPhone.

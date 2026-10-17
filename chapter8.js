@@ -35,9 +35,7 @@ const accusatory={
  allan:'Allan: — Eu já vi gente terminar amizade por mensagem fora de contexto. Dessa vez tem sangue na história. Pelo amor de Deus, pensem antes de acusar.',
  rayssa:'Rayssa: — Eu não quero perder mais ninguém. Só queria que vocês parassem de falar uns com os outros como inimigos.'
 };
-N('k8_01','HOSPITAL · SALA RESERVADA','00:48','house',`PONTO DE VISTA: PROTAGONISTA
-
-A terceira mensagem aparece na tela de todos os aparelhos: «Boa noite, traidores.»
+N('k8_01','HOSPITAL · SALA RESERVADA','00:48','house',`A terceira mensagem aparece na tela de todos os aparelhos: «Boa noite, traidores.»
 
 O relógio do corredor avança mais um minuto. A funcionária da recepção passa ao lado da porta sem entrar. Na sala reservada, os sobreviventes não se levantam. Ninguém quer ser a primeira pessoa a olhar para outra.
 
@@ -83,13 +81,11 @@ Você precisa responder sem se esquecer de que essas pessoas também têm motivo
  C('Mostrar as mensagens e explicar a sequência completa','k8_conflict',[F('exibiu_celular'),['trait','franqueza',2],Q('c8_horarios_conferidos')]),
  C('Contar apenas a parte do encontro que pode provar','k8_conflict',[F('omitiu_discussao'),['trait','cautela',1]]),
  C('Acusar quem começou a discussão de procurar um culpado fácil','k8_conflict',[F('reagiu_acusacao'),['trait','impulsividade',2]])]);
-N('k8_defend','HOSPITAL · SALA RESERVADA','00:56','house',`Você escolhe defender uma pessoa. O barulho diminui por um instante — não porque o grupo concordou, mas porque percebeu que você está disposto a perder a confiança de alguém para impedir uma acusação sem provas.
+N('k8_defend','HOSPITAL · SALA RESERVADA','00:56','house',`Você se levanta no meio da discussão e pede que escutem até o fim. A conversa não acabou; alguém precisa distinguir o que realmente aconteceu das conclusões que todos tiraram com medo.
 
-A pessoa defendida evita seu olhar por alguns segundos. Outra se afasta da mesa, magoada. Não existe uma resposta que recomponha todos os vínculos de uma vez.
+A tela do celular permanece aberta com o histórico do grupo. O som dos aparelhos vibrando já basta para deixar a sala inquieta.
 
-Isabella, se ainda puder acompanhar a conversa, tenta reconstruir as mensagens. Não basta lembrar que o endereço circulou: é necessário saber a hora exata, o destinatário e quem poderia ter visto as notificações.
-
-Você pede que todos guardem as capturas antes que alguém apague tudo num acesso de raiva.`,[G('k8_conflict','Aceitar que a discussão deixou marcas',[F('defendeu_alguem')])]);
+Você insiste que uma acusação precisa de provas e que a pessoa que está defendendo deve ter o direito de responder. O que acontece a seguir depende de quem você decidiu apoiar.`,[G('k8_conflict','Aceitar que a discussão deixou marcas',[F('defendeu_alguem')])]);
 N('k8_conflict','HOSPITAL · CORREDOR','01:02','house',`A discussão não acaba com um pedido de desculpas. Termina porque a enfermeira pede silêncio e porque ninguém tem fôlego para continuar gritando.
 
 Alguns amigos se despedem de forma mecânica. Outros não olham para você. A porta se fecha devagar; não existe vitória naquele silêncio.
@@ -128,9 +124,7 @@ Alguém se aproxima pelo corredor. Por um instante, você se prepara para ouvir 
 Você percebe que ainda existe uma diferença entre estar magoado e desejar que uma pessoa morra. Precisa se lembrar disso antes da próxima decisão.`,[
  C('Perguntar se a pessoa quer apenas companhia em silêncio','k8_03',[F('apoiou_madrugada'),['trait','empatia',1]]),
  C('Conferir novamente os horários para não alimentar suspeitas falsas','k8_03',[F('reviu_depoimentos'),['trait','cautela',1]])]);
-N('k8_03','HOSPITAL · MANHÃ SEGUINTE','08:13','town',`PONTO DE VISTA: PROTAGONISTA
-
-O dia amanhece cinzento, com um noticiário repetindo as poucas informações liberadas sobre o ataque na oficina. A reportagem não tem todas as respostas. Você também não.
+N('k8_03','HOSPITAL · MANHÃ SEGUINTE','08:13','town',`O dia amanhece cinzento, com um noticiário repetindo as poucas informações liberadas sobre o ataque na oficina. A reportagem não tem todas as respostas. Você também não.
 
 Na recepção, uma senhora discute sobre o horário de visita. O cheiro de café recém-passado chega do corredor. O hospital funciona com sua indiferença habitual: alguém recebe alta enquanto outra família aguarda notícias.
 
@@ -368,9 +362,7 @@ Bella: — Hoje não. Mas obrigada por lembrar de mim.
 Ela guarda o telefone com a tela virada para dentro do bolso e caminha na direção do ponto de ônibus. Pela primeira vez na tarde, parece uma pessoa que também precisa chegar em casa, tomar banho e continuar viva.`,[
  C('Conferir que as fotos foram realmente salvas antes de seguir','k8_06',[F('bella_organizou_imagens')]),
  C('Avisar ao protagonista que ainda não tem uma conclusão','k8_06',[F('bella_evitou_suspeitas')])]);
-N('k8_06','PRAÇA CENTRAL · TARDE','14:07','town',`PONTO DE VISTA: PROTAGONISTA
-
-Você chega à praça antes do horário combinado. As mesas externas da padaria estão sendo recolhidas porque a previsão anuncia chuva. Uma senhora alimenta pombos perto da fonte, e duas crianças discutem a vez de usar um balanço.
+N('k8_06','PRAÇA CENTRAL · TARDE','14:07','town',`Você chega à praça antes do horário combinado. As mesas externas da padaria estão sendo recolhidas porque a previsão anuncia chuva. Uma senhora alimenta pombos perto da fonte, e duas crianças discutem a vez de usar um balanço.
 
 O telefone vibra com uma mensagem de Bella: ela encontrou registros de uma instalação junto ao lago. Não há nada nos arquivos que identifique um assassino, mas algumas datas merecem atenção. Ela não quer que você confunda suspeita com prova.
 
@@ -694,32 +686,24 @@ Rayssa: — Eu espero conseguir lembrar disso quando as coisas apertarem de novo
 };
 for(const [id,d] of Object.entries(COMPANION_SCENES)){
  const x=FRIEND_MORE[id];
- N('k8_friend_'+id,d.place,'14:19','town',`PONTO DE VISTA: PROTAGONISTA
-
-${d.start}
+ N('k8_friend_'+id,d.place,'14:19','town',`${d.start}
 
 Do outro lado da mesa, ${L[id]} finalmente parece menos preocupado em escolher as palavras perfeitas. O barulho da rua obriga vocês a se aproximarem para continuar a conversa.`,[
  C('Perguntar como '+L[id]+' está convivendo com o medo','k8_friend_reflect_'+id,[S('tema_'+id,'medo'),B(id,3),F('conversou_'+id)]),
  C('Contar sobre o próprio medo e escutar a resposta','k8_friend_reflect_'+id,[S('tema_'+id,'pessoal'),B(id,2),F('conversou_'+id),['trait','empatia',1]]),
  C('Pedir desculpas pela discussão antes de ouvir','k8_friend_reflect_'+id,[S('tema_'+id,'desculpa'),B(id,4),F('conversou_'+id)])]);
- N('k8_friend_reflect_'+id,d.place,'14:26','town',`PONTO DE VISTA: PROTAGONISTA
-
-${x.deep}
+ N('k8_friend_reflect_'+id,d.place,'14:26','town',`${x.deep}
 
 Vocês não chegam a uma resposta imediata. A conversa demora mais que os cafés; há pausas em que nenhum dos dois precisa fingir que está tudo bem.`,[
  C('Perguntar sobre algo que '+L[id]+' ainda quer fazer quando isso acabar','k8_friend_response_'+id,[S('profundo_'+id,'sonho'),B(id,2)]),
  C('Conversar sobre o medo de perder mais alguém','k8_friend_response_'+id,[S('profundo_'+id,'perda'),B(id,2)]),
  C('Perguntar o que poderia ajudar hoje, sem prometer o impossível','k8_friend_response_'+id,[S('profundo_'+id,'apoio'),B(id,3)])]);
- N('k8_friend_response_'+id,d.place,'14:33','town',`PONTO DE VISTA: PROTAGONISTA
-
-${d.choose}
+ N('k8_friend_response_'+id,d.place,'14:33','town',`${d.choose}
 
 A conversa não apaga o que foi dito na discussão do hospital. Você tenta não interromper ${L[id]}, e recebe a mesma atenção quando precisa procurar as palavras.`,[
  C('Falar de um plano pequeno para a próxima semana','k8_friend_end_'+id,[F('plano_'+id),B(id,2)]),
  C('Pedir que vocês possam discordar sem abandonar a amizade','k8_friend_end_'+id,[F('promessa_'+id),B(id,3)])]);
- N('k8_friend_end_'+id,d.place,'14:42','town',`PONTO DE VISTA: PROTAGONISTA
-
-${x.closing}
+ N('k8_friend_end_'+id,d.place,'14:42','town',`${x.closing}
 
 A conversa chegou a um lugar que nenhuma mensagem enviada no grupo teria alcançado. Vocês se despedem sabendo que ainda existem perguntas sem resposta.`,[G('k8_friend_close_'+id,'Despedir-se e conferir se alguém mais quer conversar')]);
  N('k8_friend_close_'+id,d.place,'14:47','town',`Você observa ${L[id]} se afastar entre as pessoas. O encontro não apagou os gritos da madrugada, mas agora você conhece algo mais íntimo do que uma versão dos acontecimentos.
@@ -745,9 +729,7 @@ Você lembra da advertência da investigadora. Ir até lá significa assumir um 
  C('Ler a planta e combinar um ponto de encontro seguro','k8_prepare',[F('leu_planta'),['trait','cautela',2]]),
  C('Rever as fotos dos registros antes de sair','k8_prepare',[F('releu_fotos'),['trait','cautela',1]]),
  C('Avisar que só aceitará entrar se houver uma rota de volta','k8_prepare',[F('plano_saida'),['trait','coragem',1]])]);
-N('k8_romance_resposta','PRAÇA · MENSAGENS PRIVADAS','15:11','phone',`PONTO DE VISTA: PROTAGONISTA
-
-Você volta à conversa particular. O aplicativo informa que a outra pessoa está disponível para receber mensagens. Depois do que aconteceu na oficina, uma resposta pequena parece exigir mais cuidado do que um discurso inteiro.
+N('k8_romance_resposta','PRAÇA · MENSAGENS PRIVADAS','15:11','phone',`Você volta à conversa particular. O aplicativo informa que a outra pessoa está disponível para receber mensagens. Depois do que aconteceu na oficina, uma resposta pequena parece exigir mais cuidado do que um discurso inteiro.
 
 Você começa a digitar. Apaga a primeira frase porque ficou formal demais. Tenta de novo.`,[
  C('Dizer que também sente saudade da noite que passaram juntos','k8_romance_continua',[F('respondeu_romance'),S('tom_romance','carinho'),['trait','empatia',1]]),
@@ -766,9 +748,7 @@ Você confere o que realmente sabe, sem transformar palpite em certeza. A invest
  C('Ler a planta e combinar um ponto de encontro seguro','k8_prepare',[F('leu_planta'),['trait','cautela',2]]),
  C('Rever as fotos dos registros antes de sair','k8_prepare',[F('releu_fotos'),['trait','cautela',1]]),
  C('Avisar que só aceitará entrar se houver uma rota de volta','k8_prepare',[F('plano_saida'),['trait','coragem',1]])]);
-N('k8_prepare','ESTRADA DO LAGO · PLANEJAMENTO','15:24','road',`PONTO DE VISTA: PROTAGONISTA
-
-Você encontra Bella no estacionamento de um pequeno mercado perto da estrada. Um vento frio atravessa a área coberta. A estação fica além de uma curva, onde o asfalto antigo cede lugar a um caminho de serviço.
+N('k8_prepare','ESTRADA DO LAGO · PLANEJAMENTO','15:24','road',`Você encontra Bella no estacionamento de um pequeno mercado perto da estrada. Um vento frio atravessa a área coberta. A estação fica além de uma curva, onde o asfalto antigo cede lugar a um caminho de serviço.
 
 Bella mostra uma cópia impressa da planta. A parte central da instalação possui bombas antigas; uma passarela alcança o píer e uma estrada lateral retorna ao acesso público. Existem travas e cercas de segurança. Não seria possível atravessá-las livremente sem autorização.
 
@@ -791,9 +771,7 @@ Não adianta convidar alguém que está em atendimento intensivo ou que morreu n
 Bella: — Não chama meio mundo só porque você não quer enfrentar uma conversa difícil. E não coloca ninguém no carro sem dizer que a estação pode estar perigosa.
 
 Você concorda. Cada resposta que chegar será registrada. Uma ausência não significa necessariamente abandono: pode ser medo, dor, raiva ou apenas a decisão de não arriscar mais uma vida.`,[]);
-N('k8_invited','ESTRADA DO LAGO · PONTO DE ENCONTRO','16:14','road',`PONTO DE VISTA: PROTAGONISTA
-
-A luz do fim de tarde ilumina a vegetação da margem. Vocês estacionam numa área onde o sinal de celular ainda funciona e verificam as saídas antes de andar.
+N('k8_invited','ESTRADA DO LAGO · PONTO DE ENCONTRO','16:14','road',`A luz do fim de tarde ilumina a vegetação da margem. Vocês estacionam numa área onde o sinal de celular ainda funciona e verificam as saídas antes de andar.
 
 Bella entrega uma cópia da planta ao protagonista, guarda a original na mochila e pede que todos marquem o próprio acesso no telefone. Ninguém deve desaparecer no prédio sem que os outros saibam para onde foi.
 
@@ -806,9 +784,7 @@ Bella: — Tá vendo aquela sequência? É o mesmo código. Não colocaram ali �
 Uma gota de chuva cai sobre o papel. Logo depois, outra.`,[
  C('Registrar os acompanhantes e seguir todos pela entrada sinalizada','k8_viagem_estacao',[F('entrada_juntos')]),
  C('Pedir que os acompanhantes esperem no acesso externo enquanto você e Bella consultam a guarita','k8_viagem_estacao',[F('entrada_separada')])]);
-N('k8_viagem_estacao','ESTAÇÃO · ÁREA DE ENTRADA','16:24','lake',`PONTO DE VISTA: PROTAGONISTA
-
-O portão de acesso range quando o vento muda. Bella avança até a placa de interdição, lê duas vezes o trecho ainda legível e volta para a guarita sem tentar forçar a corrente.
+N('k8_viagem_estacao','ESTAÇÃO · ÁREA DE ENTRADA','16:24','lake',`O portão de acesso range quando o vento muda. Bella avança até a placa de interdição, lê duas vezes o trecho ainda legível e volta para a guarita sem tentar forçar a corrente.
 
 Bella: — Minha irmã odiava quando eu fazia alguma coisa sem pensar. Ela ia me chamar de cabeça-dura se me visse aqui.
 
@@ -835,9 +811,7 @@ O barulho de uma caminhonete vindo pela estrada faz vocês se afastarem do camin
 O prédio antigo continua imóvel. Ainda existe a escolha de registrar o que puderem com segurança, manter as pessoas informadas e sair se a estrutura piorar.`,[
  C('Pedir que confirmem posição antes de se aproximar da guarita','k8_station_01',[F('reconfirmou_posicoes')]),
  C('Revisar a fotografia do mapa com Bella','k8_station_01',[F('mapa_revisado'),['trait','cautela',1]])]);
-N('k8_station_01','ESTAÇÃO DO LAGO · GUARITA','16:32','lake',`PONTO DE VISTA: PROTAGONISTA
-
-A guarita tem uma janela rachada e um livro de visitas preso por uma corrente. Os trilhos da cerca estão cobertos de folhas e a placa de advertência perdeu metade das letras. O lago aparece por entre a vegetação, quieto demais para um lugar onde a história de vocês começou a desmoronar.
+N('k8_station_01','ESTAÇÃO DO LAGO · GUARITA','16:32','lake',`A guarita tem uma janela rachada e um livro de visitas preso por uma corrente. Os trilhos da cerca estão cobertos de folhas e a placa de advertência perdeu metade das letras. O lago aparece por entre a vegetação, quieto demais para um lugar onde a história de vocês começou a desmoronar.
 
 Bella: — A prefeitura disse que o arquivo técnico ficava por aqui. O prédio principal tá isolado, mas o responsável tinha uma cópia dos registros na guarita.
 
@@ -889,9 +863,7 @@ Bella coloca o envelope sobre uma superfície seca. Precisa decidir como registr
  C('Fotografar cada página, incluindo o verso e os metadados','k8_station_04',[F('arquivo_fotografado'),Q('c8_copia_envelope')]),
  C('Proteger a pasta original numa bolsa vedada','k8_station_04',[F('arquivo_protegido'),Q('c8_envelope_original')]),
  C('Anotar apenas códigos e devolver o original ao lugar','k8_station_04',[F('arquivo_anotado'),Q('c8_codigos_anotados')])]);
-N('k8_station_04','ESTAÇÃO · CORREDOR CENTRAL','17:04','lake',`PONTO DE VISTA: PROTAGONISTA
-
-O som da chuva muda quando vocês chegam ao corredor central. De um lado, placas apontam para as bombas antigas. Do outro, uma porta envidraçada permite enxergar o início da passarela. Os dois caminhos desembocam em saídas diferentes, e o terceiro leva à estrada lateral.
+N('k8_station_04','ESTAÇÃO · CORREDOR CENTRAL','17:04','lake',`O som da chuva muda quando vocês chegam ao corredor central. De um lado, placas apontam para as bombas antigas. Do outro, uma porta envidraçada permite enxergar o início da passarela. Os dois caminhos desembocam em saídas diferentes, e o terceiro leva à estrada lateral.
 
 Você confere o celular e as últimas mensagens dos acompanhantes. A documentação está guardada, ao menos por enquanto. Bella segura o caderno perto do peito e observa o corredor mais escuro.
 
@@ -1001,9 +973,7 @@ Bella: — Eu saí. Eu tô aqui. Agora falta o resto.
 Ela tenta responder às mensagens do protagonista. O telefone demora a encontrar sinal. Seja qual for a condição em que alcançou a margem, a investigação deixou de ser uma obsessão abstrata: agora existe sangue, medo e um caminho real por onde ela quase não voltou.
 
 Bella sabe que os outros ainda precisam sair. A prova que ela carregava pode ter sobrevivido inteira, apenas em fotografia ou ter se perdido na água.`,[G('k8_hero_rescue','Retomar o ponto de vista do protagonista')]);
-N('k8_hero_rescue','ESTAÇÃO · SALA DAS BOMBAS','17:36','lake',`PONTO DE VISTA: PROTAGONISTA
-
-O piso vibra sob seus pés. Há água acumulada perto da casa das máquinas, e um quadro de controle pisca com as últimas luzes de emergência. Você escuta o mascarado em algum lugar distante, mas não sabe qual corredor será alcançado primeiro.
+N('k8_hero_rescue','ESTAÇÃO · SALA DAS BOMBAS','17:36','lake',`O piso vibra sob seus pés. Há água acumulada perto da casa das máquinas, e um quadro de controle pisca com as últimas luzes de emergência. Você escuta o mascarado em algum lugar distante, mas não sabe qual corredor será alcançado primeiro.
 
 Bella avisou que tenta sair pela margem. Você não pode correr para lá e abandonar um possível pedido de ajuda sem saber onde estão os outros. O telefone mostra as últimas posições confirmadas, não uma visão mágica de todos os sobreviventes.
 
@@ -1013,9 +983,7 @@ Você se aproxima do painel, tomando cuidado para não pisar na área molhada. O
  C('Usar o mapa e procurar o comando de isolamento antes de tocar no painel','k8_risk1',[F('hero_painel_seguro'),['trait','cautela',1]]),
  C('Mandar uma mensagem com as rotas e pedir confirmação de posição','k8_risk1',[F('hero_rede_organizada'),['trait','empatia',1]]),
  C('Abrir imediatamente o corredor de emergência, sem esperar confirmação','k8_risk1',[F('hero_saida_apressada'),['trait','coragem',1]])]);
-N('k8_risk1','ESTAÇÃO · SALA DAS BOMBAS','17:39','lake',`PONTO DE VISTA: PROTAGONISTA
-
-A estrutura inferior geme e parte do sistema de drenagem começa a trabalhar ao contrário. A água que deveria seguir ao lago volta pela passagem antiga. Os degraus ficam úmidos, depois cobertos por uma lâmina brilhante.
+N('k8_risk1','ESTAÇÃO · SALA DAS BOMBAS','17:39','lake',`A estrutura inferior geme e parte do sistema de drenagem começa a trabalhar ao contrário. A água que deveria seguir ao lago volta pela passagem antiga. Os degraus ficam úmidos, depois cobertos por uma lâmina brilhante.
 
 Você procura pelos amigos que aceitaram acompanhar a investigação. Quem está no mesmo setor precisa saber qual saída está aberta; quem permaneceu no acesso externo não deve ser tratado como se estivesse preso dentro do prédio.
 
@@ -1109,25 +1077,19 @@ ${p.middle}
 A água continua avançando no interior da estação. O que ${L[id]} fez no primeiro obstáculo alterou o espaço disponível para esta segunda escolha. Não é uma nova perseguição começando do nada: ainda é a mesma tentativa de escapar.`,[
    C(p.end[0],'k8_risk1_out',[S('r1_final',id+':good')]),C(p.end[1],'k8_risk1_out',[S('r1_final',id+':risky')]),C(p.end[2],'k8_risk1_out',[S('r1_final',id+':danger')])]);
 }
-N('k8_sector_empty','ESTAÇÃO · SALA DAS BOMBAS','17:44','lake',`PONTO DE VISTA: PROTAGONISTA
-
-Você confere as mensagens e o corredor. Nenhum dos acompanhantes confirmados ficou preso aqui: alguns aguardam no ponto de acesso e outros já seguiram por uma saída segura. Pelo registro das últimas posições, ninguém ficou para trás nesta sala. Você não ouve pedidos de socorro por aqui.
+N('k8_sector_empty','ESTAÇÃO · SALA DAS BOMBAS','17:44','lake',`Você confere as mensagens e o corredor. Nenhum dos acompanhantes confirmados ficou preso aqui: alguns aguardam no ponto de acesso e outros já seguiram por uma saída segura. Pelo registro das últimas posições, ninguém ficou para trás nesta sala. Você não ouve pedidos de socorro por aqui.
 
 Você desliga a energia da parte acessível pelo comando de emergência e deixa um aviso para a equipe técnica. A água continua avançando, mas o caminho pela plataforma superior ainda está livre.
 
 Ao longe, Bella finalmente responde com uma mensagem curta: ela conseguiu alcançar a margem. Você precisa encontrá-la antes que o mascarado volte.
 
 A estação não está segura. A ausência de uma pessoa em perigo neste setor não torna o prédio menos perigoso.`,[G('k8_risk2','Seguir para a última passagem')]);
-N('k8_risk1_out','ESTAÇÃO · SAÍDA DA GALERIA','17:48','lake',`PONTO DE VISTA: PROTAGONISTA
-
-A chuva abafa os sons do interior do prédio. Você chega ao corredor de comunicação e confere as mensagens recebidas. Uma pessoa enfrentou os equipamentos da galeria; você precisa descobrir o que aconteceu antes de reorganizar a fuga.
+N('k8_risk1_out','ESTAÇÃO · SAÍDA DA GALERIA','17:48','lake',`A chuva abafa os sons do interior do prédio. Você chega ao corredor de comunicação e confere as mensagens recebidas. Uma pessoa enfrentou os equipamentos da galeria; você precisa descobrir o que aconteceu antes de reorganizar a fuga.
 
 O acesso superior leva à estrada. A saída de manutenção segue até uma passarela sobre o lago. Não é possível cuidar dos dois caminhos ao mesmo tempo sem saber quem ainda está em cada setor.
 
 Você tenta ouvir uma resposta no telefone. Uma notificação chega, mas a conexão oscila e parte da frase desaparece.`,[G('k8_risk2','Procurar a última rota de saída')]);
-N('k8_risk2','ESTAÇÃO · PASSARELA EXTERNA','17:52','lake',`PONTO DE VISTA: PROTAGONISTA
-
-A estrutura externa é mais larga perto da estação e se estreita ao alcançar a margem. Uma parte foi reforçada com metal; outra está coberta por madeira escura. O vento sopra água sobre o corrimão.
+N('k8_risk2','ESTAÇÃO · PASSARELA EXTERNA','17:52','lake',`A estrutura externa é mais larga perto da estação e se estreita ao alcançar a margem. Uma parte foi reforçada com metal; outra está coberta por madeira escura. O vento sopra água sobre o corrimão.
 
 Você percebe que a próxima fuga depende da organização feita mais cedo. Quem já alcançou a saída não deve ser mandado de volta para uma ponte perigosa sem necessidade. Quem permaneceu em outro setor ainda precisa confirmar onde está.
 
@@ -1137,21 +1099,15 @@ O barulho da água aumenta. O mascarado pode alcançar o acesso externo, mas ain
  C('Conferir os apoios reforçados e orientar a saída pela margem','k8_risk2_pov',[F('r2_hero_lateral')]),
  C('Avisar pelo rádio ou celular a posição do ponto de encontro','k8_risk2_pov',[F('r2_hero_radio')]),
  C('Correr direto pela ponte sem verificar se alguém vem no sentido contrário','k8_risk2_pov',[F('r2_hero_pressa')])]);
-N('k8_risk2_pov','ESTAÇÃO · NÚCLEO EXTERNO','17:55','lake',`PONTO DE VISTA: PROTAGONISTA
-
-Você ouve uma resposta distante e confere a última posição confirmada. Você confirma a localização mais recente antes de procurar alguém. A chuva bate forte na grade e apaga qualquer ruído vindo da estrada.
+N('k8_risk2_pov','ESTAÇÃO · NÚCLEO EXTERNO','17:55','lake',`Você ouve uma resposta distante e confere a última posição confirmada. Você confirma a localização mais recente antes de procurar alguém. A chuva bate forte na grade e apaga qualquer ruído vindo da estrada.
 
 A chuva finalmente diminui. A maré de sons da estação — bombas, alarmes, corrimão e água — parece uma única coisa ameaçadora. Você tenta distinguir os passos de um amigo dos de quem o persegue.`,[]);
-N('k8_risk2_empty','ESTAÇÃO · ESTRADA DE SERVIÇO','18:00','road',`PONTO DE VISTA: PROTAGONISTA
-
-A estrada de serviço aparece entre duas árvores. Bella já conseguiu sinalizar a própria localização e os acompanhantes que ficaram no acesso externo confirmam pelo telefone que estão fora do prédio.
+N('k8_risk2_empty','ESTAÇÃO · ESTRADA DE SERVIÇO','18:00','road',`A estrada de serviço aparece entre duas árvores. Bella já conseguiu sinalizar a própria localização e os acompanhantes que ficaram no acesso externo confirmam pelo telefone que estão fora do prédio.
 
 Os outros já confirmaram uma saída ou ficaram protegidos na área externa. A passarela permanece vazia, e você não volta ao perigo sem necessidade.
 
 Você finalmente vê o contorno do veículo estacionado. É a primeira vez em muitas horas que um objeto comum parece uma esperança concreta.`,[G('k8_after','Reunir quem conseguiu escapar')]);
-N('k8_risk2_out','MARGEM DO LAGO · ESTRADA','18:04','road',`PONTO DE VISTA: PROTAGONISTA
-
-A passagem para a estrada ainda está iluminada por um poste antigo. Você conta os rostos que aparecem à sua frente, mas não faz suposições sobre as pessoas que não vê. Primeiro confere as mensagens. Depois tenta pedir ajuda.
+N('k8_risk2_out','MARGEM DO LAGO · ESTRADA','18:04','road',`A passagem para a estrada ainda está iluminada por um poste antigo. Você conta os rostos que aparecem à sua frente, mas não faz suposições sobre as pessoas que não vê. Primeiro confere as mensagens. Depois tenta pedir ajuda.
 
 O peso das escolhas na passarela só começa a aparecer agora: o que foi comunicado, quem ajudou e quem ficou sem apoio vai determinar quantas respostas ainda chegam.
 
@@ -1210,9 +1166,7 @@ ${p.follow}
 O telefone vibra uma vez. ${L[id]} não tem certeza de quem enviou a mensagem e não pode ficar olhando para a tela agora. A saída está visível; cada segundo parado aumenta o risco.`,[
  C(p.end[0],'k8_risk2_out',[S('r2_final',id+':good')]),C(p.end[1],'k8_risk2_out',[S('r2_final',id+':risk')]),C(p.end[2],'k8_risk2_out',[S('r2_final',id+':danger')])]);
 }
-N('k8_after','ESTRADA DO LAGO · AMBULÂNCIAS','18:26','road',`PONTO DE VISTA: PROTAGONISTA
-
-Os faróis das viaturas riscam a estrada molhada. Bombeiros cercam a entrada da estação e pedem que ninguém tente voltar ao prédio. Um deles examina suas mãos à procura de cortes; outro pergunta se há pessoas desaparecidas.
+N('k8_after','ESTRADA DO LAGO · AMBULÂNCIAS','18:26','road',`Os faróis das viaturas riscam a estrada molhada. Bombeiros cercam a entrada da estação e pedem que ninguém tente voltar ao prédio. Um deles examina suas mãos à procura de cortes; outro pergunta se há pessoas desaparecidas.
 
 Você responde com os nomes e as últimas posições reais, sem completar as lacunas com suposições. A experiência da oficina ensinou a diferença entre não receber uma mensagem e confirmar uma morte.
 
@@ -1225,9 +1179,7 @@ Bella: — Eu sei. Só me deixa dizer onde tá o negócio antes que alguém jogu
 Do prédio vem um estouro surdo. Ninguém volta. A polícia isola a instalação, e a chuva finalmente diminui sobre a margem.
 
 Você procura os rostos que ainda consegue reconhecer. A soma não é apenas um número. Cada pessoa que chega carrega uma escolha, uma ferida ou a ausência de alguém.`,[G('k8_socorro_reacoes','Aguardar notícias de cada setor')]);
-N('k8_socorro_reacoes','ESTRADA DO LAGO · RESGATE','18:39','road',`PONTO DE VISTA: PROTAGONISTA
-
-A equipe de resgate pede que ninguém atravesse a fita de isolamento. Um rádio chia repetindo números e posições; um bombeiro anota os nomes que vocês conseguem confirmar.
+N('k8_socorro_reacoes','ESTRADA DO LAGO · RESGATE','18:39','road',`A equipe de resgate pede que ninguém atravesse a fita de isolamento. Um rádio chia repetindo números e posições; um bombeiro anota os nomes que vocês conseguem confirmar.
 
 Você tenta ligar para o primeiro contato que ainda aparece como indisponível. Não consegue. Desta vez, não inventa explicações. Entrega o horário da última comunicação a quem pode procurar de verdade.
 
@@ -1256,9 +1208,12 @@ Quando o médico permite, você se aproxima de Bella. Ela segura o celular com d
  C('Pedir que Bella descanse e guardar os arquivos de maneira segura','k8_depoimento_estacao',[F('bella_recebe_apoio'),['trait','empatia',1]]),
  C('Conversar sobre o que as duas investigações conseguiram comprovar','k8_depoimento_estacao',[F('bella_conversou_resultados')]),
  C('Perguntar o que ela lembra da estação sem insistir se estiver mal','k8_depoimento_estacao',[F('bella_ouvida'),['trait','cautela',1]])]);
-N('k8_depoimento_estacao','HOSPITAL · DEPOIMENTO','20:42','town',`PONTO DE VISTA: PROTAGONISTA
+N('k8_luto_08','HOSPITAL · SALA DE ESPERA','20:32','town',`A equipe médica pede que os sobreviventes ocupem uma sala reservada. A porta é fechada com cuidado para que ninguém do corredor escute os nomes confirmados pela polícia.
 
-Uma investigadora traz dois envelopes transparentes e uma pequena lista de protocolos. Não pede que você imagine o que estava dentro dos papéis perdidos. Quer saber apenas a origem das informações disponíveis.
+Os amigos que não estiveram na estação recebem a notícia pelo telefone antes de chegar. Ninguém é chamado de volta só para fazer parte de uma cena: quem ainda está em atendimento participa quando consegue.
+
+A médica oferece alguns minutos sem perguntas. Pela primeira vez desde a fuga, vocês não precisam decidir por onde correr. Só precisam encarar quem não vai voltar.`,[G('k8_depoimento_estacao','Continuar depois de ouvir os amigos')]);
+N('k8_depoimento_estacao','HOSPITAL · DEPOIMENTO','20:42','town',`Uma investigadora traz dois envelopes transparentes e uma pequena lista de protocolos. Não pede que você imagine o que estava dentro dos papéis perdidos. Quer saber apenas a origem das informações disponíveis.
 
 Investigadora: — Preciso distinguir o que você viu pessoalmente do que outra pessoa encontrou. Se uma foto foi tirada por Bella, é importante que o registro diga isso.
 
@@ -1277,9 +1232,7 @@ Você concorda em entregar cópias do que foi preservado, mantendo o registro da
 Quando ela se afasta, resta uma conversa difícil com Bella. A noite não acabou. Você precisa encontrar um jeito de perguntar o que ela descobriu sem fazer parecer que os ferimentos dela são menos importantes que um documento.`,[
  C('Conversar com Bella sobre o que pode realmente ser confirmado','k8_evidence',[F('separou_fontes')]),
  C('Perguntar primeiro se Bella quer continuar a conversa agora','k8_evidence',[F('respeitou_recuperacao'),['trait','empatia',1]])]);
-N('k8_evidence','HOSPITAL · SALA DE VISITAS','21:04','town',`PONTO DE VISTA: PROTAGONISTA
-
-Bella compartilha com você as informações que foram realmente preservadas. Algumas estão em fotografias; outras podem ter ficado nos arquivos recolhidos pelos investigadores. O que não foi encontrado permanece desconhecido.
+N('k8_evidence','HOSPITAL · SALA DE VISITAS','21:04','town',`Bella compartilha com você as informações que foram realmente preservadas. Algumas estão em fotografias; outras podem ter ficado nos arquivos recolhidos pelos investigadores. O que não foi encontrado permanece desconhecido.
 
 Vocês tentam reconstruir uma linha do tempo sem completar os buracos com imaginação. Moisés visitou lugares próximos ao lago depois do desaparecimento. A estação continuou aparecendo em documentos administrativos. Uma anotação indica movimentação de materiais, mas não informa o conteúdo dos produtos nem quem os recebeu.
 
@@ -1292,9 +1245,7 @@ Bella: — É. Só que eu tô cansada de perguntar pra gente que acaba morta.
 Ela olha para a parede e respira devagar. A lembrança de Jullia parece ocupar a sala inteira. Pela primeira vez, você percebe que Bella talvez não esteja procurando uma pessoa desaparecida: esteja procurando o momento em que poderia ter feito alguma coisa diferente.
 
 Os documentos não identificam quem esteve na estação. Registram apenas movimentações posteriores ao desaparecimento, quando todos acreditavam que aquela história já tinha acabado.`,[G('k8_last_01','Comparar as datas uma última vez')]);
-N('k8_last_01','HOSPITAL · DOCUMENTOS E CELULAR','21:18','phone',`PONTO DE VISTA: PROTAGONISTA
-
-Você organiza apenas as informações que realmente chegaram ao seu alcance. As anotações independentes da biblioteca e o histórico do encontro de Moisés ajudam a identificar datas, mas não revelam quem circulou por ali.
+N('k8_last_01','HOSPITAL · DOCUMENTOS E CELULAR','21:18','phone',`Você organiza apenas as informações que realmente chegaram ao seu alcance. As anotações independentes da biblioteca e o histórico do encontro de Moisés ajudam a identificar datas, mas não revelam quem circulou por ali.
 
 As datas estão dispostas por ordem, sem tentar preencher intervalos que os arquivos não explicam.
 
@@ -1309,9 +1260,7 @@ Bella: — Não. E eu não vou fingir que sei.
 O telefone mostra a última mensagem que Moisés conseguiu enviar antes de morrer. Ele prometeu contar uma coisa. Talvez não fosse apenas sobre o atropelamento, nem apenas sobre o passado. Talvez fosse sobre o que alguém fez depois que os amigos voltaram para casa.
 
 Você fecha a pasta sem encontrar uma resposta. Pela primeira vez, não é o silêncio daquela noite que assusta. São os meses que vieram depois.`,[G('k8_last_02','Ouvir o que Bella concluiu')]);
-N('k8_last_02','LAKEWOOD · NOITE','21:27','town',`PONTO DE VISTA: PROTAGONISTA
-
-Bella volta os olhos para você. Do outro lado da janela, o corredor está quase vazio. Do lado de fora, a chuva se transformou em neblina baixa, cobrindo a rua com uma luz difusa.
+N('k8_last_02','LAKEWOOD · NOITE','21:27','town',`Bella volta os olhos para você. Do outro lado da janela, o corredor está quase vazio. Do lado de fora, a chuva se transformou em neblina baixa, cobrindo a rua com uma luz difusa.
 
 Bella: — Eu achei que tava tentando descobrir por que minha irmã desapareceu.
 
@@ -1330,6 +1279,222 @@ Bella: — Se o Moisés sabia de alguma coisa sobre aqueles meses, então eu nã
 Você não responde. O lago aparece de novo na sua memória, escuro e quieto.
 
 FIM DO CAPÍTULO 08 — ÁGUAS TURVAS`,[]);
+// V1.2.2: outcomes are written as scenes, not a death flag followed by a generic report.
+// Always narrated from the endangered person's perspective BEFORE returning to hero.
+const FATAL_BOMBAS={
+ isabella:`PONTO DE VISTA: ISABELLA
+
+A galeria de controle escurece antes que Isabella consiga chegar à plataforma. O aviso de circuito isolado pisca, mas há água avançando do outro lado da grade. Ela volta a mão para o apoio seco; um estalo agudo faz a lâmpada explodir sobre sua cabeça.
+
+Isabella: — NÃO! AFASTA, CARALHO!
+
+O metal retorce quando ela tenta passar. A grade se solta da base e a atinge no peito, derrubando-a contra a borda de concreto. Isabella tenta puxar ar, mas a dor interrompe a respiração. Sangue escorre da testa, misturando-se à água que avança.
+
+Isabella: — Rayssa... alguém... me escuta...
+
+O rádio solta um chiado. Ela tenta alcançar o aparelho caído no piso. Os dedos chegam a tocar a capinha, mas não conseguem segurá-la. A última luz da galeria apaga. Isabella para de se mover antes que o socorro consiga abrir a porta.`,
+ allan:`PONTO DE VISTA: ALLAN
+
+O som da estante se arrastando pelo chão chega primeiro. Allan tenta passar pela abertura que conseguiu criar, mas a caixa de arquivos se solta de uma prateleira acima de sua cabeça. Ele se joga para o lado, bate com força na borda de concreto e cai de joelhos.
+
+Allan: — SAMU?! SAMUEL, EU TÔ AQUI!
+
+Uma linha de sangue desce de sua têmpora. Ele procura a porta, mas a estante inteira cede quando a água desloca sua base. O metal atinge seu ombro e o prende contra o piso. Allan grita, tentando libertar o braço; a dor tira o ar de seus pulmões.
+
+Allan: — NÃO... NÃO, POR FAVOR! SAMU!
+
+O rádio transmite apenas o começo de seu pedido. Ele ainda tenta empurrar a estrutura, deixando marcas de sangue na lateral do armário, mas a força desaparece aos poucos. O último som que ouve é a água batendo nas caixas. Quando os bombeiros conseguem alcançá-lo, Allan já não respira.`,
+ breno:`PONTO DE VISTA: BRENO
+
+O compressor dá três pancadas secas, uma após a outra. Breno recua do corredor alagado, mas a tubulação sob pressão rompe o suporte e atravessa sua rota de fuga. A pancada o lança contra o chão de concreto.
+
+Breno: — MERDA! NÃO... NÃO...
+
+Ele tenta ficar de pé, segurando o lado do corpo. O sangue se espalha pela camisa, e a respiração sai curta. A porta da galeria está tão perto que ele consegue ver a faixa amarela da saída; sua perna não responde quando tenta avançar.
+
+Breno: — Eu tô... na bomba... alguém...
+
+Ele aperta o botão do rádio, mas a conexão falha entre dois alarmes. Ainda arrasta o corpo alguns centímetros, deixando um rastro no piso, até alcançar o primeiro degrau. Quando a equipe entra pelo acesso superior, encontra Breno imóvel, com uma das mãos estendida na direção da saída.`,
+ samuel:`PONTO DE VISTA: SAMUEL
+
+O reboque treme sobre o piso encharcado. Samuel tenta se afastar da corrente, mas o eixo destrava de repente. A plataforma avança e esmaga o espaço entre ela e o pilar de concreto.
+
+Samuel: — SAI! SAI DAÍ!
+
+Ele se joga para o lado, mas não rápido o bastante. O impacto o lança contra a parede; sangue aparece na manga e escorre por sua mão enquanto tenta se apoiar. Samuel encara a roda ainda girando, como se de alguma forma fosse possível mandar uma máquina parar pela força da voz.
+
+Samuel: — Não... de novo, não...
+
+O rádio cai de sua mão. Ele tenta chamá-lo de volta, pensa em Allan e no que gostaria de ter dito, mas a dor e a perda de sangue tornam cada respiração mais difícil. Samuel morre antes que a equipe de resgate consiga mover a plataforma.`
+};
+const FATAL_PASSARELA={
+ laisla:`PONTO DE VISTA: LAISLA
+
+Uma tábua estala sob o tênis de Laisla. Ela segura o corrimão, mas o parafuso enferrujado se desprende da madeira. A passarela cede de lado, e Laisla cai contra a estrutura inferior.
+
+Laisla: — RAUANNY! ME AJUDA!
+
+Ela consegue agarrar um apoio, mas a borda quebrada a corta profundamente. A água bate em seu rosto enquanto tenta subir. O mascarado aparece acima, impedindo a passagem de volta. Laisla puxa o corpo uma última vez; o apoio se solta e ela desaparece sob a superfície escura.
+
+O resgate a encontra alguns minutos depois. Há sangue na madeira onde ela tentou se erguer, e nenhuma resposta quando chamam seu nome.`,
+ rauanny:`PONTO DE VISTA: RAUANNY
+
+A água cobre a escada quando Rauanny tenta alcançar o patamar. O ferimento antigo na perna se contrai de dor; ela perde o apoio e bate contra a grade lateral.
+
+Rauanny: — LAISLA?! ME RESPONDE!
+
+Ela consegue voltar à superfície uma vez. A correnteza arrasta seu corpo contra a estrutura de drenagem; um corte profundo abre a pele de seu braço, e o sangue se espalha rapidamente. Rauanny agarra uma barra, mas ela se solta com o peso.
+
+Rauanny: — SOCORRO! EU TÔ AQUI!
+
+A água a puxa para baixo novamente. Quando os bombeiros chegam ao canal, encontram seu corpo preso junto à grade, já sem sinais de vida.`,
+ ryan:`PONTO DE VISTA: RYAN
+
+Ryan alcança a portinhola da guarita no instante em que a cancela automática desce outra vez. Ele coloca o braço na frente do rosto e tenta passar, mas a estrutura metálica se desprende de um dos suportes.
+
+Ryan: — NÃO, NÃO, NÃO! ABRE ESSA MERDA!
+
+O impacto o derruba contra a base da grade. Ryan tenta se arrastar pela faixa seca, deixando sangue no cimento, enquanto o mascarado aparece atrás do vidro da guarita.
+
+Ryan: — ALGUÉM ME OUVE? EU TÔ NA CANCELA!
+
+Ele ainda encontra forças para empurrar a grade uma vez. O metal cai sobre ele antes que consiga passar. O rádio continua ligado depois que sua voz se cala. Os socorristas o encontram sob a estrutura, sem pulso.`,
+ breno:`PONTO DE VISTA: BRENO
+
+A comporta cede quando Breno alcança o patamar. O metal bate contra a borda da passarela e o lança de costas sobre uma viga quebrada. Ele tenta se levantar, mas a pancada abre um ferimento no lado do corpo.
+
+Breno: — EU TÔ NA SAÍDA! EU PRECISO DE AJUDA!
+
+A água continua avançando. Ele prende a mão no apoio, procurando a escada, enquanto o mascarado se aproxima pelo corredor superior. Breno consegue afastar-se do primeiro golpe, mas escorrega ao tentar alcançar o degrau. A queda contra a viga tira dele as últimas forças.
+
+Quando alguém chega à passagem, o celular ainda está aceso perto de sua mão. Breno não responde.`,
+ samuel:`PONTO DE VISTA: SAMUEL
+
+A caminhonete está a poucos passos. Samuel tenta contornar a madeira rachada, mas o apoio cede quando ele se volta para o mascarado. Seu pé atravessa o piso; a queda o joga contra o conjunto de ferragens sob a passarela.
+
+Samuel: — CARALHO! ME PUXA DAQUI!
+
+Ele se agarra ao corrimão com as duas mãos. Sangue desce por sua testa; o braço que sustenta seu peso começa a falhar. Samuel tenta alcançar a escada lateral, mas a estrutura inteira se solta com um estrondo.
+
+O corpo cai na margem pedregosa. A equipe de resgate chega pouco depois, mas Samuel já não reage.`,
+ isabella:`PONTO DE VISTA: ISABELLA
+
+Isabella alcança a plataforma externa e tenta passar pela grade de inspeção. Um fio solto enrosca em sua manga. Ela o evita, mas a estrutura enferrujada cede quando recua.
+
+Isabella: — PARA! NÃO CHEGA PERTO!
+
+Ela cai contra os degraus da escada e bate a cabeça na base de concreto. O sangue escorre por seu rosto enquanto tenta orientar o corpo para a saída. A luz da guarita ainda aparece entre as árvores, mas seus braços já não obedecem.
+
+Isabella: — Rayssa... me desculpa...
+
+A voz desaparece. Quando os bombeiros a localizam, a escada está coberta de água e Isabella não apresenta sinais de vida.`,
+ allan:`PONTO DE VISTA: ALLAN
+
+Allan tenta afastar a caixa que bloqueia a passagem, mas a tábua sob seus pés parte de uma vez. Ele cai entre os apoios da passarela e bate a cabeça numa viga de concreto.
+
+Allan: — AI! NÃO... SAMUEL! TÔ AQUI EMBAIXO!
+
+Ele tenta puxar o corpo para o patamar, mas as mãos escorregam no metal molhado. Sangue escorre de sua testa e pinga na água. A correnteza aumenta; Allan perde o apoio e desaparece sob a estrutura.
+
+A equipe de salvamento o encontra a poucos metros da margem. O rádio preso à sua jaqueta ainda transmite ruído, mas Allan já morreu.`
+};
+const VOZ_LUTO={
+ rayssa:(p)=>`Rayssa fica com a respiração presa quando ouve o nome de ${p}.
+
+Rayssa: — A gente passou a noite inteira discutindo quem podia estar escondendo alguma coisa... e agora ${p} não volta. Eu não sei nem como pedir desculpa por isso.`,
+ ryan:(p)=>`Ryan guarda o boné no colo.
+
+Ryan: — Eu tava tentando lembrar da última vez em que a gente saiu pra rir de alguma coisa. Eu não queria que a última lembrança de ${p} fosse aquela estação.`,
+ laisla:(p)=>`Laisla procura a mão de quem está ao lado antes de falar.
+
+Laisla: — A gente tinha uma vida, sabe? Festa, prova, ônibus atrasado. ${p} devia estar reclamando dessas coisas com a gente, não virando uma notícia num corredor.`,
+ samuel:(p)=>`Samuel encara o chão e esfrega a palma da mão sobre os olhos.
+
+Samuel: — Eu falei tanta merda naquela discussão... e não deu pra dizer uma coisa decente pra ${p} antes de sair.`,
+ rauanny:(p)=>`Rauanny passa os dedos pelo curativo sem perceber.
+
+Rauanny: — Se alguém disser pra eu ser forte agora, eu vou mandar calar a boca. ${p} morreu. Eu só quero sentir isso sem ter que fingir coragem.`,
+ allan:(p)=>`Allan abre a boca, procurando uma piada que não vem.
+
+Allan: — Eu sempre achava que dava pra animar alguém em cinco minutos. Não sei o que fazer com a falta que ${p} vai fazer.`,
+ isabella:(p)=>`Isabella tenta organizar os nomes na tela do telefone, mas interrompe a própria mão.
+
+Isabella: — Eu podia ter conferido mais uma vez onde ${p} estava. Sei que não é tão simples... mas eu vou continuar pensando nisso.`,
+ breno:(p)=>`Breno se afasta um passo da porta e respira fundo.
+
+Breno: — Eu queria que ${p} tivesse conseguido sair. Não tenho nenhuma frase bonita pra dizer. Só... eu queria muito.`
+};
+const LUTO={
+ allan:[['samuel',`Samuel se levanta ao ouvir o nome e fica imóvel, como se a médica tivesse falado outra língua.
+
+Samuel: — Não. O Allan tava me mandando áudio hoje. Ele tava fazendo piada comigo. Não pode ser.
+
+Ele aperta o celular contra o peito e começa a chorar sem conseguir terminar a frase.`],['ryan',`Ryan olha para a cadeira vazia.
+
+Ryan: — Ele era o primeiro a mandar mensagem quando alguém desaparecia do grupo. Eu devia ter ligado pra ele.`]],
+ samuel:[['allan',`Allan tenta rir de nervoso. Não sai som algum.
+
+Allan: — Eu conheço o Samu desde antes de tudo isso. Eu devia ter... sei lá... ido atrás dele.
+
+Ele perde a voz e abaixa a cabeça sobre os braços.`],['isabella',`Isabella cobre o rosto com as mãos.
+
+Isabella: — Eu briguei com ele hoje. A última coisa que eu fiz foi acusar o Samuel na frente de todo mundo.
+
+Ela demora a conseguir respirar normalmente.`]],
+ isabella:[['rayssa',`Rayssa deixa o copo cair no chão. Nem percebe a água espalhando sob seus sapatos.
+
+Rayssa: — Não. Eu falei com a Isa antes de ela sair. Ela disse que me ligava depois.
+
+Quando tenta continuar, a voz falha e ela começa a chorar.`],['laisla',`Laisla leva uma das mãos à boca.
+
+Laisla: — Ela ficava mandando a gente conferir as coisas duas vezes... e tinha razão. Por que eu não escutei?`]],
+ laisla:[['rauanny',`Rauanny não consegue aceitar a notícia. Ela se aproxima da porta, volta e agarra a beirada da cadeira.
+
+Rauanny: — Ela é minha melhor amiga. Eu tava com ela ontem. Você tá me dizendo que eu não vou ouvir a voz dela nunca mais?
+
+O choro vem antes que consiga acrescentar qualquer coisa.`],['isabella',`Isabella retira os óculos e tenta enxugar os olhos.
+
+Isabella: — A Laisla foi a pessoa que abriu a porta quando a gente precisava de algum lugar seguro. Não era pra terminar assim.`]],
+ rauanny:[['laisla',`Laisla balança a cabeça, olhando para o lugar onde Rauanny deveria estar.
+
+Laisla: — Não, ela ia voltar. Ela sempre voltava pra me buscar. Não fala assim como se fosse uma coisa normal.
+
+Ela chora, apoiada na parede.`],['ryan',`Ryan aperta o celular com tanta força que os dedos ficam brancos.
+
+Ryan: — A Rauanny era a única que conseguia me fazer calar a boca quando eu tava passando dos limites. Como é que eu não vi o perigo?`]],
+ breno:[['samuel',`Samuel esfrega os olhos, sem conseguir olhar para o corredor.
+
+Samuel: — Ele ficou sozinho tantas vezes e a gente achava normal. Eu devia ter perguntado se precisava de ajuda.`],['ryan',`Ryan dá um passo para trás ao ouvir o nome.
+
+Ryan: — O Breno tava tentando ajudar. A gente fez ele se sentir parte disso tudo... e agora ele não tá aqui.`]],
+ ryan:[['rauanny',`Rauanny olha para as mensagens antigas de Ryan e começa a chorar.
+
+Rauanny: — Ele sempre falava uma besteira na hora errada. Agora eu daria qualquer coisa pra ouvir uma.`],['laisla',`Laisla segura a mão de Rauanny, se ela estiver presente.
+
+Laisla: — Ele fez tanta coisa pra tirar a gente daquele apartamento. A gente devia ter conseguido tirar ele dessa estação.`]]
+};
+function fatalScene(id,part,s){
+ const name=L[id]||id;
+ if(s?.social107?.graphicOff){
+  const place=part===1?'o setor técnico da estação':'a passagem externa sobre o lago';
+  return 'PONTO DE VISTA: '+name.toUpperCase()+'\n\n'+name+' tenta alcançar a saída de '+place+'. Os equipamentos falham e uma parte da estrutura cede durante a fuga. Mesmo tentando recuperar o equilíbrio, '+name+' sofre um ferimento muito grave.\n\n'+name+': — NÃO! ALGUÉM ME AJUDA!\n\nO pedido de socorro se perde entre o barulho da água e dos alarmes. Quando a equipe consegue chegar, não há mais sinais de vida. A perda é definitiva; os amigos ainda precisarão receber a notícia.';
+ }
+ return (part===1?FATAL_BOMBAS:FATAL_PASSARELA)[id]||'';
+}
+function memorialText(s){const lost=ids.filter(x=>s.flags?.['c8_morto_'+x]);if(!lost.length)return '';
+ let out='';for(const id of lost){out+='\n\nA médica fecha a pasta e confirma o nome de '+L[id]+'. Não há confusão com uma pessoa desaparecida: o corpo foi localizado, e a morte está oficialmente confirmada.';
+ const reactions=LUTO[id]||[];let count=0;
+ for(const [other,story] of reactions){if(!dead(s,other)){out+='\n\n'+story;count++;}}
+ if(count===0){const other=alive(s).find(x=>x!==id);if(other)out+='\n\n'+L[other]+' não tenta esconder as lágrimas.\n\n'+L[other]+': — Eu não quero que a última coisa que a gente lembre de '+L[id]+' seja o jeito que morreu. Não era só isso que '+L[id]+' era.';}
+ const already=new Set(reactions.filter(([who])=>!dead(s,who)).map(([who])=>who));
+ for(const survivor of alive(s)){if(survivor!==id&&!already.has(survivor))out+='\n\n'+VOZ_LUTO[survivor](L[id]);}
+ if(s.flags?.c8_bella_condicao==='hospital')out+='\n\nBella, ainda deitada no quarto de observação, recebe a notícia por uma chamada autorizada. Ela fecha os olhos antes de responder.\n\nBella: — Eu sinto muito. Eu sei o que é esperar alguém voltar e descobrir que isso não vai acontecer. Não deixa as famílias saberem por boato, tá?';
+ else out+='\n\nBella segura o próprio casaco e observa o grupo.\n\nBella: — Eu vim aqui procurar notícia da minha irmã. Não aguento ouvir mais um nome sem que ninguém saiba explicar o que aconteceu.';
+ if(s.romanceEscolhido===id)out+='\n\nVocê desbloqueia a conversa particular com '+L[id]+'. A última mensagem permanece onde estava. A lembrança do jantar se transforma numa dor que você ainda não sabe nomear.';
+ out+='\n\nVocê pensa numa lembrança comum: '+({allan:'as piadas que Allan repetia quando ninguém mais queria rir',samuel:'Samuel girando as chaves do carro no dedo enquanto explicava alguma coisa',isabella:'Isabella corrigindo o horário de todo mundo com uma precisão irritante',laisla:'Laisla preparando uma mesa grande mesmo quando dizia que não dava trabalho',rauanny:'Rauanny fazendo planos em voz alta como se a cidade fosse pequena demais',breno:'Breno escutando quieto antes de oferecer ajuda',ryan:'Ryan fazendo uma careta quando percebia alguém triste'}[id]||'uma conversa interrompida')+'. É disso que você quer se lembrar, mas a notícia acabou de chegar.';
+ }
+ return out;
+}
 const CLUES={
  c8_horarios_conferidos:{title:'Horários da última reunião',category:'Capítulo 8 · Grupo',text:'O grupo comparou mensagens da oficina, sem presumir que o endereço só poderia ter saído da conversa dos amigos.'},
  c8_ordens_estacao:{title:'Ordem de serviço da estação',category:'Capítulo 8 · Bella',text:'A estação recebeu registros técnicos em datas posteriores ao desaparecimento de Jullia; o solicitante não está identificado.'},
@@ -1373,14 +1538,14 @@ function riskOutcome(s,part){const f=s.flags,who=f['c8_risk'+part+'_target'];if(
  // Safety must be earned by planning and two coherent actions; low scores are lethal.
  return score>=4?'safe':score===3?'injured':'fatal';
 }
-function markRisk(s,part){const f=s.flags;if(f['c8_risk'+part+'_resolved'])return;f['c8_risk'+part+'_resolved']=true;
+function markRisk(s,part){positions(s);const f=s.flags;if(f['c8_risk'+part+'_resolved'])return;f['c8_risk'+part+'_resolved']=true;
  const id=f['c8_risk'+part+'_target'],status=riskOutcome(s,part);f['c8_risk'+part+'_result']=status;
  if(!id||status==='none')return;
  if(status==='fatal'){
   const n=ids.filter(x=>f['c8_morto_'+x]).length;
-  if(n<2)f['c8_morto_'+id]=true;else f['c8_grave_'+id]=true;
+  if(n<2)f['c8_morto_'+id]=true;else {f['c8_grave_'+id]=true;f['c8_risk'+part+'_result']='injured';}
  }else if(status==='injured')f['c8_grave_'+id]=true;
- f.c8_pos[id]=status==='fatal'?'sem_retorno':'resgatado';
+ f.c8_pos[id]=f['c8_risk'+part+'_result']==='fatal'?'sem_retorno':'resgatado';
 }
 function bellaOutcome(s){const f=s.flags;const before=Number(!!(f.c8_planta_bella||f.c8_leu_planta||f.c8_mapa_estacao)) + Number(!!(f.c8_arquivo_fotografado||f.c8_arquivo_protegido||f.c8_bolsa_impermeavel));
  const first=f.c8_bella_etapa1_mapa?2:f.c8_bella_etapa1_esconder?1:0;
@@ -1398,7 +1563,13 @@ function bellaOutcome(s){const f=s.flags;const before=Number(!!(f.c8_planta_bell
  if(f.c8_prova==='parcial'&&!s.clues.includes('c8_prova_parcial'))s.clues.push('c8_prova_parcial');
  if(f.c8_prova==='perdida'&&!s.clues.includes('c8_outra_linha'))s.clues.push('c8_outra_linha');
 }
-function enter(s,id){if(!s?.flags||!id.startsWith('k8_'))return false;const f=s.flags,stamp='c8_enter_'+id;if(f[stamp])return false;f[stamp]=true;
+function recordDebateRelations(s){const f=s.flags||{};if(!f.c8_enter_k8_debate||f.c8_debate_vinculos_v122)return false;
+ f.c8_debate_vinculos_v122=true;s.friendBonds??={};
+ const changes=[['isabella','samuel',-12],['allan','samuel',6],['allan','isabella',-6],['rauanny','breno',-12],['laisla','rauanny',-4],['laisla','breno',4],['ryan','isabella',-3]];
+ for(const [a,b,n] of changes){if(dead(s,a)||dead(s,b))continue;const k=[a,b].sort().join(':');s.friendBonds[k]=Math.max(-100,Math.min(100,Number(s.friendBonds[k]||0)+n));}
+ return true;
+}
+function enter(s,id){if(!s?.flags||!id.startsWith('k8_'))return false;const f=s.flags,stamp='c8_enter_'+id;const upgraded=id!=='k8_01'&&recordDebateRelations(s);if(f[stamp])return upgraded;f[stamp]=true;
  if(id==='k8_invited')positions(s);
  if(id.startsWith('k8_friend_end_'))f['c8_social_visit_'+id.slice('k8_friend_end_'.length)]=true;
  if(id==='k8_bella_out')bellaOutcome(s);
@@ -1513,7 +1684,18 @@ Ryan: — Eu ouvi. Só tô pedindo pra gente não se destruir antes de encontrar
   const speaker=['samuel','isabella','laisla','rauanny','breno','ryan','allan','rayssa'].find(x=>live.includes(x));
   if(speaker)text=text.replace('Um dos sobreviventes se volta para você.',''+L[speaker]+' se volta para você.').replace('Uma segunda voz se intromete antes que você abra a boca.',(live.find(x=>x!==speaker)?L[live.find(x=>x!==speaker)]+' pede que '+L[speaker]+' deixe você terminar uma frase.':'A enfermeira pede que a conversa não vire outro confronto.'));
  }
- if(id==='k8_defend'){const p=f.c8_defendeu; if(p)text+='\n\n'+L[p]+': — Obrigado por não transformar medo em sentença. Eu não vou esquecer disso.';}
+ if(id==='k8_defend'){
+  const p=f.c8_defendeu;
+  if(p&&L[p]){
+   const critic=({'samuel':'isabella','breno':'rauanny','rauanny':'breno','isabella':'samuel','allan':'isabella','laisla':'rauanny','ryan':'isabella','rayssa':'samuel'})[p];
+   text=text.replace('a pessoa que está defendendo',L[p]).replace('O que acontece a seguir depende de quem você decidiu apoiar.','Você olha diretamente para '+L[p]+' e espera que consiga terminar a resposta.');
+   text+='\n\nVocê: — Eu tô defendendo '+L[p]+'. Vocês podem perguntar o que quiserem, mas não vão transformar uma suspeita em sentença.';
+   if(live.includes(p))text+='\n\n'+L[p]+': — Eu não tô pedindo que ninguém confie em mim sem pensar. Só quero poder explicar antes de vocês decidirem por mim.';
+   if(live.includes(critic))text+='\n\n'+L[critic]+': — Tá. Eu ouvi você. Mas isso não apaga minhas perguntas. Nem o que aconteceu com o Moisés.';
+   if(live.includes('ryan')&&p!=='ryan')text+='\n\nRyan: — Então a gente faz perguntas e deixa a pessoa responder. É o mínimo depois de tudo que aconteceu.';
+   const other=live.find(x=>x!==p&&x!==critic&&x!=='ryan');if(other)text+='\n\n'+L[other]+' não parece convencido, mas abaixa o celular e volta a se sentar. A defesa mudou o clima da sala; não encerrou a desconfiança.';
+  }
+ }
  if(id==='k8_conflict'){
   if(f.c8_exibiu_celular)text+='\n\nVocê mostrou o histórico com horários verificáveis. Mesmo quem discordou de você precisa reconhecer que existe uma diferença entre uma suspeita e um registro.';
   if(f.c8_reagiu_acusacao)text+='\n\nA maneira como você respondeu deixou alguns amigos ainda mais fechados. A discussão não desaparece só porque a sala ficou silenciosa.';
@@ -1610,9 +1792,9 @@ Ryan: — Eu ouvi. Só tô pedindo pra gente não se destruir antes de encontrar
  if(id==='k8_risk1_out'){
   const who=f.c8_risk1_target,result=f.c8_risk1_result;
   if(who){
-   if(result==='safe')text+='\n\n'+L[who]+' confirma pelo telefone que conseguiu alcançar a saída técnica sem novos ferimentos graves. O plano e as decisões durante o perigo funcionaram em conjunto.';
-   else if(result==='injured')text+='\n\nO pedido de socorro de '+L[who]+' chega acompanhado da localização. '+L[who]+' sobreviveu, mas sofreu um ferimento sério tentando vencer o obstáculo. A equipe médica será avisada antes de qualquer reencontro.';
-   else text+='\n\nO último contato de '+L[who]+' foi feito na galeria. A equipe de resgate chega ao local e confirma que '+L[who]+' não resistiu aos ferimentos. A tela permanece silenciosa quando você volta a procurar seu nome.';
+   if(result==='fatal'&&f['c8_morto_'+who])text=fatalScene(who,1,s)+'\n\nEnquanto isso, na passagem superior, você continua tentando completar a ligação. O som do último pedido de socorro ainda não chegou até você.\n\n'+text+'\n\nUma equipe de resgate entra pelo setor indicado e encontra '+L[who]+' sem vida. O médico confirma o óbito. Não é um desaparecimento nem uma dúvida sobre onde essa pessoa está.';
+   else if(result==='injured')text+='\n\n'+L[who]+' tenta alcançar a saída, mas a estrutura o atinge durante a fuga. O pedido de ajuda chega com a posição correta. A equipe retira '+L[who]+' com um ferimento grave para atendimento imediato.';
+   else if(result==='safe')text+='\n\n'+L[who]+' envia uma mensagem curta confirmando que atravessou o setor e está fora de perigo. Você confere a localização antes de avançar.';
   }
  }
  if(id==='k8_risk2_pov'){
@@ -1622,7 +1804,11 @@ Ryan: — Eu ouvi. Só tô pedindo pra gente não se destruir antes de encontrar
  }
  if(id==='k8_risk2_out'){
   const who=f.c8_risk2_target,res=f.c8_risk2_result;
-  if(who){text+='\n\n'+(res==='safe'?L[who]+' alcançou a estrada pelo acesso sinalizado. A confirmação chega com horário e localização, sem ambiguidade.':res==='injured'?L[who]+' conseguiu sair da passarela, mas sofreu uma lesão importante. O resgate médico será necessário; a pessoa não continua correndo como se nada tivesse acontecido.':'A equipe encontra '+L[who]+' perto da última passagem. Os ferimentos foram fatais. Essa confirmação encerra sua perspectiva jogável e será respeitada pelas próximas cenas.');}
+  if(who){
+   if(res==='fatal'&&f['c8_morto_'+who])text=fatalScene(who,2,s)+'\n\nNa estrada, você ainda procura a confirmação de saída de '+L[who]+'. A equipe de resgate recebe a última posição pelo rádio.\n\n'+text+'\n\nOs socorristas encontram '+L[who]+' sem sinais de vida. A confirmação chega ao grupo antes do reencontro.';
+   else if(res==='injured')text+='\n\n'+L[who]+' sobrevive à fuga pela passagem externa, mas a queda deixa ferimentos importantes. Os socorristas fazem o transporte imediato para avaliação.';
+   else if(res==='safe')text+='\n\n'+L[who]+' atravessa o acesso sinalizado e confirma pelo telefone: está vivo, fora da estação e aguardando os outros em segurança.';
+  }
  }
  if(id==='k8_after'){
   const lost=ids.filter(x=>f['c8_morto_'+x]);const survivors=inArea.filter(x=>!lost.includes(x));
@@ -1631,11 +1817,16 @@ Ryan: — Eu ouvi. Só tô pedindo pra gente não se destruir antes de encontrar
   text+='\n\nA última localização conhecida de cada amigo foi anotada antes de vocês saírem da estrada. Ninguém reaparece misteriosamente na cena do resgate.';
  }
  if(id==='k8_after_02'){
-  const lost=ids.filter(x=>f['c8_morto_'+x]);if(lost.length)text+='\n\nA notícia de '+names(lost)+' se espalha entre os amigos que ficaram em casa ou no hospital. As reações não são iguais: alguns choram, outros pedem para ficar sozinhos. Nenhuma mensagem nova vem de quem morreu.';
+  const lost=ids.filter(x=>f['c8_morto_'+x]);if(lost.length)text+='\n\nA notícia de '+names(lost)+' foi confirmada. Um profissional pede que os amigos se reúnam numa sala reservada. Quem não esteve na estação recebe uma chamada com os nomes, sem conjecturas.';
   if(f.c8_bella_condicao==='hospital')text+='\n\nBella está internada sob observação, com ferimentos que não permitem que caminhe sem auxílio. Ela conversa por chamada ou durante uma visita autorizada, sem sair para outra investigação.';
   else if(f.c8_bella_condicao==='grave')text+='\n\nBella recebeu atendimento para a lesão na perna. Ela consegue falar, mas evita apoiar peso e sabe que os próximos dias serão de recuperação.';
   else text+='\n\nBella recebeu cuidados para escoriações e foi orientada a descansar. Ainda está abalada, mas pode conversar sem precisar de internação.';
  }
+ if(id==='k8_after_02'){
+   const lost=ids.filter(x=>f['c8_morto_'+x]);
+   if(lost.length)choices=choices.map(c=>({...c,to:c.to==='k8_depoimento_estacao'?'k8_luto_08':c.to}));
+ }
+ if(id==='k8_luto_08')text+=memorialText(s);
  if(id==='k8_evidence'){
   if(f.c8_prova==='completa')text+='\n\nO envelope original foi preservado em condições que permitem conferir páginas e códigos. Nenhuma anotação exige inventar destinatários.';
   else if(f.c8_prova==='parcial')text+='\n\nO original se perdeu, mas fotografias ou notas permitem recuperar algumas datas. Os detalhes ausentes continuam ausentes.';
