@@ -1,0 +1,26 @@
+O ÚLTIMO GRITO — V1.3.1 · SORVETERIA E CONVERSAS REVISADAS
+
+Atualização pontual do início do Capítulo 9, sem alterar os atos posteriores.
+
+CORREÇÕES
+- Ryan, Rayssa, Breno, Rauanny, Laisla, Isabella, Allan e Samuel têm conversas escritas individualmente.
+- Cada conversa oferece opções próprias, com três rodadas de assunto e uma despedida (quatro decisões por amigo).
+- Toda escolha agora produz uma fala do protagonista, uma resposta do personagem e narração específica.
+- O texto entre as escolhas deixou de usar um modelo único para todos.
+- A chegada e a conversa geral na sorveteria agora mostram apenas os amigos vivos do slot.
+- Se Allan estiver vivo, participa das brincadeiras no presente; se morreu, aparece só como lembrança.
+- Removidas as frases genéricas "Laisla, se estiver presente" e "Allan tinha" na sorveteria.
+- Mantidos os mesmos IDs das etapas e as chaves dos três saves para favorecer compatibilidade.
+- As outras partes do Capítulo 9 seguem como na V1.3 para serem revisadas durante os testes do usuário.
+
+TESTES
+- Verificação de sintaxe de chapter9.js.
+- 1.500 percursos automatizados do Capítulo 9 sem nó ausente.
+- Verificação específica das oito conversas, escolhas distintas, respostas e dois estados de sobrevivência.
+- O navegador automatizado bloqueou URLs locais: não foi possível confirmar renderização no Safari.
+
+PUBLICAÇÃO
+1. Exporte seus saves em JSON antes de atualizar.
+2. Extraia o ZIP e envie os arquivos internos para a raiz do repositório no GitHub.
+3. Substitua os arquivos de mesmo nome e aguarde a atualização no Render.
+4. Se já concluiu a sorveteria em um save, as cenas passadas não serão reproduzidas automaticamente.

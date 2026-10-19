@@ -1,0 +1,46 @@
+O ÚLTIMO GRITO — V1.3.2 · REVISÃO INTEGRAL DO CAPÍTULO 9
+
+OBJETIVO
+Dar uma resposta narrativa a cada decisão do Capítulo 9, mantendo os saves antigos.
+
+NOVAS CENAS JOGÁVEIS DEPOIS DA SORVETERIA
+• Festa de Laisla: organizar a música e as bebidas, sair para conversar na varanda ou participar de uma brincadeira NÃO mandam mais o jogador para a mesma cena.
+• A brincadeira virou sequência com sorteio de desafio, escolha entre imitação, dança ou história engraçada e rodada de participação/revanche/despedida; diálogos e ações aparecem na tela.
+• Conversas na varanda, sobre sonhos e momentos mais íntimos têm ações e respostas próprias; só geram romance se a pessoa escolhida realmente estiver presente.
+• No aniversário de Lakewood, a visita ao mural e a busca por um amigo ganharam cenas e decisões próprias.
+
+ESCOLHAS, VOZES E CONTINUIDADE
+• Diálogos específicos para decisões importantes na homenagem, discussão da festa, flashback da Bella, investigação, mensagens, encontros românticos, festejos, desaparecimento, vídeo, preparação, ataque, luto, trilha do lago e confronto final.
+• Um conjunto de respostas adicionais respeita a personalidade de Ryan, Breno, Rayssa, Rauanny, Laisla, Allan, Samuel e Isabella.
+• Interesse romântico identifica nominalmente Ryan/Breno/Rayssa/Rauanny; há narração e opções adaptadas aos romances ativos, sem "seu interesse romântico" na passagem exibida.
+• Personagens mortos e amigos que foram à outra festa não aparecem como presentes, evitando contradizer as escolhas do jogador.
+• Bella participa por chamada se ainda está internada; o roteiro não a teletransporta para a praça.
+• Corrigidas falas de personagens mortos que antes podiam aparecer durante o debate da sorveteria.
+• O capítulo mantém o cliffhanger SEM revelar previamente a identidade dos mascarados.
+
+PERSEGUIÇÕES
+• Três setores de perseguição: passos anteriores, ações e última escolha agora produzem descrições diferentes; perseguições mais longas e com consequências.
+• Desfechos seguro, ferido e fatal preservados, com ferimentos específicos por personagem e descrição mais intensa de violência quando o modo gráfico estiver habilitado.
+• O sistema de efeitos borboleta, posições, ferimentos e mortes continua dependente das decisões e preparativos.
+
+ÁUDIO ORIGINAL NOVO
+• som_festa_nova.mp3 — festa na casa do lago.
+• som_festival_novo.mp3 — aniversário de Lakewood.
+• som_romance_suave.mp3 — convite e encontro romântico.
+• som_romance_noite.mp3 — intimidade e carinho.
+• Quatro trilhas instrumentais criadas para esta atualização; as anteriores permanecem.
+• O áudio continua opcional, com botão ♪ SOM e controles individuais.
+
+TÉCNICO
+• Os nós anteriores permanecem; cenas novas só acrescentam IDs k9_*.
+• Mantidas as chaves de saves, os slots e a compatibilidade de continuação.
+• Testados 600 percursos com escolhas diferentes, romances, decisões de casa/cidade e mortes anteriores: nenhum destino quebrado e nenhuma fala de personagem morto detectada nos pontos testados.
+• Chromium executou os scripts de todos os capítulos, abriu o menu, criou um personagem e mostrou o prólogo sem erros de JavaScript.
+• A reprodução visual no Safari/iPhone e a navegação manual de todas as decisões não foram testadas.
+
+INSTALAÇÃO NO GITHUB/RENDER
+1. Faça uma cópia dos seus saves (Exportar save).
+2. Extraia este ZIP.
+3. Envie os ARQUIVOS que estão dentro da pasta extraída para a raiz do repositório (incluindo os quatro arquivos mp3 e os arquivos index.html, chapter9.js, sound.js, game.js).
+4. Se sobrescrever a versão online, atualize a página. Os identificadores de versão de chapter9.js e game.js foram alterados para evitar cache antigo.
+5. Continue o save de onde parou; escolhas anteriores à atualização não são reproduzidas automaticamente.

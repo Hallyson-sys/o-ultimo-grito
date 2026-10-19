@@ -7,7 +7,9 @@
   const TRACKS=Object.freeze({
     menu:'som_menu.mp3', amizade:'som_amizade.mp3', romance:'som_romance.mp3',
     investigacao:'som_investigacao.mp3', tensao:'som_tensao.mp3',
-    perseguicao:'som_perseguicao.mp3', luto:'som_luto.mp3', lago:'som_lago.mp3'
+    perseguicao:'som_perseguicao.mp3', luto:'som_luto.mp3', lago:'som_lago.mp3',
+    festa:'som_festa_nova.mp3', festival:'som_festival_novo.mp3',
+    romance_suave:'som_romance_suave.mp3', romance_noite:'som_romance_noite.mp3'
   });
   const EFFECTS=Object.freeze({
     toque:'som_toque.mp3', mensagem:'som_mensagem.mp3', impacto:'som_impacto.mp3',
@@ -114,6 +116,19 @@
       const t=String(node.text||'').toLocaleLowerCase('pt-BR');
       const where=String(node.location||'').toLocaleLowerCase('pt-BR');
       const scene=node.scene||'';
+      // Capítulo 9: trilhas originais novas para festa, festival e cenas afetivas.
+      // A checagem por ID evita que uma palavra como 'morte' troque a música
+      // de uma dança por música de luto no meio de uma fala.
+      if(/^k9_love_(?:message|visit|brief)/.test(String(node.id)))return 'romance_suave';
+      if(/^k9_love_(?:intimate|goodbye)/.test(String(node.id)))return 'romance_noite';
+      if(/^k9_house_flirt$/.test(String(node.id)))return /senti sua falta|aproxima|beij|carinho/.test(t)?'romance_noite':'festa';
+      if(/^k9_house_(?:game_|arrive|help|balcony|social|future|evening)/.test(String(node.id)))return 'festa';
+      if(/^k9_city_(?:arrive|meet|social|evening)$/.test(String(node.id)))return 'festival';
+      if(/^k9_(?:city_memorial|mem_|reunion|01$)/.test(String(node.id)))return 'luto';
+      if(/^k9_(?:city_doubt|house_doubt|bella_|anna_)/.test(String(node.id)))return 'investigacao';
+      if(/^k9_(?:invasion|house_movement|risk_)/.test(String(node.id)))return 'perseguicao';
+      if(/^k9_(?:omen|missing|video|prep_|house_warning|last_call|deck_hostage|deck_face|final)/.test(String(node.id)))return 'tensao';
+      if(/^k9_deck_/.test(String(node.id)))return 'lago';
       // Grandes perseguições já escritas: a trilha deve acompanhar o risco real,
       // sem depender da palavra 'perseguição' em cada fala individual.
       if(/^j_(?:m0[234]|h0[23]|death_gate|m_death|crisis|move|escape|route|body|after_death|evidence)/.test(String(node.id)))return 'perseguicao';
