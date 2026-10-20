@@ -1,0 +1,19 @@
+O ÚLTIMO GRITO — V1.3.6
+CAPÍTULO 9 · CONFRONTO COM BRENO NA HOMENAGEM
+
+- Cena exclusiva da rota de homenagem, entre a apresentação e o vídeo no telão.
+- Breno confrontado sobre a divergência de horários discutida por Isabella e Bella; o registro não constitui prova de crime.
+- 3 abordagens e 3 decisões posteriores, com falas e reações exclusivas.
+- Afinidade com Breno e ressentimento são atualizados conforme as escolhas.
+- Na rota romântica de Breno, a discussão menciona o vínculo entre os dois.
+- Breno deixa o local da discussão chateado; a gravidade depende do diálogo.
+- Se ele for sequestrado, o protagonista se lembra do confronto ao ver o vídeo no telão.
+- Se Breno tiver morrido anteriormente, a cena não aparece.
+- Rota da festa da casa do lago inalterada. Mantém cenas, músicas e saves existentes.
+
+ATUALIZAÇÃO
+1. Faça backup de saves antes de substituir os arquivos.
+2. Publique todo o conteúdo desta pasta na raiz do site, sem acrescentar o diretório pai.
+3. Retorne a um save na festa de homenagem anterior a 20:08 para assistir a toda a cena nova.
+
+TESTES: node --check chapter9.js; 270 trajetos da cena; 750 percursos do Capítulo 9 com diferentes relações e sobrevivências. Não há validação visual em Safari nesta execução.

@@ -1,4 +1,4 @@
-/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.5
+/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.6
  * No public-facing passage may disclose the identities of the masked attackers.
  * Saves are additive; all progression is in c9_* flags on existing slot.
  */
@@ -575,7 +575,7 @@ O telefone vibra com uma fotografia da casa do lago: a piscina iluminada, os pri
 
 A imagem por um instante faz você desejar estar nos dois lugares. Mas seu corpo só pode estar em um deles.
 
-Alguém comenta que precisa ir aos bastidores buscar uma coisa. A frase parece banal. Cinco minutos depois, você vai lembrar dela com uma precisão cruel.`,[G('k9_omen','Perceber um detalhe estranho')]);
+Alguém comenta que precisa ir aos bastidores buscar uma coisa. A frase parece banal. Cinco minutos depois, você vai lembrar dela com uma precisão cruel.`,[G('k9_breno_encontro','Acompanhar o fim da apresentação')]);
 N('k9_house_arrive','CASA DE VERANEIO · FESTA','19:42','party',`A casa dos parentes de Laisla fica próxima ao lago, afastada da movimentação do aniversário de Lakewood. A piscina reflete luzes roxas e a música atravessa portas de vidro que permanecem abertas.
 
 Há convidados que você não conhece, pessoas dançando na varanda e uma mesa de bebidas sem pretensão de esconder o quanto foi improvisada. Alguns amigos estão presentes. Outros preferiram o evento no centro.
@@ -674,6 +674,54 @@ Uma pessoa sugere uma fotografia do grupo presente. Alguns aceitam; outros ficam
 Do centro da cidade chega uma mensagem: a homenagem municipal já começou. Rayssa diz que está auxiliando uma família a encontrar os lugares reservados.
 
 Há alguma coisa diferente na estrada de acesso. Um carro que você não reconhece ficou parado por alguns instantes antes de apagar os faróis.`,[G('k9_omen','Perceber que algo não combina')]);
+// V1.3.6 — confronto exclusivo da homenagem, antes do vídeo.
+// Só a rota do aniversário passa por estes nós; quem perdeu Breno não vê um morto conversar.
+N('k9_breno_encontro','ANIVERSÁRIO · ATRÁS DO MEMORIAL','20:09','town',`A cantora termina a última nota, mas o aplauso não consegue tirar da sua cabeça a folha que Bella mostrou mais cedo. Um registro de acesso, um horário que não coincide com um relato e um nome: Breno. Não é uma prova. A dúvida, no entanto, já mudou a maneira como você olha a multidão.
+
+Você o vê ao lado da barraca de bebidas, com o celular na mão e a jaqueta fechada apesar do calor. Ele guarda o aparelho quando nota sua aproximação.
+
+Breno: — Ei. Você tá bem? Você ficou estranho desde a conversa com a Bella.
+
+Você: — A gente precisa conversar. Sobre o horário perto da estação.
+
+O sorriso pequeno de Breno some. Ele olha primeiro para o palco, depois para você.
+
+Breno: — A Isa já levantou essa suspeita na discussão. Agora a Bella também te mostrou aquele registro?
+
+Você: — Mostrou. E o horário não bate com o que você contou.
+
+Breno: — Eu imaginava que isso ia chegar em você. Mas eu esperava que chegasse como uma pergunta, não como uma sentença.
+
+Você se aproxima da lateral do memorial para que as famílias não escutem a conversa. Breno vem atrás, relutante.`,[
+ C('Acusar Breno de ter mentido para todo mundo','k9_breno_explica',[S('breno_abordagem','acusacao'),B('breno',-12),['resent','breno',9],['trait','franqueza',1]]),
+ C('Perguntar por que ele omitiu aquele horário','k9_breno_explica',[S('breno_abordagem','duvida'),B('breno',-5),['trait','cautela',1]]),
+ C('Dizer que quer acreditar nele, mas precisa de uma explicação','k9_breno_explica',[S('breno_abordagem','cuidado'),B('breno',-2),['trait','empatia',1]])]);
+N('k9_breno_explica','HOMENAGEM · A VERSÃO DE BRENO','20:10','town',`Breno respira fundo e tenta responder, mesmo sem saber se você vai escutar. Ao lado do palco, uma família se abraça durante a leitura dos nomes das vítimas. O contraste torna a discussão ainda mais desconfortável.
+
+Breno: — Eu NÃO matei ninguém. Eu não sou o mascarado. Se é isso que você quer perguntar, pergunta olhando pra mim.
+
+Você sustenta o olhar dele, mas não consegue responder de imediato.
+
+Breno: — Eu passei perto da estação, sim. Eu saí pra esfriar a cabeça. Não entrei naquele prédio e não sei quem aparece nesse registro. Eu não falei daquele caminho porque achei que vocês iam fazer exatamente isso: transformar eu querer ficar sozinho numa prova de que sou um monstro.
+
+Você: — Só que você disse que não tinha ido pra aquela região.
+
+Breno: — Eu disse que não tinha entrado na estação. É diferente. Talvez eu tenha explicado mal, talvez você tenha entendido outra coisa. Mas eu não posso inventar um comprovante do que fiz só pra você parar de me olhar desse jeito.
+
+Ele esfrega o rosto com a palma da mão. Quando fala novamente, a voz sai mais baixa.
+
+Breno: — Eu tava do lado de vocês quando tudo começou. Eu também tenho medo de morrer. Você acha mesmo que eu ia fazer aquilo com vocês?
+
+A resposta não resolve a divergência. Você ainda pode escutá-lo — ou deixar que o medo fale mais alto.`,[
+ C('Insistir que ele está escondendo algo e exigir a verdade','k9_breno_saida',[S('breno_conclusao','rompimento'),B('breno',-16),['resent','breno',14],F('breno_rompeu_confianca')]),
+ C('Pedir para ver as mensagens e a localização dele','k9_breno_saida',[S('breno_conclusao','cobranca'),B('breno',-8),['resent','breno',6],F('breno_cobrou_prova')]),
+ C('Reconhecer que não há prova e pedir desculpas pelo tom','k9_breno_saida',[S('breno_conclusao','recuo'),B('breno',4),['trait','empatia',1],F('breno_recuou')])]);
+N('k9_breno_saida','ANIVERSÁRIO · ENTRE A MULTIDÃO','20:12','town',`Breno baixa os olhos por alguns segundos. Lá longe, o apresentador volta a anunciar a próxima atração. Vocês já não escutam a música da mesma maneira.
+
+Breno: — Eu já respondi. Agora eu preciso de um tempo.
+
+Ele fecha a jaqueta, recolhe o celular e começa a se afastar. Você tenta chamá-lo, mas não sabe que palavra conseguiria fazê-lo voltar.`,[
+ C('Respeitar o espaço dele e observar a praça de longe','k9_omen',[F('breno_respeitou_espaco')])]);
 N('k9_omen','LAKEWOOD · NOITE','20:13','town',`O primeiro sinal é pequeno demais para explicar o medo que você sente: uma resposta atrasada, uma cadeira vazia, um veículo desconhecido ou uma mensagem que aparece sem contexto.
 
 Você tenta lembrar qual foi a última vez que viu cada pessoa. Descobre que não consegue ordenar todos os movimentos da noite.
@@ -1585,6 +1633,40 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
   if(id==='k9_love_goodbye')text=`Você pega as chaves e confere o celular antes de abrir a porta. ${romantic} ajeita a roupa na entrada e olha para você por mais um segundo.\n\n${romantic}: — Se a gente se separar lá, me manda mensagem. Promete?\n\nVocê: — Prometo. E você também.\n\n${romantic} entrelaça os dedos nos seus e sorri. Não é uma despedida definitiva, só a tentativa de continuar juntos depois de um dia difícil.`;
   if(id==='k9_love_brief')text=`Você termina a mensagem para ${romantic} e observa as bolinhas indicando que está digitando.\n\n${romantic}: — Beleza. A gente se encontra quando der. Só me avisa que chegou bem.\n\nVocê: — Pode deixar. Quero te ver mais tarde também.\n\nA conversa termina com um emoji bobo que faz você sorrir, apesar de tudo. Agora é hora de decidir para onde ir.`;
  }
+ if(id==='k9_city_evening'){
+  // Confronto é obrigatório apenas na homenagem; em rotas com Breno morto,
+  // nunca evocá-lo como se estivesse presente.
+  if(dead(s,'breno'))choices=choices.map(c=>({...c,to:'k9_omen',originText:c.originText||c.text,text:'Conferir o celular e observar a movimentação'}));
+  else choices=choices.map(c=>({...c,to:'k9_breno_encontro',originText:c.originText||c.text,text:'Perceber Breno perto do memorial e conversar com ele'}));
+ }
+ if(id==='k9_breno_encontro'&&!dead(s,'breno')){
+  const bAtCity=(f.c9_cidade_pessoas||[]).includes('breno');
+  text+=bAtCity?'\n\nBreno havia ficado na praça para acompanhar a homenagem. Ele parece cansado de precisar justificar até os próprios silêncios.':'\n\nBreno explica que passou pelo memorial antes de seguir para a casa do lago. A visita era rápida, mas você o alcança antes que parta.';
+  if(s.romanceEscolhido==='breno')text+='\n\nVocês estiveram próximos poucas horas antes. Lembrar da maneira como ele segurou sua mão faz sua suspeita parecer ainda mais cruel — e não a faz desaparecer.';
+ }
+ if(id==='k9_breno_explica'&&!dead(s,'breno')){
+  const tone=f.c9_breno_abordagem;
+  const responses={
+    acusacao:`Você: — Você mentiu pra gente! Como é que eu vou acreditar que não foi você?\n\nBreno: — Caralho... É isso mesmo que você pensa de mim? Nem perguntou se eu estava bem. Já chegou me tratando como criminoso.`,
+    duvida:`Você: — Por que você não contou que tinha passado perto da estação? Isso parece muito estranho, Breno.\n\nBreno: — Eu sei que parece. Mas eu fiquei com medo de vocês julgarem até o caminho que eu faço pra respirar. Não pensei que isso viraria um interrogatório.`,
+    cuidado:`Você: — Eu quero confiar em você. Só que a Isabella levantou uma dúvida, e eu precisava te perguntar olhando no seu rosto.\n\nBreno: — Eu agradeço por não ter me colocado contra todo mundo. Só queria que você acreditasse que eu também tô apavorado com tudo isso.`
+  };
+  if(responses[tone])text=responses[tone]+'\n\n'+text;
+  if(s.romanceEscolhido==='breno')text+='\n\nBreno: — Eu achei que, depois do que aconteceu entre a gente hoje, eu podia te contar as coisas sem precisar me defender desse jeito. Você faz ideia de como é ouvir isso de você?';
+ }
+ if(id==='k9_breno_saida'&&!dead(s,'breno')){
+  const outcome=f.c9_breno_conclusao;
+  const romance=s.romanceEscolhido==='breno',physical=f.c9_encontro_em_casa;
+  if(outcome==='rompimento')text=`Você: — Eu não consigo acreditar em você. Se não esconde nada, por que muda a versão?\n\nBreno: — Porque eu fiquei com medo! Eu falei onde passei. Falei o que lembro. E você continua me olhando como se eu tivesse uma faca escondida!\n\nVocê: — Talvez eu não conheça você tanto quanto pensei.\n\nA expressão dele desaba. Breno abre a boca, mas nenhuma resposta sai de imediato.\n\nBreno: — Tá. Se você realmente acha que eu seria capaz de machucar vocês... eu não tenho mais o que fazer aqui.\n\nEle dá um passo para trás. Você tenta se aproximar, mas Breno ergue a mão, pedindo distância.\n\nBreno: — Não. Por favor. Eu preciso ir embora daqui. Você conseguiu fazer eu me sentir mais sozinho do que já tava.`;
+  else if(outcome==='cobranca')text=`Você: — Então me mostra as mensagens. A localização. Alguma coisa que prove onde você tava.\n\nBreno: — Você quer meu celular? É sério?\n\nVocê: — Eu preciso saber que você tá falando a verdade.\n\nBreno desbloqueia a tela, hesita e volta a apagá-la.\n\nBreno: — Tem conversa minha com gente que não tem nada a ver com isso. Tem coisa pessoal. Eu não vou entregar minha vida inteira porque alguém anotou um horário.\n\nVocê: — É justamente você esconder que me deixa desconfiado.\n\nBreno: — Eu não tô escondendo um assassinato. Eu tô tentando não perder minha privacidade também. Achei que você fosse entender a diferença.\n\nEle guarda o celular com os dedos trêmulos, visivelmente ferido pela desconfiança.`;
+  else text=`Você: — Eu acho que fui longe demais. A Bella falou de uma divergência, não de uma prova. Desculpa por te colocar contra a parede.\n\nBreno: — Obrigado por perceber isso. Mas... foi muito ruim. Ouvir você perguntando como se eu fosse capaz de matar alguém.\n\nVocê: — Eu tô com medo. E não quero que isso acabe com a gente.\n\nBreno: — Eu também tô com medo. Só preciso que você lembre que eu sou seu amigo, mesmo quando não tenho a resposta perfeita.\n\nVocê deixa que o silêncio dure alguns segundos, sem exigir perdão instantâneo.`;
+  if(romance)text+=physical?'\n\nBreno: — Você me beijou antes de vir pra cá. Eu passei o caminho inteiro pensando naquilo... e agora eu não sei nem se você confia em mim.':'\n\nBreno: — Eu não sei onde fica a gente no meio dessa suspeita. Gostar de você não me obriga a aceitar que me trate como culpado.';
+  text+='\n\n'+(outcome==='rompimento'?'Breno vira as costas e atravessa a multidão sem aceitar que você o acompanhe.':'Breno se afasta em direção às barracas para ficar sozinho. Não está tudo resolvido, mesmo que a conversa tenha terminado sem gritos.')+'\n\nVocê ainda o vê por um instante entre as luzes da homenagem. Então alguém passa na frente, e Breno desaparece de vista. O palco anuncia a próxima atração. Você fica com a dúvida — e com as palavras que não pode recolher.';
+ }
+ if(id==='k9_omen'&&f.c9_enter_k9_breno_saida&&f.c9_hero_local==='cidade'){
+  const severe=f.c9_breno_conclusao==='rompimento';
+  text+='\n\n'+(severe?'Você abre a conversa com Breno, digita uma mensagem e apaga. Ainda está magoado e desconfiado, mas a última expressão dele não sai da sua cabeça.':'Você pensa em escrever para Breno depois do confronto. Decide dar a ele alguns minutos de espaço antes de tentar conversar de novo.');
+ }
  if(id==='k9_choose_event'){planParties(s);text+='\n\nNa casa, por enquanto: '+names(f.c9_casa_pessoas)+'. No aniversário da cidade: '+names(f.c9_cidade_pessoas)+'. Bella confirma que vai permanecer acessível mesmo se precisar de cuidados por causa do ferimento.';}
  // Lembranças e interações variam com o elenco VIVO e PRESENTE na rota.
  if(id==='k9_city_meet'){
@@ -2107,6 +2189,9 @@ function c9Revision135(s,id,text,choices,location,scene,kid){
   const reply2=secondCity?`${name(secondCity)}: — Se a gente for atrás dessa pessoa sem saber onde ela tá, o assassino ganha duas vítimas. Mas também não vamos ficar parados.`:'Você ouve um dos organizadores pedir o endereço completo da última localização conhecida.';
   text=`O telão fica preto. O som da praça desaparece de sua cabeça, mas a imagem de ${kn}, pres${fem134(kid)?'a':'o'} naquela cadeira, continua diante dos seus olhos.\n\nVocê: — NÃO, NÃO, NÃO! ${kn.toUpperCase()}!\n\nVocê tenta ligar. Chama. Chama de novo. Não atende. As pessoas ao redor param de olhar para o palco e começam a olhar para você.\n\nVocê: — EU TENHO QUE ENCONTRAR ${kn.toUpperCase()}! EU NÃO VOU FICAR AQUI ENQUANTO AQUELE FILHO DA PUTA FAZ ISSO!\n\n${s.romanceEscolhido===kid?`Você lembra do beijo de poucas horas atrás e de ${kn} perguntando a qual festa você iria. A lembrança atravessa o desespero com uma força que quase tira seu ar.\n\nVocê: — Eu prometi que ia encontrar ${kn} hoje. Eu prometi...`:`A lembrança da última conversa com ${kn} torna a gravação insuportável.`}\n\n${reply1}\n\nVocê: — E SE ${kn.toUpperCase()} MORRER ANTES DE A GENTE CHEGAR?!\n\n${reply2}\n\nVocê apoia as mãos num dos pilares do palco e força o ar para dentro dos pulmões. ${cityFriend?name(cityFriend)+' permanece ao seu lado':'A coordenadora fica por perto'}. Não há como responder à gravação; ela foi exibida para provocar vocês.\n\nSeu telefone vibra. Um número desconhecido enviou uma foto da piscina da casa de Laisla, tirada de cima, com os copos ainda espalhados pela mesa. A legenda diz: «Ainda estão se divertindo?»\n\nVocê: — Essa foto é de AGORA. Ele também tá na casa da Laisla! A gente tem que ir pra lá!\n\n${cityFriend?`${name(cityFriend)}: — Então avisa a Lai, manda a foto e vem comigo. A gente vai junto, sem deixar ninguém sozinho.`:'Você encaminha a fotografia para o grupo da casa e pede que mantenham as portas fechadas.'}\n\nOs amigos que estavam no aniversário se reúnem para sair. Você ainda treme, mas agora sabe onde precisa estar primeiro.`.replaceAll('\\n','\n');
   choices=[C('Ligar para os amigos da casa e enviar a fotografia','k9_prep_01',[F('aviso_casa_rapido')]),C('Pedir que o grupo saia junto e avise a emergência','k9_prep_01',[F('apoio_policia'),F('cidade_grupo_unido')]),C('Analisar o ângulo da foto para planejar a entrada','k9_prep_01',[F('foto_casa_analisada'),Q('c9_foto_casa')])];
+ }
+ if(id==='k9_video_react'&&inCity&&f.c9_enter_k9_breno_saida&&kid==='breno'){
+  text+='\n\n'+(f.c9_breno_conclusao==='rompimento'?'Você lembra da última coisa que disse a Breno perto do memorial: que talvez não o conhecesse. Ele apareceu amarrado no telão antes que você pudesse retirar a acusação. Seu estômago se contrai.':'A última conversa com Breno volta inteira à sua memória. Você tinha acabado de pedir espaço e tempo — e agora daria tudo para ouvi-lo responder ao telefone.');
  }
  if(id==='k9_prep_01'&&inCity){
   text=`Você sai da praça com ${city.length?names(city):'o pequeno grupo que estava na homenagem'}. As buzinas da avenida parecem distantes. Cada pessoa tenta telefonar para alguém da casa.\n\n${cityFriend?`${name(cityFriend)}: — Eu já encaminhei a foto. ${houseFriend?name(houseFriend):"Marina"} precisa saber que não pode confiar em ninguém que apareça no portão.`:'Você manda a foto e solicita uma confirmação dos presentes na casa.'}\n\nVocê: — Não importa se a gravação foi feita antes. ${kn} tá desaparecid${fem134(kid)?'a':'o'}, e ele sabe onde nossos amigos estão!\n\n${secondCity?`${name(secondCity)}: — Eu sei. Mas a gente chega todo mundo junto. Se isso for uma armadilha, não vai pegar a gente separado.`:'Você pede que o motorista não faça nenhuma manobra arriscada na estrada.'}\n\nUma ligação da casa confirma que ainda há música e convidados. Vocês combinam ir até lá, reunir os amigos e depois decidir como procurar ${kn}, sem entrar cegamente no lugar onde a gravação foi feita.`.replaceAll('\\n','\n');
