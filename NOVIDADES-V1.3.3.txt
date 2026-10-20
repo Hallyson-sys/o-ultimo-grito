@@ -1,0 +1,28 @@
+O ÚLTIMO GRITO — V1.3.3 — CAPÍTULO 9: DIÁLOGOS COM NOMES
+
+CORREÇÃO SOLICITADA
+• A conversa sobre os registros de Bella após a escolha na casa do lago não é mais descrita por “um amigo” e “outro”. O capítulo escolhe dois amigos vivos, presentes na festa e diferentes do suspeito, nomeia ambos e apresenta falas do protagonista e respostas com opiniões contrastantes. Se só houver um amigo, a cena usa um diálogo adaptado; se não houver nenhum, Bella responde por telefone.
+• O mesmo tratamento foi aplicado à opção de compartilhar a suspeita no aniversário de Lakewood.
+• As falas não antecipam a identidade dos mascarados e não tratam diferenças de horário como provas de assassinato.
+
+REVISÃO DO CAPÍTULO 9
+• Melhor identificação nominal de pessoas com quem o protagonista conversa nas festas e durante a investigação, de acordo com quem está vivo e presente em cada núcleo.
+• Revisadas as cenas com Bella, a foto na casa, a conversa sobre sonhos, as brincadeiras, os momentos íntimos e a chegada dos convidados.
+• A opção de procurar companhia não cria uma conversa com amigo inexistente quando nenhum personagem conhecido está disponível no local.
+• Adicionadas ações e falas na busca pela pessoa desaparecida; o jogador procura os nomes corretos no evento certo, em vez de encontrar pessoas que estavam na outra festa.
+• Revisados avisos do vídeo, organização dos amigos na casa, socorro pelo celular, reencontro dos sobreviventes e depoimentos após os ataques; vários resumos impessoais foram substituídos por interações nomeadas.
+• Falas e reações distinguem os temperamentos de Allan, Rauanny, Ryan, Breno, Isabella, Samuel, Laisla e Rayssa.
+• Preservado o roteiro de perseguição, suas consequências (sobrevivência, ferimentos, mortes), os quatro arquivos de áudio adicionados na V1.3.2 e as cenas de romance com personagens nomeados.
+
+COMPATIBILIDADE E TESTES
+• Nenhum ID de cena da V1.3.2 foi removido; chaves de saves e flags existentes foram mantidas. É possível continuar a partir de um slot anterior, embora escolhas já jogadas não sejam repetidas automaticamente.
+• Teste de sintaxe em todos os scripts JS do pacote.
+• 600 percursos automatizados com escolhas, romances e mortes anteriores sem destinos inválidos nem falas atribuídas a mortos nos pontos verificados, com uma segunda execução de 600 percursos dedicada a verificação de mortos.
+• O teste de abertura visual no Chromium não pôde ser repetido neste ambiente; não foi possível validar a renderização no Safari do iPhone.
+
+INSTALAÇÃO
+1. Exporte um backup do save atual no jogo.
+2. Extraia este ZIP.
+3. Envie todos os arquivos da pasta interna à raiz do seu repositório GitHub/Render. Não envie só chapter9.js se faltar algum dos sons da versão anterior.
+4. Aguarde o deploy e atualize a página. index.html referencia chapter9.js?v=1.3.3 e game.js?v=1.3.3 para reduzir cache antigo.
+5. A partir do seu save, entre novamente na cena da conversa sobre os registros de Bella para observar o diálogo reescrito.

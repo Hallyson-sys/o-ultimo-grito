@@ -1,4 +1,4 @@
-/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.2
+/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.3
  * No public-facing passage may disclose the identities of the masked attackers.
  * Saves are additive; all progression is in c9_* flags on existing slot.
  */
@@ -660,7 +660,7 @@ Alguém pergunta se a cidade já começou a homenagem no palco. Um convidado mos
  C('Compartilhar com um amigo a informação de Bella','k9_house_doubt',[F('suspeita_compartilhada')]),
  C('Conversar sobre os planos para depois do fim dessa história','k9_house_future',[F('planos_festa')]),
  C('Buscar um momento reservado com alguém querido','k9_house_flirt',[F('carinho_festa')])]);
-N('k9_house_doubt','CASA DO LAGO · JARDIM','20:00','party',`Você conta a uma pessoa de confiança sobre o registro mostrado por Bella, sem transformar uma diferença de horário em acusação pública.
+N('k9_house_doubt','CASA DO LAGO · JARDIM','20:00','party',`Você procura quem está na festa para conversar reservadamente sobre o registro mostrado por Bella.
 
 A resposta é cautelosa. Um amigo lembra que todos escondem coisas desde a noite do acidente. Outro acha perigoso considerar alguém culpado apenas por estar perto de uma estação.
 
@@ -1183,6 +1183,174 @@ function sceneCompanion(s,origin){
  const available=ids.filter(x=>L[x]&&!dead(s,x)&&(!afterKidnap||x!==f.c9_refem));const lv=lover(s);
  return (lv&&available.includes(lv)?lv:available.find(x=>x!=='rayssa')||available[0])||null;
 }
+// V1.3.3 — Elenco reconhecível: toda conversa sobre o grupo tem nomes,
+// falas e presença checada (inclusive após mortes e entre eventos separados).
+const C9_PERSONALITY={
+ allan:{doubt:'Eu não quero que a gente transforme um horário num julgamento. A gente já se machucou demais por falar antes de pensar.',counter:'Mas se alguém mentiu, esconder o assunto também não resolve. A gente conversa com calma, um de cada vez.',comfort:'Ei. Olha pra mim. Você não precisa resolver isso sozinho, tá?',danger:'Não vou largar ninguém aqui! Só me diz qual saída tá livre!'},
+ samuel:{doubt:'Qualquer registro pode ter erro. Precisamos conferir origem, data e quem realmente passou por lá.',counter:'Se a versão mudou, eu quero uma explicação. Só isso. Não dá pra fingir que não ouvimos.',comfort:'A gente checa os fatos primeiro. Depois decide o que fazer. Sem correr atrás de boato.',danger:'Confirma a porta! Não corre pra um corredor sem saída!'},
+ isabella:{doubt:'Eu tô cansada de ver a gente se acusando. Se for perguntar, pergunta olhando na cara. Não espalha.',counter:'Eu vou ouvir a explicação, mas não vou deixar passar uma contradição só porque gosto da pessoa.',comfort:'Me conta direito. Sem pular partes. Eu tô aqui pra te ouvir.',danger:'ME RESPONDE! Quem tá comigo? Preciso ouvir os nomes!'},
+ breno:{doubt:'Eu conheço o que é ser julgado por ficar quieto. Uma anotação não prova o que alguém fez.',counter:'Se a pessoa tava perto de lá, talvez tenha visto alguma coisa. Perguntar com respeito não é acusar.',comfort:'Você pode ficar aqui comigo. Nem precisa falar se não quiser.',danger:'Não toca no painel molhado! Tem outra saída do lado de cá!'},
+ ryan:{doubt:'Pera. A gente tá falando de um horário, não de alguém carregando uma faca na foto.',counter:'Só que também não dá pra fazer piada e virar as costas. Tem coisa muito errada acontecendo.',comfort:'Olha, minha piada vai ser péssima agora. Então vou só ficar aqui, beleza?',danger:'Ó, quem quiser sair vivo segue minha voz! E sem usar aquela grade quebrada!'},
+ rayssa:{doubt:'Eu sei como uma acusação pode destruir uma amizade. Não quero mais ver a gente se ferindo assim.',counter:'Mas, se tem uma mentira, eu quero entender por que alguém teria medo de contar a verdade.',comfort:'Eu posso te escutar. Mesmo que seja difícil.',danger:'Por favor, saiam da frente do vidro! Vem pra cá!'},
+ rauanny:{doubt:'Eu já explodi com gente sem ouvir tudo. Não vou repetir isso só porque tô com medo.',counter:'Agora, se tem coisa escondida, eu vou perguntar. Não gosto de gente me fazendo de idiota.',comfort:'Pode falar. Eu vou tentar não interromper, juro.',danger:'LAI! CADÊ A SAÍDA? Pessoal, não se empurra!'},
+ laisla:{doubt:'Olha, meu sonho era passar uma noite sem a gente se acusar. Bella pode ter razão e ainda faltar prova.',counter:'E meu medo é a gente ficar quieto até acontecer outra tragédia. Vamos conferir direito.',comfort:'Vem, senta aqui. Não precisa bancar o forte na minha festa.',danger:'A porta do corredor da cozinha! Eu conheço a casa, me sigam!'}
+};
+function c9Present(s,where,excluded=[]){const f=s.flags||{};const list=(where==='cidade'?f.c9_cidade_pessoas:f.c9_casa_pessoas)||[];return list.filter(x=>L[x]&&!dead(s,x)&&!excluded.includes(x));}
+function c9Pick(s,where,exclude=[],preferred=[]){const options=c9Present(s,where,exclude);return preferred.find(x=>options.includes(x))||options[0]||null;}
+function c9Line(x,kind){return x?`${name(x)}: — ${C9_PERSONALITY[x]?.[kind]||'Eu tô aqui. Vamos descobrir com cuidado.'}`:'';}
+function c9Dialogue(s,id,text,kid){
+ const f=s.flags||{},where=id.startsWith('k9_city')?'cidade':'casa';
+ const avoidKid=f.c9_enter_k9_missing?[kid]:[];
+ const first=c9Pick(s,where,[...avoidKid,f.c9_suspeito],['allan','isabella','breno','ryan','laisla','samuel','rauanny','rayssa']);
+ const second=c9Pick(s,where,[...avoidKid,f.c9_suspeito,first],['rauanny','samuel','laisla','rayssa','isabella','ryan','allan','breno']);
+ const suspectName=L[f.c9_suspeito]?name(f.c9_suspeito):'uma pessoa do grupo';
+ if(id==='k9_house_doubt'||id==='k9_city_doubt'){
+  if(!first){return `Você sai por alguns instantes do barulho da ${where==='cidade'?'praça':'festa'} e abre a fotografia da anotação enviada por Bella. Nenhum dos seus amigos está disponível ali para uma conversa em particular.\n\nVocê grava uma mensagem de voz para Bella.\n\nVocê: — Eu vi os horários, mas não vou sair acusando ${suspectName} sem saber quem usou aquele acesso. Se aparecer outro documento, me avisa.\n\nBella: — É isso que eu queria. Guardar uma dúvida não é ignorar a investigação.\n\nVocê guarda o celular e retorna à ${where==='cidade'?'praça':'casa'}, ainda inquieto.`.replaceAll('\\n','\n');}
+  const intro=where==='cidade'?'Você chama '+names([first,second].filter(Boolean))+' para perto de uma barraca mais vazia. O discurso do palco chega baixo, misturado às conversas dos visitantes.':'Você chama '+names([first,second].filter(Boolean))+' até o jardim, longe da porta de vidro e das caixas de som. Os três ficam perto do muro, de onde ainda é possível ver a festa.';
+  const own=`Você: — A Bella achou uma divergência entre o registro da estação e o que ${suspectName} contou. Não tem imagem de ninguém cometendo um crime. Só que eu não consigo tirar isso da cabeça.`;
+  const a=c9Line(first,'doubt');
+  const b=second?c9Line(second,'counter'):'';
+  const bridge=second?`${name(first)} olha para ${name(second)}. A conversa esquenta, mas ninguém grita.\n\nVocê: — Então a gente concorda em uma coisa: perguntar não é condenar. Vou conferir com a Bella o documento inteiro antes de falar com ${suspectName}.`.replaceAll('\\n','\n'):`Você: — É disso que eu precisava ouvir. Eu tô com medo de estar procurando um culpado em vez de procurar uma resposta.`;
+  const finale=second?`${name(second)}: — Beleza. Mas me avisa o que descobrir. Eu não quero ser o último a saber se alguém está em perigo.\n\n${name(first)}: — E não vai jogar isso no grupo. A gente conversa sem plateia.`.replaceAll('\\n','\n'):`${name(first)}: — Me promete que, se a dúvida piorar, vai conversar antes de acusar.\n\nVocê: — Prometo.`.replaceAll('\\n','\n');
+  return `${intro}\n\n${own}\n\n${a}${b?'\n\n'+b:''}\n\n${bridge}\n\n${finale}\n\nVocê volta para perto da música. A suspeita continua sem resposta, mas agora existe um acordo concreto, feito entre pessoas que você conhece.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_bella_evidence'){
+  text=text.replace('Você pensa em uma pessoa do grupo cuja explicação recente não se encaixa perfeitamente. A lembrança incomoda justamente porque você conhece o jeito dessa pessoa falar.',`Você reconhece a versão de ${suspectName} entre as anotações. A diferença de horário o incomoda porque você conhece ${suspectName} e não quer transformar lembranças em acusações.`);
+  text=text.replace('A conversa continua por vários minutos, incluindo as informações que o jogador efetivamente preservou da estação.',`Você: — E se alguém simplesmente confundiu a hora?\n\nBella: — Então a gente descobre. Eu prefiro ouvir a explicação inteira do que perder mais alguém por causa de uma conclusão apressada.\n\nVocê: — Vou guardar o que você me mostrou. Mas não prometo que vou parar de pensar nisso.\n\nBella: — Nem eu.`);
+ }
+ if(id==='k9_bella_decide'){
+  text=text.replace('Defender um amigo naquela ocasião também trouxe consequências. Agora uma suspeita ameaça transformar tudo em outra briga.',`Você lembra da discussão no hospital e olha para o nome de ${suspectName} mais uma vez. Uma suspeita, sem outras provas, ainda não é uma sentença.`);
+  text=text.replace('Agora uma suspeita ameaça transformar tudo em outra briga.','Você decide não deixar que a dúvida destrua mais uma amizade antes de haver provas.');
+ }
+ if(id==='k9_city_arrive'&&!dead(s,'rayssa')&&!c9Present(s,'cidade').includes('rayssa'))text=text.replace('Rayssa está entre elas, ajudando a orientar convidados perto da área das homenagens.','Você observa os voluntários trabalhando perto das homenagens; Rayssa não está nesse setor da praça.');
+ if(id==='k9_city_evening'){
+  const other=c9Pick(s,'cidade',avoidKid,['ryan','allan','isabella','samuel','rayssa','breno','rauanny','laisla']);
+  const last=c9Present(s,'cidade').includes(kid)?kid:other;
+  text=text.replace('Algumas pessoas do grupo conversam perto da mesa de bebidas, e outras saem para ver as barracas de comida.',`${other?`${name(other)} caminha ao seu lado até a mesa de bebidas.`:'Você para diante da mesa de bebidas, procurando uma nova apresentação no programa.'}`);
+  text=text.replace('Laisla, caso esteja viva, tentando organizar os copos',(!dead(s,'laisla')&&c9Present(s,'casa').includes('laisla'))?'Laisla organizando os copos':(c9Pick(s,'casa',[],['rauanny','allan','ryan'])?name(c9Pick(s,'casa',[],['rauanny','allan','ryan']))+' organizando os copos':'os convidados perto da mesa'));
+  text=text.replace('Alguém comenta que precisa ir aos bastidores buscar uma coisa. A frase parece banal. Cinco minutos depois, você vai lembrar dela com uma precisão cruel.',last?`${name(last)} confere uma mensagem e guarda o telefone.\n\n${name(last)}: — Vou ali rapidinho, depois a gente se fala.\n\nVocê: — Beleza. Me avisa se mudar de lugar.\n\nVocê volta a observar o palco, sem imaginar como vai se lembrar dessa conversa mais tarde.`:'Uma voluntária anuncia que a apresentação vai continuar. Você confere o celular para saber se o restante do grupo está bem.');
+ }
+ if(id==='k9_house_evening'){
+  const p=c9Pick(s,'casa',avoidKid,['laisla','rauanny','ryan','allan','breno','isabella','samuel']);
+  const other=c9Pick(s,'casa',[...avoidKid,p],['allan','ryan','rauanny','laisla','breno','samuel','isabella']);
+  text=text.replace('Uma pessoa sugere uma fotografia do grupo presente. Alguns aceitam; outros ficam fora do enquadramento. Ninguém é obrigado a aparecer no retrato.',p?`${name(p)} tira o celular do bolso.\n\n${name(p)}: — Antes que a gente se espalhe, bora tirar uma foto? Só quem quiser, tá?\n\n${other?`${name(other)}: — Pera, deixa eu ajeitar esse cabelo, pelo amor de Deus!`:`Você: — Vamos, mas sem colocar ninguém que não queira aparecer.`}\n\nVocês se juntam ao lado da piscina para a foto. Quem não quer posar fica fora do enquadramento.`:'Uma convidada pergunta se alguém quer uma foto junto à piscina. Você prefere guardar o celular e observar a luz refletida na água.');
+  if(dead(s,'rayssa'))text=text.replace('Rayssa diz que está auxiliando uma família a encontrar os lugares reservados.','Os voluntários do aniversário informam que a homenagem está em andamento.');
+ }
+ if(id==='k9_omen'){
+  text=`O celular vibra com uma resposta que não chega inteira. Você abre as mensagens e procura o último contato de ${name(kid)}. As outras conversas continuam, mas a de ${name(kid)} parou.\n\nVocê: — Estranho... ${name(kid)} sempre responde, nem que seja pra mandar eu parar de encher.\n\n${f.c9_hero_local==='casa'?'O som da festa continua na varanda. Você observa as portas de vidro e lembra dos convidados que foram embora.':'Perto do palco, alguém testa o microfone enquanto você procura rostos conhecidos nas barracas.'}\n\nVocê abre as duas conversas do grupo e decide conferir onde cada um está, com nomes e não só mensagens dizendo «tá tudo bem».`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_missing'){
+  const area=f.c9_refem_local==='casa'?'casa':'cidade';
+  const w=c9Pick(s,area,[kid],['laisla','rauanny','allan','ryan','isabella','breno','samuel','rayssa']);
+  const secondW=c9Pick(s,area,[kid,w],['samuel','isabella','ryan','allan','rauanny','laisla','rayssa','breno']);
+  const hint=w?`${name(w)}: — Eu vi ${name(kid)} há pouco, mas não consigo dizer se ${['rayssa','rauanny','laisla','isabella'].includes(kid)?'ela':'ele'} saiu por aquela porta. Tinha gente demais.`:'Você pergunta aos voluntários se alguém viu '+name(kid)+'. Ninguém consegue confirmar um destino.';
+  const other=secondW?`${name(secondW)}: — Espera. Acho que ${name(kid)} olhou o celular e se afastou. Mas eu não vou inventar certeza, eu tava distraído também.`:'';
+  text=`A última mensagem de ${name(kid)} continua sem resposta. Você liga. O telefone chama até cair.\n\nVocê: — ${name(kid)}? Atende, por favor... só fala que tá tudo bem.\n\n${f.c9_hero_local===area?'Você procura quem estava por perto.':'Você telefona para o outro evento e pede que procurem sem espalhar pânico.'}\n\n${hint}${other?'\n\n'+other:''}\n\nVocê: — Eu preciso saber onde ${name(kid)} foi visto por último. Não vou aceitar «acho que saiu» como se fosse uma resposta.\n\nO barulho do festival e da festa continua. Cada chamada sem resposta parece durar um minuto inteiro.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_house_warning'){
+  const p=c9Pick(s,'casa',avoidKid,['laisla','rauanny','samuel','allan','ryan','isabella','breno']);
+  if(p)text+=`\n\n${name(p)} apalpa a maçaneta do corredor antes de virar para os convidados.\n\n${c9Line(p,'danger')}\n\nVocê: — ${name(p)}, me diz quais portas ainda abrem por dentro. A gente precisa tirar o pessoal daqui sem empurrar ninguém.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_invasion'){
+  const p=c9Pick(s,'casa',avoidKid,['laisla','rauanny','ryan','allan','samuel','isabella','breno']);
+  const other=c9Pick(s,'casa',[...avoidKid,p],['samuel','allan','ryan','breno','isabella','rauanny','laisla']);
+  text=text.replace('Outro amigo corre para trancar a porta do corredor.',other?`${name(other)} atravessa a sala para trancar a porta do corredor, mas para ao escutar um golpe do lado oposto.`:'Você corre até a porta do corredor e tenta segurar a maçaneta enquanto os convidados saem.');
+  if(p)text+=`\n\n${name(p)}: — Eu vi a máscara! Não fica perto do vidro!\n\nVocê: — ${name(p).toUpperCase()}! A porta da piscina ainda tá livre?\n\n${name(p)}: — Por enquanto, sim! Mas a gente tem que sair AGORA!`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_house_movement'){
+  const endangered=(f.c9_casa_pessoas||[]).find(x=>x!==kid&&!dead(s,x));
+  text=text.replace('Alguém grita por ajuda mais adiante.',endangered?`${name(endangered)} chama por ajuda perto do próximo corredor. Você reconhece a voz imediatamente.`:'Um dos convidados grita por ajuda perto da despensa.');
+  if(endangered)text+=`\n\n${name(endangered)}: — EU TÔ AQUI! A PORTA EMPERROU!\n\nVocê: — FALA QUAL CORREDOR, ${name(endangered).toUpperCase()}! A GENTE VAI ENCONTRAR UMA SAÍDA!`.replaceAll('\\n','\n');
+ }
+ for(let stage=1;stage<=3;stage++){
+  const tgt=f['c9_r'+stage+'_target'];
+  if(!tgt)continue;
+  const helper=c9Pick(s,'casa',[...avoidKid,tgt],['samuel','laisla','ryan','allan','rauanny','isabella','breno']);
+  const voice=helper?name(helper):'Você';
+  if(id==='k9_risk_'+stage+'_act')text=text.replace('Do outro lado da porta alguém responde com um grito e a maçaneta sacode com força.',helper?`${name(helper)} grita do outro lado, sem enxergar ${name(tgt)}.\n\n${name(helper)}: — ${name(tgt).toUpperCase()}, SE AFASTA DA PORTA! TÔ TENTANDO ABRIR!\n\nA maçaneta sacode com força.`.replaceAll('\\n','\n'):`A maçaneta sacode com força e um dos convidados grita que a porta está presa.`);
+  if(id==='k9_risk_'+stage+'_final')text=text.replace('O perseguidor pressiona a passagem',`${name(tgt)} escuta ${helper?name(helper)+' chamar seu nome por trás da porta':'os convidados pedindo socorro no jardim'}. O perseguidor pressiona a passagem`);
+  if(id==='k9_risk_'+stage+'_result'&&f['c9_r'+stage+'_result']==='injured')text=text.replace('Um amigo responde pelo celular e o orienta a comprimir o ferimento com um pano limpo.',helper?`${name(helper)} atende pelo celular.\n\n${name(helper)}: — ${name(tgt).toUpperCase()}, FICA COMIGO! Pressiona o corte com uma toalha e me diz onde você tá!\n\n${name(tgt)}: — Eu... eu tô tentando. Não desliga!`.replaceAll('\\n','\n'):'Você atende ao chamado e orienta a comprimir o ferimento com um pano limpo até a chegada do socorro.');
+  if(id==='k9_risk_'+stage+'_result'&&f['c9_r'+stage+'_result']==='safe')text=text.replace('Quem ajudou confirma pelo celular.',helper?`${name(helper)} atende.\n\n${name(helper)}: — ${name(tgt).toUpperCase()}! Eu te escutei! Não sai daí sozinho, tô indo te encontrar!`.replaceAll('\\n','\n'):'Você escuta a confirmação pelo celular e orienta a pessoa a encontrar a saída sinalizada.');
+ }
+ if(id==='k9_reunion'){
+  const survivors=c9Present(s,'casa',[kid]);
+  const p=survivors[0],other=survivors[1];
+  text=text.replace('A voz de alguém falha ao perguntar por um amigo.',p?`${name(p)} tenta falar, mas a voz falha antes de completar uma pergunta sobre ${name(kid)}.`:'Você pergunta em voz alta se alguém viu '+name(kid)+'.');
+  if(p)text+=`\n\n${name(p)}: — Quem viu ${name(kid)} por último? Por favor, fala que tem notícia.\n\n${other?name(other)+': — Eu tô aqui. Vamos conferir os quartos, mas ninguém volta sozinho.':'Você: — A gente não vai desistir de procurar. Só não pode entrar sozinho.'}`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_reunion_luto'&&!(IDS.some(x=>f['c9_morto_'+x]))){
+  const p=c9Pick(s,'casa',avoidKid,['ryan','allan','laisla','rauanny','isabella','breno','samuel']);
+  text=text.replace('Ryan, se está presente, tenta fazer uma brincadeira para aliviar a tensão, mas ninguém ri por muito tempo.',p?`${name(p)} se aproxima de você, ainda ofegante.\n\n${c9Line(p,'comfort')}\n\nVocê: — Faltou o ${['rayssa','rauanny','laisla','isabella'].includes(kid)?'sinal dela':'sinal dele'}. A gente não pode comemorar ainda.`.replaceAll('\\n','\n'):'Você tenta respirar, mas o silêncio de '+name(kid)+' impede qualquer sensação de vitória.');
+ }
+ if(id==='k9_reunion_after'){
+  const p=c9Pick(s,'casa',avoidKid,['isabella','allan','laisla','rauanny','samuel','ryan','breno']);
+  if(p)text+=`\n\nVocê: — ${name(p)}, me conta a última coisa que você viu antes de sair. Sem pular nenhum detalhe.\n\n${name(p)}: — Tinha alguém perto da cozinha. Aí a luz apagou e eu só pensei em achar uma porta. Eu não vi o rosto.\n\nVocê: — Tá. Não precisa inventar nada que não lembra.\n\n${name(p)}: — Eu não vou esquecer essa noite. Nem se eu quiser.`.replaceAll('\\n','\n');
+ }
+
+ // Revisão das conversas e do deslocamento: ninguém que está ausente aparece
+ // como interlocutor apenas para preencher uma fala narrativa.
+ if(id==='k9_house_future'){
+  const partner=sceneCompanion(s,id);
+  if(partner){
+   text=text.replace('pergunta a alguém do grupo o que faria',`pergunta a ${name(partner)} o que faria`);
+   text+=`\n\nVocê: — Eu quero te perguntar sem pressa: qual era seu plano pra esse ano, antes dessa confusão toda?\n\n${name(partner)}: — ${C9_PERSONALITY[partner]?.future||'Eu ainda tenho coisas que quero fazer. Só preciso encontrar coragem de voltar a planejar.'}`.replaceAll('\\n','\n');
+  }else{
+   text='Você encontra a varanda vazia. Senta com um refrigerante, escuta a música e tenta lembrar dos seus próprios planos antes dos ataques. Nem toda pausa precisa ser preenchida por uma conversa inventada.';
+  }
+ }
+ if(id==='k9_house_flirt'){
+  const partner=sceneCompanion(s,id);
+  if(partner)text=text.replace('Uma resposta vem acompanhada de um sorriso cansado.',`${name(partner)} sorri de leve e afasta uma cadeira para você.\n\n${name(partner)}: — Pode roubar. Mas tem que me prometer que não é mais um interrogatório sobre o lago.`.replaceAll('\\n','\n'));
+  else text=text.replace('Uma resposta vem acompanhada de um sorriso cansado.','Você não encontra ninguém conhecido naquele momento. Do lado de dentro, a música volta a ficar animada.');
+ }
+ if(id==='k9_house_game_payoff'){
+  const buddy=sceneCompanion(s,'k9_house_arrive');
+  if(buddy)text=text.replace('Alguém ainda repete sua imitação ou um passo de dança desastroso perto da porta. Uma pessoa levanta o copo e brinda à primeira noite em que conseguiu rir sem culpa.',`${name(buddy)} ainda imita o passo de dança que viu na roda.\n\n${name(buddy)}: — Não acredito que você teve coragem de fazer isso. Eu vou lembrar pra sempre!\n\nVocê: — Não se atreve a mostrar o vídeo pra ninguém!\n\n${name(buddy)}: — Sem promessas. Mas foi bom ver você rindo de verdade.\n\nVocê ergue o copo. Por alguns segundos, o medo deixa de ocupar toda a conversa.`.replaceAll('\\n','\n'));
+ }
+ if(id==='k9_house_help'){
+  const host=f.c9_anfitriao;
+  if(host&&!dead(s,host))text=text.replace('enquanto a anfitriã confere se a passagem para o corredor não está bloqueada.',`enquanto ${name(host)} confere se a passagem para o corredor não está bloqueada.\n\n${name(host)}: — Valeu mesmo pela ajuda. Eu já tava me embolando com essas caixas.`.replaceAll('\\n','\n'));
+ }
+ if(id==='k9_missing_search'){
+  const area=f.c9_refem_local==='casa'?'casa':'cidade';
+  const local=area===f.c9_hero_local;
+  const w=c9Pick(s,area,[kid],['rayssa','laisla','isabella','samuel','rauanny','allan','ryan','breno']);
+  const place=area==='casa'?'na casa do lago':'perto dos bastidores do aniversário';
+  const who=w?`${name(w)}: — Eu vi ${name(kid)} pela última vez ${place}. Não sei quem estava por perto. Eu devia ter prestado mais atenção.`:'Um segurança explica que ainda não conseguiu confirmar a última passagem de '+name(kid)+'.';
+  const action=f.c9_busca_imediata?`Você tenta refazer o trajeto de ${name(kid)} sem entrar em áreas trancadas. Não encontra nenhuma pista conclusiva.`:f.c9_seguranca_alertada?'Você entrega à segurança a foto, a roupa e o horário da última mensagem. O responsável avisa os colegas por rádio.':'Você liga novamente e pede a localização compartilhada. O aparelho não confirma nenhuma posição atual.';
+  text=`${local?'Você atravessa o movimento da festa, procurando o último local em que alguém viu '+name(kid)+'.':'Você pede, por telefone, que os amigos do outro evento procurem '+name(kid)+' e confirmem cada informação sem adivinhar.'}\n\nVocê: — ${name(kid)} não atende. Eu preciso de uma informação de verdade, não de mais um palpite.\n\n${who}\n\n${action}\n\nAntes de você conseguir fazer outra pergunta, a música do aniversário de Lakewood para de repente. Alguém grita perto do telão. Você olha para a tela ou atende à ligação que chega da praça.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_video_react'&&f.c9_hero_local==='casa'){
+  const p=c9Pick(s,'casa',[kid],['laisla','rauanny','samuel','allan','ryan','isabella','breno']);
+  const other=c9Pick(s,'casa',[kid,p],['allan','ryan','breno','samuel','rauanny','isabella','laisla']);
+  if(p){
+   text=text.replace('Uma pessoa fecha as portas de vidro e outra procura o responsável pela festa.',`${name(p)} fecha as portas de vidro. ${other?name(other)+' corre para avisar os convidados na cozinha.':'Você afasta os convidados da varanda.'}`);
+   text+=`\n\n${name(p)}: — A foto da piscina é de agora! Dá pra ver os copos que eu coloquei na mesa faz dez minutos!\n\nVocê: — Ninguém chega perto das janelas. Me diz quem ainda tá na casa, pelo nome!`.replaceAll('\\n','\n');
+  }
+ }
+ if(id==='k9_prep_01'){
+  const p=c9Pick(s,'casa',[kid],['laisla','samuel','rauanny','ryan','allan','breno','isabella']);
+  const other=c9Pick(s,'casa',[kid,p],['breno','allan','samuel','rauanny','ryan','isabella','laisla']);
+  if(f.c9_hero_local==='casa'){
+   text=text.replace('Uma pessoa fecha uma cortina. Outra chama os convidados para longe do vidro.',p?`${name(p)} puxa a cortina. ${other?name(other)+' chama os convidados para longe da varanda.':'Você orienta os convidados a se afastarem do vidro.'}`:'Você puxa uma das cortinas e pede aos convidados que se afastem do vidro.');
+  }else if(p){
+   text=text.replace('Uma ligação toca. Uma voz familiar informa que uma porta de serviço bateu mesmo sem vento forte, mas não quer causar pânico entre os convidados.',`Você liga para ${name(p)}, que atende no meio da música.\n\n${name(p)}: — Acabou de bater uma porta de serviço aqui. Nem tá ventando. Eu não quero assustar a galera, mas achei melhor avisar.`.replaceAll('\\n','\n'));
+   text+=`\n\n${name(p)}: — Eu vou conferir quem tá comigo. Você consegue chamar alguém pra ajudar a gente?\n\nVocê: — Já tô tentando. Não sai sozinho, ${name(p)}.`.replaceAll('\\n','\n');
+  }
+ }
+ if(id==='k9_prep_02'){
+  const p=c9Pick(s,'casa',[kid],['samuel','laisla','isabella','ryan','allan','rauanny','breno']);
+  if(p)text+=`\n\n${name(p)}: — Tô na casa. Já anotei quem saiu pela garagem e quem ainda tá perto da piscina.\n\nVocê: — Ótimo. Me manda cada nome. Se alguém mudar de lugar, avisa de novo.\n\n${name(p)}: — Combinado. E me fala quando chegar.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_reunion_after'){
+  const p=c9Pick(s,'casa',[kid],['isabella','allan','laisla','rauanny','samuel','ryan','breno']);
+  if(p)text=text.replace('O telefone vibra quando você está tentando ouvir o que um amigo conta.',`O telefone vibra enquanto ${name(p)} descreve o corredor por onde fugiu.`);
+ }
+ if(id==='k9_city_meet'&&!sceneCompanion(s,id)){
+  text='Você procura um rosto conhecido entre as barracas, mas ninguém do seu grupo está disponível aqui. Em vez de inventar companhia, você decide voltar ao palco e ficar perto dos voluntários.';
+ }
+ return text;
+}
 function priorAction(s,id,text){const f=s.flags||{};
  if(f.c9_last_act_target!==id||!f.c9_last_act_origin||!Array.isArray(CHOICE_BEATS[f.c9_last_act_origin]))return text;
  const entry=CHOICE_BEATS[f.c9_last_act_origin][Number(f.c9_last_act_index)];
@@ -1374,7 +1542,7 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
   text=`Você abre a conversa de ${romantic}. A última mensagem chegou há poucos minutos.\n\n${romantic}: — Eu tô tentando escolher uma roupa faz meia hora e nada parece bom. Posso passar aí antes da gente sair? Nem que seja por uns minutos.\n\nVocê começa a responder, apaga a primeira frase e ri sozinho. Faz tanto tempo que uma pergunta assim não chegava sem uma ameaça depois.`;
  }
  if(lv&&['k9_love_visit','k9_love_intimate','k9_love_goodbye','k9_love_brief'].includes(id)){
-  choices=choices.map(c=>({...c,originText:c.text,text:c.text.replaceAll('a pessoa',romantic).replaceAll('A pessoa',romantic).replaceAll('ela',romantic)}));
+  choices=choices.map(c=>({...c,originText:c.text,text:c.text.replaceAll('a pessoa',romantic).replaceAll('A pessoa',romantic)}));
   if(id==='k9_love_visit')text=`A campainha toca quando você termina de se vestir. Ao abrir a porta, encontra ${romantic} segurando o celular e tentando esconder o nervosismo.\n\n${romantic}: — Oi. E antes que você pergunte: sim, eu troquei de roupa três vezes. Não comenta.\n\nVocê: — Entra, idiota.\n\n${romantic} solta uma risada e se aproxima. A primeira coisa que você percebe não é a roupa: é a expressão de alívio ao encontrar você bem.\n\n${extra.romance[lv]}`;
   if(id==='k9_love_intimate'){
    const fl=f.c9_romance_mais_beijos,br=f.c9_romance_brincou,care=f.c9_romance_cuidado;
@@ -1387,24 +1555,27 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  // Lembranças e interações variam com o elenco VIVO e PRESENTE na rota.
  if(id==='k9_city_meet'){
   const who=sceneCompanion(s,id);
+  if(!who)choices=[G('k9_city_social','Voltar para perto do palco')];
   if(who){
    text+=`\n\n${name(who)} reconhece você entre as barracas e levanta o braço para chamar sua atenção.\n\n${name(who)}: — Ei! Pensei que não fosse te encontrar com essa multidão toda. Tá fugindo do discurso ou veio mesmo me procurar?\n\nVocê: — Um pouco dos dois. Mas principalmente vim te ver.`;
    if(lv===who)text+=`\n\n${name(who)} encosta os dedos nos seus, discretamente.\n\n${name(who)}: — Ainda bem. Já tava procurando um jeito de te chamar também.`;
   }else text=`Você procura por amigos entre as barracas, mas os sobreviventes que vieram ao aniversário estão em outro setor ou ocupados com a homenagem. Uma voluntária pergunta se você precisa de água. Você agradece e decide permanecer perto do movimento, em vez de fingir que alguém conhecido está ali.`;
  }
  if(id==='k9_house_balcony'){
-  const who=sceneCompanion(s,id);if(who){
+  const who=sceneCompanion(s,id);if(!who)choices=[G('k9_house_social','Voltar para perto dos convidados')];if(who){
    text=text.replace('alguém apoiado no corrimão',name(who)+' apoiado no corrimão').replace('A pessoa afasta',name(who)+' afasta');
    text+=`\n\n${name(who)}: — Vem. Aqui dá até pra ouvir o lago quando a música abaixa.\n\nVocê: — Parece que você tá pensando em mil coisas.\n\n${name(who)}: — Tô. Mas agora quero tentar conversar de algo que não seja morte.`;
   }else{text=text.replace('encontra alguém apoiado no corrimão, observando o movimento do lago','encontra duas cadeiras vazias e o reflexo do lago entre as árvores').replace('A pessoa afasta o casaco da cadeira para abrir espaço.','Você afasta uma cadeira e respira com calma.');}
  }
  if(id==='k9_house_future'){
   const who=sceneCompanion(s,id);
+  if(!who)choices=[G('k9_house_evening','Continuar a festa')];
   if(who)text+=`\n\n${name(who)}: — Tá. Se for pra falar de futuro, eu posso tentar. Mas escolhe uma pergunta que não tenha resposta triste, por favor.\n\nVocê ri e concorda.`;
   else text+='\n\nUm convidado que ainda não conhecia você se senta por perto e aceita conversar sobre planos para depois do fim do ano.';
  }
  if(id==='k9_house_flirt'){
   const who=sceneCompanion(s,id),lvHere=lover(s)&&who===lover(s);
+  if(!who)choices=[G('k9_house_evening','Voltar à festa')];
   if(who){text+=`\n\n${name(who)}: — Pode roubar. Mas se for pra me arrastar pra uma palestra sobre o assassino eu volto pra pista.\n\nVocê: — Prometo que é só pra ficar com você um pouco.`;
    if(lvHere)text+=`\n\n${name(who)} fica mais perto, toca sua mão e baixa a voz.\n\n${name(who)}: — Senti sua falta no meio dessa confusão. E olha que você tava bem aqui.`;
    else text+=`\n\n${name(who)}: — Então fica. Acho que nenhum de nós tá muito a fim de bancar o forte hoje.`;
@@ -1426,7 +1597,7 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
    text=`Você chama ${names(speakers)} para um lugar onde a música não cubra as palavras.\n\nVocê: — Bella encontrou uma diferença entre um registro de acesso e o que alguém contou. Não tem assinatura, não tem câmera mostrando um crime. Mas eu fiquei pensando nisso.\n\n${name(one)}: — Você fez bem em não soltar isso no grupo inteiro. Uma coisa é desconfiar, outra é acusar.\n\n${two?name(two)+': — Mas também não podemos fingir que ninguém esconde nada. Pelo menos vamos conferir se os horários fazem sentido.':''}\n\nVocê explica que o documento não aponta quem realmente usou o acesso. Ninguém chega a uma conclusão mágica; a conversa termina com o compromisso de procurar evidências reais.`;
   }else text='Você procura um amigo disponível para falar com discrição sobre Bella. Não há ninguém do grupo naquele lugar a quem possa confidenciar a suspeita. Em vez de transformar isso em conversa com um desconhecido, registra suas perguntas para depois.';
  }
- if(id==='k9_city_arrive'&&lv){choices=choices.map(c=>({...c,originText:c.text,text:c.text.replace('o interesse romântico ou outro amigo',name(lv)+' ou outro amigo')}));}
+ if(id==='k9_city_arrive'&&lv){const inCity=(f.c9_cidade_pessoas||[]).includes(lv);choices=choices.map(c=>({...c,originText:c.text,text:c.text.replace('o interesse romântico ou outro amigo',inCity?name(lv)+' ou outro amigo':'um amigo')}));}
  if(id==='k9_city_arrive'&&!lv){choices=choices.map(c=>({...c,originText:c.text,text:c.text.replace('o interesse romântico ou outro amigo','um amigo')}));}
  if(id==='k9_city_arrive'||id==='k9_city_social'){
   if(dead(s,'rayssa'))text=text.replace(/Rayssa[^\n]*\n?/g,'').replace(/Isabella: — É estranho[^]*?Rayssa: — Não sei\./,'O espaço das homenagens permanece iluminado, mas Isabella não encontra a amiga com quem costumava conversar sobre essas noites.');
@@ -1555,6 +1726,7 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
   text=`Você sustenta o olhar do mascarado enquanto ${name(kid)} tenta se libertar da cadeira. Sua garganta está seca, mas você não recua.\n\nVocê: — Acabou. Chega de mortes, chega de ameaças... e chega dessa porcaria de máscara. Mostra quem você é!\n\nO silêncio dura tempo demais. Então a pessoa leva a mão ao próprio rosto e começa a erguer a máscara, devagar, até revelar a identidade.\n\nVocê sente o ar faltar. Conhece aquele rosto.\n\nVocê: — Não... não pode ser. Você?!\n\nO lago continua batendo nas tábuas. Atrás de você, ${name(kid)} prende a respiração.\n\nFIM DO CAPÍTULO 9 — UM ÚLTIMO JOGO`;
  }
  // Entrega a ação já escolhida como parte visível da história, não apenas como flag.
+ text=c9Dialogue(s,id,text,kid);
  text=priorAction(s,id,text);
  return {...n,text,choices,location,scene};
 }

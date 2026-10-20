@@ -1,3 +1,5 @@
+VERSÃO MAIS RECENTE: V1.3.3 — Diálogos com nomes e respostas específicas no Capítulo 9. Consulte NOVIDADES-V1.3.3.txt.
+
 ATUALIZAÇÃO MAIS RECENTE: V1.3.2 — Capítulo 9 revisado com escolhas encenadas, diálogos personalizados e 4 trilhas novas. Confira NOVIDADES-V1.3.2.txt.
 
 V1.3.1 — CORREÇÃO DA SORVETERIA NO CAPÍTULO 9
