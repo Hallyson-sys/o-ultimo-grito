@@ -1,0 +1,32 @@
+O ÚLTIMO GRITO · V1.3.4 — CAPÍTULO 9: REVISÃO IMERSIVA
+
+CORREÇÕES E CENAS REESCRITAS
+
+• Identificação nominal de quem foi sequestrado nas cenas de vídeo, investigação, conversa, reencontro e no deck. Consertada a concordância de Ryan (ele/esse/preso/ferido), bem como as variantes femininas para Rayssa, Rauanny e Isabella.
+• O vídeo que chega à casa do lago é uma gravação previamente enviada, não uma chamada de vídeo. O protagonista reage em pânico, tenta telefonar para o personagem capturado e seus amigos o acolhem enquanto discutem a possibilidade de uma armadilha.
+• Antes da invasão, Marina encontra Davi, convidado da festa, assassinado no banheiro. Os convidados comuns saem da casa, as luzes falham, e o grupo precisa escapar quando o mascarado entra. A versão do protagonista que escolheu o aniversário da cidade acompanha esses acontecimentos por outros pontos de vista sem se teletransportar para dentro da casa.
+• Reescritas as duas etapas finais das três perseguições com escolhas específicas para Allan, Samuel, Isabella, Laisla, Rauanny, Ryan e Breno. Os riscos são descritos no próprio ambiente e as escolhas alteram ferimento, sobrevivência ou morte.
+• Reequilibrada a pontuação: lesões anteriores não ocasionam morte automática. Com decisões perigosas, ainda pode haver mortes; decisões melhores e preparativos permitem fuga, às vezes com ferimentos. Os feridos vivos permanecem no elenco.
+• Quando uma morte acontece, a própria sequência exibe o desfecho e, se existe testemunha viva e presente, mostra uma reação emocional própria. No reencontro, cada morte recebe um relato diferente, sem repetir a mesma fala ou presumir que policiais já chegaram ao local.
+• A opção de apoiar feridos identifica um personagem realmente ferido; se não houver ninguém nessa condição, ela passa a permitir que o protagonista acolha uma pessoa em choque, sem inventar ferimentos.
+• Ampliadas as falas das quatro rotas românticas na casa do protagonista. O par romântico pergunta qual evento o protagonista escolheu, preservando a decisão nas mãos do jogador.
+• Ajustados trechos narrativos de 'um amigo', 'alguém responde', tratamento de gênero e referências impessoais, preservando anônimos quando são convidados não pertencentes ao elenco principal.
+• As quatro trilhas instrumentais adicionais da V1.3.2, demais sons, imagens, capítulos 1–8 e interface mobile foram mantidos.
+
+COMPATIBILIDADE
+• Nenhum ID antigo do Capítulo 9 foi excluído; mantidas as chaves de save, estrutura dos slots e sinalizadores c9_*.
+• Atualização por adição no mesmo sistema. Uma cena já jogada não reaparece sozinha após a instalação. Exporte o save como backup antes de atualizar.
+• A V1.3.4 trata apenas do capítulo 9. O capítulo 10 ainda não foi acrescentado a este pacote.
+
+VALIDAÇÃO
+• Sintaxe de chapter9.js e demais scripts verificada pelo Node.js.
+• 1.250 percursos automatizados com diferentes romances, sobreviventes e escolhas, terminando o capítulo sem destinos inválidos, travamentos na resolução ou texto 'undefined' nas rotas exercitadas.
+• Testes focados com quatro interesses românticos, incluindo Ryan, e identificação de quem foi capturado.
+• Não foi possível concluir teste visual em navegador real ou Safari do iPhone nesta execução.
+
+INSTALAÇÃO
+1) No jogo atual, exporte um backup do save.
+2) Extraia o ZIP e abra a pasta interna.
+3) Copie todos os arquivos para a raiz do repositório GitHub utilizado pelo Render.
+4) Aguarde o deploy, atualize o navegador e volte para a cena que deseja conferir.
+5) Para rever a sequência completa antes da invasão, volte a um save anterior a essa parte.

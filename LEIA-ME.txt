@@ -1,3 +1,21 @@
+O ÚLTIMO GRITO — V1.3.5 · ROTA DA HOMENAGEM + PERSEGUIÇÕES REVISADAS
+
+CONTEÚDO: prólogo, capítulos 1 a 9. O capítulo 10 ainda não foi criado neste pacote.
+
+Leia NOVIDADES-V1.3.5.txt para as mudanças desta versão.
+
+PARA ATUALIZAR SEU SITE NO RENDER:
+1. No site antigo, exporte seus saves dos slots (arquivos JSON) e guarde uma cópia.
+2. Descompacte o ZIP e abra a pasta V1.3.5.
+3. Envie TODOS OS ARQUIVOS QUE ESTÃO DENTRO DA PASTA para a raiz do mesmo repositório GitHub.
+4. Não envie apenas chapter9.js nem coloque index.html dentro de outra subpasta.
+5. Aguarde o deploy no Render; recarregue o site no navegador (se houver cache, feche a aba e abra novamente).
+6. Continue no save existente. Novas cenas só aparecem ao alcançá-las; cenas já passadas não são reexecutadas.
+
+Os identificadores e a estrutura de saves preexistentes não foram removidos. A rota da homenagem recebeu cenas novas; saves localizados antes da chegada à casa podem acessá-las, dependendo do ponto salvo. Saves já dentro ou depois da perseguição não voltam ao início automaticamente.
+
+--- HISTÓRICO ANTERIOR ---
+
 VERSÃO MAIS RECENTE: V1.3.3 — Diálogos com nomes e respostas específicas no Capítulo 9. Consulte NOVIDADES-V1.3.3.txt.
 
 ATUALIZAÇÃO MAIS RECENTE: V1.3.2 — Capítulo 9 revisado com escolhas encenadas, diálogos personalizados e 4 trilhas novas. Confira NOVIDADES-V1.3.2.txt.
@@ -5,7 +23,7 @@ ATUALIZAÇÃO MAIS RECENTE: V1.3.2 — Capítulo 9 revisado com escolhas encenad
 V1.3.1 — CORREÇÃO DA SORVETERIA NO CAPÍTULO 9
 Ver NOVIDADES-V1.3.1.txt para detalhes.
 
-VERSÃO ATUAL: V1.3 · UM ÚLTIMO JOGO (versão de teste)
+VERSÃO ATUAL: V1.3.4 · UM ÚLTIMO JOGO (Capítulo 9 revisado)
 Consulte NOVIDADES-V1.3.txt para detalhes.
 
 O ÚLTIMO GRITO — V1.2.2 · CAPÍTULO 8: CONSEQUÊNCIAS E DESPEDIDAS
@@ -174,3 +192,7 @@ V1.0.2 — IMERSÃO E POLIMENTO (13/10/2026)
 
 V1.0.8 — PREPARAÇÃO PARA A RETA FINAL
 Use a recapitulação no menu; para novas escolhas e rastreamento interno, inclua finale108.js na raiz do site. Consulte NOVIDADES-V1.0.8.txt.
+
+
+ATUALIZAÇÃO V1.3.4 — CAPÍTULO 9
+Veja NOVIDADES-V1.3.4.txt para o detalhamento das rotas de perseguição, pronome dos personagens, vídeo pré-gravado, cena do banheiro, reações às mortes e suporte a ferimentos.

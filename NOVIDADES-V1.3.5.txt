@@ -1,0 +1,28 @@
+O ÚLTIMO GRITO — V1.3.5 · CAPÍTULO 9: HOMENAGEM E PERSEGUIÇÕES
+
+• Gravação no telão da homenagem: reação de desespero, chamada não atendida, lembrança romântica quando o sequestrado é o interesse amoroso e amigos impedindo uma atitude impulsiva.
+• Após a foto da piscina, a turma da homenagem viaja para a casa do lago. Nova cena de chegada: os dois grupos se encontram ANTES da invasão.
+• Davi é apresentado, vai ao corredor dos banheiros e Marina descobre seu corpo; evacuação dos convidados antes de as luzes apagarem e o mascarado entrar.
+• Na rota da cidade, os dois núcleos passam a estar fisicamente presentes na casa; a perseguição usa 5 etapas com escolhas próprias dos personagens, testemunhas e conversas entre os sobreviventes.
+• Na rota da casa, preservadas as 3 etapas e a chegada posterior dos amigos da cidade.
+• Desfechos fatais dos sete possíveis alvos foram reescritos. Agora o assassino ataca diretamente os personagens — eles não morrem simplesmente por tropeçar, cair ou tocar em algum equipamento.
+• Reações e luto preservam distinções entre personagens, especialmente Allan/Samuel, Laisla/Rauanny e Isabella/Rayssa; nenhuma polícia chega cedo demais para anunciar uma morte.
+• Personagens feridos podem sobreviver; a lógica continua dependendo de múltiplas escolhas, não somente de lesões prévias.
+• A configuração de reduzir violência gráfica do jogo é respeitada quando disponível.
+• Pronomes e nomes dos amigos e da pessoa sequestrada mantidos nos pontos revisados.
+
+TESTES TÉCNICOS
+• Verificação de sintaxe JavaScript para chapter9.js.
+• Testes de fluxo com 1.250 percursos completos; 1.600 percursos adicionais focados nas duas festas (800 por rota) sem destinos de escolha inválidos.
+• O teste visual interativo no Safari/iPhone NÃO foi realizado neste ambiente. Confira a experiência depois do deploy.
+
+COMPATIBILIDADE
+• Identificadores dos nós e flags anteriores preservados. Cenas novas usam IDs/flags adicionais.
+• Faça backup dos slots antes de publicar.
+• Para ver a versão reformulada desde o telão, continue de um save que ainda não passou pela cena. Se o save estiver após a invasão, as cenas novas não surgirão retroativamente.
+
+PADRÕES A LEVAR AO CAPÍTULO 10
+• Identificar quem fala pelo nome; usar estado de sobrevivência/ferimentos nas cenas.
+• Descrever as ações escolhidas e dar reações diferentes conforme a personalidade.
+• Perseguições e mortes causadas por antagonista de forma coerente, com oportunidade real de sobrevivência mesmo ferido.
+• Evitar narrativas de 'manual do jogo', laudos policiais instantâneos ou descoberta tardia do que já foi testemunhado.
