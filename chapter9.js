@@ -1,4 +1,4 @@
-/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.6
+/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.7
  * No public-facing passage may disclose the identities of the masked attackers.
  * Saves are additive; all progression is in c9_* flags on existing slot.
  */
@@ -1300,8 +1300,8 @@ function c9Dialogue(s,id,text,kid){
   const area=f.c9_refem_local==='casa'?'casa':'cidade';
   const w=c9Pick(s,area,[kid],['laisla','rauanny','allan','ryan','isabella','breno','samuel','rayssa']);
   const secondW=c9Pick(s,area,[kid,w],['samuel','isabella','ryan','allan','rauanny','laisla','rayssa','breno']);
-  const hint=w?`${name(w)}: — Eu vi ${name(kid)} há pouco, mas não consigo dizer se ${['rayssa','rauanny','laisla','isabella'].includes(kid)?'ela':'ele'} saiu por aquela porta. Tinha gente demais.`:'Você pergunta aos voluntários se alguém viu '+name(kid)+'. Ninguém consegue confirmar um destino.';
-  const other=secondW?`${name(secondW)}: — Espera. Acho que ${name(kid)} olhou o celular e se afastou. Mas eu não vou inventar certeza, eu tava distraíd${fem134(secondW)?'a':'o'} também.`:'';
+  const hint=w?`${f.c9_hero_local===area?'Perto de você, ': 'Pelo viva-voz, '}${name(w)}: — Eu vi ${name(kid)} há pouco, mas não consigo dizer se ${['rayssa','rauanny','laisla','isabella'].includes(kid)?'ela':'ele'} saiu por aquela porta. Tinha gente demais.`:'Você pergunta aos voluntários se alguém viu '+name(kid)+'. Ninguém consegue confirmar um destino.';
+  const other=secondW?`${f.c9_hero_local===area?'': 'Você escuta outra voz na mesma ligação.\n\n'}${name(secondW)}: — Espera. Acho que ${name(kid)} olhou o celular e se afastou. Mas eu não vou inventar certeza, eu tava distraíd${fem134(secondW)?'a':'o'} também.`:'';
   text=`A última mensagem de ${name(kid)} continua sem resposta. Você liga. O telefone chama até cair.\n\nVocê: — ${name(kid)}? Atende, por favor... só fala que tá tudo bem.\n\n${f.c9_hero_local===area?'Você procura quem estava por perto.':'Você telefona para o outro evento e pede que procurem sem espalhar pânico.'}\n\n${hint}${other?'\n\n'+other:''}\n\nVocê: — Eu preciso saber onde ${name(kid)} foi visto por último. Não vou aceitar «acho que saiu» como se fosse uma resposta.\n\nO barulho do festival e da festa continua. Cada chamada sem resposta parece durar um minuto inteiro.`.replaceAll('\\n','\n');
  }
  if(id==='k9_house_warning'){
@@ -1370,12 +1370,81 @@ function c9Dialogue(s,id,text,kid){
  }
  if(id==='k9_missing_search'){
   const area=f.c9_refem_local==='casa'?'casa':'cidade';
-  const local=area===f.c9_hero_local;
-  const w=c9Pick(s,area,[kid],['rayssa','laisla','isabella','samuel','rauanny','allan','ryan','breno']);
-  const place=area==='casa'?'na casa do lago':'perto dos bastidores do aniversário';
-  const who=w?`${name(w)}: — Eu vi ${name(kid)} pela última vez ${place}. Não sei quem estava por perto. Eu devia ter prestado mais atenção.`:'Um segurança explica que ainda não conseguiu confirmar a última passagem de '+name(kid)+'.';
-  const action=f.c9_busca_imediata?`Você tenta refazer o trajeto de ${name(kid)} sem entrar em áreas trancadas. Não encontra nenhuma pista conclusiva.`:f.c9_seguranca_alertada?'Você entrega à segurança a foto, a roupa e o horário da última mensagem. O responsável avisa os colegas por rádio.':'Você liga novamente e pede a localização compartilhada. O aparelho não confirma nenhuma posição atual.';
-  text=`${local?'Você atravessa o movimento da festa, procurando o último local em que alguém viu '+name(kid)+'.':'Você pede, por telefone, que os amigos do outro evento procurem '+name(kid)+' e confirmem cada informação sem adivinhar.'}\n\nVocê: — ${name(kid)} não atende. Eu preciso de uma informação de verdade, não de mais um palpite.\n\n${who}\n\n${action}\n\nAntes de você conseguir fazer outra pergunta, a música do aniversário de Lakewood para de repente. Alguém grita perto do telão. Você olha para a tela ou atende à ligação que chega da praça.`.replaceAll('\\n','\n');
+  const hero=f.c9_hero_local==='casa'?'casa':'cidade';
+  const local=hero===area;
+  const w=c9Pick(s,area,[kid],area==='casa'?['laisla','rauanny','allan','ryan','breno','isabella','samuel']:['isabella','rayssa','breno','samuel','allan','rauanny','ryan']);
+  const w2=c9Pick(s,area,[kid,w],['rauanny','samuel','isabella','allan','rayssa','breno','ryan','laisla']);
+  const source=w?name(w):area==='casa'?'Marina':'a coordenadora da homenagem';
+  const speaker=w?name(w)+':':area==='casa'?'MARINA:':'COORDENADORA:';
+  const place=area==='casa'?'a casa do lago':'a praça da homenagem';
+  const index=f.c9_last_act_origin==='k9_missing'?Number(f.c9_last_act_index):-1;
+  let opening='',discussion='',action='';
+  if(!local){
+   opening=hero==='cidade'?`Você está na homenagem, mas ${name(kid)} estava na casa do lago quando perdeu contato. Você continua perto do palco, abre o viva-voz e liga para ${source}.`: `Você está na casa do lago, mas o último contato de ${name(kid)} veio da homenagem. Você liga para ${source}, que está perto do palco. Não adianta procurar pelos cômodos da casa.`;
+   discussion=w?`${speaker} — Eu vi ${name(kid)} mais cedo, mas não sei se ${pron134(kid)} saiu. Tinha gente demais.
+
+Você: — Tá. Não inventa nada. Só me conta onde ${pron134(kid)} estava e o que você consegue conferir daí.`:area==='casa'?`MARINA: — A última mensagem que recebi de ${name(kid)} foi aqui na casa. Vou pedir para conferirem as portas, mas não vou falar que vi o que não vi.`:`COORDENADORA: — Vou perguntar aos funcionários do palco e conferir com a equipe de segurança. Ainda não sabemos para onde ${name(kid)} foi.`;
+   if(index===0){
+    action=area==='casa'?`Você: — ${source}, por favor, começa pelo último cômodo onde viram ${name(kid)}. Pergunta também aos convidados que estavam na varanda. Não entra em nenhum lugar fechado sem companhia.
+
+${speaker} — Vou chamar ${w2?name(w2):'outra pessoa da organização'} pra vir comigo. Te ligo assim que souber de alguma coisa.
+
+Você fica na linha, ouvindo passos e uma porta se abrir do outro lado da chamada. Não aparece nenhuma resposta concreta.`:`Você: — ${source}, pede pra alguém conferir as barracas e a saída dos bastidores onde viram ${name(kid)}. Eu não tô aí, então preciso de informação pelo telefone.
+
+${w?speaker+' — Vou com a equipe, sem me afastar sozinho.': 'COORDENADORA: — Vou avisar os seguranças da entrada.'} A ligação permanece aberta enquanto procuram. Ninguém consegue confirmar para onde ${name(kid)} foi.`;
+   }else if(index===1){
+    action=area==='casa'?`Você: — ${source}, confere o portão, a câmera da varanda e a entrada da garagem. Se alguma câmera estiver desligada, me avisa.
+
+${speaker} — A imagem da lateral tá parada. Vou pedir para verificarem o portão. Não vou sair procurando no escuro.
+
+Você anota a informação e pede que preservem a gravação, caso ainda exista.`:`Você: — ${source}, consegue pedir à segurança da praça para conferir as câmeras do palco e as saídas? Eu mando uma foto de ${name(kid)} e o horário da última mensagem.
+
+${w?speaker+' — Vou falar com a equipe agora.':'COORDENADORA: — Pode enviar. Vou repassar aos agentes.'} A equipe confirma o recebimento, mas não consegue apontar a última saída de ${name(kid)}.`;
+   }else{
+    action=`Você liga novamente para ${name(kid)}. O sinal chama, mas ninguém atende. Você abre o compartilhamento de localização: o último ponto registrado está desatualizado.
+
+Você: — Isso não prova onde ${name(kid)} tá agora. Me avisa se ${pron134(kid)} entrar em contato com vocês.
+
+${speaker} — Combinado. Eu fico com o celular na mão.`;
+   }
+  }else{
+   opening=area==='casa'?`Você está na festa do lago, o último local em que ${name(kid)} foi vist${fem134(kid)?'a':'o'}. As luzes da varanda continuam acesas, mas você já não consegue acompanhar a música.`:`Você está na homenagem, onde ${name(kid)} foi vist${fem134(kid)?'a':'o'} pela última vez. O palco continua iluminado; você procura rostos conhecidos perto das barracas.`;
+   discussion=w?`${name(w)} se aproxima quando você chama por ${name(kid)}.
+
+${name(w)}: — Eu vi ${name(kid)} faz pouco tempo, mas não prestei atenção em qual direção ${pron134(kid)} foi. Desculpa.
+
+Você: — Só me diz o que tem certeza. Não vou transformar um palpite numa pista.`:`Você pergunta aos responsáveis pelo evento se viram ${name(kid)}. Ninguém consegue confirmar por onde ${pron134(kid)} saiu.`;
+   if(index===0){
+    action=area==='casa'?`Você volta à varanda e percorre o corredor dos banheiros, onde ${name(kid)} tinha sido vist${fem134(kid)?'a':'o'}. Chama pelo nome, verifica as saídas sem abrir portas trancadas e encontra apenas um copo esquecido.
+
+Você: — ${name(kid)}! Responde, por favor!`:`Você refaz o caminho entre a barraca de bebidas e a lateral do palco, onde ${name(kid)} tinha sido vist${fem134(kid)?'a':'o'}. Pergunta a dois voluntários, mas as descrições não coincidem.
+
+Você: — Alguém viu para onde ${name(kid)} foi? Preciso de certeza.`;
+   }else if(index===1){
+    action=area==='casa'?`Você chama ${w?name(w):'Marina'} e pede que confira o portão e o monitor das câmeras.
+
+Você: — Não quero deixar ninguém isolado procurando. Vamos ver o que as câmeras mostram e ficar juntos.
+
+A gravação da entrada está incompleta. Vocês preservam o que existe, mas não encontram uma resposta.`:`Você encontra a equipe de segurança perto do palco e mostra uma foto de ${name(kid)}.
+
+Você: — ${name(kid)} sumiu aqui na homenagem. Essa foi a última mensagem. Confiram as câmeras e avisem as saídas, por favor.
+
+O segurança confirma a informação pelo rádio, mas ninguém viu ${name(kid)} partir.`;
+   }else{
+    action=`Você liga para ${name(kid)} mais uma vez. Só escuta o toque até a chamada cair. A localização compartilhada não registra movimento recente.
+
+Você: — Não faz isso comigo, ${name(kid)}. Atende...`;
+   }
+  }
+  const cityVoice=c9Pick(s,'cidade',[kid],['rayssa','isabella','breno','samuel','allan','ryan','rauanny']);
+  const end=hero==='cidade'?`Antes que você consiga decidir o próximo passo, a música do aniversário da cidade é interrompida. Um murmúrio corre pela multidão. Você se vira para o telão, onde uma imagem começa a aparecer.`:`Sua conversa é interrompida por uma ligação de ${cityVoice?name(cityVoice):'um funcionário da homenagem'}. ${cityVoice?`${name(cityVoice)}: — A música acabou de parar! Apareceu um vídeo estranho no telão... eu tô te mandando agora!`:'FUNCIONÁRIO: — A transmissão do palco foi interrompida. Vou encaminhar uma cópia do que apareceu.'} Um arquivo de vídeo chega ao grupo pelo celular.`;
+  text=`${opening}
+
+${discussion}
+
+${action}
+
+${end}`;
  }
  if(id==='k9_video_react'&&f.c9_hero_local==='casa'){
   const p=c9Pick(s,'casa',[kid],['laisla','rauanny','samuel','allan','ryan','isabella','breno']);
@@ -1409,6 +1478,8 @@ function c9Dialogue(s,id,text,kid){
  return text;
 }
 function priorAction(s,id,text){const f=s.flags||{};
+ // A busca tem quatro versões contextuais próprias. Não prependar o antigo trecho genérico.
+ if(id==='k9_missing_search'&&f.c9_last_act_origin==='k9_missing')return text;
  if(f.c9_last_act_target!==id||!f.c9_last_act_origin||!Array.isArray(CHOICE_BEATS[f.c9_last_act_origin]))return text;
  const entry=CHOICE_BEATS[f.c9_last_act_origin][Number(f.c9_last_act_index)];
  if(!entry)return text;
@@ -1742,6 +1813,35 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  if(id==='k9_missing'){
   const where=f.c9_refem_local==='casa'?'casa':'praça';text=`Você percebe que ${name(kid)} não respondeu à última mensagem. ${where==='casa'?'A informação chega por um dos amigos que está na casa de veraneio.':'Entre a multidão do aniversário da cidade, não há sinal de '+name(kid)+'.'}\n\nAntes de desaparecer, ${name(kid)} parecia ${['rayssa','rauanny','laisla','isabella'].includes(kid)?'preocupada':'preocupado'} com alguma coisa. Agora o telefone toca sem resposta. Você pergunta aos outros se alguém viu essa pessoa sair. As respostas não combinam.\n\nSe continuar procurando por muito tempo, talvez perca uma chance de encontrar o caminho do sequestrador. Se agir rápido demais, pode deixar passar um detalhe importante.`;
  }
+ if(id==='k9_missing'){
+  const origin=f.c9_hero_local==='casa'?'casa':'cidade';
+  const area=f.c9_refem_local==='casa'?'casa':'cidade';
+  const local=origin===area;
+  const who=c9Pick(s,area,[kid],area==='casa'?['laisla','rauanny','allan','ryan','breno','isabella','samuel']:['isabella','rayssa','breno','samuel','allan','rauanny','ryan']);
+  const contact=who?name(who):area==='casa'?'Marina':'a equipe da homenagem';
+  const suffix=area==='casa'?'da casa':'do palco';
+  const options=local?(area==='casa'?[
+   `Procurar ${name(kid)} na varanda e no corredor dos banheiros`,
+   `Solicitar que ${contact} confira o portão e as câmeras da casa`,
+   `Ligar novamente para ${name(kid)} e conferir a localização`
+  ]:[
+   `Refazer o caminho de ${name(kid)} perto do palco`,
+   `Alertar a segurança da homenagem sobre ${name(kid)}`,
+   `Ligar novamente para ${name(kid)} e conferir a localização`
+  ]):(area==='casa'?[
+   `Ligar para ${contact} e pedir que procure ${name(kid)} na casa`,
+   `Solicitar que ${contact} confira o portão e as câmeras da casa`,
+   `Ligar para ${name(kid)} e conferir a última localização`
+  ]:[
+   `Ligar para ${contact} e pedir que procure ${name(kid)} na praça`,
+   `Pedir à segurança da homenagem que confira as câmeras`,
+   `Ligar para ${name(kid)} e conferir a última localização`
+  ]);
+  choices=choices.map((c,i)=>({...c,originText:c.originText||c.text,text:options[i]}));
+  location=origin==='cidade'?'ANIVERSÁRIO DE LAKEWOOD · DESAPARECIMENTO':'CASA DO LAGO · DESAPARECIMENTO';
+ }
+ if(id==='k9_missing_search'){const remote=f.c9_hero_local!==f.c9_refem_local;location=(f.c9_hero_local==='casa'?'CASA DO LAGO':'ANIVERSÁRIO DE LAKEWOOD')+(remote?' · BUSCA À DISTÂNCIA':' · BUSCA NO LOCAL');}
+
  if(id==='k9_missing_search')text=text.replace(/Rayssa se aproxima[^]*?com quem o amigo saiu\./,dead(s,'rayssa')?'Ninguém do grupo consegue explicar o desaparecimento. A equipe de segurança começa a consultar os registros disponíveis.':'Rayssa envia uma mensagem dizendo que viu movimento perto dos bastidores, mas não consegue identificar com quem '+name(kid)+' saiu.');
  if(id==='k9_video'){
   text=text.replace('o rosto da pessoa capturada','o rosto de '+name(kid));

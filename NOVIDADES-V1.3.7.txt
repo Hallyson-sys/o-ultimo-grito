@@ -1,0 +1,9 @@
+O ÚLTIMO GRITO — V1.3.7
+Capítulo 9 · Busca pelo desaparecido coerente com cada festa
+
+- Corrigidas as três opções na cena k9_missing para verificar onde o protagonista está e onde o desaparecido esteve por último.
+- Na rota da homenagem, quando Ryan/Breno/outro desaparece na casa, o jogador coordena a busca por telefone; não procura presencialmente no palco.
+- Criadas respostas próprias para checar cômodos, portão e câmeras ou tentar localizar o celular.
+- Testadas também as outras combinações: duas pessoas na praça, duas na casa, ou separadas entre os eventos.
+- Preservados os identificadores das cenas, flags de escolha e dados dos saves anteriores.
+- Cenas anteriores já vistas exigem save de antes da decisão para reaparecer.
