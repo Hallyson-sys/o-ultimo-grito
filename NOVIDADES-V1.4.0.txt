@@ -1,0 +1,32 @@
+O ÚLTIMO GRITO — V1.4.0 — CAPÍTULO 10: A VERDADE TEM UM PREÇO
+
+BASE: V1.3.9, preservando os arquivos e save slots existentes.
+
+COMO JOGAR:
+- Atualize os arquivos do repositório com o conteúdo desta pasta, incluindo chapter10.js, game.js, index.html e consequences.js.
+- Para iniciar o novo capítulo, use seu save na cena final do Capítulo 9 (k9_final), clique em "CAPÍTULO 10 · A VERDADE TEM UM PREÇO".
+- Faça backup dos arquivos de salvamento antes de atualizar.
+- Não mova somente o index.html: os scripts e arquivos de áudio precisam permanecer juntos.
+
+NOVO CONTEÚDO:
+- Revelação de Jullia e participação gradual de Rayssa, consequências da acusação e versões compatíveis com mortes anteriores.
+- Flashback sobre a sobrevivência após o acidente, relato da participação de Moisés e descoberta para Bella.
+- Perseguições no caminho para a casa e no galpão com risco acumulado, ferimentos e mortes possíveis.
+- Resgate da pessoa sequestrada e opções condicionais ao inventário realmente guardado.
+- Confronto do deck: Jullia contida, queda no lago ou fuga; pistola recuperável; protagonista pode morrer.
+- Morte aparente e possível resgate ao amanhecer, sem ressuscitar personagens com morte confirmada.
+- Chegada de policiais e ambulâncias apenas quando clareia; tratamento, luto e histórias de sobreviventes.
+- Reunião quatro meses depois, finais condicionais, podcast e cena especial de Rayssa em custódia.
+- Perfis e estado de ferimentos/mortes do Capítulo 10 atualizados.
+
+TESTES:
+- 2.600 simulações das escolhas até o fim, sem ID de destino inexistente ou opções finais vazias.
+- 600 simulações adicionais para procurar falas de personagens mortos; os casos restantes são falas que acontecem antes da morte confirmada na própria cena.
+- Sintaxe JavaScript validada em todos os scripts.
+- O navegador automatizado do ambiente bloqueou a abertura da página (ERR_BLOCKED_BY_ADMINISTRATOR). Teste visual/manual em celular permanece necessário.
+
+OBSERVAÇÕES:
+- São roteiros dinâmicos com desfechos condicionais; nem todas as cenas aparecem em uma única partida.
+- O sistema de inventário da V1.3.9 guarda itens em social107.inventory; o Capítulo 10 só exibe as escolhas de objeto se ele realmente foi coletado.
+- Salvar ao longo do Capítulo 10 mantém os flags c10_* no mesmo slot.
+- A verificação de consequências foi automatizada e não garante ausência de bugs visuais ou narrativos em todas as combinações.

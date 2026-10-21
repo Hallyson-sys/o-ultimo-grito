@@ -8,7 +8,7 @@ const NAMES={hero:'Você',rayssa:'Rayssa',ryan:'Ryan',laisla:'Laisla',samuel:'Sa
 const FRIEND_BASE={};
 const clamp=(n,min,max)=>Math.min(max,Math.max(min,n));
 const pair=(a,b)=>[a,b].sort().join(':');
-const killed=(s,id)=>!!s?.flags?.['c9_morto_'+id]||!!s?.flags?.['c8_morto_'+id]||!!s?.flags?.['c7_morto_'+id]||!!s?.flags?.['c6_morto_'+id]||(id==='allan'&&!!s?.flags?.allan_morto_c4);
+const killed=(s,id)=>!!s?.flags?.['c10_morto_'+id]||!!s?.flags?.['c9_morto_'+id]||!!s?.flags?.['c8_morto_'+id]||!!s?.flags?.['c7_morto_'+id]||!!s?.flags?.['c6_morto_'+id]||(id==='allan'&&!!s?.flags?.allan_morto_c4);
 const wounds={
  ferida_rauanny:{id:'primeira_fuga',person:'rauanny',part:'braço e joelho',label:'Cortes e contusões na primeira fuga',severity:1,source:'Capítulo 2'},
  ferida_allan_c4:{id:'arquivo_allan',person:'allan',part:'braço',label:'Ferimento no braço durante a fuga do arquivo',severity:2,source:'Capítulo 4'},
@@ -32,6 +32,7 @@ function eventInjuries(s,id){
  if(id==='ryan'&&f.c6_ferido_ryan&&!f.c6_ferida_ryan)result.push({id:'resgate_ryan',person:id,part:'mãos e costas',label:'Contusões ao proteger a escada',severity:1,source:'Capítulo 6'});
  if(f['c7_ferido_'+id])result.push({id:'oficina_'+id,person:id,part:BODY[id]||'corpo',label:'Ferimento durante a fuga da oficina',severity:1,source:'Capítulo 7'});
  if(f['c8_grave_'+id])result.push({id:'estacao_'+id,person:id,part:id==='bella'?'perna e ombro':BODY[id]||'corpo',label:id==='bella'?'Ferimentos durante a fuga da estação do lago':'Ferimento grave na estação do lago',severity:id==='bella'&&f.c8_hospital_bella?3:2,source:'Capítulo 8'});
+ if(f['c10_ferido_'+id])result.push({id:'final_lago_'+id,person:id,part:BODY[id]||'corpo',label:'Ferimento durante o confronto final no lago',severity:2,source:'Capítulo 10'});
  if(f['c9_ferido_'+id])result.push({id:'casa_lago_'+id,person:id,part:BODY[id]||'corpo',label:'Ferimento durante a perseguição na casa do lago',severity:2,source:'Capítulo 9'});
  return result;
 }
