@@ -1,0 +1,20 @@
+O ÚLTIMO GRITO — V1.3.8
+CAPÍTULO 9 · PERSEGUIÇÕES COM CONTINUIDADE FÍSICA
+
+Base: versão V1.3.7 (busca coerente).
+
+CORREÇÕES:
+- Continuidades de fuga: se Rauanny acompanha Laisla até o jardim, a sequência de Rauanny parte do mesmo jardim e explica como o assassino corta o caminho. Não existe porta sem localização na cena da piscina.
+- Outras relações de apoio e setores (Allan / Samuel, Ryan / Breno) foram conectados quando acontecem em sequência; mesmo com outras cenas entre elas, a transição considera quem ajudou quem.
+- Os sete possíveis personagens perseguidos têm textos próprios para as três etapas da fuga, ações, obstáculos, saídas e reações.
+- As três escolhas de cada etapa causam ações visíveis; as decisões de risco acumuladas determinam fuga ilesa, ferimento ou ataque fatal conforme a lógica do capítulo.
+- Ferimentos anteriores não provocam morte automática; preservar a possibilidade de sobreviver ferido.
+- Reduzidos os diálogos que chamariam personagens mortos, especialmente Laisla / Rauanny e Allan / Samuel.
+- Personagens que chegaram a uma saída não reaparecem magicamente em cômodos desconectados.
+- Os identificadores k9_risk_* e flags c9_r* foram preservados; saves existentes podem ser carregados, mas a revisão só será vista nas cenas ainda não percorridas.
+
+TESTES:
+- 1.400 percursos automatizados da sequência de perseguições até o reencontro: nenhuma rota inválida detectada.
+- Testados estados de fuga ilesa, ferimentos e ataques fatais; includes combinação com morte anterior e um novo sobrevivente.
+- Validação de sintaxe de chapter9.js.
+- RECOMENDAÇÃO: exporte um backup de save antes de atualizar.

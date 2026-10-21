@@ -1,4 +1,4 @@
-/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.7
+/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.8
  * No public-facing passage may disclose the identities of the masked attackers.
  * Saves are additive; all progression is in c9_* flags on existing slot.
  */
@@ -1059,7 +1059,7 @@ const THREATS={
  samuel:{where:'garagem',intro:'Samuel procura uma saída entre os carros. Uma porta de metal fecha aos solavancos, e a chave do carro está no porta-luvas.',good:'Testar a abertura da garagem e deixar o motor desligado até a fuga',risky:'Ligar o carro e acelerar antes de verificar o portão',bad:'Empurrar sozinho o portão de metal enquanto o mascarado se aproxima'},
  isabella:{where:'corredor do quadro elétrico',intro:'Isabella observa uma estante solta perto do corredor. Um fio rompido e uma tranca enferrujada impedem a saída mais curta.',good:'Usar o caminho sinalizado e chamar quem tem a planta da casa',risky:'Mover a estante na frente da porta sem conferir a janela',bad:'Forçar a tranca junto ao fio exposto'},
  laisla:{where:'passagem de serviço',intro:'Laisla conhece a despensa e a porta antiga dos tios. A corrente pode ser removida por um encaixe perto da parede.',good:'Soltar o encaixe da corrente e orientar todos a passar sem empurrar',risky:'Quebrar o vidro da porta com o ombro',bad:'Arremessar o corpo contra a fechadura presa'},
- rauanny:{where:'piscina e jardim',intro:'Rauanny procura um amigo do outro lado da piscina. O piso está molhado, mas há um caminho seco entre os canteiros.',good:'Contornar pelo canteiro seco e pedir que outra pessoa abra o portão',risky:'Correr junto à borda para ganhar tempo',bad:'Entrar na água para alcançar a passagem mais curta'},
+ rauanny:{where:'piscina e jardim',intro:'Rauanny procura um amigo do outro lado da piscina. O piso está molhado, mas há um caminho seco entre os canteiros.',good:'Contornar pelo canteiro seco e alcançar o ferrolho do portão externo',risky:'Correr junto à borda para ganhar tempo',bad:'Entrar na água para alcançar a passagem mais curta'},
  ryan:{where:'sacada',intro:'Ryan encontra uma escada externa. Ela parece alcançável pela lateral da sacada, mas uma das grades está empenada.',good:'Conferir a fixação e descer com três pontos de apoio',risky:'Pular diretamente para a escada externa',bad:'Usar a grade enferrujada como apoio para um salto longo'},
  breno:{where:'área de serviço e painel',intro:'Breno chega a uma área de serviço em que um disjuntor antigo está aquecendo. Há uma faixa seca de piso até a segunda porta.',good:'Desligar o circuito correto com o piso seco e manter distância da água',risky:'Tentar arrancar um fio para cortar a energia',bad:'Tocar o painel com as mãos molhadas'}
 };
@@ -1559,7 +1559,7 @@ function enter(s,id){if(!id.startsWith('k9_')||!s?.flags)return false;const f=s.
  if(id==='k9_video_react'&&f.c9_refem==='rayssa')f.c9_armadilha_saiu_controle=true;
  if(id==='k9_missing'){const h=hostage(s);f.c9_refem_local=(f.c9_casa_pessoas||[]).includes(h)?'casa':'cidade';f.c9_refem_inicio=Date.now();if(h==='rayssa')f.c9_encenacao_inicial=true;}
  for(let stage=1;stage<=5;stage++){
-  if(id==='k9_risk_'+stage+'_pov')f['c9_r'+stage+'_target']=nextRisk(s,stage);
+  if(id==='k9_risk_'+stage+'_pov'){f['c9_r'+stage+'_target']=nextRisk(s,stage);const t=f['c9_r'+stage+'_target'];if(t&&!f['c9_r'+stage+'_witness'])f['c9_r'+stage+'_witness']=witness134(s,t,f.c9_refem);}
   if(id==='k9_risk_'+stage+'_result')markRisk(s,stage);
  }
  if(id==='k9_final')f.c9_concluido=true;
@@ -1946,6 +1946,7 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  text=priorAction(s,id,text);
  ({text,choices,location,scene}=c9Revision134(s,id,text,choices,location,scene,kid));
  ({text,choices,location,scene}=c9Revision135(s,id,text,choices,location,scene,kid));
+ ({text,choices,location,scene}=c9Revision138(s,id,text,choices,location,scene,kid));
  return {...n,text,choices,location,scene};
 }
 const CLUES={
@@ -2371,6 +2372,233 @@ Marina reclama da bagunça e os dois trocam uma provocação boba antes de Davi 
   if(!f.c9_reuniao_amparou)text+=`\n\nOs grupos da homenagem e da casa do lago atravessaram a invasão juntos. Você não descobre essas perdas por uma ligação tardia: ouviu os ataques e os pedidos de ajuda durante a perseguição.`;
  }
  return {text,choices,location,scene};
+}
+
+// V1.3.8 · Continuidade física da perseguição: cada fuga conserva a posição de quem ajudou,
+// encena a ação escolhida e mostra consequências próprias. Compatível com slots anteriores.
+const CHASE138={
+ laisla:{loc:'DESPENSA E SAÍDA DE SERVIÇO',
+  intro:'A luz de emergência revela as caixas dos tios e a velha corrente da porta de serviço. Laisla sabe que o encaixe fica por trás de uma prateleira. Do jardim, Rauanny grita que mantém o portão aberto; o assassino ainda está no corredor da cozinha.',
+  voice:'Laisla: — Eu conheço essa porcaria de corrente. Só preciso de tempo! Ninguém entra de novo!',
+  plan:[
+   'Laisla afasta a prateleira devagar. Encontra o pino que os tios usam quando a corrente emperra. Ela indica a Rauanny o caminho para afastar quem já saiu.',
+   'Laisla ergue a cadeira contra a corrente. O metal se desloca, mas o estrondo denuncia a despensa. Ela percebe a sombra chegando à cozinha.',
+   'Laisla dá uma ombrada no vidro. O ombro arde e o vidro apenas racha; ela recua quando vê a faca refletida no batente.'
+  ],act:[
+   'Com a mão apoiada na parede, Laisla retira o pino sem tocar nos cacos e faz a porta abrir alguns centímetros. Precisa decidir se sai agora ou garante a passagem para os demais.',
+   'A cadeira cai entre ela e o mascarado. Laisla abre espaço, mas a corrente pende sobre o vão e pode prender a roupa de quem tentar atravessar.',
+   'A moldura se parte e corta o braço de Laisla. Ela respira entre os dentes, ouvindo a voz de Rauanny no jardim, e procura outra forma de passar.'
+  ],last:[
+   'Laisla volta ao encaixe, solta a corrente de uma vez e conduz a saída para o jardim. O mascarado golpeia a madeira onde estava sua cabeça.',
+   'Ela tenta erguer a cadeira contra o mascarado, conquistando segundos, mas o corredor fica estreito para os dois.',
+   'Ela tenta saltar por cima do vidro quebrado. O pé fica preso e a figura mascarada bloqueia a soleira.'
+  ],safe:'Laisla atravessa a saída lateral e puxa o portão de jardim para evitar que o agressor siga os convidados. Ela ainda enxerga a despensa às costas e consegue avisar onde está a corrente.',
+  injury:'O mascarado alcança o braço de Laisla com a faca quando ela gira a corrente. O corte sangra, e o joelho bate na soleira. Mesmo ferida, ela se protege com a cadeira, chega ao jardim e pede ajuda sem voltar para a cozinha.',
+  route:'jardim junto à saída de serviço', link:'entrada da despensa'
+ },
+ rauanny:{loc:'JARDIM E BORDA DA PISCINA',
+  intro:'Rauanny continua perto da saída de serviço, ao lado de onde Laisla tentou abrir passagem. A piscina fica entre o canteiro e a passagem maior, mas o portão exterior está no fim da faixa de pedras secas. Um refletor apaga e uma figura atravessa a vidraça quebrada da varanda.',
+  voice:'Rauanny: — Lai, fica longe da borda! Eu vou abrir aquele portão e a gente sai por fora!',
+  plan:[
+   'Rauanny pisa nas pedras ásperas que contornam os canteiros. Da varanda escuta o mascarado forçar a trava e procura o ferrolho do portão exterior.',
+   'Rauanny sobe numa cadeira caída para cortar caminho. Ela alcança a passagem entre duas mesas, mas uma cadeira se vira e faz barulho.',
+   'Rauanny corre pela borda molhada. O tênis perde aderência e ela precisa apoiar uma mão no chão para não cair na piscina.'
+  ],act:[
+   'Ela usa o pé para tirar um vaso do caminho e alcança o ferrolho pelo lado do jardim. O metal está duro, mas não exige voltar para dentro da casa.',
+   'Rauanny salta as cadeiras; uma delas bate na grade. O mascarado percebe a direção e atravessa o caminho entre a varanda e a piscina.',
+   'O piso faz Rauanny escorregar para perto da água. Ela prende os dedos na borda de pedra e vê a sombra se aproximar por trás.'
+  ],last:[
+   'Rauanny destrava o portão de jardim e atravessa pelo canteiro, deixando a passagem aberta para quem ainda pode alcançá-la.',
+   'Ela tenta subir no muro lateral e grita para que alguém do outro lado estenda a mão. O mascarado corta o caminho por entre os vasos.',
+   'Ela pula na água tentando despistar a figura mascarada, mas fica sem acesso imediato à escada do outro lado.'
+  ],safe:'Rauanny alcança o portão externo, empurra o ferrolho com o ombro e atravessa. Consegue gritar da passagem para que ninguém tente correr pela borda molhada da piscina.',
+  injury:'O mascarado rasga o ombro de Rauanny quando ela alcança o ferrolho. Ela reage com um vaso de barro, escapa pelo canteiro e sai para a parte seca do jardim. Sangue mancha sua manga, mas ela está consciente e consegue pedir ajuda.',
+  route:'canteiro junto ao portão externo',link:'vidraça da varanda'
+ },
+ allan:{loc:'ESCADA DO DEPÓSITO',
+  intro:'Allan está no patamar entre o depósito e o corredor da garagem. A grade de ferro tem parafusos soltos; um adesivo antigo marca o degrau de madeira podre. Samuel lhe avisa pelo telefone que o corredor inferior ainda dá para o jardim.',
+  voice:'Allan: — Samu! Se eu sair dessa, nunca mais reclamo do seu excesso de planejamento, juro!',
+  plan:[
+   'Allan liga a lanterna do celular e ilumina o degrau que afundou. Com a outra mão testa a parede de tijolos, procurando apoio firme.',
+   'Allan arrasta a estante do depósito. O móvel faz uma ponte instável sobre o vão, mas obriga o corpo a ficar exposto ao corredor.',
+   'Allan desce de dois em dois degraus. A grade se curva sob seu ombro e o barulho faz a máscara surgir no topo da escada.'
+  ],act:[
+   'Ele desce pelo lado da parede, evitando os parafusos frouxos. O celular ilumina a maçaneta do patamar que leva ao jardim.',
+   'A estante escorrega alguns centímetros. Allan alcança a extremidade, mas fica pendurado no patamar acima da saída.',
+   'Um degrau racha. Allan prende a camiseta num prego e precisa soltá-la antes que o mascarado alcance a escada.'
+  ],last:[
+   'Allan toca a saída no patamar inferior e chama Samuel pelo celular, indicando o degrau seguro a quem vier depois.',
+   'Allan tenta saltar sobre o pedaço da escada que cedeu. O salto reduz a distância, mas o deixa ao lado do corrimão frouxo.',
+   'Ele se pendura na grade enferrujada para alcançar a porta mais rápido. A fixação estala quando seu peso se concentra nela.'
+  ],safe:'Allan consegue descer encostado à parede e abre a passagem do depósito para o jardim. De fora, aponta com a lanterna os degraus que ninguém deve pisar.',
+  injury:'Uma facada de raspão atinge o antebraço de Allan quando ele segura o portão do patamar. Ele derruba uma caixa para conter o agressor e chega ao jardim com a manga ensanguentada, ainda falando com Samuel.',
+  route:'saída inferior da escada',link:'corredor do depósito'
+ },
+ samuel:{loc:'GARAGEM E PORTINHOLA LATERAL',
+  intro:'Samuel entra na garagem por uma passagem aberta ao lado da despensa. O portão basculante desceu pela metade, mas a portinhola de pedestres ainda tem uma trava mecânica. A chave de roda está no banco do carro. O assassino foi visto por último na saída do corredor de serviço.',
+  voice:'Samuel: — Não acelera! Se o portão fechar de vez, a gente fica preso com esse desgraçado!',
+  plan:[
+   'Samuel encosta a mão na trava da portinhola e identifica a lingueta de segurança. Ele prefere abrir a passagem a tentar ligar o carro no escuro.',
+   'Samuel engata a marcha lenta para afastar o carro do portão. Os faróis acendem e revelam a própria posição ao assassino.',
+   'Samuel pisa fundo em direção à chapa metálica. O carro treme, mas o vão não aumenta e o motor engasga.'
+  ],act:[
+   'Ele ergue a lingueta e deixa a portinhola encostada para o restante do grupo. A chave de roda fica ao alcance caso precise se defender.',
+   'O para-choque raspa no concreto; Samuel abre a porta do motorista para correr, mas fica com o caminho parcialmente bloqueado.',
+   'O carro bate e imobiliza uma roda. A porta de serviço range atrás dele, e Samuel vê que precisa abandonar o volante.'
+  ],last:[
+   'Samuel usa a portinhola de pedestres que destravou e mantém a chave de roda à frente do corpo enquanto atravessa.',
+   'Samuel tenta forçar o portão com uma barra, atraindo a atenção da máscara para longe do carro.',
+   'Samuel se abaixa para passar sob o portão basculante no momento em que o motor volta a girar.'
+  ],safe:'Samuel atravessa a portinhola sem tentar enfrentar o portão pesado. Atravessa para o jardim e informa pelo rádio que a garagem não é uma saída segura para veículos.',
+  injury:'O mascarado crava a faca na coxa de Samuel quando ele empurra a portinhola. Samuel acerta o agressor com a chave de roda e, mancando, consegue se apoiar no muro até a saída. A perna sangra, mas ele continua consciente.',
+  route:'portinhola externa da garagem',link:'entrada de serviço da garagem'
+ },
+ isabella:{loc:'CORREDOR ELÉTRICO E JANELA BAIXA',
+  intro:'Isabella está perto do corredor do quadro elétrico, no térreo. Uma estante caiu diante da porta, há um cabo desencapado do outro lado e uma janela baixa abre para o canteiro do jardim. Ela escuta a figura mascarada no corredor principal.',
+  voice:'Isabella: — Eu não vou morrer porque alguém achou que esse fio solto era uma boa ideia!',
+  plan:[
+   'Isabella segura na maçaneta isolada, mantendo distância do fio, e olha pela janela para confirmar se há um caminho livre até o canteiro.',
+   'Ela empurra a estante para bloquear a entrada. O móvel emperra a porta, mas esconde a janela por um instante.',
+   'Isabella alcança a fechadura quebrada perto do fio vivo. Uma faísca estoura e faz sua mão recuar.'
+  ],act:[
+   'Ela abre a trava da janela com a manga envolvendo a mão e chama por quem está do outro lado do jardim.',
+   'A estante desliza sobre a tomada danificada; Isabella puxa o móvel de volta enquanto escuta passos do assassino.',
+   'Uma descarga corre pela fechadura e adormece os dedos de Isabella. Ela se afasta do cabo e busca a janela.'
+  ],last:[
+   'Isabella usa a janela baixa, passando primeiro a mochila e depois o corpo, sem tocar no cabo no chão.',
+   'Ela tenta manter o móvel entre si e a faca enquanto força espaço até a janela, mas perde alguns segundos.',
+   'Isabella atravessa o chão molhado perto da fiação na tentativa de alcançar a porta lateral antes do mascarado.'
+  ],safe:'Isabella atravessa a janela baixa e aterrissa no canteiro sem pisar perto dos fios. Lá de fora avisa que ninguém deve entrar no corredor elétrico.',
+  injury:'O mascarado fere o ombro de Isabella no momento em que ela alcança a janela. Ela arremessa uma caixa contra o agressor e cai do outro lado, com sangue na camisa e a mão cortada no batente. Consegue pedir socorro do jardim.',
+  route:'canteiro sob a janela baixa',link:'corredor da fiação'
+ },
+ ryan:{loc:'SACADA E ESCADA EXTERNA',
+  intro:'Ryan alcança a sacada dos quartos. A escada de ferro está parafusada na parede à direita, enquanto a grade diante dele está enferrujada. A luz dos carros que abandonaram a festa ainda aparece além do muro.',
+  voice:'Ryan: — Cara, eu juro que nunca mais reclamo de escada! Só não deixa essa merda cair comigo!',
+  plan:[
+   'Ryan segura o corrimão da escada fixada à parede e testa o primeiro degrau com a ponta do tênis.',
+   'Ryan mede a distância do parapeito até a escada e se prepara para saltar. O vão parece menor à luz do celular do que realmente é.',
+   'Ryan transfere o peso para a velha grade. Dois rebites caem no piso de madeira, denunciando que ela não vai aguentar muito.'
+  ],act:[
+   'Ele encosta o corpo na parede enquanto desce o primeiro degrau. Pela janela vê o mascarado abrir a porta do quarto.',
+   'O salto faz Ryan alcançar a escada apenas com as mãos. Ele precisa encontrar apoio com os pés enquanto a máscara se aproxima.',
+   'A grade dobra. Ryan se agarra à coluna da sacada, com o braço estendido para escapar de um golpe de faca.'
+  ],last:[
+   'Ryan continua pela escada parafusada à parede e alcança a plataforma inferior sem depender da grade antiga.',
+   'Ele salta para o telhado baixo da garagem; o piso aguenta, mas a descida para o jardim fica mais distante.',
+   'Ryan tenta se balançar pela grade avariada para ganhar velocidade. O assassino chega à porta da sacada quando o ferro cede.'
+  ],safe:'Ryan desce pela escada fixada na parede e põe os dois pés no jardim. Ainda com medo, aponta para a sacada e avisa que a grade externa não suporta peso.',
+  injury:'A faca corta o braço de Ryan quando ele vira a esquina da sacada. Ele se segura na escada com a mão ferida e consegue descer até o jardim. A perna falha ao aterrissar, mas ele se mantém acordado e chama ajuda.',
+  route:'base da escada junto ao jardim',link:'porta da sacada'
+ },
+ breno:{loc:'LAVANDERIA E QUADRO DE ENERGIA',
+  intro:'Breno está na lavanderia, separada da piscina por uma parede e uma saída para o jardim. Uma tubulação vazou sobre o piso perto do quadro elétrico. A faixa seca junto à máquina de lavar permite chegar à maçaneta.',
+  voice:'Breno: — Não toca nessa água! Se a energia ainda tá ligada, a gente tem que passar pelo lado da máquina!',
+  plan:[
+   'Breno segue pela faixa seca e confirma o disjuntor principal pelo rótulo, sem pisar na água.',
+   'Breno levanta a tampa do quadro e procura um segundo circuito. Uma faísca o faz esconder o rosto.',
+   'Breno tenta puxar um cabo solto. O isolamento se rompe e o cheiro de plástico queimado toma a lavanderia.'
+  ],act:[
+   'Ele desliga o circuito correto e alcança a porta do jardim, avisando pelo celular que a passagem está seca.',
+   'Breno empurra a tampa do painel para afastar o braço do mascarado, mas a caixa fica pendurada e bloqueia metade da saída.',
+   'O cabo estoura. Breno cai de joelhos, com a mão dolorida, e vê a máscara tomar a única passagem para a cozinha.'
+  ],last:[
+   'Breno mantém a distância da poça, pisa junto à máquina e alcança a saída externa da lavanderia.',
+   'Ele arranca a caixa solta para tentar bloquear a faca e se desloca de lado em direção à porta.',
+   'Breno cruza a água perto do painel energizado na tentativa de passar mais rápido antes que o assassino o alcance.'
+  ],safe:'Breno atravessa a porta do jardim pelo piso seco, fecha a passagem sem trancar os amigos lá dentro e avisa que a lavanderia continua perigosa.',
+  injury:'O assassino golpeia Breno no braço enquanto ele afasta a tampa do painel. Ele evita a poça, derruba um cesto contra a figura mascarada e alcança a saída do jardim com sangue no antebraço e um corte na testa.',
+  route:'saída externa da lavanderia',link:'porta do corredor da lavanderia'
+ }
+};
+const CHASE138_LINK={
+ laisla:{rauanny:'Rauanny chegou ao jardim junto com Laisla; as duas estavam lado a lado quando a porta de serviço bateu. O mascarado surgiu na varanda e correu pelo lado oposto da piscina, cortando o acesso delas ao portão. Laisla fica do lado seco junto ao canteiro; Rauanny precisa destravar a grade exterior pelo outro lado.'},
+ rauanny:{laisla:'Laisla ouviu o grito de Rauanny no jardim e correu até a saída de serviço. Antes de conseguirem atravessar juntas, o mascarado tomou o vão da porta. Rauanny permanece protegida atrás de um canteiro; Laisla precisa libertar o caminho sem voltar ao corredor da cozinha.'},
+ allan:{samuel:'Samuel acabara de ajudar Allan a alcançar o patamar. Quando Samuel tentou acompanhá-lo, a porta corta-fogo bateu e separou os dois. Allan ficou do lado do jardim; Samuel seguiu pelo acesso da garagem, o único ainda aberto.'},
+ samuel:{allan:'Allan ajudou Samuel a passar pelo portão da garagem, mas o assassino atravessou o corredor de ferramentas. Allan precisou recuar pela escada do depósito enquanto Samuel permaneceu junto à portinhola, chamando o amigo pelo nome.'},
+ ryan:{breno:'Breno conseguiu falar com Ryan do jardim. Ao ouvir os passos no andar de cima, Breno se afastou do muro e entrou pela saída externa da lavanderia para encontrar quem ainda estava preso. A máscara o alcança antes de ele voltar.'},
+ breno:{ryan:'Ryan estava junto à lavanderia quando ouviu Breno abrir a porta. Os dois tentaram se reencontrar, mas uma pancada bloqueou o corredor. Breno conseguiu alcançar o jardim; Ryan ficou no andar superior, com a sacada como única saída.'}
+};
+function c9Revision138(s,id,text,choices,location,scene,kid){
+ const match=/^k9_risk_(\d+)_(pov|act|final|result)$/.exec(id);
+ if(!match)return {text,choices,location,scene};
+ const f=s.flags||{},stage=Number(match[1]),part=match[2],t=f['c9_r'+stage+'_target'],data=CHASE138[t];
+ if(!data)return {text,choices,location,scene};
+ const n=name(t),female=fem134(t),g=female?'a':'o',kn=name(kid),off=!!window.UG107?.state?.(s)?.graphicOff;
+ const helper=f['c9_r'+stage+'_witness']||witness134(s,t,kid);
+ // A witness who already died is not retroactively revived by a stage transition.
+ const h=helper&&!dead(s,helper)&&helper!==t&&helper!==kid?helper:null;
+ let prev=stage>1?f['c9_r'+(stage-1)+'_target']:null;
+ const pw=stage>1?f['c9_r'+(stage-1)+'_witness']:null;
+ const pr=stage>1?f['c9_r'+(stage-1)+'_result']:null;
+ const earlierHelp=Array.from({length:stage-1},(_,i)=>stage-1-i).find(i=>f['c9_r'+i+'_witness']===t);
+ const aided=earlierHelp?f['c9_r'+earlierHelp+'_target']:null;
+ const aidedOutcome=earlierHelp?f['c9_r'+earlierHelp+'_result']:null;
+ const witnessBefore=pw===t;
+ const otherExited=h&&[1,2,3,4,5].some(i=>i<stage&&f['c9_r'+i+'_target']===h&&f['c9_r'+i+'_result']!=='fatal');
+ const liveHelper=h?(otherExited?`${name(h)} está do lado de fora, junto à saída. Pelo celular, continua em contato com ${n} sem regressar ao interior da casa.`:`${name(h)} responde do setor vizinho sem se colocar diante da faca.`):`Nenhum amigo consegue chegar fisicamente até ${n} neste momento.`;
+ const lastIndex=stage>1?stage-1:0;
+ let transition='';
+ if(prev&&prev!==t){
+  transition=`Poucos minutos depois do confronto de ${name(prev)}, o som dos passos armados muda de direção. ${n} escuta a movimentação chegar ao setor onde está. O barulho dos passos permite acompanhar sua aproximação pelo acesso de ${data.link}.\n\n`;
+  if(witnessBefore){
+   if(CHASE138_LINK[prev]?.[t]&&pr!=='fatal')transition=CHASE138_LINK[prev][t]+'\n\n';
+   else if(pr==='fatal')transition=`${n} ainda está perto do setor onde ouviu os últimos gritos de ${name(prev)}. Não houve tempo para se despedir. Ao perceber a máscara avançar por ${data.link}, ${n} recua até ${data.loc.toLowerCase()}, sem conseguir fugir junto dos outros.\n\n`;
+   else transition=`${n} acabou de ajudar ${name(prev)} a chegar à saída. Quando o mascarado atravessa o acesso que liga os dois setores, ${n} se afasta pelo único caminho desimpedido e acaba em ${data.loc.toLowerCase()}. ${name(prev)} permanece fora do alcance imediato, chamando pelo celular.\n\n`;
+  }
+ }
+ if(earlierHelp&&!witnessBefore&&aided!==t){
+  const parallel=earlierHelp<stage-1?'Enquanto outros amigos tentavam fugir pelos cômodos da casa, ':'Depois de ajudar no setor anterior, ';
+  if(aidedOutcome==='fatal')transition=parallel+`${n} continuou perto de onde ${name(aided)} caiu. Quando o mascarado mudou de direção, precisou recuar até ${data.loc.toLowerCase()}. A lembrança da morte não o deixou em paz.\n\n`;
+  else transition=parallel+(CHASE138_LINK[aided]?.[t]||`${n} ajudou ${name(aided)} a chegar à saída e permaneceu naquele acesso. Quando o mascarado se aproximou, ${n} precisou buscar abrigo em ${data.loc.toLowerCase()}, pelo caminho que ainda estava livre.`)+'\n\n';
+ }
+ const shout=h?`${name(h)}: — ${n.toUpperCase()}! Eu tô aqui! ${otherExited?'Não volta pra dentro, eu vou tentar te orientar daqui!':'Fala pra mim qual lado tá livre!'}\n\n`:'';
+ location='CASA DO LAGO · '+data.loc;
+ if(part==='pov'){
+  let intro=data.intro,voice=data.voice;
+  if(t==='rauanny'&&dead(s,'laisla')){intro=intro.replace('Rauanny continua perto da saída de serviço, ao lado de onde Laisla tentou abrir passagem.','Rauanny está junto à saída de jardim onde ouviu os últimos gritos de Laisla.').replace('Uma figura atravessa a vidraça quebrada da varanda.','Uma figura atravessa a vidraça quebrada da varanda e bloqueia a trilha por onde Laisla tentou fugir.');voice='Rauanny: — A Lai... meu Deus, a Lai... Não! Eu não vou morrer aqui também!';}
+  if(t==='laisla'&&dead(s,'rauanny'))intro=intro.replace('Do jardim, Rauanny grita que mantém o portão aberto;','Do jardim não vem nenhuma resposta de Rauanny;');
+  if(t==='allan'&&dead(s,'samuel')){intro=intro.replace('Samuel lhe avisa pelo telefone que o corredor inferior ainda dá para o jardim.','Allan lembra da rota que Samuel tinha indicado na última conversa.');voice='Allan: — Samu... eu vou tentar sair daqui. Por nós dois.';}
+  let near=liveHelper;
+  if(t==='rauanny'&&h==='laisla')near=`Laisla está no mesmo jardim, protegida pelo canteiro. ${f.c9_ferido_laisla?'Ela mantém a mão sobre o próprio ferimento e, mesmo assim,':'Ela'} grita para Rauanny usar as pedras secas; não volta para dentro da casa.`;
+  if(t==='laisla'&&h==='rauanny')near='Rauanny segura o portão no jardim e chama Laisla pela saída de serviço. As duas conseguem se ouvir sem atravessar os cômodos da casa.';
+  const link=(prev&&pw===t&&pr==='fatal')?`${n} ainda está em choque com o que acabou de acontecer com ${name(prev)}. Uma vida foi perdida diante de seus olhos, mas os passos do mascarado não pararam.`:'';
+  text=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${transition}${intro}\n\n${voice}\n\n${link?link+'\n\n':''}${near}\n\nO estalo de vidro anuncia que o agressor se aproxima. ${n} procura uma maneira de ganhar distância antes que a máscara ${female?'a':'o'} alcance.`;
+ }
+ if(part==='act'){
+  const p=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_plan']);
+  text=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${data.plan[Math.max(0,p)]}\n\n${shout}Os passos se aproximam do acesso: ${data.link}. A rota de volta está bloqueada pelo barulho e pelo movimento atrás de ${n}. Não pode perder mais tempo.\n\n${n}: — Eu não vou ficar esperando ele chegar!`;
+ }
+ if(part==='final'){
+  if(t==='rauanny'&&dead(s,'laisla'))choices=choices.map(c=>({...c,text:c.text.replace('chamar Laisla','avisar os sobreviventes')}));
+  if(t==='allan'&&dead(s,'samuel'))choices=choices.map(c=>({...c,text:c.text.replace('Avisar Samuel pelo rádio','Avisar os sobreviventes pelo rádio')}));
+  const a=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_act']);
+  text=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${data.act[Math.max(0,a)]}\n\nO mascarado finalmente aparece no acesso à área de ${data.loc.toLowerCase()}, com a faca na mão. ${n} ainda tem uma última decisão. O metal vibra com um impacto, e a faca risca a quina da parede. A saída está a poucos passos, mas o mascarado também.\n\n${shout}${n}: — Eu tô vendo a saída... preciso chegar até ela!`;
+ }
+ if(part==='result'){
+  const escapeSays={laisla:'A porta de serviço abriu! A Rauanny tá ali fora!',rauanny:'EU ABRI O PORTÃO! Lai, vem pelo lado seco!',allan:'A escada de baixo tá livre! Samu, me escuta?',samuel:'A portinhola abre pra fora! Saiam pela lateral!',isabella:'Eu saí pela janela! Não encostem naquele cabo!',ryan:'Consegui descer! A grade velha tá soltando!',breno:'A lavanderia tem uma saída seca! Eu tô no jardim!'};
+  const hurtSays={laisla:'Meu braço... droga! Abri a porta, mas preciso de ajuda!',rauanny:'Me cortou! Eu tô perto do portão, não deixa ele fechar!',allan:'Meu braço tá sangrando, Samu! Mas eu tô fora!',samuel:'Atingiu minha perna! Preciso de uma toalha, agora!',isabella:'Minha mão tá cortada! Eu tô no canteiro, me escutam?',ryan:'Acertei a escada, mas ele me cortou! Tô aqui embaixo!',breno:'Pegou meu braço! Eu tô do lado de fora da lavanderia!'};
+  if(t==='allan'&&dead(s,'samuel')){escapeSays.allan='Eu consegui passar! O Samu não tá aqui pra ver...';hurtSays.allan='Meu braço tá sangrando! Alguém, por favor, me escuta!';}
+  if(t==='laisla'&&dead(s,'rauanny'))escapeSays.laisla='A saída abriu! Alguém me ouve do jardim?';
+  if(t==='rauanny'&&dead(s,'laisla')){escapeSays.rauanny='Eu abri o portão! Não vou deixar aquele desgraçado levar mais ninguém!';hurtSays.rauanny='Me cortou! Tem alguém vivo perto do portão?!';}
+  const finalChoice=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_last']);
+  const lead=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${data.last[Math.max(0,finalChoice)]}\n\n`;
+  const outcome=f['c9_r'+stage+'_result'];
+  if(outcome==='safe'){
+   text=lead+`${data.safe}\n\n${n}: — ${escapeSays[t]}\n\n${h?`${name(h)}: — Eu te ouvi! Fica aí, não volta pra dentro!\n\n${name(h)} alcança ${n} pelo acesso do jardim e confere se há sangramento, sem abandonar a passagem desprotegida.`:'Os amigos conseguem ouvir seu chamado do lado de fora. A área próxima à saída fica livre por alguns instantes.'}\n\n${n} consegue respirar, mas não abandona quem ainda está procurando outra saída.`;
+  }else if(outcome==='injured'){
+   text=lead+`${data.injury}\n\n${n}: — ${hurtSays[t]}\n\n${h?`${name(h)}: — ${n.toUpperCase()}, OLHA PRA MIM! Não tenta levantar rápido.\n\n${f['c9_ferido_'+h]?`${name(h)}, apesar do próprio ferimento, consegue alcançar ${n} perto da saída e estende um tecido limpo para comprimir o corte.`:`${name(h)} alcança ${n} perto da saída e pressiona o ferimento com um tecido limpo.`} Ainda não há socorro no local.`:'Os outros escutam o pedido por ajuda e orientam que ${n} não tente voltar ao interior da casa.'}\n\nO ferimento exige atendimento; ${n}, porém, continua consciente. ${n} segura a mão de quem oferece ajuda e tenta controlar a respiração.`;
+  }else if(outcome==='fatal'){
+   let demise=off?`O mascarado intercepta ${n} em ${data.loc.toLowerCase()}. ${n} tenta se defender e alcançar a saída, mas é atacad${g} com a faca e para de responder. O assassino abandona o setor deixando a porta entreaberta, enquanto o pedido de ajuda de ${n} fica sem resposta.`:KILL135[t];
+   // Coerência quando Laisla já morreu e Rauanny passou a testemunhar esse ataque.
+   if(t==='rauanny'&&!dead(s,'laisla')&&aided==='laisla')demise=demise.replace('Rauanny atravessa o jardim pelas pedras secas, procurando o portão. Ela vê Laisla do outro lado da piscina e faz sinal para que venha.','Rauanny continua no jardim onde ajudou Laisla. Laisla está do lado seco, junto ao portão; o mascarado corta o caminho entre os canteiros e as impede de fugir juntas.');
+   if(t==='rauanny'&&dead(s,'laisla'))demise=demise.replace('Ela vê Laisla do outro lado da piscina e faz sinal para que venha.','Atravessa o jardim ainda abalada pela morte de Laisla, sem conseguir olhar para a despensa.').replace('LAI! NÃO VEM POR AQUI! ELE TÁ ATRÁS DE MIM!','NÃO! EU NÃO VOU DEIXAR VOCÊ LEVAR MAIS NINGUÉM!').replace('RAUANNY: — Laisla... corre...','RAUANNY: — Não... mais...');
+   const witnessLine=h?(DEATH_REACT134[t]?.[h]||`${name(h)}: — ${n.toUpperCase()}, RESPONDE!\n\n${name(h)} tenta alcançá-${female?'la':'lo'}, mas recua quando o mascarado ergue a faca.`):`Do jardim, os sobreviventes ouvem o grito de ${n}. Ainda não sabem exatamente o que aconteceu lá dentro.`;
+   text=lead+demise+`\n\n${h?`${name(h)} vê o assassino se afastar por ${data.link} antes de se aproximar de ${n}. Não há ninguém ali para confirmar a morte por outra pessoa ou por um acidente.`:''}\n\n${witnessLine}\n\nOs outros ainda precisam fugir. Não há polícia na propriedade e ninguém pode permanecer no local sem correr perigo.`;
+   if(s.romanceEscolhido===t)text+=`\n\nAo ouvir o nome de ${n}, você se lembra do encontro antes das festas. O medo se transforma num vazio que ainda não consegue compreender.`;
+  }
+ }
+ return {text:text.replaceAll('\\n','\n'),choices,location,scene};
 }
 
 function phoneThreads(s,base){if(!s?.flags?.c9_enter_k9_01)return base;const t=base.map(x=>({...x,messages:[...(x.messages||[])]}));
