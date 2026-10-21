@@ -1,0 +1,12 @@
+O ÚLTIMO GRITO — V1.3.9
+CAPÍTULO 9 · REVISÃO FINAL DAS PERSEGUIÇÕES
+
+- Narrativas e falas individuais para cada perseguição.
+- Samuel isolado na garagem, sem orientador ou acompanhante inventado.
+- Isabella e Rayssa compartilham uma fuga com decisões para ambas quando estão fisicamente juntas na casa do lago (rota da homenagem e ambas sobreviventes/disponíveis).
+- Três escolhas em cada etapa e consequências ligadas às decisões anteriores.
+- Continuidade entre as cenas da despensa, jardim, sacada, depósito e lavanderia.
+- O capítulo mantém os mesmos IDs de cena e as flags anteriores dos saves.
+- Na rota da festa da Laisla, Rayssa continua na homenagem até o reencontro: Isabella não será acompanhada por ela antes da chegada.
+
+ATENÇÃO: exporte um backup dos saves antes de instalar. Para ver as cenas reescritas, carregue um slot anterior ao início da perseguição.

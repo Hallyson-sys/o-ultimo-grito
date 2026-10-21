@@ -1,4 +1,4 @@
-/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.8
+/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.9
  * No public-facing passage may disclose the identities of the masked attackers.
  * Saves are additive; all progression is in c9_* flags on existing slot.
  */
@@ -1521,7 +1521,11 @@ function planParties(s){let f=s.flags;if(Array.isArray(f.c9_casa_pessoas)&&Array
  f.c9_anfitriao=house.includes('laisla')?'laisla':house[0]||'';
 }
 function hostage(s){const f=s.flags;planParties(s);if(f.c9_refem)return f.c9_refem;const lv=lover(s);if(lv){f.c9_refem=lv;return lv;}const options=alive(s).filter(x=>x!=='rayssa');options.sort((a,b)=>Number(s.bonds[b]||50)-Number(s.bonds[a]||50));f.c9_refem=options[0]||(alive(s).includes('rayssa')?'rayssa':'bella');return f.c9_refem;}
-function nextRisk(s,stage){const f=s.flags;const list=(f.c9_casa_pessoas||[]).filter(x=>x!==f.c9_refem&&!dead(s,x)&&!['rayssa'].includes(x));const used=[1,2,3,4,5].filter(i=>i<stage).map(i=>f['c9_r'+i+'_target']);return list.filter(x=>!used.includes(x))[0]||'';}
+function nextRisk(s,stage){const f=s.flags;const list=(f.c9_casa_pessoas||[]).filter(x=>x!==f.c9_refem&&!dead(s,x)&&!['rayssa'].includes(x));const used=[1,2,3,4,5].filter(i=>i<stage).map(i=>f['c9_r'+i+'_target']);const pending=list.filter(x=>!used.includes(x));
+ // Mantém a ligação entre Laisla/Rauanny e, quando os grupos chegam juntos,
+ // garante uma chance de Isabella e Rayssa atravessarem o ataque em dupla.
+ if(f.c9_cidade_chegou_a_tempo){const priority=['laisla','rauanny','isabella','samuel','allan','breno','ryan'];return priority.find(x=>pending.includes(x))||pending[0]||'';}
+ return pending[0]||'';}
 function markRisk(s,stage){
  const f=s.flags;if(f['c9_r'+stage+'_resolved'])return;
  f['c9_r'+stage+'_resolved']=true;
@@ -1947,6 +1951,7 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  ({text,choices,location,scene}=c9Revision134(s,id,text,choices,location,scene,kid));
  ({text,choices,location,scene}=c9Revision135(s,id,text,choices,location,scene,kid));
  ({text,choices,location,scene}=c9Revision138(s,id,text,choices,location,scene,kid));
+ ({text,choices,location,scene}=c9Revision139(s,id,text,choices,location,scene,kid));
  return {...n,text,choices,location,scene};
 }
 const CLUES={
@@ -1990,6 +1995,8 @@ const DEATH_REACT134={
  breno:{ryan:'Ryan: — BRENO? Cara, não... Você tava aqui agora.\n\nRyan aperta o próprio rosto com as mãos sujas de sangue, incapaz de inventar uma piada para atravessar aquele silêncio.',default:'O telefone de Breno vibra debaixo da bancada. A pessoa que chega encontra a tela iluminada e não consegue pedir socorro sem chorar.'}
 };
 function witness134(s,target,kid){
+ // Samuel enfrenta a garagem sozinho: ninguém testemunha seus minutos de fuga.
+ if(target==='samuel')return null;
  const house=(s.flags?.c9_casa_pessoas||[]).filter(x=>x!==target&&x!==kid&&!dead(s,x));
  const relations={allan:['samuel','ryan'],samuel:['allan','breno'],isabella:['rayssa','laisla'],laisla:['rauanny','allan'],rauanny:['laisla','ryan'],ryan:['breno','allan'],breno:['ryan','samuel']};
  return relations[target]?.find(x=>house.includes(x))||house[0]||null;
@@ -2596,6 +2603,243 @@ function c9Revision138(s,id,text,choices,location,scene,kid){
    const witnessLine=h?(DEATH_REACT134[t]?.[h]||`${name(h)}: — ${n.toUpperCase()}, RESPONDE!\n\n${name(h)} tenta alcançá-${female?'la':'lo'}, mas recua quando o mascarado ergue a faca.`):`Do jardim, os sobreviventes ouvem o grito de ${n}. Ainda não sabem exatamente o que aconteceu lá dentro.`;
    text=lead+demise+`\n\n${h?`${name(h)} vê o assassino se afastar por ${data.link} antes de se aproximar de ${n}. Não há ninguém ali para confirmar a morte por outra pessoa ou por um acidente.`:''}\n\n${witnessLine}\n\nOs outros ainda precisam fugir. Não há polícia na propriedade e ninguém pode permanecer no local sem correr perigo.`;
    if(s.romanceEscolhido===t)text+=`\n\nAo ouvir o nome de ${n}, você se lembra do encontro antes das festas. O medo se transforma num vazio que ainda não consegue compreender.`;
+  }
+ }
+ return {text:text.replaceAll('\\n','\n'),choices,location,scene};
+}
+
+// V1.3.9 · Cada fuga tem seu próprio conflito; Samuel fica sozinho na garagem.
+// Isabella e Rayssa dividem uma perseguição somente quando estão juntas no lago.
+const DRAMA139={
+ laisla:{opening:'O cheiro de alimentos guardados se mistura ao de fumaça de uma tomada. Laisla distingue os ruídos da cozinha: a porta da despensa está sendo empurrada pelo lado de dentro. Ela sabe exatamente como os tios costumavam abrir a corrente.',
+   voice:'LAISLA: — Não vou deixar a casa dos meus tios virar um túmulo. A corrente sai por cima. Eu sei que sai.',
+   lead:'Ela ouve a cadeira arrastando atrás da despensa. Seu problema não é encontrar uma porta: é decidir quanto tempo ainda pode mantê-la aberta sem ficar presa com o assassino.',
+   step:'Uma prateleira cambaleia quando algo se choca contra a parede. Laisla tem o vão da porta diante de si, mas a corrente atravessada pode prender a roupa de quem vier atrás.',
+   last:'LAISLA: — Foi aqui que a gente comemorou meu aniversário. Você não vai me tirar isso também!',
+   help:'Rauanny atravessa o canteiro sem entrar na despensa. — Lai! Pelo amor de Deus, olha pra mim! Você não precisa provar nada pra ninguém!',
+   alone:'O vento entra pela fresta do serviço. Laisla espera uma resposta de fora, mas precisa terminar de destravar a passagem com as próprias mãos.',
+   safe:'Laisla põe o pé na grama e ri uma única vez, sem humor. — Se eu voltar aqui um dia, juro que jogo essa corrente no lixo.',
+   injured:'LAISLA: — Eu tô bem... não, mentira, tá doendo pra caralho. Só não deixa aquela porta fechar!',
+   tail:'Um barulho de louça quebrada vem da cozinha. Mesmo do lado de fora, Laisla mantém os olhos na porta que conhece desde criança.'},
+ rauanny:{opening:'Rauanny ficou perto do canteiro onde se encontrou com Laisla. Os reflexos na piscina confundem a distância; a saída real é um ferrolho enferrujado no muro, não uma porta no meio da área molhada.',
+   voice:'RAUANNY: — Eu falei que não ia largar a Lai. Se ele vier por aqui, vai ter que passar por mim primeiro.',
+   lead:'O agressor atravessa a varanda e muda de direção ao vê-la alcançar o portão. Rauanny precisa escolher entre o chão firme dos canteiros e a borda da piscina, onde pode perder os segundos de que precisa.',
+   step:'A luz submersa acende por um instante; o brilho revela a sombra do mascarado avançando por trás dos vasos. O ferrolho continua distante, e um mergulho não impediria que ele esperasse na escada.',
+   last:'RAUANNY: — Olha pra mim, seu covarde! Não encosta nela!',
+   help:'Laisla se abaixa atrás do canteiro. — Rau, não vem pra água! Usa as pedras que o meu tio colocou!',
+   alone:'Ela olha para a saída de serviço, mas não encontra Laisla. Cerra os dentes, sem desistir de alcançar a grade exterior.',
+   safe:'Rauanny solta a grade aberta e bate a mão no muro. — A gente vai sair daqui. Nem que eu tenha que arrancar isso tudo!',
+   injured:'RAUANNY: — MERDA! Meu ombro! Lai, fica atrás do canteiro e não corre pra cá!',
+   tail:'A superfície da piscina continua tremendo. Rauanny evita olhar para a água enquanto mantém o portão destravado.'},
+ allan:{opening:'Na escada do depósito, Allan engole uma piada ao sentir o degrau tremer. Um bilhete amarelo preso no corrimão diz “NÃO PISAR” e parece ridículo diante da faca que arranha a porta de cima.',
+   voice:'ALLAN: — Eu devia ter começado a academia. Ou ouvido o Samu quando ele disse pra não subir aqui. Preferencialmente os dois.',
+   lead:'Allan sabe que fazer barulho vai chamar o mascarado, mas ficar parado no patamar também é arriscado. Seu celular está em modo lanterna e a bateria pisca em vermelho.',
+   step:'O solado encontra madeira oca. Allan prende a respiração. Se descer junto à parede, o corrimão pode servir de guia; se saltar, a aterrissagem o colocará diante da saída e do assassino ao mesmo tempo.',
+   last:'ALLAN: — Tá bom, universo, eu retiro TODAS as piadas que fiz sobre filme de terror!',
+   help:'Samuel fala depressa pelo rádio, sem atravessar a escada. — Não pisa no quarto degrau. Eu vi a rachadura antes de descer!',
+   alone:'O fone chia. Allan aperta o rádio sem receber resposta e se obriga a ler o bilhete no corrimão outra vez.',
+   safe:'ALLAN: — Tô vivo! Alguém me lembra de nunca mais ser engraçadinho perto de uma escada.',
+   injured:'ALLAN: — Tá... o sangue é meu. Antes que alguém pergunte: definitivamente não é ketchup.',
+   tail:'Sua lanterna ainda aponta para o degrau partido. Allan deixa o aviso visível para o próximo que tentar a passagem.'},
+ samuel:{opening:'A porta da garagem bate atrás de Samuel e o deixa completamente sozinho. O sinal de celular desaparece. Ele distingue o clique do relé no teto, o cheiro de combustível e a portinhola encaixada no portão basculante. Ninguém vai orientá-lo pelo rádio.',
+   voice:'SAMUEL: — Tá, pensa. Duas travas. Uma barra. Um assassino. Você não precisa de plateia, Samuel. Só precisa fazer isso direito.',
+   lead:'Ele coloca as chaves sobre o capô para não perdê-las. Então vê a silhueta refletida no retrovisor: alguém já entrou pela passagem de serviço. Se ligar o carro, os faróis vão entregar seu esconderijo.',
+   step:'O retrovisor vibra com a batida de uma bota no concreto. Samuel se esconde entre o veículo e a parede, escutando as próprias respirações. A chave de roda pode atrasar a faca, mas não substituir uma saída.',
+   last:'SAMUEL: — Eu não vou te dar a satisfação de me ouvir implorar. Vem tentar.',
+   help:'',
+   alone:'Não há resposta de ninguém porque não há ninguém na garagem. Samuel está completamente por conta própria.',
+   safe:'Samuel pisa na grama sem acreditar e tira as chaves da mão trêmula. — Por pouco. Por muito pouco.',
+   injured:'SAMUEL: — Filho da puta... acertou minha perna. Mas não vai me pegar de novo.',
+   tail:'O alarme do carro dispara sozinho, abafando a última respiração de Samuel antes que ele se afaste mancando ou correndo.'},
+ isabella:{opening:'No corredor de manutenção, Isabella encontra um fio exposto junto ao rodapé e uma janela para os arbustos. O problema não é só escapar: a fiação ameaça qualquer pessoa que atravesse o chão molhado.',
+   voice:'ISABELLA: — Ótimo. Um psicopata e uma instalação elétrica feita por um idiota. Que bela combinação.',
+   lead:'Ela arrasta um banco até a janela para medir a altura. Do outro lado do corredor, a maçaneta gira devagar. Isabella sabe que precisa escolher o que proteger primeiro: a passagem ou o próprio corpo.',
+   step:'A lâmpada de emergência apaga, mas uma faísca ilumina o chão. Isabella vê onde o fio termina e onde começa o trecho seco; o assassino empurra a estante que bloqueia a entrada.',
+   last:'ISABELLA: — Escuta bem: eu não vou ficar aqui esperando você decidir como eu morro!',
+   help:'Rayssa mantém distância do fio e fala junto à janela. — Isa, eu tô aqui. Não põe a mão naquele metal, pelo amor de Deus!',
+   alone:'Isabella chama por Rayssa, mas sabe que a amiga está longe daquela casa. Precisa descobrir a altura da janela e agir sozinha.',
+   safe:'Isabella desce no canteiro, olha para a janela e cospe no chão. — Nunca mais me peçam pra mexer numa porcaria de disjuntor.',
+   injured:'ISABELLA: — Eu tô respirando. Tá doendo, mas eu tô respirando. Não mexe nos fios!',
+   tail:'As luzes do corredor piscam pela última vez. Isabella memoriza a posição do fio, para impedir que os próximos pisem ali.'},
+ ryan:{opening:'Ryan alcança a sacada no momento em que o último convidado acelera pela estrada. A escada externa está presa à parede, mas a grade lateral pende de um parafuso quase solto.',
+   voice:'RYAN: — Beleza. Eu que morro de medo de altura vou ter que virar dublê. Incrível. Sensacional.',
+   lead:'O assassino aparece refletido no vidro da suíte, alguns passos atrás. Ryan tenta medir a distância da escada com os pés, sem olhar para o chão lá embaixo.',
+   step:'Uma das barras vibra quando ele encosta a mão. Ryan percebe que o lado junto à parede permanece firme, enquanto o parapeito externo se move perigosamente.',
+   last:'RYAN: — Eu tô tentando manter a calma! Se eu fizer piada agora, prometo que é desespero!',
+   help:'Breno olha para cima, de trás do muro, sem se aproximar da sacada. — Ryan, a escada da parede! Não coloca o pé na grade!',
+   alone:'Lá embaixo não há resposta. Ryan engole a vontade de gritar e segura a barra mais próxima da parede.',
+   safe:'RYAN: — Meu Deus, chão! Eu te amo, chão! Nunca mais falo mal de você.',
+   injured:'RYAN: — Minha mão tá escorregando! Não olha pra cima, me ajuda só a sentar!',
+   tail:'A escada balança com o peso que acabou de abandonar os degraus; lá em cima, a máscara continua à procura de outro acesso.'},
+ breno:{opening:'Breno fica preso na lavanderia quando o corredor apaga. O cano vazando formou uma poça próxima ao quadro elétrico, mas existe uma faixa de azulejos secos junto à máquina.',
+   voice:'BRENO: — Calma. Não toca nos fios. Primeiro entende de onde vem a água, depois mexe na saída.',
+   lead:'Uma faísca azul corta o escuro. Breno sabe que o assassino pode estar do lado de fora da porta, mas abrir o quadro às cegas oferece outro risco.',
+   step:'A máquina desliga de repente. Uma sombra aparece pelo vidro fosco e Breno precisa escolher entre perder tempo isolando o circuito ou manter o corpo distante da água.',
+   last:'BRENO: — Eu não devo explicação pra aquele desgraçado. Se quiser me pegar, vai ter que entrar aqui.',
+   help:'Ryan se mantém do lado seco, atrás da porta do jardim. — Breno! Não atravessa a água, cara! Eu vi uma faísca!',
+   alone:'Nenhum amigo pode alcançar a lavanderia. Breno se lembra da faixa seca que havia mostrado aos convidados antes da queda de luz.',
+   safe:'Breno passa a mão pelo rosto e encontra suor e poeira. — Eu falei que tinha um caminho. Pelo menos dessa vez eu tava certo.',
+   injured:'BRENO: — Não tenta entrar! A poça ainda tá perto do quadro... Eu tô saindo.',
+   tail:'O disjuntor bate uma última vez. Breno mantém a passagem aberta apenas do lado seco.'}
+};
+const DUO139={
+ pov:`PONTO DE VISTA: ISABELLA E RAYSSA
+
+Isabella encosta as costas na parede do corredor de manutenção. Rayssa, que chegou da homenagem minutos antes, está ali com ela — não do outro lado de uma porta ou em outra festa. As duas ouviram o assassino subir a escada. Ele pode retornar pelo corredor, enquanto um cabo solto lança faíscas perto do chão molhado.
+
+ISABELLA: — Não me vem com esse olhar de despedida. A gente já passou por coisa pior. Ou quase.
+
+RAYSSA: — Eu não tô me despedindo, sua idiota. Só tô tentando entender se essa janela abre.
+
+Isabella encontra um banco para alcançar a janela baixa; Rayssa distingue um interruptor de emergência na parede seca, longe da fiação. Elas precisam trabalhar juntas: uma abre a passagem, a outra observa por onde o assassino pode aparecer.`,
+ act:[
+  `Isabella usa a manga para erguer a trava da janela, enquanto Rayssa procura o interruptor sem pisar na água. Por um instante, as duas se movem no mesmo ritmo.
+
+RAYSSA: — Isa, quando eu disser 'agora', você passa primeiro.
+
+ISABELLA: — Eu passo quando você tiver um jeito de passar também. Não começa com heroísmo.`,
+  `Rayssa empurra a estante contra a entrada e Isabella usa o barulho para alcançar a janela. O móvel bloqueia metade do corredor, mas também dificulta que Rayssa a siga.
+
+ISABELLA: — A gente ficou separada por uma estante! Isso é tão estúpido!
+
+RAYSSA: — Então para de gritar e me ajuda a puxar!`,
+  `Isabella se aproxima demais do quadro elétrico para procurar a fechadura. Uma faísca explode; Rayssa a puxa pela cintura antes que toque a parte metálica.
+
+RAYSSA: — VOCÊ QUER MORRER? Aquele fio tá VIVO!
+
+ISABELLA: — Eu vi, porra! Não precisa me sacudir!`
+ ],
+ final:[
+  `A janela já abre para os arbustos. Isabella segura o batente enquanto Rayssa sobe no banco para testar o lado de fora. Os passos do agressor se aproximam do corredor principal. Ambas terão que atravessar sem tocar no cabo.
+
+ISABELLA: — Você me segura quando eu descer?
+
+RAYSSA: — Seguro. E depois você não solta a minha mão.`,
+  `A estante tomba quando o agressor a golpeia. Isabella segura a madeira para impedir que caia sobre Rayssa; Rayssa recolhe o banco e o usa como barreira improvisada.
+
+RAYSSA: — Não olha pra ele! Olha pra janela!
+
+ISABELLA: — Eu tô olhando, só não consigo atravessar se você ficar no caminho!`,
+  `O fio rompido estala no chão molhado. Isabella recua e bate o ombro na parede, enquanto Rayssa tenta alcançar a janela passando por cima de uma caixa.
+
+ISABELLA: — Rayssa, sai daqui! Eu me viro!
+
+RAYSSA: — Você sabe que eu não vou deixar você aí!`
+ ],
+ result:{
+  safe:`Isabella passa pela janela e cai no canteiro, arrancando as folhas de um arbusto. Rayssa vem logo atrás, com um pé no batente e outro apoiado na terra.
+
+ISABELLA: — Eu tô aqui. Você tá aqui. Repete pra mim: as duas estão aqui.
+
+RAYSSA: — As duas. Agora corre, antes que eu desmaie de nervoso.
+
+Elas seguem juntas pela lateral externa, sem se separarem novamente.`,
+  injured:`O mascarado atinge Isabella no ombro quando ela empurra Rayssa para fora da janela. A amiga volta até o batente, agarra seu antebraço e a puxa até o canteiro. A roupa de Isabella está manchada de sangue.
+
+ISABELLA: — Não me larga, Ray. Só... espera um pouco.
+
+RAYSSA: — Não vou soltar. Eu prometo. Um passo de cada vez, tá?
+
+As duas escapam, mas Isabella precisa de atendimento.`,
+  fatal:`O mascarado rompe a barreira do corredor. Isabella empurra Rayssa para o outro lado da janela, impedindo que a lâmina a alcance. Quando tenta atravessar, o agressor a puxa de volta. Isabella luta, acerta o mascarado com o telefone, mas recebe golpes de faca e cai perto do batente.
+
+ISABELLA: — Rayssa... corre. Agora!
+
+Rayssa não obedece de imediato; tenta voltar pela janela. A ponta da lâmina rasga seu braço. Ela cai no canteiro e grita pela amiga, que já não consegue responder.
+
+RAYSSA: — ISA! POR FAVOR! EU TÔ AQUI! NÃO FAZ ISSO COMIGO!
+
+A máscara reaparece atrás do vidro. Rayssa precisa fugir sangrando, olhando para trás a cada passo. Ela viu o que aconteceu; não precisa de um estranho para lhe anunciar a morte.`
+ }
+};
+function c9Revision139(s,id,text,choices,location,scene,kid){
+ const match=/^k9_risk_(\d+)_(pov|act|final|result)$/.exec(id);
+ if(!match)return {text,choices,location,scene};
+ const f=s.flags||{},stage=Number(match[1]),part=match[2],t=f['c9_r'+stage+'_target'];
+ if(!t||!CHASE138[t]||!DRAMA139[t])return {text,choices,location,scene};
+ const x=CHASE138[t],d=DRAMA139[t],n=name(t);
+ const plan=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_plan']);
+ const act=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_act']);
+ const last=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_last']);
+ const p=Math.max(plan,0),a=Math.max(act,0),z=Math.max(last,0);
+ const outcome=f['c9_r'+stage+'_result'];
+ const together=!!f.c9_cidade_chegou_a_tempo;
+ const duo=t==='isabella'&&together&&(f.c9_casa_pessoas||[]).includes('rayssa')&&!dead(s,'rayssa')&&kid!=='rayssa';
+ const helper=t==='samuel'?null:(f['c9_r'+stage+'_witness']||witness134(s,t,kid));
+ const h=helper&&!dead(s,helper)&&helper!==kid&&helper!==t?helper:null;
+ const prev=stage>1?f['c9_r'+(stage-1)+'_target']:null;
+ const alreadyHit=prev&&f['c9_r'+(stage-1)+'_result']==='fatal';
+ const related=(t==='rauanny'&&prev==='laisla')||(t==='laisla'&&prev==='rauanny');
+ let transition='';
+ if(part==='pov'&&prev&&prev!==t){
+  if(related)transition=`Depois do ataque à saída de serviço, ${n} não se teletransporta para outro cômodo: permanece no jardim ao lado dos canteiros. ${alreadyHit?'O último grito de '+name(prev)+' ainda ecoa; não houve tempo de voltar para ajudar.':'O caminho que '+name(prev)+' usou continua à vista.'} O assassino alcança o exterior pelo lado da varanda.\n\n`;
+  else if(t==='samuel')transition='Enquanto os outros tentavam abrir passagem pela parte de fora, Samuel ficou isolado na garagem. A porta corta-fogo bateu; ele não ouve mais vozes do outro lado.\n\n';
+  else transition=`O agressor abandona o setor onde ${name(prev)} tentou escapar e segue pelo corredor. ${n} escuta a movimentação alcançar ${x.loc.toLowerCase()}; sua posição já é diferente da de quem acabou de fugir.\n\n`;
+ }
+ if(part==='pov'){
+  location='CASA DO LAGO · '+(duo?'CORREDOR ELÉTRICO · ISABELLA E RAYSSA':x.loc);
+  if(duo){text=DUO139.pov;}
+  else{
+   let intro=d.opening+'\n\n'+x.intro;
+   if(t==='samuel')intro=d.opening; // sozinho, sem telefone ou companheiro invisível
+   if(t==='rauanny'&&dead(s,'laisla'))intro=d.opening+'\n\nA passagem por onde Laisla tentou escapar ficou para trás. Rauanny ouve apenas o último grito dela; não existe mais resposta do canteiro.';
+   if(t==='laisla'&&dead(s,'rauanny'))intro=d.opening+'\n\nLaisla chama por Rauanny e não ouve resposta. Nenhuma outra voz surge artificialmente do jardim.';
+   if(t==='isabella'&&!duo)intro=d.opening+'\n\nRayssa não está neste corredor; Isabella não pode esperar por ela.';
+   const help=t==='samuel'?'':(h&&h==='rayssa'&&t==='isabella'?'':h&&h==='rauanny'&&t==='laisla'&&!dead(s,'rauanny')?d.help:h&&h==='laisla'&&t==='rauanny'&&!dead(s,'laisla')?d.help:'');
+   text=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${transition}${intro}\n\n${d.voice}\n\n${help?help+'\n\n':''}${d.lead}`;
+  }
+  choices=THREATS[t]?['good','risky','bad'].map((k,i)=>C(THREATS[t][k],'k9_risk_'+stage+'_act',[S('r'+stage+'_plan',['safe','risk','bad'][i])])):choices;
+  if(duo)choices=[C('Isabella abre a janela; Rayssa procura o interruptor seguro','k9_risk_'+stage+'_act',[S('r'+stage+'_plan','safe')]),C('Rayssa bloqueia o agressor; Isabella corre para a janela','k9_risk_'+stage+'_act',[S('r'+stage+'_plan','risk')]),C('Isabella tenta abrir o quadro; Rayssa tenta afastar o cabo','k9_risk_'+stage+'_act',[S('r'+stage+'_plan','bad')])];
+ }
+ if(part==='act'){
+  location='CASA DO LAGO · '+(duo?'CORREDOR ELÉTRICO · ISABELLA E RAYSSA':x.loc);
+  text=duo?`PONTO DE VISTA: ISABELLA E RAYSSA\n\n${DUO139.act[p]}\n\nO vidro vibra com a primeira pancada do assassino. As duas agora precisam decidir juntas como reagir sem se separarem.`:
+  `PONTO DE VISTA: ${n.toUpperCase()}\n\n${x.plan[p]}\n\n${d.lead}\n\n${t==='samuel'?'Samuel escuta metal arranhando a lataria e se abaixa atrás do carro. Não há voz de auxílio; precisa escolher a própria reação.':t==='ryan'?'Ryan sente o corrimão balançar e aperta o celular contra o peito para não deixá-lo cair.':t==='breno'?'Breno se afasta da tomada que faiscou e percebe que o assassino está testando a maçaneta pelo lado de fora.':t==='allan'?'Allan olha uma última vez o aviso colado na escada, calculando quantos degraus pode pular sem desabar.':t==='rauanny'?'A água da piscina se agita quando uma cadeira cai. Rauanny vê a sombra cruzar a varanda e mudar de direção.':t==='laisla'?'Uma panela bate contra o piso da cozinha e Laisla segura a corrente da porta para não deixá-la retinir.':'O fio desencapado estala a poucos centímetros do sapato de Isabella.'}`;
+  choices=duo?[
+   C('Isabella mantém o caminho da janela; Rayssa protege o batente','k9_risk_'+stage+'_final',[S('r'+stage+'_act','safe')]),
+   C('Isabella segura a estante; Rayssa tenta chegar ao jardim primeiro','k9_risk_'+stage+'_final',[S('r'+stage+'_act','risk')]),
+   C('As duas correm junto à fiação para alcançar a porta lateral','k9_risk_'+stage+'_final',[S('r'+stage+'_act','bad')])
+  ]:(ESC134[t]?.one||[]).map((label,i)=>C(label,'k9_risk_'+stage+'_final',[S('r'+stage+'_act',['safe','risk','bad'][i])]));
+ }
+ if(part==='final'){
+  location='CASA DO LAGO · '+(duo?'CORREDOR ELÉTRICO · ISABELLA E RAYSSA':x.loc);
+  text=duo?`PONTO DE VISTA: ISABELLA E RAYSSA\n\n${DUO139.final[a]}\n\nDo corredor vem o golpe que rompe a última madeira da porta. A decisão final precisa levar as duas para fora, e não apenas Isabella.`:
+  `PONTO DE VISTA: ${n.toUpperCase()}\n\n${x.act[a]}\n\n${d.step}\n\n${d.last}\n\n${t==='samuel'?'Ele vê o reflexo da máscara no vidro do carro, entre a portinhola e o volante. A faca não está perto da escada; está dentro da garagem, com ele.':'O próximo movimento vai decidir se o assassino alcança a passagem antes dele ou dela.'}`.replace('O próximo movimento vai decidir se o assassino alcança a passagem antes dele ou dela.', t==='ryan'?'A escada externa ainda é sua única chance; um salto para a grade velha colocaria a vida em risco.':t==='breno'?'Breno consegue ver a faixa de piso seco até a porta; a poça continua eletrificada.':t==='allan'?'A saída está no patamar inferior; a grade solta não vai sustentar outro salto.':t==='rauanny'?'O portão continua do mesmo lado do jardim, atrás dos canteiros; a água não é uma saída.':t==='laisla'?'A madeira da soleira range. Se a corrente travar, o mascarado alcançará a despensa.':'A janela continua ao alcance, mas o fio impede um atalho pelo meio do corredor.');
+  choices=duo?[
+   C('Isabella e Rayssa atravessam a janela em sequência, se ajudando','k9_risk_'+stage+'_result',[S('r'+stage+'_last','safe')]),
+   C('Rayssa afasta o agressor com o banco; Isabella tenta puxá-la','k9_risk_'+stage+'_result',[S('r'+stage+'_last','risk')]),
+   C('Isabella foge sozinha pela janela enquanto Rayssa distrai o mascarado','k9_risk_'+stage+'_result',[S('r'+stage+'_last','bad')])
+  ]:(ESC134[t]?.two||[]).map((label,i)=>C(label,'k9_risk_'+stage+'_result',[S('r'+stage+'_last',['safe','risk','bad'][i])]));
+ }
+ if(part==='result'){
+  location='CASA DO LAGO · '+(duo?'JANELA DO CORREDOR · AS DUAS':x.loc);
+  if(duo){
+   const vulnerable=([p,a,z].filter(q=>q===2).length>=2)||outcome==='fatal';
+   if(vulnerable){f.c9_ferido_rayssa=true;f.c9_dupla_rayssa_ferida=true;}
+   else f.c9_dupla_rayssa_resgatada=true;
+   text='PONTO DE VISTA: ISABELLA E RAYSSA\n\n'+(DUO139.result[outcome]||DUO139.result.injured);
+   if(z===2&&outcome==='safe')text='Isabella pula primeiro no canteiro, acreditando que Rayssa ficou para trás. Mas a amiga arrasta o banco contra o mascarado e salta pela janela momentos depois, alcançando Isabella entre os arbustos.\n\nISABELLA: — Você ficou! Eu pensei que...\n\nRAYSSA: — Depois você briga comigo. Corre!\n\nO atalho as separou por segundos; agora voltam a fugir juntas.';
+   if(z===2&&outcome==='injured')text='Isabella atravessa a janela antes de Rayssa. Do lado de dentro, a amiga tenta deter o mascarado com um banco, mas perde o equilíbrio. Ao perceber que a deixou sozinha, Isabella agarra o braço de Rayssa pelo batente e as duas caem no canteiro. A lâmina atinge o ombro de Isabella na saída.\n\nISABELLA: — Eu não devia ter te deixado lá!\n\nRAYSSA: — A gente tá aqui. Não discute comigo agora!\n\nIsabella precisa de atendimento; Rayssa não consegue parar de tremer.';
+   if(outcome==='injured'&&vulnerable)text+='\n\nRayssa também sofre um corte no antebraço ao retirar Isabella do batente. Mesmo sangrando, ela não a abandona.';
+   if(outcome==='safe'&&vulnerable)text+='\n\nRayssa arranha o braço no vidro ao saltar e precisa apertar o ferimento com a manga.';
+  }else{
+   const lastBeat=x.last[z];
+   let help='';
+   if(h&&t!=='samuel'){
+    if((t==='laisla'&&h==='rauanny')||(t==='rauanny'&&h==='laisla')||(t==='allan'&&h==='samuel')||(t==='ryan'&&h==='breno')||(t==='breno'&&h==='ryan'))help=d.help;
+    else help=`${name(h)} escuta o movimento perto de ${x.route}, mas não atravessa o cômodo onde o assassino ainda está.`;
+   }
+   const head=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${lastBeat}\n\n`;
+   if(outcome==='safe')text=head+x.safe+'\n\n'+d.safe+'\n\n'+(help||d.alone)+'\n\n'+d.tail;
+   else if(outcome==='injured')text=head+x.injury+'\n\n'+d.injured+'\n\n'+(help||d.alone)+'\n\n'+d.tail;
+   else if(outcome==='fatal'){
+    let sceneDeath=KILL135[t];
+    if(t==='samuel')sceneDeath=sceneDeath.replace('para que os outros passem','para tentar escapar').replace('SAMUEL: — Allan... não vem...','SAMUEL: — Não... assim...').replace('ele conseguiu mostrar aos outros uma saída, mas não chegou a usá-la','ele abriu uma passagem, mas não teve forças para atravessá-la');
+    if(t==='rauanny'&&dead(s,'laisla'))sceneDeath=sceneDeath.replace('Ela vê Laisla do outro lado da piscina e faz sinal para que venha.','A ausência de Laisla ainda pesa quando o mascarado invade o jardim.').replace('LAI! NÃO VEM POR AQUI! ELE TÁ ATRÁS DE MIM!','NÃO VOU DEIXAR VOCÊ ME LEVAR TAMBÉM!').replace('RAUANNY: — Laisla... corre...','RAUANNY: — Laisla...');
+    if(t==='laisla'&&dead(s,'rauanny'))sceneDeath=sceneDeath.replace('Laisla: — Rau... não volta...','Laisla: — Não... fecha... a porta...').replace('LAISLA: — Rau... não volta...','LAISLA: — Não... fecha... a porta...');
+    const reaction=t==='samuel'?'Nenhum amigo testemunha o ataque: só o alarme do carro rompe o silêncio. Mais tarde, encontrarão as marcas da luta perto da portinhola.':h?(DEATH_REACT134[t]?.[h]||`${name(h)} ouve os golpes e chama por ${n}, mas não consegue entrar antes que o agressor fuja.`):'Do lado de fora, ninguém ainda sabe o que aconteceu naquele setor.';
+    text=head+sceneDeath+'\n\n'+reaction+'\n\nO agressor deixa o setor. O próximo amigo terá que fugir sem presumir que tudo acabou.';
+   }
   }
  }
  return {text:text.replaceAll('\\n','\n'),choices,location,scene};
