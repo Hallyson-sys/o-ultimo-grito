@@ -1,0 +1,6 @@
+O Último Grito — Novidades da V1.4.1
+
+- Adicionadas aberturas cinematográficas no início de cada capítulo.
+- Cada capítulo agora exibe uma title card inspirada em thrillers narrativos, com o nome do capítulo e a numeração correspondente.
+- A abertura aparece automaticamente ao entrar no primeiro nó de cada capítulo e some sozinha após alguns segundos, podendo também ser pulada com um toque.
+- Atualização visual de interface sem alterar saves ou escolhas da história.

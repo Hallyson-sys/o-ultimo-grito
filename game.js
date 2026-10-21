@@ -3,7 +3,7 @@ const $=s=>document.querySelector(s),app=$('#app');
 const OLD_KEY='ultimo-grito-save';const SLOT_PREFIX='ultimo-grito-slot-';let activeSlot=1;const KEY_UNUSED='ultimo-grito-save';
 const LEGACY=['ultimo-grito-save-v06','ultimo-grito-save-v05','ultimo-grito-save-v04','ultimo-grito-save-v03','ultimo-grito-save-v02'];
 let save=null,view='menu';let castSelected=null;
-let previousAudioView='menu';const audio=window.UGAudio;const inter=window.UGInteractive;const social=window.UG107; let urgentInterval=null,urgentArmedNode=null,urgentRemaining=0;let phoneTab='chats',phoneThread='grupo';let investigationSelection=null;let expandedAlert=false;let selectedMedia=null;
+let previousAudioView='menu';const audio=window.UGAudio;const inter=window.UGInteractive;const social=window.UG107; let urgentInterval=null,urgentArmedNode=null,urgentRemaining=0;let phoneTab='chats',phoneThread='grupo';let investigationSelection=null;let expandedAlert=false;let selectedMedia=null;let chapterOpeningTimer=null,chapterOpeningHideTimer=null,chapterOpeningSeenNode=null;
 
 const CHAPTERS=[
   {id:'prologo', short:'PRÓLOGO', title:'A noite em que tudo mudou', label:'PRÓLOGO · A NOITE EM QUE TUDO MUDOU', start:'p01', summary:'A festa de Jullia, o acidente e o pacto no lago.'},
@@ -117,6 +117,33 @@ function chapterIdFromLabel(label=''){
   return 'prologo';
 }
 function chapterMetaForNode(nodeId){const node=window.NODES?.[nodeId];return CHAPTERS.find(c=>c.id===chapterIdFromLabel(node?.chapter||''))||CHAPTERS[0]}
+function chapterOpeningForNode(nodeId){return CHAPTERS.find(c=>c.start===nodeId)||null}
+function chapterOpeningMarkup(meta){
+  if(!meta)return '';
+  const label=meta.id==='prologo'?'PRÓLOGO':meta.short;
+  const title=esc((meta.title||'').toUpperCase());
+  const subtitle=meta.id==='prologo'?`${title} · PRÓLOGO`:`${title} · ${esc(meta.short)}`;
+  return `<section class="chapter-opening" id="chapter-opening" aria-label="Abertura do capítulo"><div class="chapter-opening-backdrop" aria-hidden="true"></div><div class="chapter-opening-inner"><span class="chapter-opening-kicker">${esc(label)}</span><h2 class="chapter-opening-title">${title}</h2><p class="chapter-opening-subtitle">${subtitle}</p><button class="chapter-opening-skip" type="button">TOQUE PARA CONTINUAR</button></div></section>`;
+}
+function activateChapterOpening(nodeId){
+  const overlay=document.getElementById('chapter-opening');
+  if(!overlay)return;
+  chapterOpeningSeenNode=nodeId;
+  if(chapterOpeningTimer)clearTimeout(chapterOpeningTimer);
+  if(chapterOpeningHideTimer)clearTimeout(chapterOpeningHideTimer);
+  let closed=false;
+  const close=()=>{
+    if(closed)return;
+    closed=true;
+    overlay.classList.add('closing');
+    chapterOpeningHideTimer=setTimeout(()=>overlay.remove(),650);
+    window.removeEventListener('keydown',onKey);
+  };
+  const onKey=e=>{if(['Enter',' ','Escape'].includes(e.key)){e.preventDefault();close();}};
+  overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('.chapter-opening-skip')||e.target.closest('.chapter-opening-inner'))close();});
+  window.addEventListener('keydown',onKey);
+  chapterOpeningTimer=setTimeout(close,2800);
+}
 function highestReached(a){
   if(!a||!a.node||!window.NODES?.[a.node]) return 0;
   const ids=[...new Set([chapterIdFromLabel(window.NODES[a.node].chapter), ...((a.history||[]).map(h=>chapterIdFromLabel(h.chapter)))])];
@@ -202,7 +229,7 @@ function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;r
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="recap">ANTERIORMENTE · SUA HISTÓRIA</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="phone">CELULAR INTERATIVO</button><button class="secondary" data-act="butterfly">EFEITO BORBOLETA</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.4.0 · CAPÍTULO 10 — A VERDADE TEM UM PREÇO</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.4.0 · LAKEWOOD</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="recap">ANTERIORMENTE · SUA HISTÓRIA</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="phone">CELULAR INTERATIVO</button><button class="secondary" data-act="butterfly">EFEITO BORBOLETA</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.4.1 · ABERTURAS CINEMATOGRÁFICAS DE CAPÍTULO</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.4.1 · LAKEWOOD</span></footer></main>`);
 }
 function creator(){
   view='creator';
@@ -211,6 +238,7 @@ function creator(){
 function sceneNode(id){const n=window.NODES?.[id];if(!n)return null;const resolved=window.UG6?.resolve?.(id,save)||n;const polished=window.UGPolish?.resolve?.(id,save,resolved)||resolved;const known=window.UGKnowledge?.resolve?.(id,save,polished)||polished;const cons=window.UGConsequences?.resolve?.(id,save,known)||known;const linked=inter?.resolve?.(id,save,cons)||cons;const enriched=social?.sceneAddon?.(save,id,linked)||linked;const continuous=window.UG108?.resolve?.(id,save,enriched)||enriched;const finalised=window.UGFinale108?.resolve?.(id,save,continuous)||continuous;const c7=window.UG7?.resolve?.(id,save,finalised)||finalised;const c8=window.UG8?.resolve?.(id,save,c7)||c7;const c9=window.UG9?.resolve?.(id,save,c8)||c8;return window.UG10?.resolve?.(id,save,c9)||c9;}
 function game(){
   view='game'; if(save?.node && window.UG10?.enter?.(save,save.node))persist(); if(save?.node && window.UG9?.enter?.(save,save.node))persist(); if(save?.node && window.UG8?.enter?.(save,save.node))persist(); if(save?.node && window.UG7?.enter?.(save,save.node))persist();if(save?.node && window.UGFinale108?.enter?.(save,save.node))persist(); if(save?.node && window.UGKnowledge?.enter?.(save,save.node))persist(); if(save?.node&&social?.enter?.(save,save.node))persist(); const n=sceneNode(save?.node); if(!n){menu();return}
+  const opening=chapterOpeningForNode(n.id); const showOpening=!!(opening&&chapterOpeningSeenNode!==n.id);
   const choices=n.choices.filter(c=>allowed(c.requires));
   const active=inter?.activeAlert?.(save,n.id);
   const explore=social?.opportunity?.(save,n.id);const remembered=save?.social107?.scenes?.[n.id];
@@ -221,8 +249,8 @@ function game(){
   const usedMarkup=(social?.usedResults?.(save,n.id)||[]).map(t=>`<section class="v107-result">${esc(t)}</section>`).join('');
   const sceneExtras=explore?`<section class="v107-explore"><h3>EXPLORAR · ${esc(explore.title)}</h3><p>${esc(explore.intro)}</p><div class="v107-explore-actions">${explore.options.map(o=>`<button class="secondary" data-explore="${o.id}">${esc(o.text)}</button>`).join('')}</div></section>`:remembered?`<section class="v107-result">${esc(remembered.result)}</section>`:'';
   const timedReady=emergency&&urgentArmedNode!==n.id;const timeMarkup=emergency?(timedReady?`<section class="v107-timer-ready"><b>O PERIGO SE APROXIMA</b><p>Leia a cena antes de iniciar. Depois, você terá ${emergency.secs} segundos para decidir.</p><button class="primary" data-urgent-start="${n.id}">COMEÇAR DECISÃO URGENTE</button></section>`:`<div class="v107-countdown" role="timer" aria-label="Tempo restante">Tempo para agir: <strong id="v107-clock">${urgentRemaining}s</strong></div>`):'';
-  ui(`<main class="play scenic ${esc(n.scene)}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${formatted(n.text)}</div>${alertMarkup}${sceneExtras}${usedMarkup}${useMarkup}${timeMarkup}<div class="choices" ${timedReady?'hidden':''}>${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div></div><div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div></main>`);
-  audio?.syncNode(n);if(emergency&&!timedReady&&urgentArmedNode===n.id)startUrgentTick(n.id);
+  ui(`<main class="play scenic ${esc(n.scene)}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${formatted(n.text)}</div>${alertMarkup}${sceneExtras}${usedMarkup}${useMarkup}${timeMarkup}<div class="choices" ${timedReady?'hidden':''}>${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div></div><div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div>${showOpening?chapterOpeningMarkup(opening):''}</main>`);
+  audio?.syncNode(n);if(showOpening)activateChapterOpening(n.id);if(emergency&&!timedReady&&urgentArmedNode===n.id)startUrgentTick(n.id);
 }
 function startUrgentTick(id){if(urgentInterval)clearInterval(urgentInterval);urgentInterval=setInterval(()=>{if(view!=='game'||!save||save.node!==id){clearInterval(urgentInterval);urgentInterval=null;return}if(document.hidden)return;urgentRemaining--;const c=document.getElementById('v107-clock');if(c)c.textContent=Math.max(0,urgentRemaining)+'s';if(urgentRemaining<=0){clearInterval(urgentInterval);urgentInterval=null;urgentArmedNode=null;const n=sceneNode(id);const cc=n.choices.filter(v=>allowed(v.requires));if(cc.length){const fallback=(window.UG8?.timer?.(save,id,cc)||window.UG7?.timer?.(save,id,cc))?.fallback;select(Number.isInteger(fallback)&&fallback>=0&&fallback<cc.length?fallback:cc.length-1);}}},1000);}
 function exportSave(){const data=save||getSave();if(!data){alert('Nenhuma partida para exportar.');return}const payload=JSON.stringify({game:'o-ultimo-grito',format:1,save:normalize(data)},null,2);const blob=new Blob([payload],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='o-ultimo-grito-slot-'+activeSlot+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
@@ -443,7 +471,7 @@ app.addEventListener('click',e=>{
   const urgent=e.target.closest('[data-urgent-start]');if(urgent&&save&&urgent.dataset.urgentStart===save.node){const now=sceneNode(save.node);const config=window.UG8?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)))||window.UG7?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)))||social?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)));if(config){urgentArmedNode=now.id;urgentRemaining=config.secs;game();}return;}
   const goreToggle=e.target.closest('[data-gore-toggle]');if(goreToggle&&save){social.state(save).graphicOff=!social.state(save).graphicOff;persist();systemsScreen();return;}
   const timedToggle=e.target.closest('[data-urgency-toggle]');if(timedToggle&&save){social.state(save).timedOff=!social.state(save).timedOff;urgentArmedNode=null;persist();systemsScreen();return;}
-  const person=e.target.closest('[data-person]');if(person){castSelected=person.dataset.person;renderCast();return;}const slot=e.target.closest('[data-slot]');if(slot){activeSlot=Number(slot.dataset.slot);save=getSave();expandedAlert=false;selectedMedia=null;if(save)game();else creator();return;}const btn=e.target.closest('[data-act],[data-choice]'); if(!btn) return;
+  const person=e.target.closest('[data-person]');if(person){castSelected=person.dataset.person;renderCast();return;}const slot=e.target.closest('[data-slot]');if(slot){activeSlot=Number(slot.dataset.slot);save=getSave();expandedAlert=false;selectedMedia=null;chapterOpeningSeenNode=null;if(save)game();else creator();return;}const btn=e.target.closest('[data-act],[data-choice]'); if(!btn) return;
   if(btn.dataset.choice!==undefined){ select(Number(btn.dataset.choice)); return; }
   const action=btn.dataset.act;
   if(action==='sound') sound();
@@ -452,7 +480,7 @@ app.addEventListener('click',e=>{
   else if(action==='sound-settings'){audio?.toggle();audioScreen();}
   else if(action==='preview-message'){if(!audio?.enabled){audio?.enable();audioScreen()}audio?.cue('mensagem');}
   else if(action==='preview-knock'){if(!audio?.enabled){audio?.enable();audioScreen()}audio?.cue('batidas');}
-  else if(action==='new'){ if(getSave()&&!confirm('Novo jogo substituirá apenas o slot '+activeSlot+'. Continuar?')) return; creator(); }
+  else if(action==='new'){ if(getSave()&&!confirm('Novo jogo substituirá apenas o slot '+activeSlot+'. Continuar?')) return; chapterOpeningSeenNode=null; creator(); }
   else if(action==='continue'){ save=getSave(); if(save) game(); else menu(); }
   else if(action==='resume'){ if(save) game(); else menu(); }
   else if(action==='menu') menu();
@@ -469,6 +497,6 @@ app.addEventListener('click',e=>{
   else if(action==='import') importSave();
 });
 app.addEventListener('input',e=>{if(e.target?.dataset?.playerNotes!==undefined&&save){save.interactive??=inter.empty();save.interactive.notes=String(e.target.value).slice(0,1500);persist();const status=document.getElementById('notes-status');if(status)status.textContent='Anotações salvas neste slot.';return;}const key=e.target?.dataset?.audioVolume;if(key!=='music'&&key!=='effects')return;const v=Number(e.target.value);audio?.updateSettings({[key]:v});const label=document.getElementById(key==='music'?'audio-music-value':'audio-effects-value');if(label)label.textContent=v+'%';});
-app.addEventListener('submit',e=>{ if(e.target.id!=='creator') return; e.preventDefault(); const f=new FormData(e.target); const name=String(f.get('name')||'').trim(); if(name.length<2) return; save=baseSave(name,String(f.get('pronouns')),String(f.get('look'))); persist(); game(); });
+app.addEventListener('submit',e=>{ if(e.target.id!=='creator') return; e.preventDefault(); const f=new FormData(e.target); const name=String(f.get('name')||'').trim(); if(name.length<2) return; save=baseSave(name,String(f.get('pronouns')),String(f.get('look'))); chapterOpeningSeenNode=null; persist(); game(); });
 menu();
 })();

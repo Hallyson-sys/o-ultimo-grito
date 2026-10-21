@@ -196,3 +196,7 @@ Use a recapitulação no menu; para novas escolhas e rastreamento interno, inclu
 
 ATUALIZAÇÃO V1.3.4 — CAPÍTULO 9
 Veja NOVIDADES-V1.3.4.txt para o detalhamento das rotas de perseguição, pronome dos personagens, vídeo pré-gravado, cena do banheiro, reações às mortes e suporte a ferimentos.
+
+
+V1.4.1
+- Aberturas cinematográficas adicionadas aos inícios de capítulo.
