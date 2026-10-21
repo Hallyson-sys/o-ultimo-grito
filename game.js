@@ -16,7 +16,7 @@ const CHAPTERS=[
   {id:'cap7',short:'CAPÍTULO 07',title:'A noite dos traidores',label:'CAPÍTULO 07 · A NOITE DOS TRAIDORES',start:'j01',summary:'Conversa íntima, jantar, investigação de Bella e Moisés, perspectivas alternadas e decisões que determinam quem consegue fugir da oficina.'},
   {id:'cap8',short:'CAPÍTULO 08',title:'Águas turvas',label:'CAPÍTULO 08 · ÁGUAS TURVAS',start:'k8_01',summary:'Depois da mensagem sobre o traidor, Bella segue os registros da estação do lago. Investigar a verdade pode custar caro.'},
   {id:'cap9',short:'CAPÍTULO 09',title:'Um último jogo',label:'CAPÍTULO 09 · UM ÚLTIMO JOGO',start:'k9_01',summary:'Memorial, festa de Lakewood, festa de Laisla, uma armadilha e a última máscara.'},
-  {id:'cap10',short:'CAPÍTULO 10',title:'A verdade tem um preço',label:'CAPÍTULO 10 · A VERDADE TEM UM PREÇO',start:'k10_01',summary:'O rosto por trás da máscara, a revelação da cumplicidade e a última noite no lago.'}
+  {id:'cap10',short:'CAPÍTULO 10',title:'O Grand Finale',label:'CAPÍTULO 10 · O GRAND FINALE',start:'k10_01',summary:'O rosto por trás da máscara, a revelação da cumplicidade e a última noite no lago.'}
 ];
 
 const CLUE_DATA={
@@ -120,10 +120,9 @@ function chapterMetaForNode(nodeId){const node=window.NODES?.[nodeId];return CHA
 function chapterOpeningForNode(nodeId){return CHAPTERS.find(c=>c.start===nodeId)||null}
 function chapterOpeningMarkup(meta){
   if(!meta)return '';
-  const label=meta.id==='prologo'?'PRÓLOGO':meta.short;
   const title=esc((meta.title||'').toUpperCase());
-  const subtitle=meta.id==='prologo'?`${title} · PRÓLOGO`:`${title} · ${esc(meta.short)}`;
-  return `<section class="chapter-opening" id="chapter-opening" aria-label="Abertura do capítulo"><div class="chapter-opening-backdrop" aria-hidden="true"></div><div class="chapter-opening-inner"><span class="chapter-opening-kicker">${esc(label)}</span><h2 class="chapter-opening-title">${title}</h2><p class="chapter-opening-subtitle">${subtitle}</p><button class="chapter-opening-skip" type="button">TOQUE PARA CONTINUAR</button></div></section>`;
+  const subtitle=meta.id==='prologo'?'— PRÓLOGO —':`— ${esc(meta.short)} —`;
+  return `<section class="chapter-opening" id="chapter-opening" aria-label="Abertura do capítulo"><div class="chapter-opening-backdrop" aria-hidden="true"></div><div class="chapter-opening-inner"><span class="chapter-opening-kicker">O ÚLTIMO GRITO</span><h2 class="chapter-opening-title">${title}</h2><p class="chapter-opening-subtitle">${subtitle}</p><button class="chapter-opening-skip" type="button">TOQUE PARA CONTINUAR</button></div></section>`;
 }
 function activateChapterOpening(nodeId){
   const overlay=document.getElementById('chapter-opening');
@@ -142,7 +141,7 @@ function activateChapterOpening(nodeId){
   const onKey=e=>{if(['Enter',' ','Escape'].includes(e.key)){e.preventDefault();close();}};
   overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('.chapter-opening-skip')||e.target.closest('.chapter-opening-inner'))close();});
   window.addEventListener('keydown',onKey);
-  chapterOpeningTimer=setTimeout(close,2800);
+  chapterOpeningTimer=setTimeout(close,6000);
 }
 function highestReached(a){
   if(!a||!a.node||!window.NODES?.[a.node]) return 0;
@@ -229,7 +228,7 @@ function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;r
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="recap">ANTERIORMENTE · SUA HISTÓRIA</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="phone">CELULAR INTERATIVO</button><button class="secondary" data-act="butterfly">EFEITO BORBOLETA</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.4.1 · ABERTURAS CINEMATOGRÁFICAS DE CAPÍTULO</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.4.1 · LAKEWOOD</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="recap">ANTERIORMENTE · SUA HISTÓRIA</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="phone">CELULAR INTERATIVO</button><button class="secondary" data-act="butterfly">EFEITO BORBOLETA</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.4.2 · O GRAND FINALE · AJUSTES DE CAPÍTULO</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.4.2 · LAKEWOOD</span></footer></main>`);
 }
 function creator(){
   view='creator';

@@ -1,13 +1,16 @@
-/* O ÚLTIMO GRITO · CAPÍTULO 10: A VERDADE TEM UM PREÇO · V1.4.0
+/* O ÚLTIMO GRITO · CAPÍTULO 10: O GRAND FINALE · V1.4.2
  * Histórias ramificadas preservam saves; escolhas e estados ficam em flags c10_*.
  * Não substituir dados antigos nem eliminar mortes confirmadas dos capítulos anteriores.
  */
 (()=>{'use strict';
-const CH='CAPÍTULO 10 · A VERDADE TEM UM PREÇO';
+const CH='CAPÍTULO 10 · O GRAND FINALE';
 const NODES=window.NODES,H=window.HISTORIA;
 const LABEL={allan:'Allan',samuel:'Samuel',isabella:'Isabella',rayssa:'Rayssa',rauanny:'Rauanny',laisla:'Laisla',ryan:'Ryan',breno:'Breno',bella:'Bella'};
+const FEMALE=new Set(['isabella','rayssa','rauanny','laisla','bella','jullia']);
 const IDS=['allan','samuel','isabella','rayssa','rauanny','laisla','ryan','breno'];
 const name=x=>LABEL[x]||x||'ninguém';
+const pron=x=>FEMALE.has(x)?'ela':'ele';
+const pronCap=x=>FEMALE.has(x)?'Ela':'Ele';
 const dead=(s,id)=>!!s?.flags?.['c10_morto_'+id]||!!window.UG9?.dead?.(s,id);
 const living=s=>IDS.filter(id=>!dead(s,id));
 const wounded=(s,id)=>!!s?.flags?.['c10_ferido_'+id]||!!s?.flags?.['c9_ferido_'+id]||!!s?.flags?.['c8_grave_'+id]||!!s?.flags?.['c7_ferido_'+id]||!!s?.flags?.['c6_ferida_'+id];
@@ -148,25 +151,29 @@ A primeira reação é silêncio. Depois todos começam a perguntar ao mesmo tem
 {apoio}: — Pera aí. Como assim «sabia»?!
 
 Jullia: — Eu adoro quando vocês levam uns segundos pra acreditar. É quase um talento.`,[go('k10_06','Escutar a versão de Rayssa')]);
-node('k10_06','DECK · ENTRE MELHORES AMIGAS','22:43','lake',`Isabella olha para Rayssa como se esperasse que a amiga começasse a rir e explicasse que tudo não passa de uma brincadeira horrível.
+node('k10_06','DECK · ENTRE MELHORES AMIGAS','22:43','lake',`Isabella olha para Rayssa como se ainda esperasse que a amiga dissesse que aquilo tudo é uma mentira cruel.
 
-Isabella: — Fala que ela tá mentindo, Rayssa.
+Isabella: — Fala que ela tá mentindo, Rayssa. Pelo amor de Deus. Fala que isso é alguma porra de armação.
 
 Rayssa: — Isa...
 
-Isabella: — Não. Só fala que é mentira.
+Isabella: — Não fala meu nome desse jeito. Não agora. Só responde.
 
-Rayssa: — Eu encontrei ela no dia seguinte. Perto das pedras. Ela tava machucada, eu fiquei sem saber o que fazer...
+Rayssa: — Eu encontrei a Jullia no dia seguinte. Ela tava viva. Machucada. Eu entrei em pânico e...
 
-Isabella: — Você lembra de quando eu dormi na sua casa porque não conseguia parar de chorar por causa da Jullia? Você ficou me abraçando a noite inteira.
+Isabella dá uma risada curta, completamente sem humor, e os olhos enchem de lágrimas no mesmo instante.
+
+Isabella: — Você lembra de quando eu dormi na sua casa porque eu não conseguia fechar o olho sem ver a queda dela? Você me abraçou a noite inteira. Disse que a gente ia passar por aquilo juntas.
 
 Rayssa: — Eu lembro.
 
-Isabella: — E deixou eu acreditar que a gente tinha matado ela. Puta merda, Rayssa. Como você fez isso comigo?!
+Isabella: — Então como você conseguiu me olhar na cara todos esses meses? Como você me ouviu chorar por ela... sabendo que ela tava viva?
 
-Rayssa: — Eu achei que tava protegendo ela. Eu não queria machucar você.
+Rayssa: — Eu achei que tava protegendo a Jullia. Depois achei que tava protegendo você. Depois já não tava protegendo ninguém. Eu só tava afundando cada vez mais.
 
-Isabella: — Mas machucou. Todos os dias daquele ano.`,[
+Isabella: — Você destruiu a nossa amizade na minha frente e ainda me deixou agradecer por ter você do meu lado. Isso é doentio, Rayssa.
+
+Rayssa: — Eu sei. E eu vou carregar isso pro resto da vida.`,[
  opt('Pedir que Isabella deixe Rayssa explicar até o fim','k10_07',[bond('rayssa',7),bond('isabella',-5),flag('ouviu_rayssa')]),
  opt('Exigir que Rayssa conte a verdade sobre os ataques','k10_07',[bond('rayssa',-5),bond('isabella',4),flag('pressionou_rayssa')]),
  opt('Ficar ao lado de Isabella sem interromper','k10_07',[bond('isabella',8),flag('acolheu_isabella')])]);
@@ -195,28 +202,54 @@ Jullia está encolhida sob os galhos, tremendo, com os cabelos grudados no rosto
 
 Rayssa: — Jullia? Meu Deus... JULLIA?!
 
-Jullia: — Não... não chama ninguém deles.
+Jullia: — Não... não chama ninguém. Não chama eles.
 
-Rayssa: — Você precisa de hospital! Deixa eu ligar pra alguém!
+Rayssa: — Você precisa de hospital! Deixa eu ligar pra ambulância agora!
 
-Jullia: — Por favor. Não deixa eles me encontrarem.
+Jullia segura o pulso dela com a pouca força que ainda tem.
+
+Jullia: — Se você chamar alguém, eles vão dizer que foi um acidente. Vão continuar vivendo como se eu fosse só um erro daquela noite.
+
+Rayssa: — Para de falar assim. Você tá em choque.
+
+Jullia: — Eu fiquei lá embaixo achando que ia morrer sozinha. Eles me deixaram. Não deixa eles fazerem isso de novo.
 
 Rayssa tira o casaco e cobre os ombros da amiga. Está apavorada, mas não consegue abandoná-la.
 
 DE VOLTA AO DECK
 
-Rayssa: — Eu pensei que ela só precisava descansar e depois ia querer contar. Só que cada dia que passava ficava pior abrir a boca.`,[go('k10_09','Ouvir a explicação sobre Moisés')]);
+Rayssa: — Eu pensei que ela só precisava de tempo. Só que cada dia que passava ficava pior abrir a boca... e mais fácil continuar mentindo.`,[go('k10_09','Ouvir a explicação sobre Moisés')]);
 node('k10_09','DECK · MOISÉS E BELLA','22:58','lake',`Você: — E o Moisés? Ele sabia?
 
-Rayssa: — Eu procurei ele porque não conseguia cuidar dela sozinha. Ele soube que ela tava viva. Ajudou a conseguir um lugar escondido e coisas de que ela precisava.
+Rayssa: — Eu procurei ele porque não conseguia cuidar da Jullia sozinha. Ele soube que ela tava viva. Ajudou a conseguir um lugar escondido e coisas de que ela precisava.
 
-Jullia: — Moisés achava que a gente ia resolver tudo quando eu melhorasse. Era o que ele dizia.
+FLASHBACK — DIAS DEPOIS
 
-Você: — Então ele ficou olhando a gente enlouquecer e não falou nada?
+Uma lâmpada fraca ilumina um quartinho improvisado. Jullia está sentada numa cama estreita, com o joelho enfaixado. Moisés fecha a porta atrás de si. Rayssa continua em pé, tensa, como se quisesse fugir daquela cena.
 
-Jullia: — Você vai ter que acertar isso com o que ele deixou pra trás. Não transforma ele numa resposta fácil.
+Moisés: — Isso saiu do controle faz tempo. Você precisa decidir se vai aparecer viva ou sumir de vez.
 
-Rayssa: — A Bella não sabia. Jullia fazia questão disso. Eu sei que ela passou meses procurando a irmã e tenho vergonha de lembrar que fiquei calada.
+Jullia: — Aparecer viva pra quê? Pra ouvir de novo que foi um acidente? Pra ver eles seguirem a vida?
+
+Rayssa: — Jullia, para com isso. A gente ainda pode contar a verdade.
+
+Jullia olha primeiro para Rayssa, depois para Moisés.
+
+Jullia: — Verdade não basta. Eu quero que eles sintam. Quero que cada um deles carregue a mesma angústia que eu carreguei quando achei que ninguém ia voltar por mim.
+
+Moisés: — Vingança não vai te consertar.
+
+Jullia: — Talvez não. Mas vai me impedir de ser esquecida.
+
+DE VOLTA AO DECK
+
+Jullia: — Moisés achava que ia conseguir me controlar. Ficou repetindo que tudo ia acabar quando eu melhorasse. Não entendeu nada.
+
+Você: — Então ele viu vocês montando isso e não fez nada?
+
+Jullia: — Ele viu o suficiente pra se perder no meio dessa merda.
+
+Rayssa: — A Bella não sabia. Jullia fazia questão disso. Eu sei que ela passou meses procurando a irmã e eu fiquei calada.
 
 Jullia olha para a estrada que leva à cidade.
 
@@ -746,11 +779,11 @@ Rayssa: — Eu sabia que tinha saído do controle. Nunca vou conseguir desfazer 
  if(['k10_20','k10_21','k10_22','k10_23'].includes(id)){
   const a=g1,b=g2;
   if(!a){text=`O galpão permanece escuro. Não há outro personagem principal livre para criar uma perseguição fictícia: os que sobreviveram estão na casa ou no deck, tentando recuperar o fôlego. Jullia atravessa a passarela e procura vestígios de quem passou por ali.`;choices=[go('k10_24','Retornar ao grupo na margem')];}
-  else if(!b){text=text.replaceAll('{galpao}',name(a)).replaceAll('{companhia}',name(a)); if(id==='k10_20')text=`PONTO DE VISTA: ${name(a).toUpperCase()}\n\n${name(a)} entra no galpão sozinho. A porta emperrada é a única barreira entre ele e Jullia, que ainda está vindo pela trilha.\n\n${name(a)}: — Calma. Só preciso achar uma saída.\n\nO celular mostra uma barra de sinal. Uma mensagem curta talvez consiga alcançar alguém do outro lado da estrada.`;}
+  else if(!b){text=text.replaceAll('{galpao}',name(a)).replaceAll('{companhia}',name(a)); if(id==='k10_20')text=`PONTO DE VISTA: ${name(a).toUpperCase()}\n\n${name(a)} entra no galpão sozinho. A porta emperrada é a única barreira entre ${pron(a)} e Jullia, que ainda está vindo pela trilha.\n\n${name(a)}: — Calma. Só preciso achar uma saída.\n\nO celular mostra uma barra de sinal. Uma mensagem curta talvez consiga alcançar alguém do outro lado da estrada.`; if(id==='k10_21')text=`A mensagem fica presa na tela com a palavra «enviando». ${name(a)} prende a respiração. Um passo do lado de fora, depois outro, anuncia que Jullia deixou a trilha.\n\nJullia: — Eu sei que tem alguém aí dentro.\n\n${name(a)}: — Merda...\n\nUm gancho de metal está preso à parede. No chão, uma caixa de ferramentas parcialmente aberta. A porta dos fundos continua emperrada.\n\n${name(a)}: — Se eu ficar parado aqui, ela me encurrala.`; if(id==='k10_22')text=`O metal rasga parte da lona. Jullia consegue abrir a porta principal, e a lâmina reflete a luz que entra pela fresta. ${name(a)} puxa a caixa de ferramentas para ganhar alguns segundos.\n\n${name(a)}: — Tem uma abertura na lateral... anda, pensa, pensa...\n\nO galpão vira uma confusão de tábuas, lona e respiração curta. Jullia avança direto em ${name(a)}, sem ninguém por perto para distrair o ataque.\n\nO resultado depende do caminho que ${pron(a)} escolheu dentro do galpão. Ferimentos anteriores não decidem sozinhos quem sai dali.`; if(id==='k10_23')text=`Ao sair do galpão, ${name(a)} avista a varanda de serviço da casa. Jullia permanece lá dentro por alguns instantes, procurando por onde ${pron(a)} escapou.\n\nO celular vibra: a localização enviada parece finalmente ter saído. Mas não há confirmação de resposta. A tempestade piora e o acesso principal está coberto de galhos caídos.\n\n${name(a)}: — Se alguém recebeu aquilo, ainda pode ter uma chance.\n\n${pronCap(a)} não espera socorro cair do céu. Precisa continuar em movimento para voltar ao grupo.`;}
   else text=text.replaceAll('{galpao}',name(a)).replaceAll('{companhia}',name(b));
   if(id==='k10_23'&&a&&f['c10_morto_'+a])text=`PONTO DE VISTA: ${name(b||kid).toUpperCase()}\n\n${name(b||kid)} sai cambaleando do galpão e fecha a porta com o ombro. O rosto está molhado de lágrimas.\n\n${name(b||kid)}: — A Jullia... ela matou ${name(a)}. Eu tentei puxar, mas ela não deixou!\n\nDo lado de dentro, não há resposta quando chamam ${name(a)}. A morte foi confirmada na luta; ninguém vai aparecer vivo no reencontro.\n\nUm celular vibra indicando que a localização enviada pode ter saído. A estrada permanece bloqueada pela tempestade.`;
-  if(id==='k10_22'&&f.c10_galpao_morte)extras=`\n\n${name(f.c10_galpao_morte)} tenta alcançar a saída, mas Jullia o intercepta atrás da bancada. A faca atinge seu torso; ${b?name(b):'Ninguém'} tenta puxá-lo para longe, mas a perseguidora bloqueia a passagem. Ele perde as forças e para de responder. A morte é confirmada quando a ajuda finalmente consegue alcançá-lo.`;
-  else if(id==='k10_22'&&a&&f['c10_ferido_'+a])extras=`\n\n${name(a)} sai vivo, com um corte profundo no braço. ${b?name(b):'Ele'} segura o ferimento contra a roupa para diminuir o sangramento até encontrar ajuda.`;
+  if(id==='k10_22'&&f.c10_galpao_morte)extras=`\n\n${name(f.c10_galpao_morte)} tenta alcançar a saída, mas Jullia o intercepta atrás da bancada. A faca atinge seu torso; ${b?name(b):'Ninguém'} tenta puxá-${FEMALE.has(f.c10_galpao_morte)?'la':'lo'} para longe, mas a perseguidora bloqueia a passagem. ${pronCap(f.c10_galpao_morte)} perde as forças e para de responder. A morte é confirmada quando a ajuda finalmente consegue alcançá-lo.`;
+  else if(id==='k10_22'&&a&&f['c10_ferido_'+a])extras=`\n\n${name(a)} sai ${FEMALE.has(a)?'viva':'vivo'}, com um corte profundo no braço. ${b?name(b):pronCap(a)} segura o ferimento contra a roupa para diminuir o sangramento até encontrar ajuda.`;
   if(id==='k10_20'&&f.c10_galpao_perigo===undefined){};
  }
  if(id==='k10_24'&&(dead(s,'isabella')||dead(s,'rayssa')||f.c10_rayssa_status==='jullia')){

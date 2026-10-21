@@ -1,0 +1,9 @@
+O Último Grito — Novidades da V1.4.2
+
+- Ajustado o title card dos capítulos para exibir o nome do capítulo em destaque e a linha separada com a numeração (ex.: UM ÚLTIMO JOGO / — CAPÍTULO 09 —).
+- Tempo do title card aumentado para cerca de 6 segundos, mantendo a opção de pular ao toque.
+- Capítulo 10 renomeado para O Grand Finale.
+- Corrigidas falas da rota solo no galpão para respeitar quando Isabella ou outro personagem estiver sozinho.
+- Corrigidos usos de pronome em cenas variáveis do Capítulo 10.
+- Reforçada a carga emocional da revelação entre Isabella e Rayssa.
+- Adicionados flashbacks extras com Jullia, Rayssa e Moisés.

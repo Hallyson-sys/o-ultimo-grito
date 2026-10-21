@@ -200,3 +200,7 @@ Veja NOVIDADES-V1.3.4.txt para o detalhamento das rotas de perseguição, pronom
 
 V1.4.1
 - Aberturas cinematográficas adicionadas aos inícios de capítulo.
+
+
+V1.4.2
+- Title card ajustado, Capítulo 10 renomeado para O Grand Finale, correções de pronome e novas cenas/flashbacks emocionais.

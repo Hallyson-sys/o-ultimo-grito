@@ -384,9 +384,9 @@ button,input,select{touch-action:manipulation}
 .chapter-opening-backdrop{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08),rgba(0,0,0,.6) 55%,rgba(0,0,0,.88));pointer-events:none}
 .chapter-opening:before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,255,255,.03),transparent 62%),repeating-linear-gradient(90deg,transparent 0 7%,rgba(255,255,255,.02) 7.1% 7.25%);opacity:.75;pointer-events:none}
 .chapter-opening-inner{position:relative;z-index:1;width:min(900px,92vw);padding:56px 28px 44px;text-align:center;border:1px solid rgba(255,255,255,.15);background:linear-gradient(180deg,rgba(8,14,22,.36),rgba(7,13,20,.12));box-shadow:0 30px 80px rgba(0,0,0,.45)}
-.chapter-opening-kicker{display:block;margin-bottom:18px;color:#c7d0d6;font-size:12px;font-weight:700;letter-spacing:.55em;text-transform:uppercase}
+.chapter-opening-kicker{display:block;margin-bottom:18px;color:#c7d0d6;font-size:12px;font-weight:700;letter-spacing:.45em;text-transform:uppercase}
 .chapter-opening-title{margin:0;font-family:Georgia,'Times New Roman',serif;font-size:clamp(50px,9vw,110px);font-weight:400;letter-spacing:-.05em;line-height:.92;color:#d7e0e6;text-transform:uppercase;text-shadow:0 10px 35px rgba(0,0,0,.5)}
-.chapter-opening-subtitle{margin:16px 0 0;color:#e7edf2;font-size:clamp(13px,2vw,18px);letter-spacing:.23em;text-transform:uppercase}
+.chapter-opening-subtitle{margin:20px 0 0;color:#e7edf2;font-size:clamp(16px,2.3vw,24px);letter-spacing:.28em;text-transform:uppercase}
 .chapter-opening-skip{margin-top:28px;border:1px solid rgba(255,255,255,.26);background:rgba(12,20,30,.58);color:#f0f5f8;padding:12px 20px;font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase}
 .chapter-opening-skip:hover,.chapter-opening-skip:focus-visible{border-color:#f0c0c9;background:rgba(28,42,58,.82)}
 .chapter-opening.closing{animation:chapterOpeningOut .6s ease forwards}
