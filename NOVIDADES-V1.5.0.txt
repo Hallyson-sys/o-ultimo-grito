@@ -1,0 +1,19 @@
+O ÚLTIMO GRITO — V1.5.0 | Revisão de Continuidade
+
+Esta edição usa a V1.4.4 como base e mantém os capítulos e os saves anteriores.
+
+CORREÇÕES:
+- Verificação transversal de morte e ferimentos em capítulos 4, 6, 7, 8, 9 e 10.
+- Perfil dos personagens mostra o estado correto (inclusive mortes nos capítulos 8–10 e gênero gramatical).
+- Corrigido o caso em que uma relação com confiança 0 era exibida como 50.
+- Um save importado não perde confiança zero e descarta valores numéricos inválidos dos medidores.
+- Camada adicional de continuidade remove falas posteriores de personagens já mortos no epílogo, sem apagar suas memórias ou flashbacks.
+- Capítulo 7: a cena no hospital não inventa mensagens de Breno ou Samuel caso eles tenham morrido.
+- Protagonista sozinho no epílogo recebe escolha adequada (não diz que ficou com um grupo que morreu).
+- Cache da interface e dos scripts atualizado para 1.5.0 no index.html.
+
+VALIDAÇÃO:
+- Auditoria estática das rotas e dos destinos de escolhas dos dez capítulos.
+- Verificações automatizadas de continuidade e cenários ramificados: ver RELATORIO_TESTES_V1.5.0.txt.
+
+AVISO: Não há alterações retroativas nas escolhas anteriores. A revisão editorial e o efeito borboleta expandido são trabalhos adicionais planejados. Faça backup de seus slots antes do deploy.

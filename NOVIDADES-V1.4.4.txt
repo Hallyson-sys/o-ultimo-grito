@@ -1,0 +1,13 @@
+O ÚLTIMO GRITO — V1.4.4 · O GRAND FINALE (revisão)
+
+• Esta versão contém o jogo completo e todos os ajustes da V1.4.3.
+• Ambulâncias: nenhuma vítima misteriosa surge se ninguém desapareceu; cenas de busca/resgate aparecem apenas quando aplicáveis.
+• Rayssa pede desculpas e responde à Isabella (quando viva) antes da escolha de falar à polícia.
+• Finais de Rayssa distinguem explicitamente perdoar/denunciar, perdoar/ocultar, ou deixar os depoimentos independentes.
+• Personagens mortos ou ausentes não entram na confraternização; as escolhas de conversa são montadas de acordo com o save.
+• Breno e os demais sobreviventes participam se estiverem vivos; suporte a todas as oito presenças mais protagonista.
+• Protagonista vivo tem escolhas próprias e os amigos reagem em diálogo.
+• Narrações e perguntas da confraternização variam por personagem, e o luto considera relações individuais.
+• Correções extras de pronomes nas mortes aparentes e na busca ao amanhecer.
+• Tela de resultado com cards visuais de protagonista, Jullia e Rayssa, mais sobreviventes e perdas.
+• Compatibilidade de saves mantida. Recomenda-se fazer backup do save antes de atualizar.

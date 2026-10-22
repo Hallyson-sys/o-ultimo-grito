@@ -1,0 +1,42 @@
+O ÚLTIMO GRITO — V1.5.2
+MEMÓRIAS EMOCIONAIS E CENAS ESPECIAIS
+
+Base: V1.5.1 · Efeito Borboleta Expandido. Todos os capítulos, saves e finais anteriores foram preservados.
+
+O QUE FOI ADICIONADO
+
+1. CENAS DE MEMÓRIA OPCIONAIS
+- Oito novas conversas individuais de memória na cafeteria do Capítulo 7, uma para cada amigo elegível.
+- Oito possibilidades de retomar uma lembrança durante os encontros do Capítulo 8.
+- Oito cenas adicionais e distintas na sorveteria do Capítulo 9.
+- Uma homenagem opcional para lembrar de um amigo morto no Capítulo 9.
+- Conversas exclusivas de memória durante a confraternização do Capítulo 10 para os personagens presentes e vivos.
+- As cenas variam de acordo com mortes anteriores, salva decisões e participação do protagonista.
+
+2. ROMANCES
+- Quatro cenas românticas opcionais e individualizadas durante o jantar com Ryan, Breno, Rauanny ou Rayssa.
+- A cena aparece somente quando a rota romântica correspondente foi escolhida e o personagem estava vivo na época.
+- Nenhum relacionamento torna-se oficial automaticamente.
+
+3. CONSEQUÊNCIAS E APRESENTAÇÃO
+- Escolhas de acolher, brincar ou conversar fortalecem relações no save.
+- Memórias realizadas ficam registradas em MEMÓRIAS AFETIVAS, no Diário de Consequências.
+- Cenas de memória recebem contraste e iluminação próprios, preservando o tema original.
+- Proteções contra opções duplicadas, personagens mortos e spoilers de mortes futuras ao revisitar capítulos.
+- Caso o protagonista morra, as memórias no epílogo são narradas por sobreviventes, sem fazer o falecido falar.
+
+ARQUIVOS ALTERADOS
+- Adicionado memories152.js.
+- Atualizados game.js, index.html, style.css, LEIA-ME.txt.
+- As cenas e os sistemas preexistentes continuam disponíveis.
+
+VALIDAÇÃO
+- Scripts JavaScript verificados com Node.js.
+- 927 cenas carregadas em testes automatizados.
+- 840 verificações de rotas e condições, incluindo saves com personagens mortos, romances e epílogos trágicos.
+- Teste visual de interface no Chromium não pôde ser concluído devido ao bloqueio de acesso às páginas neste ambiente.
+
+COMPATIBILIDADE
+- Slots existentes mantidos; sem migração destrutiva.
+- Recomenda-se exportar o save antes do deploy e enviar todos os arquivos desta versão.
+- Não misture scripts de versões anteriores.

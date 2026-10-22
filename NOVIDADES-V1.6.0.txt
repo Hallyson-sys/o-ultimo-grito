@@ -1,0 +1,12 @@
+O ÚLTIMO GRITO · V1.6.0 — EDIÇÃO DEFINITIVA (PRIMEIRO PACOTE)
+
+- Xerife Diego: cenas opcionais nos capítulos 1, 2, 8, 9 e presença garantida no amanhecer do 10.
+- Cena emocional extra de Jullia no prólogo; não muda a revelação ou os finais.
+- Criação do protagonista ampliada: cabelo, jeito de agir e receio pessoal; influencia o texto, traços iniciais e escolhas específicas.
+- Menu inicial simplificado (opções secundárias permanecem no menu da partida).
+- Diário: interesse romântico em destaque só pelo nome, sem a longa lista de afinidades.
+- Correção de Anna para Ana no flashback de Bella e Jullia (IDs dos saves preservados).
+- Compatibilidade: saves anteriores preservados, sem alterar IDs de capítulos.
+- Cache dos arquivos atualizado para 1.6.0.
+
+NOTA: Este é o primeiro pacote da edição definitiva. A revisão de todos os diálogos e o formato de importação entre temporadas ainda serão feitos em etapas posteriores.

@@ -1,0 +1,33 @@
+O ÚLTIMO GRITO — V1.5.1
+EFEITO BORBOLETA EXPANDIDO (primeira etapa)
+
+Base: V1.5.0 — Edição Definitiva, revisão técnica.
+
+O QUE MUDOU
+
+1. MEMÓRIA ENTRE CAPÍTULOS
+- Escolhas reais do Prólogo retornam em novas conversas no Capítulo 5 (Samuel/Allan), no Capítulo 6 (Breno, Laisla/Rauanny), no Capítulo 7 (Samuel/Allan), no Capítulo 8 (Isabella/Rayssa), no Capítulo 9 e no Capítulo 10.
+- O Capítulo 10 ganhou reações exclusivas à proximidade anterior de Isabella e Rayssa, e cenas condicionais nas rotas de romance com Ryan, Breno, Rauanny e Rayssa.
+- Personagens mortos não são convocados para diálogos novos. Saves antigos usam o histórico gravado, sem migração destrutiva.
+
+2. CONSEQUÊNCIAS JOGÁVEIS
+- Uma decisão antiga com Allan e Samuel, quando os dois estão na trilha do final, pode ajudar um personagem ferido a ter uma possibilidade de resgate.
+- Uma relação anterior de Laisla e Rauanny pode auxiliar uma fuga na trilha se elas forem as personagens envolvidas.
+- A antiga confiança depositada em Breno pode permitir que ele e Isabella coordenem uma fuga no galpão, transformando uma morte em ferimento em condições específicas.
+- Isabella e Rayssa ganham uma escolha adicional na cena final se você apoiou Rayssa numa conversa do prólogo, se ambas estiverem vivas e se Rayssa ainda não tiver escolhido Jullia.
+- Decisões antigas não garantem sobrevivência: os riscos e as escolhas feitas na própria perseguição também importam.
+
+3. RELAÇÕES E DIÁRIO
+- Algumas opções antigas agora geram efeitos de afinidade entre NPCs, além da relação com o protagonista.
+- O Diário de Consequências mostra uma nova seção “Lembranças que voltam”, com memórias relevantes detectadas a partir do histórico do save.
+
+COMPATIBILIDADE
+- Não apaga escolhas, saves, inventário, romances nem finais já registrados.
+- Mantém a estrutura de salvamento existente; a camada nova identifica momentos antigos pelo histórico de decisões.
+- Recomendamos exportar uma cópia do save antes de atualizar.
+
+VALIDAÇÃO AUTOMATIZADA
+- 882 nós, 10.584 renderizações em diferentes estados, 0 destinos inexistentes verificados.
+- 550 percursos ramificados de Capítulo 10 sem falha de ligação.
+- 19 testes específicos de memórias, morte/vida, caminhos desbloqueáveis, resgate, romance e idempotência.
+- Teste visual no navegador real não foi possível nesta etapa.

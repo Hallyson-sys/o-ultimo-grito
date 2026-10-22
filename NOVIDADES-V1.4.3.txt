@@ -1,0 +1,10 @@
+O Último Grito — Novidades da V1.4.3
+
+- Corrigida a cena das ambulâncias quando ninguém extra é encontrado na margem.
+- Ajustada a decisão sobre Rayssa com pedido de perdão direto à Isabella antes do depoimento.
+- Reestruturada a confraternização de 4 meses depois para mostrar apenas personagens realmente vivos/presentes.
+- Breno volta a aparecer corretamente quando sobrevive.
+- O protagonista agora participa da confraternização e recebe escolhas próprias.
+- Rayssa só aparece na confraternização quando o grupo decide protegê-la no depoimento.
+- As narrações da confraternização agora variam de personagem para personagem.
+- A tela final do resultado foi reorganizada para ficar mais bonita e legível.

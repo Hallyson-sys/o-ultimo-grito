@@ -1,0 +1,35 @@
+RELATÓRIO — O ÚLTIMO GRITO V1.5.0
+
+BASE: O Último Grito V1.4.4 Grand Finale Revisado
+ESCOPO: primeira rodada de revisão transversal da temporada 1.
+
+CENAS AUDITADAS: 882
+- 0 destinos estáticos inexistentes na auditoria de grafo.
+- 41 cenas possuem escolhas construídas dinamicamente; não são tratadas
+  como finais sem saída só por estarem vazias no cadastro estático.
+
+TESTE DE RENDERIZAÇÃO POR ESTADOS:
+- 10.584 renderizações de cenas de todos os capítulos.
+- 0 erros de JavaScript, 0 strings 'undefined', 0 escolhas apontando
+  para nós ausentes nos estados simulados.
+- 0 falas de personagens mortos após o confronto final, nos casos
+  específicos cobertos pelos testes.
+
+CAPÍTULO 10:
+- 550 percursos simulados até o fim; 0 destinos inexistentes.
+- 9 configurações específicas de mortos/sobreviventes verificadas.
+
+CHECKS DIRECIONADOS:
+- 11 asserções para mortes, gênero gramatical, ferimentos,
+  mensagens de personagens ausentes, voz no epílogo e flashbacks.
+
+VALIDAÇÃO DE CÓDIGO:
+- node --check em todos os arquivos .js: OK.
+- Tamanho e integridade ZIP: conferidos antes do envio.
+
+LIMITAÇÕES:
+- O navegador Chromium não iniciou corretamente neste ambiente de teste.
+- Não foi feita navegação visual completa, nem validação manual de
+  cada combinação narrativa. Os testes sintéticos não esgotam todos
+  os estados possíveis de relacionamentos, pistas e inventário.
+- Expandir cenas e efeito borboleta será uma etapa posterior.

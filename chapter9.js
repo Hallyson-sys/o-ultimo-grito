@@ -389,13 +389,13 @@ O nome da irmã aparece escrito atrás de uma fotografia: Jullia. Duas letras L.
 Bella fecha os olhos.`,[G('k9_anna_flashback','Lembrar uma tarde antiga')]);
 N('k9_anna_flashback','LEMBRANÇA · CASA DOS GOMES','ANOS ANTES','house',`PONTO DE VISTA: BELLA GOMES — LEMBRANÇA
 
-A cozinha dos Gomes cheira a bolo ainda quente. Bella entra e encontra a irmã parada de frente para a janela, com os braços cruzados. Uma adolescente de cabelo preso — Anna, amiga das duas — acaba de sair pela porta da frente.
+A cozinha dos Gomes cheira a bolo ainda quente. Bella entra e encontra a irmã parada de frente para a janela, com os braços cruzados. Uma adolescente de cabelo preso — Ana, amiga das duas — acaba de sair pela porta da frente.
 
 Bella: — O que rolou? Vocês tavam rindo até agora.
 
 Jullia: — Ela contou pra outra pessoa uma coisa que eu pedi pra guardar entre nós.
 
-Bella: — Anna?
+Bella: — Ana?
 
 Jullia: — É. E nem foi o assunto. Foi ela olhar pra minha cara e dizer que eu podia confiar.
 
@@ -407,13 +407,13 @@ Jullia: — Não sei. O que eu devia fazer? Fingir que não me importei?
 
 Bella: — Não. Falar com ela quando você tiver pronta. É bem diferente.
 
-Jullia observa a porta por onde Anna saiu.`,[
+Jullia observa a porta por onde Ana saiu.`,[
  C('Perguntar à Jullia por que aquela amizade importava tanto','k9_anna_recall',[F('anna_perguntou_amizade')]),
  C('Sentar com Jullia até ela querer falar','k9_anna_recall',[F('anna_esperou')]),
  C('Tentar quebrar o clima com uma brincadeira','k9_anna_recall',[F('anna_brincou')])]);
 N('k9_anna_recall','LEMBRANÇA · IRMÃS','ANOS ANTES','house',`Jullia pega um pedaço de bolo com a mão e Bella protesta. As duas discutem por um guardanapo, como se o mundo pudesse voltar ao normal por causa de uma bobagem.
 
-Jullia: — Eu não queria que a Anna fosse uma pessoa ruim. Eu só queria que ela tivesse me escolhido naquele momento.
+Jullia: — Eu não queria que a Ana fosse uma pessoa ruim. Eu só queria que ela tivesse me escolhido naquele momento.
 
 Bella: — Isso não significa que ela não gosta de você, Ju.
 
@@ -425,7 +425,7 @@ Jullia: — Insuportável.
 
 Bella: — Dramática.
 
-A almofada voa do sofá para Bella. As duas terminam rindo, ainda magoadas com Anna, mas juntas.
+A almofada voa do sofá para Bella. As duas terminam rindo, ainda magoadas com Ana, mas juntas.
 
 Antes de o dia acabar, Jullia diz que sonha em abrir um pequeno negócio um dia e levar Bella para conhecer cidades que só viram pela televisão. Bella promete cobrar a passagem.
 
@@ -1081,7 +1081,7 @@ const CHOICE_BEATS={
   'Você: — Então a gente combina regras: saídas desimpedidas, alguém de olho nos convites, localização compartilhada. E ninguém vai ser obrigado a ir.\n\nRauanny: — Se fizerem isso de verdade, eu ajudo.\n\nLaisla: — Tá. Mas você não vai virar minha fiscal de diversão, hein?'
  ],
  k9_anna_flashback:[
-  'Bella: — Ju, por que você tá tão magoada com a Anna?\n\nJullia: — Porque eu contei uma coisa que nem pra você eu tinha coragem de dizer. Aí ela usou isso numa conversa qualquer. Eu me senti uma idiota.\n\nBella deixa de procurar uma solução rápida; pela primeira vez entende o tamanho da confiança quebrada.',
+  'Bella: — Ju, por que você tá tão magoada com a Ana?\n\nJullia: — Porque eu contei uma coisa que nem pra você eu tinha coragem de dizer. Aí ela usou isso numa conversa qualquer. Eu me senti uma idiota.\n\nBella deixa de procurar uma solução rápida; pela primeira vez entende o tamanho da confiança quebrada.',
   'Bella senta ao lado da irmã e não faz outra pergunta. Passam alguns minutos ouvindo o relógio da cozinha.\n\nJullia: — Você não vai me dar um conselho?\n\nBella: — Hoje não. Hoje eu vou ficar.\n\nJullia encosta o ombro no dela.',
   'Bella pega um garfo como se fosse um microfone.\n\nBella: — Senhora Jullia Gomes, o tribunal do bolo decreta que pessoas traidoras não terão direito à cobertura!\n\nJullia tenta segurar o riso.\n\nJullia: — Você é muito ridícula.\n\nBella: — Mas funcionou.'
  ],

@@ -1,4 +1,4 @@
-/* O ÚLTIMO GRITO · CAPÍTULO 10: O GRAND FINALE · V1.4.2
+/* O ÚLTIMO GRITO · CAPÍTULO 10: O GRAND FINALE · V1.4.4
  * Histórias ramificadas preservam saves; escolhas e estados ficam em flags c10_*.
  * Não substituir dados antigos nem eliminar mortes confirmadas dos capítulos anteriores.
  */
@@ -11,6 +11,10 @@ const IDS=['allan','samuel','isabella','rayssa','rauanny','laisla','ryan','breno
 const name=x=>LABEL[x]||x||'ninguém';
 const pron=x=>FEMALE.has(x)?'ela':'ele';
 const pronCap=x=>FEMALE.has(x)?'Ela':'Ele';
+const speaker=(s,id)=>id==='hero'?heroName(s):name(id);
+const rayssaAtReunion=s=>!dead(s,'rayssa')&&!s?.flags?.c10_aparente_rayssa&&s?.flags?.c10_rayssa_status!=='jullia'&&s?.flags?.c10_rayssa_justica==='segredo'&&!!s?.flags?.c10_rayssa_perdoada;
+const reunionRoster=s=>{const roster=[];if(!s?.flags?.c10_heroi_morto)roster.push('hero');const order=['isabella','samuel','rayssa','ryan','breno','allan','laisla','rauanny'];for(const id of order){if(id==='rayssa'&&!rayssaAtReunion(s))continue;if(id!=='rayssa'&&(dead(s,id)||s?.flags?.['c10_aparente_'+id]))continue;if(id==='rayssa'&&dead(s,id))continue;roster.push(id);}return roster;};
+const reunionPartner=(s,roster,idx)=>roster.slice(idx+1).find(x=>x!==roster[idx])||roster.find(x=>x!==roster[idx])||null;
 const dead=(s,id)=>!!s?.flags?.['c10_morto_'+id]||!!window.UG9?.dead?.(s,id);
 const living=s=>IDS.filter(id=>!dead(s,id));
 const wounded=(s,id)=>!!s?.flags?.['c10_ferido_'+id]||!!s?.flags?.['c9_ferido_'+id]||!!s?.flags?.['c8_grave_'+id]||!!s?.flags?.['c7_ferido_'+id]||!!s?.flags?.['c6_ferida_'+id];
@@ -634,7 +638,7 @@ Allan: — Reclamar do quê? Da louça? Eu reclamo profissionalmente, se quiser.
 
 Um riso atravessa a mesa, interrompido por um silêncio que ninguém precisa explicar.`,[go('k10_44','Ouvir como Allan passou esses meses')]);
 function fourMonths(id,next){node('k10_'+id,'REENCONTRO · QUATRO MESES DEPOIS','15:42','house','',[go(next,'Conversar com o próximo amigo')]);}
-fourMonths('44','k10_45');fourMonths('45','k10_46');fourMonths('46','k10_47');fourMonths('47','k10_48');fourMonths('48','k10_49');fourMonths('49','k10_50');fourMonths('50','k10_51');fourMonths('51','k10_52');
+fourMonths('44','k10_45');fourMonths('45','k10_46');fourMonths('46','k10_47');fourMonths('47','k10_48');fourMonths('48','k10_49');fourMonths('49','k10_50');fourMonths('50','k10_51');fourMonths('51','k10_56');fourMonths('56','k10_52');
 node('k10_52','REENCONTRO · UM BRINDE','16:55','house',`A conversa passa dos acontecimentos no lago para as coisas que ninguém imaginava discutir quatro meses depois: uma matrícula nova, uma entrevista de emprego, um cachorro que destruiu um sofá, um filme horrível que alguém recomendou.
 
 Um dos sobreviventes olha as cadeiras vazias e ergue o copo.
@@ -772,27 +776,27 @@ Rayssa: — Eu sabia que tinha saído do controle. Nunca vou conseguir desfazer 
    if(first){text=text.replaceAll('{fugitivo}',name(first));}
    if(id==='k10_16'&&f.c10_trilha_risco1==='alto')extras+='\n\nA escolha anterior custou tempo e deixou marcas de lama na passagem. Jullia consegue seguir as pegadas.';
    if(id==='k10_17'&&f.c10_trilha_risco2==='alto')extras+='\n\nUma das tábuas quebra e o salto acaba exigindo mais esforço. O atalho deixou os dois expostos.';
-   if(id==='k10_18'&&f['c10_aparente_'+first])extras=`\n\n${name(first)} recebe um golpe e desaparece no declive, fora do campo de visão. ${second?name(second):'Ninguém'} grita tentando encontrá-lo, mas Jullia bloqueia o caminho. NÃO há confirmação de morte.`;
+   if(id==='k10_18'&&f['c10_aparente_'+first])extras=`\n\n${name(first)} recebe um golpe e desaparece no declive, fora do campo de visão. ${second?name(second):'Ninguém'} grita tentando encontrá-lo, mas Jullia bloqueia o caminho. Não conseguem verificar se ainda está respirando.`;
    if(id==='k10_18'&&first&&f['c10_ferido_'+first])extras=`\n\n${name(first)} consegue escapar, mas arrasta uma perna e precisa comprimir o corte com a manga. Continua vivo e capaz de buscar ajuda.`;
    if(id==='k10_19'&&f['c10_aparente_'+first])text=`PONTO DE VISTA: ${name(second||kid).toUpperCase()}\n\n${name(first)} desapareceu no barranco durante o ataque. ${name(second||kid)} alcança a porta lateral, com os ouvidos zunindo do último grito.\n\n${name(second||kid)}: — ${name(first).toUpperCase()}?! ONDE VOCÊ TÁ?!\n\nNinguém consegue voltar à trilha enquanto Jullia percorre o caminho entre as árvores. O corpo não foi encontrado, e a morte não está confirmada.\n\nO telefone fixo da casa está sem linha; eles precisam buscar outra maneira de pedir socorro.`;
  }
  if(['k10_20','k10_21','k10_22','k10_23'].includes(id)){
   const a=g1,b=g2;
-  if(!a){text=`O galpão permanece escuro. Não há outro personagem principal livre para criar uma perseguição fictícia: os que sobreviveram estão na casa ou no deck, tentando recuperar o fôlego. Jullia atravessa a passarela e procura vestígios de quem passou por ali.`;choices=[go('k10_24','Retornar ao grupo na margem')];}
+  if(!a){text=`A porta do galpão balança com o vento. Nenhum dos amigos entrou ali; os passos de Jullia ecoam sobre a passarela antes de se perderem na direção da casa. Os sobreviventes tentam manter contato pelas poucas mensagens que conseguem enviar.`;choices=[go('k10_24','Voltar para onde o grupo combinou se encontrar')];}
   else if(!b){text=text.replaceAll('{galpao}',name(a)).replaceAll('{companhia}',name(a)); if(id==='k10_20')text=`PONTO DE VISTA: ${name(a).toUpperCase()}\n\n${name(a)} entra no galpão sozinho. A porta emperrada é a única barreira entre ${pron(a)} e Jullia, que ainda está vindo pela trilha.\n\n${name(a)}: — Calma. Só preciso achar uma saída.\n\nO celular mostra uma barra de sinal. Uma mensagem curta talvez consiga alcançar alguém do outro lado da estrada.`; if(id==='k10_21')text=`A mensagem fica presa na tela com a palavra «enviando». ${name(a)} prende a respiração. Um passo do lado de fora, depois outro, anuncia que Jullia deixou a trilha.\n\nJullia: — Eu sei que tem alguém aí dentro.\n\n${name(a)}: — Merda...\n\nUm gancho de metal está preso à parede. No chão, uma caixa de ferramentas parcialmente aberta. A porta dos fundos continua emperrada.\n\n${name(a)}: — Se eu ficar parado aqui, ela me encurrala.`; if(id==='k10_22')text=`O metal rasga parte da lona. Jullia consegue abrir a porta principal, e a lâmina reflete a luz que entra pela fresta. ${name(a)} puxa a caixa de ferramentas para ganhar alguns segundos.\n\n${name(a)}: — Tem uma abertura na lateral... anda, pensa, pensa...\n\nO galpão vira uma confusão de tábuas, lona e respiração curta. Jullia avança direto em ${name(a)}, sem ninguém por perto para distrair o ataque.\n\nO resultado depende do caminho que ${pron(a)} escolheu dentro do galpão. Ferimentos anteriores não decidem sozinhos quem sai dali.`; if(id==='k10_23')text=`Ao sair do galpão, ${name(a)} avista a varanda de serviço da casa. Jullia permanece lá dentro por alguns instantes, procurando por onde ${pron(a)} escapou.\n\nO celular vibra: a localização enviada parece finalmente ter saído. Mas não há confirmação de resposta. A tempestade piora e o acesso principal está coberto de galhos caídos.\n\n${name(a)}: — Se alguém recebeu aquilo, ainda pode ter uma chance.\n\n${pronCap(a)} não espera socorro cair do céu. Precisa continuar em movimento para voltar ao grupo.`;}
   else text=text.replaceAll('{galpao}',name(a)).replaceAll('{companhia}',name(b));
-  if(id==='k10_23'&&a&&f['c10_morto_'+a])text=`PONTO DE VISTA: ${name(b||kid).toUpperCase()}\n\n${name(b||kid)} sai cambaleando do galpão e fecha a porta com o ombro. O rosto está molhado de lágrimas.\n\n${name(b||kid)}: — A Jullia... ela matou ${name(a)}. Eu tentei puxar, mas ela não deixou!\n\nDo lado de dentro, não há resposta quando chamam ${name(a)}. A morte foi confirmada na luta; ninguém vai aparecer vivo no reencontro.\n\nUm celular vibra indicando que a localização enviada pode ter saído. A estrada permanece bloqueada pela tempestade.`;
+  if(id==='k10_23'&&a&&f['c10_morto_'+a])text=`PONTO DE VISTA: ${name(b||kid).toUpperCase()}\n\n${name(b||kid)} sai cambaleando do galpão e fecha a porta com o ombro. O rosto está molhado de lágrimas.\n\n${name(b||kid)}: — A Jullia... ela matou ${name(a)}. Eu tentei puxar, mas ela não deixou!\n\nDo lado de dentro, não há resposta quando chamam ${name(a)}. O amigo não respondeu às tentativas desesperadas de reanimá-lo.\n\nUm celular vibra indicando que a localização enviada pode ter saído. A estrada permanece bloqueada pela tempestade.`;
   if(id==='k10_22'&&f.c10_galpao_morte)extras=`\n\n${name(f.c10_galpao_morte)} tenta alcançar a saída, mas Jullia o intercepta atrás da bancada. A faca atinge seu torso; ${b?name(b):'Ninguém'} tenta puxá-${FEMALE.has(f.c10_galpao_morte)?'la':'lo'} para longe, mas a perseguidora bloqueia a passagem. ${pronCap(f.c10_galpao_morte)} perde as forças e para de responder. A morte é confirmada quando a ajuda finalmente consegue alcançá-lo.`;
   else if(id==='k10_22'&&a&&f['c10_ferido_'+a])extras=`\n\n${name(a)} sai ${FEMALE.has(a)?'viva':'vivo'}, com um corte profundo no braço. ${b?name(b):pronCap(a)} segura o ferimento contra a roupa para diminuir o sangramento até encontrar ajuda.`;
   if(id==='k10_20'&&f.c10_galpao_perigo===undefined){};
  }
  if(id==='k10_24'&&(dead(s,'isabella')||dead(s,'rayssa')||f.c10_rayssa_status==='jullia')){
-   const t=lead||kid;text=`Os sobreviventes que chegaram à cobertura tentam limpar os cortes e escutar o que acontece na casa. ${name(t)} sente o celular vibrar com uma mensagem que não termina de carregar.\n\n${name(t)}: — A gente precisa parar de se separar. Não aguento mais ficar sem saber quem tá vivo.\n\nVocê: — Vamos esperar aqui só o suficiente pra reunir quem conseguir voltar.\n\nNão aparece ninguém que esteja morto ou fugindo ao lado de Jullia.`;
+   const t=lead||kid;text=`Os sobreviventes que chegaram à cobertura tentam limpar os cortes e escutar o que acontece na casa. ${name(t)} sente o celular vibrar com uma mensagem que não termina de carregar.\n\n${name(t)}: — A gente precisa parar de se separar. Não aguento mais ficar sem saber quem tá vivo.\n\nVocê: — Vamos esperar aqui só o suficiente pra reunir quem conseguir voltar.\n\nOs amigos trancam a porta e tentam recuperar o fôlego.`;
    choices=[go('k10_25','Manter o grupo reunido',[flag('grupo_unido')])];
  }
  if(id==='k10_25'){
    const missing=IDS.filter(x=>dead(s,x)||f['c10_aparente_'+x]).map(name);
-   if(missing.length)extras=`\n\nQuando chamam ${missing.join(' e ')}, nenhuma resposta vem da varanda. Ninguém inventa que eles estão em outro cômodo: o grupo admite que não sabe onde todos foram parar.`;
+   if(missing.length)extras=`\n\nQuando chamam ${missing.join(' e ')}, nenhuma resposta vem da varanda. Os que ficaram reunidos no local não sabem se todos conseguiram chegar até a estrada.`;
  }
  if(id==='k10_26'){
   choices=choices.filter(c=>!c.text.startsWith('Usar o kit')||item(s,'kit')||item(s,'bandagem')).filter(c=>!c.text.startsWith('Usar a lanterna')||item(s,'lanterna')||item(s,'chaveiro')).filter(c=>!c.text.startsWith('Examinar a foto')||item(s,'foto')||item(s,'print')||item(s,'anotacao')||hasProof(s));
@@ -824,94 +828,317 @@ Rayssa: — Eu sabia que tinha saído do controle. Nunca vou conseguir desfazer 
   if(f.c10_heroi_morto)extras=`\n\nO protagonista recebeu o último golpe tentando proteger ${name(lead||kid)}. Cai entre as tábuas, e os amigos tentam estancar o sangue, chamando seu nome várias vezes. A respiração não volta. Desta vez a morte é confirmada.\n\n${name(lead||kid)}: — NÃO, ${heroName(s).toUpperCase()}! ABRE O OLHO, POR FAVOR!\n\nO ponto de vista passa para ${name(lead||kid)}. Sua partida continua, mas agora os sobreviventes precisarão terminar a história sem o protagonista.`;
  }
  if(id==='k10_35'&&f.c10_heroi_morto){text=`PONTO DE VISTA: ${name(lead||kid).toUpperCase()}\n\n${name(lead||kid)} cobre o corpo de ${heroName(s)} com o casaco seco que restava. Ninguém sabe o que dizer.\n\n${name(lead||kid)}: — Ele não devia ter morrido aqui...\n\n${name(kid)}: — A gente vai contar tudo. Até o que fizeram naquela estrada. Não vou deixar que a história dele vire só mais uma notícia.\n\nA busca pelos desaparecidos continua; os sobreviventes precisam resistir até o amanhecer.`;if(s.hero?.pronouns==='ela')text=text.replace('Ele não devia','Ela não devia').replace('história dele','história dela');}
+ if(id==='k10_37'){
+  const missing=f.c10_aparente_nome;
+  if(!missing){
+    text=`Os profissionais examinam a trilha, recolhem os objetos deixados na fuga e conferem com os sobreviventes os nomes de quem estava no deck e no galpão. A luz do amanhecer permite enxergar os estragos da noite.
+
+${speaker(s,lead||kid)}: — Confere a área do galpão também. A gente se separou lá.
+
+Paramédico: — A equipe já está verificando. Vamos levar os feridos ao hospital e registrar o restante com a polícia.`;
+    choices=[go('k10_40','Voltar às ambulâncias e conversar sobre o depoimento')];
+  }else{
+    text=`Uma equipe segue pela trilha onde ${name(missing)} desapareceu durante a perseguição. Você reconhece o lugar pelas marcas na cerca.
+
+${speaker(s,lead||kid)}: — Foi ali. A gente chamou, mas a Jullia não deixou voltar.
+
+Paramédico: — Vamos procurar. Vocês precisam ficar aqui, estão feridos.
+
+O rádio chia. A equipe pede uma maca e os amigos se viram para a trilha.`;
+  }
+ }
  if(id==='k10_38'){
   const a=f.c10_aparente_nome;
-  if(a)text=`PONTO DE VISTA: ${name(lead||kid).toUpperCase()}\n\nUm paramédico aparece na trilha carregando uma maca. É ${name(a)}, que desapareceu no barranco durante a perseguição.\n\nParamédico: — Encontramos mais uma pessoa! Vamos precisar de atendimento imediato!\n\n${name(lead||kid)}: — ${name(a).toUpperCase()}?!\n\n${f.c10_aparente_sobrevive?`${name(a)} abre os olhos por um instante. Está muito ferido, mas respira.\n\n${name(a)}: — Eu... tô aqui...\n\n${name(lead||kid)}: — MEU DEUS, EU ACHEI QUE TINHA TE PERDIDO!`:`A equipe confirma que ${name(a)} não resistiu. ${name(lead||kid)} fica imóvel, incapaz de continuar a frase que estava dizendo.`}\n\nO resgate não muda mortes que já tinham sido confirmadas.`;
-  else text=`A busca pelo entorno do galpão continua. Os paramédicos encontram marcas do confronto e identificam quem precisa ser removido para o hospital.\n\n${name(lead||kid)}: — Confere tudo, por favor. Não deixa ninguém pra trás.\n\nOs profissionais confirmam cada resgate individualmente. Nenhum personagem morto reaparece por surpresa.`;
+  if(a)text=`A equipe médica voltou ao barranco onde ${name(a)} desapareceu. O rádio chia quando um paramédico pede mais uma maca.
+
+${speaker(s,lead||kid)}: — Encontraram alguém? É ${name(a)}?
+
+Paramédico: — Estamos trazendo uma pessoa. Deixem espaço perto da ambulância!
+
+${f.c10_heroi_morto?`${speaker(s,lead||kid)} sente as mãos tremerem`:'Você sente as mãos tremerem'}, sem saber se ${name(a)} será encontrado com vida.`;
+  else text=`Os paramédicos concluem a vistoria da trilha e voltam para os veículos, onde os outros feridos aguardam atendimento.`;
  }
- if(id==='k10_40'&&dead(s,'rayssa')){text=`A equipe policial pede ao grupo tudo que sabe sobre Jullia e a participação de Rayssa, cuja morte já foi confirmada.\n\n${name(lead||kid)}: — A gente vai ter que contar o que ela fez... mesmo que doa.\n\nVocê: — Eu sei. Mas também quero que contem como começou.\n\nNão existe decisão sobre prisão de Rayssa quando ela já morreu.`;choices=[go('k10_41','Prestar o depoimento',[flag('depoimento')])];}
- if(id==='k10_40'&&f.c10_rayssa_status==='jullia'&&f.c10_jullia_fim==='fuga'){
-  text=`Rayssa fugiu pela trilha ao lado de Jullia quando percebeu que o grupo não conseguia mais alcançá-las.\n\n${name(lead||kid)}: — Não acredito que ela foi com a Jullia depois de tudo.\n\nVocê: — A gente precisa contar isso. O que ela fez não vai desaparecer porque fugiu.\n\nA polícia registra o depoimento e inicia as buscas. O perdão já não está nas mãos do grupo.`;
+ if(id==='k10_39'){
+  const found=f.c10_resgate_milagre||f.c10_resgate_morte;
+  if(found){
+    text=`Os paramédicos se aproximam da ambulância com a última maca vinda da trilha.
+
+${speaker(s,lead||kid)}: — ${name(found).toUpperCase()}?!
+
+${f.c10_resgate_milagre?`${name(found)} abre os olhos por um instante. Está muito ferid${FEMALE.has(found)?'a':'o'}, mas respirando.
+
+${name(found)}: — Eu... voltei?
+
+${speaker(s,lead||kid)}: — Voltou. Fica acordad${FEMALE.has(found)?'a':'o'}. A ambulância já tá aqui.`:`O lençol térmico desliza o bastante para que o grupo reconheça ${name(found)}. O silêncio ao redor da maca confirma antes mesmo de qualquer médico abrir a boca.`}
+
+${speaker(s,kid)}: — Depois dessa noite, eu juro que não consigo mais ouvir surpresa nenhuma sem achar que vem mais desgraça junto.`;
+  }else{
+    const a=speaker(s,lead||kid), b=speaker(s,kid);
+    text=`A equipe médica termina de montar as macas. Alguns sobreviventes continuam em silêncio, com cobertores térmicos sobre os ombros.
+
+${a}: — Acho que agora acabou mesmo.
+
+${b}: — Eu queria conseguir acreditar nisso tão rápido quanto você.
+
+Um policial se aproxima para explicar como serão os depoimentos.`;
+  }
+ }
+if(id==='k10_40'&&dead(s,'rayssa')){text=`A equipe policial pede ao grupo tudo que sabe sobre Jullia e a participação de Rayssa, cuja morte já foi confirmada.
+
+${speaker(s,lead||kid)}: — A gente vai ter que contar o que ela fez... mesmo que doa.
+
+${f.c10_heroi_morto?`${speaker(s,avail.find(x=>x!==lead)||lead||kid)}: — Não vamos esconder como isso começou. Nem o que a Jullia fez depois.`:'Você: — Eu sei. Mas também quero que contem como isso começou. Sem poupar ninguém.'}
+
+Rayssa já morreu, e o grupo não terá como conversar com ela sobre o depoimento.`;choices=[go('k10_41','Prestar o depoimento',[flag('depoimento')])];}
+if(id==='k10_40'&&f.c10_rayssa_status==='jullia'&&f.c10_jullia_fim==='fuga'){
+  text=`Rayssa fugiu pela trilha ao lado de Jullia quando percebeu que o grupo não conseguia mais alcançá-las.
+
+${speaker(s,lead||kid)}: — Não acredito que ela foi com a Jullia depois de tudo.
+
+Você: — A gente precisa contar isso. O que ela fez não vai desaparecer porque fugiu.
+
+A polícia registra o depoimento e inicia as buscas. O perdão já não está nas mãos do grupo.`;
   choices=[go('k10_41','Relatar a fuga',[set('rayssa_justica','foragida')])];
- }
- if(id==='k10_41'){
+}
+if(id==='k10_40'&&!dead(s,'rayssa')&&f.c10_rayssa_status!=='jullia'){
+  const someone=avail.find(x=>x!=='rayssa')||living(s).find(x=>x!=='rayssa')||null;
+  const listener=dead(s,'isabella')?speaker(s,someone):'Isabella';
+  const address=dead(s,'isabella')?`${listener}, eu sei que vocês ouviram tudo.`:'Isa... eu sei que pedir desculpa não conserta nada.';
+  const response=dead(s,'isabella')?`${listener}: — A gente não vai fingir que você não participou. Mas pode começar não mentindo no depoimento.`:`Isabella: — Eu passei tanto tempo me culpando por aquela noite... e você tava escondendo a verdade de mim. Eu não sei se consigo te perdoar hoje, mas quero ouvir a verdade da sua boca.`;
+  const point=f.c10_heroi_morto?`${speaker(s,someone)}: — O que a gente decidir precisa respeitar também quem não saiu daquele lago.`:`Você: — Eu quero ouvir todo mundo antes de decidir. Não vou esconder nada pelas costas de vocês.`;
+  text=`As ambulâncias permanecem estacionadas na estrada, e os policiais começam a pedir depoimentos. Rayssa se aproxima devagar.
+
+Rayssa: — ${address} Eu menti pra vocês. Eu ajudei a Jullia e, quando percebi o que ela tava fazendo, fui covarde demais pra denunciar. Desculpa. Eu sei que não dá pra desfazer isso.
+
+${response}
+
+Rayssa: — Se vocês contarem tudo pra polícia, eu não vou fugir. Não quero mais escolher o caminho fácil e deixar outra pessoa pagar.
+
+${point}
+
+Um dos policiais aguarda perto da viatura, sem interromper.`;
+  choices=[
+   opt('Perdoar Rayssa, mas contar toda a participação dela à polícia','k10_41',[set('rayssa_justica','depoimento'),flag('rayssa_perdoada'),bond('isabella',5)]),
+   opt('Perdoar Rayssa e pedir que escondam a ajuda inicial dela','k10_41',[set('rayssa_justica','segredo'),flag('rayssa_perdoada'),bond('isabella',-3),bond('rayssa',4)]),
+   opt('Não decidir pelos outros; cada um prestará seu próprio depoimento','k10_41',[set('rayssa_justica','independente')])
+  ];
+}
+if(id==='k10_40'&&!dead(s,'rayssa')&&f.c10_rayssa_status==='jullia'){
+  const speakerId=avail.find(x=>x!=='rayssa')||kid;
+  text=`Rayssa deixou o grupo durante a última luta. Ninguém sabe ao certo onde ela está, mas todos viram que escolheu não se entregar naquele momento.
+
+${speaker(s,speakerId)}: — Ela olhou pra gente e foi embora. Eu não consigo fingir que não vi.
+
+Um agente anota a descrição de Rayssa e pergunta em que direção ela seguiu.`;
+  choices=[go('k10_41','Relatar à polícia o último paradeiro de Rayssa',[set('rayssa_justica','foragida')])];
+}
+
+if(id==='k10_41'){
   if(f.c10_heroi_morto)text=`PONTO DE VISTA: ${name(lead||kid).toUpperCase()}\n\n${name(lead||kid)} observa a maca coberta de ${heroName(s)} sendo levada para um dos veículos.\n\n${name(lead||kid)}: — Eu não sei como a gente vai voltar a viver sem ${heroName(s)}.\n\n${name(kid)}: — A gente não vai esquecer. Nem fingir que tá tudo bem.\n\nOs sobreviventes seguem para o hospital, levando consigo a obrigação de contar a verdade.`;
   else if(romance(s)&&!dead(s,romance(s))&&romance(s)!=='rayssa'){
    const love=name(romance(s));text=`${love} senta ao seu lado na ambulância. A manga da roupa está rasgada, e o curativo provisório não esconde o tremor nas mãos.\n\n${love}: — Eu pensei que tinha perdido você. Sério. Teve uma hora que eu não conseguia nem lembrar como respirar.\n\nVocê: — Eu também tive medo. Muito.\n\n${love}: — Quando você melhorar, a gente conversa sobre a gente. Sem assassino, sem mistério, sem mais essa merda toda.\n\nVocê aperta a mão de ${love}. Não é uma promessa de namoro oficial. É uma chance de continuar.`;
-  }else if(romance(s)==='rayssa'&&!dead(s,'rayssa')){
+  }else if(romance(s)==='rayssa'&&!dead(s,'rayssa')&&f.c10_rayssa_status!=='jullia'&&f.c10_rayssa_justica!=='foragida'){
    text=`Rayssa permanece sentada perto da outra ambulância, sob observação da equipe e da polícia. Você a vê pelo vidro.\n\nRayssa: — Eu não espero que você fique comigo depois disso. Só precisava que você soubesse que aquilo que senti foi real.\n\nVocê: — Eu preciso de tempo. E de verdade, Rayssa. Agora tudo vai ter consequência.\n\nOs profissionais pedem que você entre para o atendimento. O relacionamento não se resolve com um abraço.`;
   }
+ }
+ if(id==='k10_41'&&!dead(s,'rayssa')&&f.c10_rayssa_status!=='jullia'){
+   if(f.c10_rayssa_justica==='depoimento')extras+=`\n\nRayssa espera junto à viatura enquanto um policial prepara o registro. ${dead(s,'isabella')?'O grupo observa em silêncio.':'Isabella permanece perto, sem se aproximar dela.'}\n\nRayssa: — Eu vou contar o que eu fiz. Sem culpar a Jullia por todas as minhas escolhas.`;
+   if(f.c10_rayssa_justica==='segredo')extras+=`\n\nRayssa olha para vocês com os olhos cheios d'água.\n\nRayssa: — Eu sei o tamanho do que vocês estão fazendo. Só não quero que isso vire outra mentira que acabe com tudo.\n\n${dead(s,'isabella')?`${speaker(s,lead||kid)}: — As provas ainda existem. Não depende só da gente.`:'Isabella: — Eu concordei em te ouvir. Não confunde isso com confiança recuperada.'}`;
+   if(f.c10_rayssa_justica==='independente')extras+=`\n\nRayssa: — Entendi. Eu mesma vou dar meu depoimento. Vocês não precisam decidir por mim.`;
  }
  if(id==='k10_42'){
   const fate=f.c10_jullia_fim==='presa'?'Jullia foi contida viva e será investigada e julgada.':f.c10_jullia_fim==='fuga'||(f.c10_jullia_fim==='lago'&&!f.c10_pistola)?'Jullia desapareceu e ainda está sendo procurada.':'Jullia caiu no lago depois do confronto; as equipes precisam confirmar o que aconteceu com o corpo.';
   extras=`\n\nBella: — E agora? O que aconteceu com a minha irmã?\n\n${name(lead||kid)}: — ${fate}\n\nBella: — Eu só queria saber a verdade. Nunca pensei que fosse doer desse jeito.`;
  }
- if(/^k10_(44|45|46|47|48|49|50|51)$/.test(id)){
-  const who={k10_44:'allan',k10_45:'samuel',k10_46:'isabella',k10_47:'laisla',k10_48:'rauanny',k10_49:'ryan',k10_50:'breno',k10_51:'rayssa'}[id];
-  const next=n.choices[0]?.to||'k10_52';const other={allan:'samuel',samuel:'allan',isabella:'rayssa',laisla:'rauanny',rauanny:'laisla',ryan:'breno',breno:'ryan',rayssa:'isabella'}[who];
-  const arcs={
-   allan:['Voltei a sair com uns amigos, mas na primeira vez que ouvi alguém correndo atrás de mim, quase tive um ataque. Faço terapia. Ainda odeio admitir, mas ajuda.','Eu tava com saudade de uma coisa idiota: rir sem sentir que tô desrespeitando quem morreu.'],
-   samuel:['Tentei voltar pra rotina, mas não consigo mais simplesmente guardar tudo pra mim. Tô fazendo terapia e tentando falar a verdade antes de transformar tudo numa briga.','Comecei a pensar no que eu quero estudar. Antes eu só queria passar de um dia pro outro.'],
-   isabella:['Passei esses meses tentando entender a diferença entre desconfiar de alguém e me proteger. Ainda não sei a resposta sempre.','Mudei muita coisa. Voltei a estudar e consegui dormir algumas noites sem acordar procurando o celular.'],
-   laisla:['Eu não conseguia entrar numa casa com corredor escuro. Até pra visitar meus tios eu inventava desculpa.','Tô tentando voltar a planejar uma viagem. Uma viagem normal, sabe? Sem ninguém te ameaçando na janela.'],
-   rauanny:['Voltei a treinar e arrumei um estágio. Achei que era cedo demais, mas ficar em casa me deixava pior.','Também aprendi a pedir ajuda. Não sou obrigada a ser a pessoa forte em todas as conversas.'],
-   ryan:['Meu braço ainda incomoda às vezes. Mas sabe do que eu senti mais falta? De ir ao cinema e discutir um filme ruim com vocês.','Tentei fazer piada do sequestro uma vez e travei no meio. Aí percebi que posso ser engraçado e estar mal ao mesmo tempo.'],
-   breno:['Demorei bastante pra querer voltar a ficar perto de todo mundo. Depois de ser acusado, eu precisava descobrir quem realmente queria me ouvir.','Tô procurando um curso pra fazer no próximo semestre. E não quero mais viver como se tivesse sempre que me justificar.'],
-   rayssa:['Eu não sei como voltar a olhar pra vocês sem lembrar de tudo que escondi. Não tem desculpa. Eu comecei a me tratar e ainda tenho que responder pelo que fiz.','Não vou pedir que confiem em mim hoje. Só queria dizer que a ajuda que vocês deram não vai me fazer esquecer minha responsabilidade.']
-  };
-  if(dead(s,who)||f['c10_aparente_'+who]||who==='rayssa'&&(f.c10_rayssa_status==='jullia'||f.c10_rayssa_justica==='depoimento'||f.c10_rayssa_justica==='foragida')){
-    const t=who==='rayssa'?'Rayssa não está presente nesta reunião.':`${name(who)} não está entre os sobreviventes que conseguiram participar do encontro.`;
-    text=`A conversa chega ao nome de ${name(who)}, e o grupo reserva um momento para falar da ausência.\n\n${name(lead||kid)}: — ${t}\n\nNinguém inventa que ${name(who)} entrou pela porta. As lembranças e o destino desse personagem continuam valendo.`;
+ if(id==='k10_43'){
+  const roster=reunionRoster(s);
+  const empty=IDS.filter(x=>dead(s,x)).map(name);
+  let rays='';
+  if(rayssaAtReunion(s)) rays='Rayssa foi autorizada a responder em liberdade e aceitou o convite, mas o clima ainda é tenso.';
+  else if(!dead(s,'rayssa')&&f.c10_rayssa_justica==='depoimento') rays='A cadeira de Rayssa permanece vazia: ela responde em custódia pelo que fez.';
+  else if(!dead(s,'rayssa')&&f.c10_rayssa_justica==='independente') rays='Ninguém sabe se Rayssa viria mesmo que tivesse sido chamada; o grupo preferiu não forçar esse reencontro.';
+  else if(f.c10_rayssa_justica==='foragida') rays='Ninguém toca muito no nome de Rayssa. A fuga dela ainda pesa no ambiente.';
+  const heroOpen=f.c10_heroi_morto?`${speaker(s,lead||kid)} observa a foto de ${heroName(s)} apoiada na estante antes de se sentar.`:`${heroName(s)} chega com um copo na mão e percebe como o silêncio entre risadas já não assusta do mesmo jeito.`;
+  text=`QUATRO MESES DEPOIS
+
+A tarde entra pelas janelas de uma casa longe do lago. A mesa está posta com comida simples, copos diferentes e um cuidado silencioso para ninguém se sentir sozinho demais.
+
+${heroOpen}
+
+${empty.length?`Algumas cadeiras ficaram vazias de propósito, lembrando ${empty.join(', ')}.`:'Pela primeira vez em meses, ninguém precisou contar sobreviventes antes de sentar.'}
+
+${rays}
+
+As conversas começam devagar: faculdade, trabalho, terapia, remédios, medo de dirigir à noite, sonho ruim, conta atrasada, qualquer coisa que pareça vida real de novo.`;
+  const roster0=roster[0];
+  if(!roster0){text=`QUATRO MESES DEPOIS
+
+A casa permanece vazia. Sobre uma mesa, fotografias do grupo mostram os rostos de quem não conseguiu sobreviver ao lago. Não houve confraternização: ninguém restou para organizar um reencontro.
+
+O silêncio não significa que a história foi esquecida. Os depoimentos, os registros e as famílias ainda carregam o que aconteceu em Lakewood.`;}
+  choices=roster0?[go('k10_44', roster0==='hero' ? `Contar como ${heroName(s)} passou esses meses` : `Ouvir o que ${name(roster0)} viveu nesses quatro meses`)]:[go('k10_53','Ouvir o podcast sobre Lakewood')];
+}
+if(/^k10_(44|45|46|47|48|49|50|51|56)$/.test(id)){
+  const roster=reunionRoster(s), idx=id==='k10_56'?8:Number(id.slice(4))-44, who=roster[idx];
+  const next=(idx>=roster.length-1)?'k10_52':idx===7?'k10_56':`k10_${45+idx}`;
+  if(!who){text=`Os pratos estão quase vazios. Alguém recolhe os copos enquanto a conversa muda de assunto, e o encontro se aproxima do fim.`;choices=[go('k10_52','Fazer o brinde antes de ir embora')];}
+  else if(who==='hero'){
+    const liveElse=roster.find(x=>x!=='hero')||null;
+    const partner=liveElse?speaker(s,liveElse):null;
+    const hero=heroName(s);
+    text=`PONTO DE VISTA: ${hero.toUpperCase()}
+
+${roster.length===1?'Você observa as fotos sobre a estante e percebe que nenhum dos outros conseguiu voltar. Não haverá uma tarde alegre em grupo, mas você decidiu registrar por escrito o que mudou na sua vida desde Lakewood.':`${partner} nota que você ficou mais ${s.hero?.pronouns==='ela'?'quieta':s.hero?.pronouns==='elu'?'quietu':'quieto'} e encosta o copo na mesa.
+
+${partner}: — Você ouviu todo mundo falar. E você, como tá de verdade? Sem precisar fingir que tá tudo ótimo.`}
+
+${roster.length===1?'Você respira fundo. Tem muito para escrever, e dessa vez ninguém vai escolher suas palavras por você.':`${hero}: — Sabe que eu ainda tô descobrindo como responder isso, né?`}`;
+    choices=[
+      opt('“Terapia ajudou mais do que eu achei que ajudaria.”',next,[set('reuniao_heroi','terapia')]),
+      opt('“Ainda tem noite em que eu acordo achando que ouvi passos.”',next,[set('reuniao_heroi','insonia')]),
+      opt(roster.length===1?'“Eu quero continuar vivendo, mesmo sentindo falta de todos eles.”':'“O que mais me salvou foi não me afastar de vocês.”',next,[set('reuniao_heroi','grupo')])
+    ];
   }else{
-   let injury=wounded(s,who)?`\n\n${name(who)} ainda precisa respeitar os limites da recuperação física. Os movimentos ficaram mais lentos; o tratamento continua.`:'';
-   let relation=other&&!dead(s,other)?`\n\n${name(other)}: — Você mudou, sabia?\n\n${name(who)}: — Mudei. Acho que todo mundo aqui mudou.`:`\n\n${name(who)} olha para a cadeira vazia que lembra ${name(other)}. A ausência atravessa a conversa sem roubar dela o direito de falar sobre seu próprio futuro.`;
-   text=`PONTO DE VISTA: ${name(who).toUpperCase()}\n\n${name(who)} se aproxima da mesa com uma bebida e encontra espaço junto aos amigos.\n\n${name(who)}: — ${arcs[who][0]}\n\nVocê: — E agora? O que você quer fazer nos próximos meses?\n\n${name(who)}: — ${arcs[who][1]}${injury}${relation}`;
-   if(f.c10_heroi_morto)text=text.replace('Você: —',`${name(lead||kid)}: —`);
-   const further={
-    allan:'Allan: — Também comecei a cozinhar. Muito mal, aliás. Mas é bom descobrir que ainda existem coisas novas pra aprender.',
-    samuel:'Samuel: — Pedi desculpas pra umas pessoas. Algumas me ouviram. Outras não quiseram, e eu entendo. Não sou mais o mesmo idiota que mandava todo mundo ficar quieto.',
-    isabella:'Isabella: — Conversei com a família da Jullia. Fiquei apavorada antes de ir. A gente acabou chorando e depois falando de coisas normais, pela primeira vez.',
-    laisla:'Laisla: — Comprei uma câmera. Quero tirar fotos boas outra vez, não só ficar lembrando da festa e de quem a gente perdeu.',
-    rauanny:'Rauanny: — Tô aprendendo a pedir ajuda. Eu jurava que precisava bancar a forte em todas as conversas. Não preciso, não.',
-    ryan:'Ryan: — Minha mãe manda mensagem toda vez que eu saio. Antes eu achava um saco. Agora pelo menos respondo. Na maioria das vezes.',
-    breno:'Breno: — Passei semanas sem responder o grupo. Não era birra. Eu tava tentando descobrir se ainda conseguia confiar nas pessoas.',
-    rayssa:'Rayssa: — Eu comecei a me tratar, mas também precisei responder pelo que eu escondi. Não espero que essa conversa resolva nada. Só quero parar de mentir.'
-   };
-   text+=`\n\n${further[who]}\n\n${name(lead||kid)}: — Você ainda tem um monte de coisa pela frente.\n\n${name(who)}: — Eu sei. Finalmente tô começando a acreditar nisso.`;
-   if(who==='breno'&&f.c9_breno_conclusao)text+=`\n\nBreno: — E aquela acusação na homenagem... eu não esqueci. Só não quero que aquilo seja a única coisa que exista entre a gente.`;
+    const partnerId=reunionPartner(s,roster,idx);
+    const me=speaker(s,who), partner=speaker(s,partnerId);
+    const intros={
+      isabella:['Isabella gira o copo entre os dedos antes de falar, como se ainda medisse o peso de cada lembrança.','Voltei a estudar e consegui dormir algumas noites sem acordar procurando o celular.'],
+      samuel:['Samuel apoia os cotovelos na mesa e respira fundo antes de encarar todo mundo.','Comecei a pensar no que eu quero estudar. Antes eu só queria passar de um dia pro outro.'],
+      rayssa:['Rayssa mantém as mãos unidas no colo. Ela parece ter ensaiado esse momento muitas vezes e falhado em todas.','Eu comecei a me tratar e parei de inventar desculpa pra mim mesma. Ainda tô lidando com a vergonha.'],
+      ryan:['Ryan tenta brincar com o guardanapo antes de desistir e falar sério por alguns segundos.','Meu braço ainda incomoda às vezes, mas o pior era sair de casa achando que qualquer rua escura ia me fazer travar.'],
+      breno:['Breno se serve de refrigerante e demora um pouco antes de entrar no assunto, como quem desaprendeu a se explicar.','Tô procurando um curso pro próximo semestre. E tô tentando parar de viver como se eu devesse justificativa o tempo todo.'],
+      allan:['Allan encosta na cadeira, força um meio sorriso e só então aceita falar de si sem transformar tudo em piada.','Eu comecei a cozinhar. Muito mal, aliás. Mas tem sido bom descobrir que ainda dá pra aprender coisa nova.'],
+      laisla:['Laisla ajeita a manga da blusa sobre o curativo já quase cicatrizado e encara a mesa montada.','Comprei uma câmera. Eu queria voltar a registrar momentos bons sem sentir que toda festa vai acabar em sangue.'],
+      rauanny:['Rauanny tamborila os dedos no copo, inquieta, mas sem fugir da conversa.','Voltei a treinar e arrumei um estágio. Achei que era cedo, mas ficar parada tava me deixando pior.']
+    };
+    const replies={
+      isabella:`Conversei com a família da Jullia. Eu fui tremendo. No fim a gente chorou, brigou um pouco e depois falou de coisa normal. Parecia impossível, mas aconteceu.`,
+      samuel:`Pedi desculpa pra algumas pessoas. Umas me ouviram, outras não. E eu entendo. Eu fui um baita idiota com gente que não merecia.`,
+      rayssa:`Eu sei que não dá pra separar a minha culpa do resto. Se eu tô aqui hoje é porque vocês decidiram me ouvir até o fim, e eu não vou desperdiçar isso mentindo de novo.`,
+      ryan:`Teve dia em que eu fiz piada de tudo e, cinco minutos depois, precisei sentar porque tava tremendo. Descobri que dá pra estar melhorando e ainda estar mal.`,
+      breno:`Passei semanas sem responder o grupo. Não era birra. Eu tava tentando descobrir se ainda conseguia confiar em alguém.`,
+      allan:`Minha mãe achou que eu enlouqueci quando me viu vendo tutorial de molho. Acho que eu só precisava provar pra mim que ainda existia rotina.`,
+      laisla:`Eu também mudei meu quarto de lugar. Parece bobo, mas eu precisava parar de olhar pra mesma janela e lembrar daquela noite o tempo todo.`,
+      rauanny:`E eu aprendi a pedir ajuda. Antes eu bancava a forte o tempo todo. Agora, quando eu tô mal, eu falo. Simples assim.`
+    };
+    let injury=wounded(s,who)?`
+
+${me} ainda respeita os limites da recuperação física. Alguns movimentos continuam lentos, e o tratamento não terminou.`:'';
+    let extra='';
+    if(who==='breno'&&f.c9_breno_conclusao) extra=`
+
+Breno: — E eu também não esqueci a homenagem. Aquela acusação mexeu comigo pra caralho. Só não quero que aquilo seja tudo que ficou.`;
+    if(who==='rayssa'&&partnerId==='isabella') extra+=`
+
+Rayssa: — Isa... obrigada por ter vindo mesmo depois de tudo.
+
+Isabella: — Eu vim porque seguir em frente não é o mesmo que fingir que nada aconteceu.`;
+    if(idx===1&&roster[0]==='hero'){
+      const h=f.c10_reuniao_heroi;
+      const reactions={terapia:`${me}: — Fico feliz que você tenha procurado ajuda. Tem dia que eu também precisava de alguém de fora pra conseguir falar.`,insonia:`${me}: — Se você acordar de madrugada, manda mensagem. Eu não prometo estar acordado sempre, mas vou responder quando vir.`,grupo:`${me}: — Ainda bem que você ficou perto da gente. Eu também tava com medo de acabar perdendo todo mundo depois de sobreviver.`};
+      const line=reactions[h]||'';
+      if(line)extra=`${line}\n\n`+extra;
+    }
+    const questions={isabella:'E como foi entrar lá? Imagino que o coração quase saiu pela boca.',samuel:'E você conseguiu falar disso com alguém, ou guardou tudo de novo?',rayssa:'Eu quero entender o que mudou. Sem desculpas, só a verdade.',ryan:'Você tá conseguindo sair pra fazer alguma coisa que gostava?',breno:'E conseguiu voltar a confiar na gente, pelo menos um pouco?',allan:'Tá falando sério que você aprendeu a cozinhar? Preciso ver isso!',laisla:'Você voltou a pegar na câmera depois de tudo?',rauanny:'E como foi o primeiro dia? Deu vontade de fugir ou foi tranquilo?'};
+    const memory={allan:'samuel',samuel:'allan',isabella:'rayssa',rayssa:'isabella',laisla:'rauanny',rauanny:'laisla',ryan:'breno',breno:'ryan'}[who];
+    const grief=memory&&dead(s,memory)?`\n\n${me} baixa os olhos ao ouvir alguém mencionar ${name(memory)}.\n\n${me}: — Ainda procuro ${name(memory)} nas coisas mais idiotas do dia. E aí lembro. É uma saudade que não passa só porque a gente começou a viver de novo.`:'';
+    const leadIn=idx===1&&roster[0]==='hero'&&extra?`${extra}\n\n`:'';
+    text=`PONTO DE VISTA: ${me.toUpperCase()}
+
+${intros[who][0]}
+
+${me}: — ${intros[who][1]}
+
+${partner}: — ${questions[who]}
+
+${me}: — ${replies[who]}${injury}${grief}${leadIn&&idx===1?'\n\n'+leadIn:''}${idx===1&&roster[0]==='hero'?'':extra}`;
+    choices=[go(next, idx>=roster.length-1?'Fazer um brinde':'Ouvir a próxima pessoa')];
   }
-  choices=[go(next,'Continuar a conversa')];
- }
- if(id==='k10_43'&&!dead(s,'isabella')){
-  const a=lead||kid;
-  if(dead(s,'allan'))text=text.replace('Allan: — Reclamar do quê? Da louça? Eu reclamo profissionalmente, se quiser.',`${name(a)}: — Reclamar de louça suja é um bom começo. Pelo menos isso a gente sabe resolver.`);
- }
- if(id==='k10_52')text=text.replace('Sobrevivente: —',`${name(lead||kid)}: —`);
- if(id==='k10_43'&&dead(s,'isabella')){const c=lead||kid;text=`QUATRO MESES DEPOIS\n\nA tarde entra pelas janelas de uma casa afastada do lago. Há fotografias e lembranças sobre uma estante, inclusive de Isabella.\n\n${name(c)}: — Esses meses foram esquisitos. Teve dia que eu só queria uma tarde normal com vocês.\n\n${name(kid)}: — Normal agora vai ser outra coisa. Mas a gente ainda pode tentar.\n\nEles servem as bebidas e começam a contar o que mudou desde aquela noite.`;}
- if(id==='k10_43'&&f.c10_heroi_morto){
-  text=`QUATRO MESES DEPOIS\n\nPONTO DE VISTA: ${name(lead||kid).toUpperCase()}\n\nA mesa tem um lugar a menos. Na estante, uma fotografia de ${heroName(s)} foi colocada ao lado de lembranças dos amigos que morreram.\n\n${name(lead||kid)}: — Às vezes eu ainda pego o celular pra mandar alguma bobagem pra ${heroName(s)}.\n\n${name(kid)}: — Eu também. A gente pode sentir saudade e continuar vivendo, né?\n\nA reunião começa devagar, com espaço tanto para o luto quanto para as coisas novas que cada sobrevivente construiu.`;
- }
- if(id==='k10_52'&&f.c10_heroi_morto)text=`Os amigos erguem os copos. A fotografia de ${heroName(s)} permanece sobre a mesa, cercada pelas lembranças dos outros que não sobreviveram.\n\n${name(lead||kid)}: — Pelo ${heroName(s)}. E por todo mundo que merecia estar aqui.\n\n${name(kid)}: — A gente vai continuar falando deles. Não só sobre como morreram, mas sobre como viveram.\n\nO encontro segue com histórias, lágrimas e risadas, sem fingir que tudo ficou bem.`;
- if(id==='k10_53'){
+}
+if(id==='k10_52'){
+  const roster=reunionRoster(s).filter(x=>x!=='hero');
+  const toast=speaker(s,roster[0]||lead||kid);
+  if(!roster.length){
+    text=`A casa permanece silenciosa. ${f.c10_heroi_morto?`As fotografias mostram quem não sobreviveu a Lakewood. Não há ninguém para erguer um brinde naquela tarde.`:`${heroName(s)} ergue um copo diante das fotografias e promete não deixar que os amigos sejam lembrados apenas por como morreram. O futuro será difícil, mas ainda existe um futuro.`}`;
+  }else text=`A conversa já passou por trauma, boletos, vestibular, fisioterapia, noites sem dormir e até por um filme horroroso que alguém insistiu em recomendar. O peso continua existindo, mas não ocupa mais a mesa inteira.
+
+${toast}: — Pelos que não puderam estar aqui. E pelos que ainda tão tentando viver sem fingir que nada aconteceu.
+
+${f.c10_heroi_morto?`${speaker(s,lead||kid)} encosta o copo na moldura com a foto de ${heroName(s)} antes de beber.`:`Você acompanha o brinde e sente que, pela primeira vez em muito tempo, sorrir não parece uma traição.`}`;
+}
+if(id==='k10_53'){
   const guest=['ryan','samuel','allan'].find(x=>!dead(s,x)&&!f['c10_aparente_'+x])||living(s)[0];
-  if(guest){text=text.replace('Convidado: — Eu queria dizer',`${name(guest)}: — Eu queria dizer`).replace('Convidado: — Informações',`${name(guest)}: — Informações`);const voices={ryan:'Ryan passa a mão no cabelo, procurando uma piada e desistindo.',samuel:'Samuel olha para o microfone, sério. Desta vez não quer esconder uma informação.',allan:'Allan tenta sorrir para a câmera e fica quieto por alguns segundos.'};extras='\n\n'+(voices[guest]||`${name(guest)} respira fundo antes de responder.`);}
-  else text=`PODCAST — QUATRO MESES DEPOIS\n\nA apresentadora lê trechos dos depoimentos públicos, já que nenhum dos sobreviventes convidados pôde participar da entrevista.\n\nApresentadora: — Há informações daquela noite que ainda não conseguimos explicar. Talvez Lakewood esteja longe de conhecer a verdade completa.\n\nEla desliga o microfone e recolhe uma fotografia que nunca mostrou à câmera.`;
- }
- if(id==='k10_54'){
+  if(guest){text=text.replace('Convidado: — Eu queria dizer',`${name(guest)}: — Eu queria dizer`).replace('Convidado: — Informações',`${name(guest)}: — Informações`);const voices={ryan:'Ryan passa a mão no cabelo, procura uma piada e desiste.',samuel:'Samuel encara o microfone como se não quisesse esconder mais nada.',allan:'Allan tenta sorrir para a câmera e fica quieto por alguns segundos.'};extras='\n\n'+(voices[guest]||`${name(guest)} respira fundo antes de responder.`);} else text=`PODCAST — QUATRO MESES DEPOIS
+
+A apresentadora lê trechos dos depoimentos públicos, já que nenhum dos sobreviventes convidados pôde participar da entrevista.
+
+Apresentadora: — Há informações daquela noite que ainda não conseguimos explicar. Talvez Lakewood esteja longe de conhecer a verdade completa.
+
+Ela desliga o microfone e recolhe uma fotografia que nunca mostrou à câmera.`;
+}
+if(id==='k10_54'){
   if(f.c10_rayssa_justica==='depoimento'&&!dead(s,'rayssa')&&f.c10_rayssa_status!=='jullia'){
-   text=`PÓS-CRÉDITOS — UNIDADE PRISIONAL\n\nQuatro meses depois do massacre, Rayssa entra numa sala de visitas. Permanece em custódia enquanto responde judicialmente por sua participação nos crimes.\n\nRayssa: — Se for outro jornalista, pode mandar embora. Eu não vou dar entrevista.\n\nAgente: — Não é jornalista. A pessoa pediu pra falar com você pessoalmente.\n\nA porta se abre. Rayssa ergue os olhos — e perde a cor.\n\nRayssa: — Você?!\n\nDo outro lado da mesa, a pessoa coloca uma fotografia antiga do lago. O rosto continua fora de quadro.\n\nVoz desconhecida: — Jullia achava que sabia quem tava do lado dela. Era muita confiança pra alguém que escondia tanta coisa.\n\nA câmera corta antes que Rayssa responda.`;
-  } else text=`PÓS-CRÉDITOS — ESTÚDIO DE PODCAST\n\nA apresentadora guarda o microfone e apaga as luzes. Seu telefone vibra com uma mensagem de um contato salvo apenas como «Projeto».\n\nMensagem: — Eles ainda não sabem da outra pessoa.\n\nEla olha para a fotografia de Lakewood, guardada dentro de um envelope.\n\nApresentadora: — Então é melhor continuar assim... por enquanto.\n\nA câmera não revela a identidade de quem enviou a mensagem.`;
- }
- if(id==='k10_55'){
-  const fate=f.c10_jullia_fim==='presa'?'Jullia foi contida viva.':f.c10_jullia_fim==='lago'&&f.c10_pistola?'Jullia sofreu o último disparo no lago; a polícia investiga sua morte.': 'Jullia permanece desaparecida.';
-  const hero=f.c10_heroi_morto?`${heroName(s)} morreu no último confronto.`:`${heroName(s)} sobreviveu ao confronto final.`;
+   text=`PÓS-CRÉDITOS — UNIDADE PRISIONAL
+
+Quatro meses depois do massacre, Rayssa entra numa sala de visitas. Permanece em custódia enquanto responde judicialmente por sua participação nos crimes.
+
+Rayssa: — Se for outro jornalista, pode mandar embora. Eu não vou dar entrevista.
+
+Agente: — Não é jornalista. A pessoa pediu pra falar com você pessoalmente.
+
+A porta se abre. Rayssa ergue os olhos — e perde a cor.
+
+Rayssa: — Você?!
+
+Do outro lado da mesa, a pessoa coloca uma fotografia antiga do lago. O rosto continua fora de quadro.
+
+Voz desconhecida: — Jullia achava que sabia quem tava do lado dela. Era muita confiança pra alguém que escondia tanta coisa.
+
+A câmera corta antes que Rayssa responda.`;
+  } else text=`PÓS-CRÉDITOS — ESTÚDIO DE PODCAST
+
+A apresentadora guarda o microfone e apaga as luzes. Seu telefone vibra com uma mensagem de um contato salvo apenas como «Projeto».
+
+Mensagem: — Eles ainda não sabem da outra pessoa.
+
+Ela olha para a fotografia de Lakewood, guardada dentro de um envelope.
+
+Apresentadora: — Então é melhor continuar assim... por enquanto.
+
+A câmera não revela a identidade de quem enviou a mensagem.`;
+}
+if(id==='k10_55'){
+  const fate=f.c10_jullia_fim==='presa'?`JULLIA\n• Foi contida viva e será julgada pelos crimes.`:f.c10_jullia_fim==='lago'&&f.c10_pistola?`JULLIA\n• Caiu no lago após o último disparo. A polícia investiga oficialmente a morte.`:`JULLIA\n• Continua desaparecida depois da última fuga pela margem.`;
+  const hero=f.c10_heroi_morto?`PROTAGONISTA
+• ${heroName(s)} morreu no confronto final.`:`PROTAGONISTA
+• ${heroName(s)} sobreviveu ao confronto final.`;
   const losses=IDS.filter(x=>dead(s,x)).map(name),aliveNow=living(s).map(name);
-  text=`O ÚLTIMO GRITO\n\nFIM DA PRIMEIRA TEMPORADA\n\n${hero}\n\n${fate}\n\nSobreviventes: ${aliveNow.join(', ')||'nenhum do grupo original'}.\n\nPerdas: ${losses.join(', ')||'nenhuma entre os oito amigos'}.\n\nO que aconteceu naquela estrada nunca poderá ser apagado. Mas cada decisão mudou quem conseguiu atravessar a noite.\n\nCONTINUA...`;
- }
- let finalText=text+extras;
+  const surv=aliveNow.length?aliveNow.map(x=>'• '+x).join('\n'):'• Ninguém do grupo original sobreviveu';
+  const lost=losses.length?losses.map(x=>'• '+x).join('\n'):'• Nenhuma perda entre os oito amigos';
+  text=`O ÚLTIMO GRITO
+
+FIM DA PRIMEIRA TEMPORADA
+
+━━━━━━━━━━━━━━━━
+${hero}
+
+${fate}
+
+SOBREVIVENTES
+${surv}
+
+PERDAS
+${lost}
+━━━━━━━━━━━━━━━━
+
+O que aconteceu naquela estrada nunca poderá ser apagado. Mas cada decisão mudou quem conseguiu atravessar a noite.
+
+CONTINUA...`;
+}
+let finalText=text+extras;
  if(Number(id.slice(4))>=35&&dead(s,kid)){const escaped=name(kid).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');finalText=finalText.replace(new RegExp('(?:^|\\n\\n)'+escaped+': —[^\\n]*','g'),'').replaceAll('{refem}: —','');}
  return {...n,text:replace(finalText,s).replaceAll('{apoio}',name(lead||kid)).replaceAll('{fugitivo}',name(first)).replaceAll('{par}',name(second)).replaceAll('{galpao}',name(g1)).replaceAll('{companhia}',name(g2)).replaceAll('{heroi}',heroName(s)),choices:choices.map(c=>({...c,text:replace(c.text,s).replaceAll('{apoio}',name(lead||kid)).replaceAll('{fugitivo}',name(first)).replaceAll('{par}',name(second))})),location:loc};
 }
 window.UG10=Object.freeze({dead,living,resolve,enter:whenEnter,hostage});
-if(NODES.k9_final)NODES.k9_final.choices=[go('k10_01','CAPÍTULO 10 · A VERDADE TEM UM PREÇO')];
+if(NODES.k9_final)NODES.k9_final.choices=[go('k10_01','CAPÍTULO 10 · O GRAND FINALE')];
 })();

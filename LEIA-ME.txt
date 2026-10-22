@@ -204,3 +204,46 @@ V1.4.1
 
 V1.4.2
 - Title card ajustado, Capítulo 10 renomeado para O Grand Finale, correções de pronome e novas cenas/flashbacks emocionais.
+
+V1.4.3
+- Ajustes nas ambulâncias, na reconciliação com Rayssa, na confraternização de 4 meses depois e na tela final.
+
+
+V1.4.4 — Resgate, relações, confraternização e resultado final revisados.
+
+
+=====================================================================
+V1.5.0 — REVISÃO DE CONTINUIDADE DA PRIMEIRA TEMPORADA
+=====================================================================
+A versão V1.5.0 mantém os dez capítulos, os romances e a lógica dos slots.
+Melhorias: estado comum de personagem vivo/morto; precisão da ficha
+física; vínculos em 0; diálogos posteriores de personagens mortos;
+continuidade do hospital do Capítulo 7; coerência da reunião final.
+
+Para atualizar: descompacte este ZIP e substitua os arquivos do projeto,
+sem misturar scripts de versões antigas. Faça deploy de todos os arquivos.
+No Render, force atualização da página se o navegador usar cache (Ctrl+F5).
+Seu save é mantido no armazenamento do navegador, mas recomendamos
+EXPORTAR seu save antes de atualizar ou trocar de domínio/dispositivo.
+
+Observação: não foi possível completar um teste visual do navegador no
+ambiente de preparação; a versão foi validada com execução de JavaScript,
+testes de fluxo e testes automatizados de continuidade.
+
+
+V1.5.1 — EFEITO BORBOLETA EXPANDIDO
+- Novo arquivo butterfly151.js: memórias, relações e escolhas entre capítulos.
+- Diário de consequências com seção de memórias.
+- Consulte NOVIDADES-V1.5.1.txt para detalhes e compatibilidade.
+
+
+V1.5.2 — MEMÓRIAS EMOCIONAIS E CENAS ESPECIAIS
+- Arquivo memories152.js adiciona escolhas de memória à cafeteria do Capítulo 7, aos encontros do Capítulo 8, à sorveteria do Capítulo 9 e à confraternização do Capítulo 10.
+- Quatro cenas novas para as rotas de romance, opcionais e condicionadas ao save.
+- O Diário de Consequências ganhou a seção MEMÓRIAS AFETIVAS.
+- Arquivos e saves da V1.5.1 continuam compatíveis; não use scripts antigos misturados.
+- Consulte NOVIDADES-V1.5.2.txt para detalhes.
+
+
+V1.6.0
+- Xerife Diego recorrente, prólogo expandido, novo criador de personagem, interface simplificada e Ana corrigida.
