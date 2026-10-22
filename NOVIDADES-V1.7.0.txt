@@ -1,0 +1,44 @@
+O ÚLTIMO GRITO — V1.7.0 · EDIÇÃO DEFINITIVA (ETAPAS 1 e 2)
+
+ATUALIZAÇÃO INCLUÍDA
+
+Etapa 1 — Auditoria e continuidade
+- Revisão automatizada das 1.030 cenas e das ligações estáticas da história.
+- Recuperação de uma memória opcional do reencontro cujo retorno de save pudesse estar ausente (k10_undefined).
+- Proteção adicional contra falas de personagens mortos nas cenas finais, inclusive em partidas extremas.
+- Sem alteração dos finais de Jullia e Rayssa, dos romances e das decisões anteriores.
+- IDs de nós e campos antigos foram preservados para manter os saves compatíveis.
+
+Etapa 2 — Amanhecer, xerife Diego e interrogatórios
+- Chegada da polícia ao amanhecer, com buscas coordenadas pelo xerife Diego.
+- Primeiros socorros antes de qualquer depoimento; pacientes graves priorizados no hospital.
+- Cena estendida da reação de Bella ao saber a verdade sobre Jullia e Moisés.
+- Depoimentos realizados mais tarde, após liberação médica, na unidade médica de Lakewood.
+- Depoimento interativo do protagonista com 3 possibilidades e resposta consequente.
+- Depoimentos individuais dos oito amigos, somente se vivos e disponíveis.
+- Emoções e lembranças próprias para cada personagem, respeitando perdas e amizades.
+- Rayssa foragida não aparece prestando depoimento. Rayssa presente recebe tratamento distinto.
+- Cada escolha na entrevista possui encerramento próprio, sem repetição da mesma cena.
+- Diego reconhece decisões anteriores de procurar ajuda e deixa um gancho investigativo.
+- Estilo visual discretamente diferenciado nas cenas de interrogatório.
+- O epílogo de quatro meses continua depois dos interrogatórios.
+
+NÃO FAZ PARTE DESTE PACOTE
+- Etapa 3: expansão extra da confraternização, créditos cinematográficos e passaporte final aprimorado.
+- Etapa 4: retratos de Bella, Jullia e Moisés.
+Essas etapas não foram adicionadas porque esta entrega foi solicitada apenas para as etapas 1 e 2.
+
+TESTES
+- Sintaxe de JavaScript e estrutura do ZIP verificadas.
+- 1.030 cenas e 1.659 ligações estáticas verificadas.
+- 15.120 verificações de rotas dos interrogatórios e 18.540 pré-visualizações adicionais de cenas em estados variados.
+- 3.840 depoimentos condicionais verificados durante as simulações.
+- Teste visual real no Chromium não concluído no ambiente.
+
+INSTALAÇÃO
+1. Faça backup/exporte o seu save atual antes de atualizar.
+2. Extraia o arquivo ZIP e substitua todos os arquivos do projeto pelos desta pasta.
+3. Publique novamente no GitHub/Render. Se necessário, limpe o cache do navegador.
+4. Para conferir o novo amanhecer, use uma partida antes do final do capítulo 10; saves já posicionados na confraternização não voltam no tempo automaticamente.
+
+Para repetir testes com Node.js: node tests/test_v170.js

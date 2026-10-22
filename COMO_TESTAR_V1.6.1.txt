@@ -1,0 +1,20 @@
+O ÚLTIMO GRITO — V1.6.1
+GUIA RÁPIDO DE TESTE
+
+1. Faça backup do save antigo (Menu > Exportar save).
+2. Descompacte a V1.6.1; substitua os arquivos completos no repositório.
+3. Faça o deploy no Render. Recarregue a página para evitar arquivos em cache.
+4. Novo jogo > Prólogo > Chegada na festa da Jullia.
+5. Escolha 'Conversar com Jullia sobre os planos dela' e qualquer uma das respostas sobre a cafeteria.
+   A cena deve mostrar sua resposta, encerrar com Jullia e ir para a sala de música, SEM retornar à chegada à festa.
+6. No jardim, escolha 'Procurar Allan e Samuel'; depois diga que Samuel não deve beber ao volante.
+   Agora há a fala do protagonista, a reação de Samuel e Allan e só depois a transição.
+7. Teste outras escolhas com Bella, Ryan, Breno, Rauanny, Rayssa e Isabella.
+8. No fim do Capítulo 10, use 'Exportar Passaporte da Temporada 1'.
+   O JSON criado é uma ponte de decisões para o próximo jogo. Ele NÃO substitui seu save de partida.
+
+OBSERVAÇÕES
+- Os saves completos da temporada 1 continuam no formato antigo.
+- A importação do Passaporte da Temporada 1 será desenvolvida no segundo jogo.
+- Nos saves antigos parados em p05 por causa do bug, com a escolha já registrada, uma opção permite retomar a cafeteria.
+- Teste visual automatizado no navegador: indisponível neste ambiente (acesso local bloqueado). 

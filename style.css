@@ -439,3 +439,17 @@ button,input,select{touch-action:manipulation}
 .creator .field-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .creator select{max-width:100%;min-width:0}
 @media(max-width:640px){.creator .field-row{grid-template-columns:1fr;gap:12px}.main-menu-compact button{min-height:48px}}
+
+/* V1.6.1 · Passaporte da Temporada 1 */
+.season-passport-action{margin-top:22px;padding:20px;border:1px solid rgba(218,149,168,.34);background:linear-gradient(135deg,rgba(171,64,84,.12),rgba(15,25,39,.68));border-radius:12px}
+.season-passport-action p{color:#cbd8e3;font-size:clamp(.92rem,1.9vw,1rem);line-height:1.6;margin:0 0 14px}
+.season-passport-action .primary{width:100%;white-space:normal;min-height:56px}
+
+/* V1.7.0 · visual discreto para interrogatórios: diferente das perseguições */
+.play.testimony-scene .dialogue{border-color:rgba(143,171,195,.64)!important;background:linear-gradient(135deg,rgba(10,18,27,.98),rgba(24,35,45,.97))!important;box-shadow:0 25px 100px rgba(0,0,0,.68),0 0 100px rgba(87,126,157,.10)!important}
+.play.testimony-scene .spoken{border-left-color:#89a8c1;background:linear-gradient(90deg,rgba(88,127,159,.16),transparent 85%)}
+.play.testimony-scene .speaker-name{color:#b9d1e2}
+.play.testimony-scene .line-top{border-bottom:1px solid rgba(160,192,213,.22);padding-bottom:11px}
+.play.testimony-scene .narrator{color:#a6c8da}
+.play.testimony-scene .choice:hover{border-color:#8ec0dc;background:#233b4d}
+@media(max-width:740px){.play.testimony-scene .dialogue{margin-top:25px!important}}

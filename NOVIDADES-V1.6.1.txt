@@ -1,0 +1,10 @@
+O ÚLTIMO GRITO — V1.6.1 · PRÓLOGO REVISADO + PASSAPORTE DA TEMPORADA 1
+
+- Corrigido o loop da cafeteria de Jullia, que fazia o jogador voltar à chegada à festa.
+- Criadas 70 cenas-resposta mais 4 interações exclusivas dos traços com falas próprias do protagonista e dos amigos para escolhas do prólogo.
+- Conversas com Jullia, Bella, Allan, Samuel, Ryan, Rauanny, Breno, Rayssa e Isabella terminam antes de mudar de cena.
+- Reações mais humanizadas e compatíveis com personalidade e medo inicial do protagonista.
+- Efeitos originais das escolhas (relações, pistas e traços) foram preservados.
+- Exportação do Passaporte da Temporada 1 ao terminar o Capítulo 10: arquivo JSON separado do save completo, com mortes, sobreviventes, romance, destinos e pistas.
+- Todas as URLs de scripts e CSS recebem v=1.6.1 para reduzir problemas de cache no Render.
+- A importação do passaporte ainda será feita no segundo jogo. NÃO tente importar este arquivo como save do primeiro jogo.

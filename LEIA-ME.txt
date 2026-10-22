@@ -247,3 +247,11 @@ V1.5.2 — MEMÓRIAS EMOCIONAIS E CENAS ESPECIAIS
 
 V1.6.0
 - Xerife Diego recorrente, prólogo expandido, novo criador de personagem, interface simplificada e Ana corrigida.
+
+
+V1.6.1 — Veja NOVIDADES-V1.6.1.txt para correções do prólogo e exportação de decisões para a segunda temporada.
+
+V1.7.0 — Etapas 1 e 2
+- Revisão automatizada de continuidade e proteção de saves antigos.
+- Amanhecer mais longo, primeiros socorros, interrogatórios condicionais dos sobreviventes e protagonista, e encerramento do xerife Diego.
+- Ver arquivo NOVIDADES-V1.7.0.txt.
