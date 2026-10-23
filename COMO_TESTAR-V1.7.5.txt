@@ -1,0 +1,11 @@
+O ÚLTIMO GRITO — COMO TESTAR A V1.7.5
+
+1. Exporte uma cópia de seu save atual e substitua todos os arquivos do projeto no GitHub.
+2. Para testar as melhorias, carregue um save anterior à confraternização ou pelo menos ao diálogo que deseja rever.
+3. Se Breno estiver vivo e você o acusou no Capítulo 9, vá à conversa dele no reencontro: deve citar seu nome e oferecer opção para pedir desculpas, conversar ou dar espaço.
+4. Escolha a opção de lembrar um momento antigo com diferentes sobreviventes: o protagonista deve responder de maneira própria a cada amigo e seguir para a próxima pessoa.
+5. Na homenagem, verifique a fala da pessoa próxima a cada amigo morto — respeitando os sobreviventes do save.
+6. No encontro com o par romântico vivo, escolha namoro oficial, manter sem rótulo ou pedir tempo. O anúncio só aparece quando existem outros amigos na confraternização.
+7. Exporte o passaporte após o Capítulo 10: nele, o campo continuity.reunion inclui officialPartner, relationshipDecision, announcedToFriends e apologyToBreno.
+
+Os testes automatizados não substituem uma partida completa no navegador.

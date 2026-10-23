@@ -498,3 +498,10 @@ button,input,select{touch-action:manipulation}
   .v172-npc-grid .cast-info p{font-size:.95rem;line-height:1.45;overflow-wrap:normal;word-break:normal}
   .v172-npc-grid .cast-info span{font-size:.8rem}
 }
+
+/* V1.7.5 — Acolhimento, reparação e promessa afetiva; acessível no celular */
+.play.romantic-finale-scene .dialogue{border-color:rgba(224,158,187,.56)!important;background:linear-gradient(135deg,rgba(23,18,32,.97),rgba(17,26,42,.96))!important;box-shadow:0 25px 90px rgba(0,0,0,.7),0 0 80px rgba(170,78,113,.12)!important}
+.play.romantic-finale-scene .spoken{border-left-color:#e59ab6;background:linear-gradient(90deg,rgba(163,72,114,.17),transparent 88%)}
+.play.emotional-reunion-scene .dialogue{border-color:rgba(184,169,157,.55)!important;background:linear-gradient(125deg,rgba(19,24,33,.98),rgba(22,29,41,.95))!important}
+.play.emotional-reunion-scene .spoken{border-left-color:#cfb5a2}
+@media(prefers-reduced-motion:reduce){.play.romantic-finale-scene .dialogue,.play.emotional-reunion-scene .dialogue{animation:none;transition:none}}

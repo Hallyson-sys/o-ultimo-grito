@@ -1,0 +1,9 @@
+O ÚLTIMO GRITO — V1.7.5 · REENCONTRO E VÍNCULOS
+
+• Homenagem final dinâmica: a fala de cada perda vai para sobreviventes próximos que estão presentes na partida, sem atribuir tudo a Samuel.
+• Lembranças dos oito amigos com respostas únicas do protagonista e devolutivas pessoais. Os retornos continuam avançando à próxima pessoa.
+• Breno confronta o protagonista sobre a acusação no Capítulo 9; uma conversa opcional permite pedir desculpas e reconstruir confiança sem perdão instantâneo.
+• Cena longa com interesse romântico sobrevivente (Ryan, Breno, Rauanny ou Rayssa). O casal pode oficializar namoro, prosseguir sem rótulo ou pedir tempo. Se oficializar, há beijo, brincadeira com alianças e possibilidade de contar aos amigos.
+• As reações de Isabella à Rayssa respeitam os limites e a mágoa, mesmo quando o protagonista perdoou Rayssa.
+• Passaporte final inclui namoro oficial, anúncio e reparação com Breno.
+• Saves antigos permanecem utilizáveis. Para ver novos trechos da confraternização, carregue uma cena anterior aos diálogos alterados.

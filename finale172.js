@@ -130,15 +130,15 @@ function resolve(id,s,n){if(!n||!s)return n;const f=s.flags||{},people=members(s
 function seasonPassport(s){
  const base=window.UG161?.seasonPassport?.(s);if(!base)throw Error('O passaporte ainda não está disponível.');
  const f=s.flags||{};
- const timelineKeys=Object.keys(f).filter(k=>/^(?:c10_|c9_|c8_|c152_|c151_|c160_|v160_|v161_|c170_|c171_|c172_)/.test(k)&&!/^(?:c10_enter_|c152_reunion_return_|c152_enter_|c170_enter_)/.test(k)).sort();
+ const timelineKeys=Object.keys(f).filter(k=>/^(?:c10_|c9_|c8_|c152_|c151_|c160_|v160_|v161_|c170_|c171_|c172_|c175_)/.test(k)&&!/^(?:c10_enter_|c152_reunion_return_|c152_enter_|c170_enter_)/.test(k)).sort();
  const chosenFlags={};
  for(const k of timelineKeys){const v=f[k];if(typeof v==='boolean'||typeof v==='number'||(typeof v==='string'&&v.length<=140))chosenFlags[k]=v;}
  const victims=CAST.filter(x=>dead(s,x));
  const live=CAST.filter(x=>!dead(s,x));
- return {...base,sourceVersion:'1.7.2',schemaVersion:2,
+ return {...base,sourceVersion:'1.7.5',schemaVersion:2,
    outcomes:{...base.outcomes,heroSurvived:!dead(s,'hero'),rayssaAtReunion:rayWelcome(s),reunionAttendees:members(s),fallenFriends:victims},
    continuity:{finalNight:{witnesses:live,heroMissing:dead(s,'hero'),jullia:FATE(s,'jullia'),rayssa:FATE(s,'rayssa')},
-      memorial:{names:victims,choice:f.c172_homenagem_tom||null},reunion:{heroTone:f.c10_reuniao_heroi||null,conversation:f.c172_tom_encontro||null,romanticConversation:f.c172_romance_tom||null},
+      memorial:{names:victims,choice:f.c172_homenagem_tom||null},reunion:{heroTone:f.c10_reuniao_heroi||null,conversation:f.c172_tom_encontro||null,romanticConversation:f.c172_romance_tom||null,officialPartner:f.c175_namoro_oficial||null,relationshipDecision:f.c175_namoro_decisao||null,announcedToFriends:!!f.c175_namoro_anunciado,apologyToBreno:f.c175_breno_tom||null},
       emotionalMemories:CAST.filter(x=>f['c152_cafeteria_'+x]||f['c152_sorveteria_'+x]||f['c152_futuro_'+x]||f['c152_praca_'+x]),
       questioning:{protagonist:f.c170_hero_tom||null,friends:Object.fromEntries(CAST.filter(x=>f['c170_depo_resposta_'+x]).map(x=>[x,f['c170_depo_resposta_'+x]]))}},
    decisions:chosenFlags,
@@ -149,13 +149,13 @@ function FATE(s,who){const f=s.flags||{};if(who==='jullia'){if(f.c10_jullia_fim=
 function creditsMarkup(s,esc){
  const f=s.flags||{},fallen=CAST.filter(x=>dead(s,x)),surv=CAST.filter(x=>!dead(s,x));
  const names=CAST.map(x=>`${label(x)}${dead(s,x)?' — EM MEMÓRIA':' — SOBREVIVEU'}`);
- const lover=chosen(s);const romance=lover?`${label(lover)}${dead(s,lover)?' · lembrança de um amor':' · vínculo que permanece'}`:'Nenhum romance exclusivo';
+ const lover=chosen(s);const romance=lover?`${label(lover)}${dead(s,lover)?' · lembrança de um amor':f.c175_namoro_oficial===lover?' · namoro oficial':' · vínculo que permanece'}`:'Nenhum romance exclusivo';
  const list=(title,lines)=>`<div class="credits-unit"><span>${esc(title)}</span>${lines.map(x=>`<strong>${esc(x)}</strong>`).join('')}</div>`;
  const messages=[];
  if(f.c172_tom_encontro==='humor')messages.push('Você escolheu lembrar da alegria que existia antes do medo.');
  if(f.c172_tom_encontro==='luto')messages.push('Você deu espaço ao luto sem diminuir quem se foi.');
  if(f.c172_tom_encontro==='medo')messages.push('Você falou do medo de perder mais alguém.');
- if(f.c172_romance_tom)messages.push('Um vínculo afetivo teve uma conversa sobre o amanhã.');
+ if(f.c175_namoro_oficial)messages.push('Você decidiu assumir um namoro com '+label(f.c175_namoro_oficial)+'.');else if(f.c172_romance_tom)messages.push('Um vínculo afetivo teve uma conversa sobre o amanhã.');
  if(!messages.length)messages.push('As decisões que você tomou continuam registradas neste save.');
  return `<section class="v172-story-signature" aria-label="O legado da sua temporada"><div class="eyebrow">O SEU LEGADO EM LAKEWOOD</div><h3>${esc(s.hero?.name||'Protagonista')}</h3><p>${dead(s,'hero')?'Sua história terminou naquela noite, mas quem ficou ainda se lembra de você.':'Você atravessou aquela noite. O que vem depois não precisa ser decidido pelo medo.'}</p><div class="v172-legacy-grid"><article><b>${surv.length} de 8</b><span>amigos sobreviveram</span></article><article><b>${fallen.length}</b><span>amigos perdidos</span></article><article><b>${esc(romance)}</b><span>interesse romântico</span></article></div>${messages.map(m=>`<p class="v172-memory-line">${esc(m)}</p>`).join('')}</section>
   <details class="v172-credits"><summary>▶ ASSISTIR AOS CRÉDITOS CINEMATOGRÁFICOS</summary><div class="v172-credit-stage"><div class="v172-credit-roll"><div class="v172-credit-content"><div class="v172-credit-title"><small>UMA HISTÓRIA DE LAKEWOOD</small><strong>O ÚLTIMO<br>GRITO</strong><span>FIM DA PRIMEIRA TEMPORADA</span></div>${list('O NONO PERSONAGEM',[s.hero?.name||'Protagonista'])}${list('O GRUPO DE AMIGOS',names)}${list('PERSONAGENS DE LAKEWOOD',['Jullia Gomes','Bella Gomes','Moisés','Xerife Diego'])}${list('SUA TEMPORADA',[surv.length+' sobrevivente(s) entre os oito amigos',fallen.length+' perda(s) entre os oito amigos',romance])}<div class="v172-credit-close">LAKEWOOD NUNCA ESQUECE.<small>OBRIGADO POR JOGAR · ATÉ A PRÓXIMA TEMPORADA</small></div></div></div></div><p class="v172-credit-help">Os créditos não alteram o save. Você pode fechá-los, reabri-los ou rolar a página para ler os nomes.</p></details>`;
