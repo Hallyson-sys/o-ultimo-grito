@@ -1,0 +1,8 @@
+O ÚLTIMO GRITO — V1.7.7 · A ÚLTIMA LIGAÇÃO
+
+1. O aviso "PROGRESSO SALVO AUTOMATICAMENTE" está agora no rodapé do quadro de cena, sem cobrir os balões de diálogo do podcast nem as respostas no celular.
+2. Novo pós-crédito: quando o protagonista sobrevive, ele recebe em casa uma ligação ameaçadora. Se seu romance estiver vivo e disponível, participa da cena, respeitando o namoro oficial ou a relação sem rótulo.
+3. Escolhas para enfrentar a voz ou procurar Diego, registradas no save em c177_reacao_final.
+4. Se o protagonista morreu, o último telefonema envolve outro sobrevivente. Se nenhum dos nove jovens sobreviveu, o xerife Diego recebe a ligação na delegacia.
+5. Jullia e Rayssa continuam com seus próprios destinos no save. A nova voz não é identificada nem ressuscita personagens.
+6. Compatível com saves no nó k10_54 da V1.7.6, sem precisar repetir o podcast; demais cenas e passaporte preservados.

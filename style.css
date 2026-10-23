@@ -511,3 +511,23 @@ button,input,select{touch-action:manipulation}
 .play.podcast-epilogue-scene .narrator{color:#e2bacf}
 .play.podcast-epilogue-scene .spoken{border-left-color:#ac98d7;background:linear-gradient(90deg,rgba(87,68,130,.2),transparent 89%)}
 @media(max-width:740px){.play.podcast-epilogue-scene .dialogue{max-height:75vh}}
+
+
+/* V1.7.7 — Rodapé da cena sem sobrepor diálogos ou botões. */
+.play .dialogue .save-note{
+ position:static!important;display:block;clear:both;inset:auto!important;
+ margin:22px 0 0!important;padding:14px 0 0;
+ border-top:1px solid rgba(179,195,212,.18);
+ text-align:center!important;color:#9facbf;line-height:1.5;
+ font:600 10px/1.5 system-ui,Arial,sans-serif;letter-spacing:.14em;
+}
+.play .dialogue .choice{min-width:0}
+.play .dialogue .choice span:nth-child(2){min-width:0;overflow-wrap:break-word}
+/* Pós-créditos: a ligação ameaçadora mantém o mesmo design cinematográfico. */
+.play.final-call-scene .dialogue{border-color:rgba(207,86,107,.65)!important;background:linear-gradient(132deg,rgba(9,16,27,.98),rgba(30,18,33,.97))!important}
+.play.final-call-scene .spoken{border-left-color:#e1788d}
+.play.final-call-scene .narrator{color:#ffc1cc}
+@media(max-width:740px){
+ .play .dialogue .save-note{margin-top:18px!important;font-size:9px;letter-spacing:.09em}
+ .play.podcast-epilogue-scene .dialogue{max-height:none!important;overflow:visible!important}
+}
