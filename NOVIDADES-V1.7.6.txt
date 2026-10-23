@@ -1,0 +1,12 @@
+O ÚLTIMO GRITO — V1.7.6 · VOZES DE LAKEWOOD
+
+— O podcast do epílogo tem agora sete partes conectadas em lugar de uma entrevista curta.
+— Alice é apresentada pelo nome como anfitriã do programa “Vozes de Lakewood”.
+— O convidado muda conforme sobreviventes reais, e o protagonista pode participar se for o único disponível.
+— O programa recorda perdas, saúde emocional, investigação e dúvidas ainda abertas sem antecipar segredos do segundo jogo.
+— Jullia e Rayssa têm sua situação descrita conforme o save, sem divulgar automaticamente a participação de Rayssa se foi ocultada.
+— Sem participante disponível, Alice grava sozinha, sem falas fictícias de personagens mortos.
+— Novo pós-créditos de Alice, recebendo pista anônima e decidindo procurar o xerife Diego.
+— Continuidade, capítulos, romances, fichas, retratos e sistema de saves da V1.7.5 preservados.
+
+Para ver o episódio, abra um save antes da cena k10_53 (PODCAST) e avance. Saves já salvos nessa cena também carregam o episódio novo.

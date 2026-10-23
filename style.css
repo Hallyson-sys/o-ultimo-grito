@@ -505,3 +505,9 @@ button,input,select{touch-action:manipulation}
 .play.emotional-reunion-scene .dialogue{border-color:rgba(184,169,157,.55)!important;background:linear-gradient(125deg,rgba(19,24,33,.98),rgba(22,29,41,.95))!important}
 .play.emotional-reunion-scene .spoken{border-left-color:#cfb5a2}
 @media(prefers-reduced-motion:reduce){.play.romantic-finale-scene .dialogue,.play.emotional-reunion-scene .dialogue{animation:none;transition:none}}
+
+/* V1.7.6 · O podcast de Alice tem iluminação mais íntima e leitura confortável */
+.play.podcast-epilogue-scene .dialogue{border-color:rgba(155,150,202,.66)!important;background:linear-gradient(125deg,rgba(10,17,31,.98),rgba(29,25,48,.96))!important}
+.play.podcast-epilogue-scene .narrator{color:#e2bacf}
+.play.podcast-epilogue-scene .spoken{border-left-color:#ac98d7;background:linear-gradient(90deg,rgba(87,68,130,.2),transparent 89%)}
+@media(max-width:740px){.play.podcast-epilogue-scene .dialogue{max-height:75vh}}

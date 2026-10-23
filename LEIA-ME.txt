@@ -1,4 +1,4 @@
-VERSÃO ATUAL: V1.7.5 — Confraternização aprimorada, homenagem dinâmica, reparação com Breno e namoro opcional.
+VERSÃO ATUAL: V1.7.6 — Podcast de Alice expandido no epílogo da primeira temporada.
 VERSÃO ATUAL: V1.7.4 — Xerife Diego adicionado aos retratos de NPCs e correção do layout mobile do elenco.
 Consulte NOVIDADES-V1.7.3.txt; todas as melhorias de V1.7.2 permanecem.
 Consulte COMO_TESTAR-V1.7.2.txt para validar os capítulos e finais.
