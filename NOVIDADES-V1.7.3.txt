@@ -1,0 +1,19 @@
+O ÚLTIMO GRITO — V1.7.3
+RETRATOS OFICIAIS ATUALIZADOS
+
+Novidades:
+- Atualizados os três retratos usados nas fichas dos personagens:
+  · Moisés Oliveira: 1ª imagem aprovada enviada pelo usuário, no arquivo moises.webp;
+  · Jullia Gomes: 2ª imagem aprovada, no arquivo jullia.webp;
+  · Bella Gomes: 3ª imagem aprovada, no arquivo bella.webp.
+- Imagens WebP otimizadas para o formato dos retratos existentes (720 × 960).
+- Atualizado o identificador da versão e o cache de recursos para v1.7.3,
+  de modo que os novos retratos carreguem corretamente no Render e celulares.
+- Nenhuma alteração de capítulos, escolhas, personagens vivos/mortos ou
+  estrutura de saves. Permanecem todas as melhorias da V1.7.2.
+
+INSTALAÇÃO
+1. Faça backup do save pelo menu do jogo.
+2. Extraia este ZIP e substitua os arquivos anteriores no repositório GitHub.
+3. Publique o novo deploy no Render.
+4. Confirme os novos retratos em Elenco > Outros rostos de Lakewood.

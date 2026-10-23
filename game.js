@@ -234,7 +234,7 @@ function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;r
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions main-menu-compact"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button>${existing?'<button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="import">IMPORTAR SAVE</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.7.2 · ENCERRAMENTO CINEMATOGRÁFICO</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.7.2 · LAKEWOOD</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions main-menu-compact"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button>${existing?'<button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="import">IMPORTAR SAVE</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.7.3 · RETRATOS ATUALIZADOS</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.7.3 · LAKEWOOD</span></footer></main>`);
 }
 function creator(){
   view='creator';
@@ -319,7 +319,7 @@ const TRAITS={
 const CAST_PORTRAITS=Object.freeze({
   rayssa:'rayssa.webp',ryan:'ryan.webp',laisla:'laisla.webp',samuel:'samuel.webp',
   rauanny:'rauanny.webp',allan:'allan.webp',isabella:'isabella.webp',breno:'breno.webp',
-  bella:'bella.webp',jullia:'jullia.webp',moises:'moises.webp'
+  bella:'bella.webp?v=1.7.3',jullia:'jullia.webp?v=1.7.3',moises:'moises.webp?v=1.7.3'
 });
 const NPC_CAST=[
  ['bella','Bella Gomes','Irmã de Jullia, que não desistiu de procurar respostas sobre seu desaparecimento.','Bella segue pistas com coragem, mas também carrega o peso de uma família que mudou para sempre.'],

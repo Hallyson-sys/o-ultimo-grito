@@ -1,5 +1,6 @@
-VERSÃO ATUAL: V1.7.2 — Encerramento Cinematográfico, Passaporte Final e Retratos.
-Consulte NOVIDADES-V1.7.2.txt e COMO_TESTAR-V1.7.2.txt.
+VERSÃO ATUAL: V1.7.3 — Retratos oficiais de Bella, Jullia e Moisés atualizados.
+Consulte NOVIDADES-V1.7.3.txt; todas as melhorias de V1.7.2 permanecem.
+Consulte COMO_TESTAR-V1.7.2.txt para validar os capítulos e finais.
 
 O ÚLTIMO GRITO — V1.3.5 · ROTA DA HOMENAGEM + PERSEGUIÇÕES REVISADAS
 
