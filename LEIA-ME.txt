@@ -1,3 +1,6 @@
+VERSÃO ATUAL: V1.7.2 — Encerramento Cinematográfico, Passaporte Final e Retratos.
+Consulte NOVIDADES-V1.7.2.txt e COMO_TESTAR-V1.7.2.txt.
+
 O ÚLTIMO GRITO — V1.3.5 · ROTA DA HOMENAGEM + PERSEGUIÇÕES REVISADAS
 
 CONTEÚDO: prólogo, capítulos 1 a 9. O capítulo 10 ainda não foi criado neste pacote.

@@ -1,0 +1,46 @@
+O ÚLTIMO GRITO — V1.7.2
+EDIÇÃO DEFINITIVA · ETAPAS 3 E 4 · ENCERRAMENTO E RETRATOS
+
+O que foi incluído:
+
+1) Confraternização expandida depois do brinde do Capítulo 10, antes do podcast:
+   - Conversas com humor, luto ou medo, escolhidas pelo protagonista.
+   - Respostas específicas e contínuas; nenhum retorno ao começo da conversa.
+   - Homenagem aos mortos, adaptada ao elenco realmente falecido.
+   - Se todos sobreviverem, a cena fala das sequelas emocionais sem inventar mortes.
+   - Cena reservada com o interesse romântico, somente quando ele(a) estiver realmente presente, sem namoro obrigatório.
+   - Despedida e fotografia final, respeitando a sobrevivência do protagonista.
+   - Isabella e Rayssa não se reconciliam automaticamente.
+
+2) Créditos cinematográficos na tela final:
+   - Créditos animados opcionais, sem travar o menu nem interferir no save.
+   - Resumo do legado da partida, com mortes, sobreviventes e romance.
+   - Suporte a redução de movimento nas configurações do aparelho.
+
+3) Passaporte da Temporada 1 melhorado:
+   - Schema 2, mantendo game, kind e format anteriores para futura interoperabilidade.
+   - Registra escolhas importantes, memórias afetivas, interrogatórios, perdas e destino dos culpados.
+   - Continua disponível apenas após finalizar o Capítulo 10.
+   - É diferente do exportar save e ainda NÃO pode ser importado no jogo 2, que será produzido depois.
+
+4) Novos retratos ilustrados de Jullia Gomes, Bella Gomes e Moisés:
+   - Arquivos jullia.webp, bella.webp, moises.webp.
+   - Disponíveis em Elenco > Outros rostos de Lakewood, com perfis sem spoilers.
+   - Visual sombrio azul/roxo semelhante ao resto do elenco.
+
+5) Preservadas as mudanças da V1.7.1:
+   - Depoimentos reescritos, xerife Diego, correções de memórias e retorno de Samuel.
+   - Saves antigos, os dez capítulos, rota do prólogo e finais.
+
+VALIDAÇÃO:
+ - Verificação de sintaxe de JavaScript e ZIP.
+ - 2.048 simulações de encerramento, 13.936 renderizações de nós, 2.048 passaportes e créditos gerados.
+ - 4 cenários de interface simulada: menu, elenco de NPCs, confraternização e tela final.
+ - Testes anteriores do amanhecer também foram executados.
+
+LIMITAÇÃO: o ambiente de testes não conseguiu abrir o Chromium para inspeção visual.
+Teste o ZIP após atualizar o GitHub/Render, especialmente no celular.
+
+IMPORTANTE: exporte o save antes de substituir arquivos. Se o save já estiver no
+podcast ou nos créditos, ele não voltará automaticamente à confraternização.
+Recarregue um ponto anterior ao brinde (k10_52) para experimentar as novas cenas.

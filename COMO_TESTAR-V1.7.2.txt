@@ -1,0 +1,17 @@
+TESTE MANUAL RECOMENDADO — V1.7.2
+
+1. Faça backup de seus slots (Menu > Exportar save).
+2. Substitua TODOS os arquivos do projeto no GitHub/Render, não apenas index.html.
+3. No navegador, atualize o jogo, se necessário fechando e reabrindo a página.
+4. Abra o Elenco, role até "Outros rostos de Lakewood" e veja Jullia, Bella, Moisés.
+5. Carregue um save ANTES do brinde da confraternização no Capítulo 10:
+   - Escolha uma lembrança alegre, um luto ou o medo.
+   - Verifique se há homenagem apenas se alguém realmente morreu.
+   - Veja o momento romântico apenas se a pessoa sobreviveu e pode comparecer.
+   - Avance até o podcast e créditos, sem retornar às perguntas antigas.
+6. Termine o Capítulo 10 e abra "ASSISTIR AOS CRÉDITOS CINEMATOGRÁFICOS".
+7. Exporte o Passaporte da Temporada 1 e confira o JSON.
+8. Teste também um save com protagonista morto e um save com Rayssa detida.
+
+O passaporte NÃO é importável em O Último Grito 2 ainda.
+Os retratos foram criados para esta atualização a partir de arte ilustrada nova.

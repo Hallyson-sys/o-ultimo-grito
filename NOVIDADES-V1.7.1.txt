@@ -1,0 +1,19 @@
+O ÚLTIMO GRITO · V1.7.1 — DEPOIMENTOS E CONFRATERNIZAÇÃO CORRIGIDOS
+
+BASE: V1.7.0 (Etapas 1 e 2). O jogo completo está neste pacote.
+
+CORREÇÕES
+1) Xerife Diego: reescrito encerramento do depoimento do protagonista. Ele reage às respostas como policial e pessoa, sem comentários que soem como o sistema do jogo. Inclui alternativas específicas para verdade, luto e pausa.
+2) Oito depoimentos individuais: perguntas, histórias, interrupções e respostas diferentes, com uma etapa adicional de aprofundamento antes da escolha final; sem encerramentos copiados entre todos. Diferenças quando amigos morreram, quando Rayssa foi perdoada, não perdoada, morreu ou fugiu.
+3) Confraternização: as três escolhas sobre terapia, insônia e grupo agora mostram um diálogo posterior com reação da pessoa presente (ou reflexão solitária se o protagonista for o único sobrevivente) antes de avançar.
+4) Memórias emocionais: a escolha de retornar após a lembrança do Samuel, ou de outros amigos, avança ao próximo participante ou brinde, sem repetir a pergunta anterior. Funciona também com saves antigos já posicionados na lembrança.
+5) Melhorias na conversa das memórias e variações gramaticais; identificadores anteriores mantidos.
+6) Versão atualizada no menu e no cache dos scripts para atualizar no Render.
+
+NOTAS
+- Os saves, finais e capítulos anteriores permanecem disponíveis. Recomenda-se backup prévio.
+- Os depoimentos devem ser conferidos começando em cena anterior ao interrogatório; quem já está na cena de encerramento recebe o novo texto diretamente ao carregar o save.
+- Testes executados: 1.536 combinações de sobreviventes e estado de Rayssa, com 5.888 cenas finais de depoimento verificadas, e testes de retorno de memória e resposta do protagonista.
+- Teste visual não concluído porque o Chromium local não renderizou a página no ambiente. Teste manual em dispositivo recomendado.
+
+PENDÊNCIAS DAS ETAPAS 3 E 4 DA V1.7.0: créditos cinematográficos, passaporte ampliado e retratos de Bella, Jullia e Moisés. Este pacote é uma correção da etapa já entregue, não uma implementação dessas etapas.
