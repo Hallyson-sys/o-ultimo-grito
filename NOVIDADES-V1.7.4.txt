@@ -1,0 +1,6 @@
+O ÚLTIMO GRITO — NOVIDADES V1.7.4
+
+1) Novo retrato oficial do Xerife Diego adicionado ao elenco de NPCs.
+2) Diego agora aparece junto de Bella, Jullia e Moisés na seção “Outros rostos de Lakewood”.
+3) Correção do layout mobile dessa seção: nomes, descrições e botão “Ver perfil” agora aparecem alinhados e legíveis.
+4) Pequeno ajuste de cache nas imagens dos retratos para garantir a atualização visual.

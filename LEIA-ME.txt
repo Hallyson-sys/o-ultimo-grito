@@ -1,4 +1,4 @@
-VERSÃO ATUAL: V1.7.3 — Retratos oficiais de Bella, Jullia e Moisés atualizados.
+VERSÃO ATUAL: V1.7.4 — Xerife Diego adicionado aos retratos de NPCs e correção do layout mobile do elenco.
 Consulte NOVIDADES-V1.7.3.txt; todas as melhorias de V1.7.2 permanecem.
 Consulte COMO_TESTAR-V1.7.2.txt para validar os capítulos e finais.
 

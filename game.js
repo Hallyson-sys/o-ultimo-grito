@@ -319,12 +319,13 @@ const TRAITS={
 const CAST_PORTRAITS=Object.freeze({
   rayssa:'rayssa.webp',ryan:'ryan.webp',laisla:'laisla.webp',samuel:'samuel.webp',
   rauanny:'rauanny.webp',allan:'allan.webp',isabella:'isabella.webp',breno:'breno.webp',
-  bella:'bella.webp?v=1.7.3',jullia:'jullia.webp?v=1.7.3',moises:'moises.webp?v=1.7.3'
+  bella:'bella.webp?v=1.7.4',jullia:'jullia.webp?v=1.7.4',moises:'moises.webp?v=1.7.4',diego:'diego.webp?v=1.7.4'
 });
 const NPC_CAST=[
  ['bella','Bella Gomes','Irmã de Jullia, que não desistiu de procurar respostas sobre seu desaparecimento.','Bella segue pistas com coragem, mas também carrega o peso de uma família que mudou para sempre.'],
  ['jullia','Jullia Gomes','Anfitriã da festa do prólogo e centro da história de Lakewood.','A lembrança daquela festa ganha significados diferentes conforme a verdade é descoberta.'],
- ['moises','Moisés','Namorado de Jullia, marcado pelo desaparecimento e pelos segredos de Lakewood.','Suas ações e seus silêncios são parte importante da investigação.']
+ ['moises','Moisés Oliveira','Namorado de Jullia, marcado pelo desaparecimento e pelos segredos de Lakewood.','Suas ações e seus silêncios são parte importante da investigação.'],
+ ['diego','Xerife Diego','Xerife de Lakewood, disposto a ajudar o grupo a encontrar respostas mesmo quando o silêncio atrapalha a investigação.','Diego tenta proteger os sobreviventes, seguir as provas corretas e ouvir cada versão dos fatos sem apagar a dor que ficou para trás.']
 ];
 function characterDead(id){return (id==='allan'&&!!save?.flags?.allan_morto_c4)||!!save?.flags?.['c6_morto_'+id]||!!save?.flags?.['c7_morto_'+id]||!!save?.flags?.['c8_morto_'+id]||!!save?.flags?.['c9_morto_'+id]||!!save?.flags?.['c10_morto_'+id];}
 function castPortrait(id,name,large=false){

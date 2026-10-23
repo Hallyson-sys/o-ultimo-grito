@@ -485,3 +485,16 @@ button,input,select{touch-action:manipulation}
 @keyframes v172-credits-rise{from{transform:translateY(0)}to{transform:translateY(-94%)}}
 @media(max-width:600px){.v172-npc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.v172-legacy-grid{grid-template-columns:1fr}.v172-credit-content{padding-top:230px}.v172-credit-roll{height:405px}}
 @media(prefers-reduced-motion:reduce){.v172-credit-roll{height:auto;max-height:450px;overflow-y:auto}.v172-credit-content{animation:none;padding:1rem 1.2rem}.v172-credit-stage{max-height:none}.v172-credit-title{margin-bottom:2rem}}
+
+
+/* V1.7.4 — ajustes no elenco de NPCs e correção do layout mobile */
+.v172-npc-grid{align-items:stretch}
+.v172-npc-grid .cast-card{height:100%}
+@media(max-width:740px){
+  .v172-npc-grid{grid-template-columns:1fr!important;gap:.85rem}
+  .v172-npc-grid .cast-card{align-items:flex-start}
+  .v172-npc-grid .cast-art--card{flex:0 0 92px;width:92px;height:122px}
+  .v172-npc-grid .cast-info b{font-size:1.2rem;line-height:1.15}
+  .v172-npc-grid .cast-info p{font-size:.95rem;line-height:1.45;overflow-wrap:normal;word-break:normal}
+  .v172-npc-grid .cast-info span{font-size:.8rem}
+}
