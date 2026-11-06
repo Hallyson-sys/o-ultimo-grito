@@ -1,4 +1,4 @@
-/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.1
+/* O ÚLTIMO GRITO · CAPÍTULO 9: UM ÚLTIMO JOGO · V1.3.9
  * No public-facing passage may disclose the identities of the masked attackers.
  * Saves are additive; all progression is in c9_* flags on existing slot.
  */
@@ -14,7 +14,7 @@ const dead=(s,id)=>!!s?.flags?.['c9_morto_'+id]||!!window.UG8?.dead?.(s,id)||!!s
 const alive=s=>IDS.filter(id=>!dead(s,id));
 const name=id=>L[id]||id;
 const names=a=>a.length===0?'ninguém':a.length===1?name(a[0]):a.length===2?a.map(name).join(' e '):a.slice(0,-1).map(name).join(', ')+' e '+name(a[a.length-1]);
-const lover=s=>!dead(s,s.romanceEscolhido)&&L[s.romanceEscolhido]?s.romanceEscolhido:null;
+const lover=s=>['ryan','breno','rayssa','rauanny'].includes(s?.romanceEscolhido)&&!dead(s,s.romanceEscolhido)?s.romanceEscolhido:null;
 const bf=s=>Number(s.bonds?.[lover(s)]||50);
 const suspect=s=>['breno','samuel','ryan','allan','isabella','rauanny','laisla'].find(x=>!dead(s,x))||null;
 const visits=s=>IDS.filter(x=>s.flags?.['c9_chat_done_'+x]).length;
@@ -284,7 +284,7 @@ A voz de quem fala falha. A mesa está silenciosa, e ninguém tenta preencher im
 ${m.speaker}: ${m.line}
 
 Você lembra de como ${L[id]} se movia pelo grupo, de suas manias, de pequenos comentários que não pareciam importantes. Agora uma frase simples pode machucar mais do que a notícia da morte.`,[G('k9_mem_loop','Deixar outra pessoa se despedir',[F('mem_seen_'+id)])]);}
-N('k9_mem_moises','MIRANTE · VELA DE MOISÉS','16:35','lake',`A última vela é a de Moisés. Bella olha para a chama antes de falar.
+N('k9_mem_moises','MIRANTE · VELA DE MOISÉS','16:35','lake',`A próxima vela é a de Moisés. Bella olha para a chama antes de falar.
 
 Bella: — Eu passei meses com raiva dele. Achei que ele não se importava nem comigo, nem com a Ju. E talvez tenha feito coisas que eu ainda não entendo.
 
@@ -389,13 +389,13 @@ O nome da irmã aparece escrito atrás de uma fotografia: Jullia. Duas letras L.
 Bella fecha os olhos.`,[G('k9_anna_flashback','Lembrar uma tarde antiga')]);
 N('k9_anna_flashback','LEMBRANÇA · CASA DOS GOMES','ANOS ANTES','house',`PONTO DE VISTA: BELLA GOMES — LEMBRANÇA
 
-A cozinha dos Gomes cheira a bolo ainda quente. Bella entra e encontra a irmã parada de frente para a janela, com os braços cruzados. Uma adolescente de cabelo preso — Anna, amiga das duas — acaba de sair pela porta da frente.
+A cozinha dos Gomes cheira a bolo ainda quente. Bella entra e encontra a irmã parada de frente para a janela, com os braços cruzados. Uma adolescente de cabelo preso — Ana, amiga das duas — acaba de sair pela porta da frente.
 
 Bella: — O que rolou? Vocês tavam rindo até agora.
 
 Jullia: — Ela contou pra outra pessoa uma coisa que eu pedi pra guardar entre nós.
 
-Bella: — Anna?
+Bella: — Ana?
 
 Jullia: — É. E nem foi o assunto. Foi ela olhar pra minha cara e dizer que eu podia confiar.
 
@@ -407,13 +407,13 @@ Jullia: — Não sei. O que eu devia fazer? Fingir que não me importei?
 
 Bella: — Não. Falar com ela quando você tiver pronta. É bem diferente.
 
-Jullia observa a porta por onde Anna saiu.`,[
+Jullia observa a porta por onde Ana saiu.`,[
  C('Perguntar à Jullia por que aquela amizade importava tanto','k9_anna_recall',[F('anna_perguntou_amizade')]),
  C('Sentar com Jullia até ela querer falar','k9_anna_recall',[F('anna_esperou')]),
  C('Tentar quebrar o clima com uma brincadeira','k9_anna_recall',[F('anna_brincou')])]);
 N('k9_anna_recall','LEMBRANÇA · IRMÃS','ANOS ANTES','house',`Jullia pega um pedaço de bolo com a mão e Bella protesta. As duas discutem por um guardanapo, como se o mundo pudesse voltar ao normal por causa de uma bobagem.
 
-Jullia: — Eu não queria que a Anna fosse uma pessoa ruim. Eu só queria que ela tivesse me escolhido naquele momento.
+Jullia: — Eu não queria que a Ana fosse uma pessoa ruim. Eu só queria que ela tivesse me escolhido naquele momento.
 
 Bella: — Isso não significa que ela não gosta de você, Ju.
 
@@ -425,7 +425,7 @@ Jullia: — Insuportável.
 
 Bella: — Dramática.
 
-A almofada voa do sofá para Bella. As duas terminam rindo, ainda magoadas com Anna, mas juntas.
+A almofada voa do sofá para Bella. As duas terminam rindo, ainda magoadas com Ana, mas juntas.
 
 Antes de o dia acabar, Jullia diz que sonha em abrir um pequeno negócio um dia e levar Bella para conhecer cidades que só viram pela televisão. Bella promete cobrar a passagem.
 
@@ -527,8 +527,24 @@ O mestre de cerimônias lembra que parte da arrecadação irá para as famílias
 
 Você reconhece algumas pessoas do grupo que escolheram comparecer. Rayssa está entre elas, ajudando a orientar convidados perto da área das homenagens.`,[
  C('Conversar com duas pessoas sobre a dúvida de Bella','k9_city_doubt',[F('suspeita_compartilhada')]),
- C('Visitar o mural e ouvir os discursos','k9_city_social',[F('mural_visitado')]),
- C('Procurar o interesse romântico ou outro amigo na praça','k9_city_social',[F('busca_amigos')])]);
+ C('Visitar o mural e ouvir os discursos','k9_city_memorial',[F('mural_visitado')]),
+ C('Procurar o interesse romântico ou outro amigo na praça','k9_city_meet',[F('busca_amigos')])]);
+N('k9_city_memorial','ANIVERSÁRIO · O MURAL','19:49','town',`As flores foram colocadas diante de fotografias diferentes. Uma mulher de meia-idade segura um papel dobrado e tenta começar seu discurso duas vezes. Quando consegue, não fala da tragédia. Conta como o filho insistia em cantar errado todas as músicas do carro.
+
+Você se aproxima do mural em silêncio. Um voluntário entrega uma caneta para quem quiser deixar uma mensagem. Uma criança pergunta à mãe por que algumas fotografias têm fitas pretas. A resposta é baixinha, mas suficiente para você ouvir.
+
+VOLUNTÁRIA: — Não precisa escrever bonito. Às vezes só o nome da pessoa já diz muita coisa.
+
+Você encontra um espaço vazio ao lado das flores.`,[
+ C('Escrever uma lembrança para as famílias','k9_city_social',[F('mural_mensagem'),['trait','empatia',1]]),
+ C('Ouvir o restante do discurso em silêncio','k9_city_social',[F('mural_escutou')]),
+ C('Conversar com a voluntária sobre a homenagem','k9_city_social',[F('mural_conversou')])]);
+N('k9_city_meet','ANIVERSÁRIO · ENTRE AS BARRACAS','19:51','town',`Você atravessa a praça procurando um rosto conhecido. Não é fácil encontrar alguém no meio de crianças com balões, gente carregando copos e uma banda afinando instrumentos. Uma mensagem enviada ao grupo ajuda você a descobrir quem está perto das barracas.
+
+A música continua, mas agora você consegue distinguir a voz de alguém chamando pelo seu nome.`,[
+ C('Pedir companhia para caminhar pela praça','k9_city_social',[F('cidade_caminhou_junto')]),
+ C('Perguntar como o amigo está lidando com a noite','k9_city_social',[F('cidade_conversou_amigo')]),
+ C('Comprar alguma coisa e dividir com o amigo','k9_city_social',[F('cidade_dividiu_lanche')])]);
 N('k9_city_doubt','LAKEWOOD · PERTO DO PALCO','19:49','town',`Você encontra duas pessoas que não reagem do mesmo jeito quando descreve a divergência mencionada por Bella.
 
 Uma delas lembra que os documentos não têm assinatura; outra diz que já viu gente mentir sobre horários em circunstâncias bem menores.
@@ -559,7 +575,7 @@ O telefone vibra com uma fotografia da casa do lago: a piscina iluminada, os pri
 
 A imagem por um instante faz você desejar estar nos dois lugares. Mas seu corpo só pode estar em um deles.
 
-Alguém comenta que precisa ir aos bastidores buscar uma coisa. A frase parece banal. Cinco minutos depois, você vai lembrar dela com uma precisão cruel.`,[G('k9_omen','Perceber um detalhe estranho')]);
+Alguém comenta que precisa ir aos bastidores buscar uma coisa. A frase parece banal. Cinco minutos depois, você vai lembrar dela com uma precisão cruel.`,[G('k9_breno_encontro','Acompanhar o fim da apresentação')]);
 N('k9_house_arrive','CASA DE VERANEIO · FESTA','19:42','party',`A casa dos parentes de Laisla fica próxima ao lago, afastada da movimentação do aniversário de Lakewood. A piscina reflete luzes roxas e a música atravessa portas de vidro que permanecem abertas.
 
 Há convidados que você não conhece, pessoas dançando na varanda e uma mesa de bebidas sem pretensão de esconder o quanto foi improvisada. Alguns amigos estão presentes. Outros preferiram o evento no centro.
@@ -575,9 +591,65 @@ Laisla: — Pois é. Achei que ninguém fosse querer aparecer. Depois do que aco
 Ela olha a piscina iluminada, e o sorriso perde força.
 
 Laisla: — Tô tentando ficar feliz. Pelo menos hoje, tenta aproveitar também.`,[
- C('Ajudar a organizar a música e as bebidas','k9_house_social',[F('ajudou_casa'),B('laisla',3)]),
- C('Procurar alguém para conversar numa varanda menos barulhenta','k9_house_social',[F('varanda_calma')]),
- C('Participar de uma brincadeira com os convidados','k9_house_social',[F('brincadeira_festa')])]);
+ C('Ajudar a organizar a música e as bebidas','k9_house_help',[F('ajudou_casa'),B('laisla',3)]),
+ C('Procurar alguém para conversar numa varanda menos barulhenta','k9_house_balcony',[F('varanda_calma')]),
+ C('Participar de uma brincadeira com os convidados','k9_house_game_intro',[F('brincadeira_festa')])]);
+N('k9_house_help','CASA DO LAGO · PREPARATIVOS','19:47','party',`Você vai até a mesa em que a caixa de som foi deixada ao lado de um emaranhado de cabos. Uma convidada está tentando ligar o equipamento na tomada errada. Você se agacha, reorganiza o fio e afasta copos da régua de energia.
+
+CONVIDADA: — Graças a Deus! Eu já ia botar música pelo celular e fingir que era DJ.
+
+Você encontra a caixa de gelo e ajuda a dividir os refrigerantes, enquanto a anfitriã confere se a passagem para o corredor não está bloqueada. Por alguns minutos, organizar uma festa parece o maior problema do mundo.`,[
+ C('Escolher uma música animada e chamar o pessoal para dançar','k9_house_social',[F('casa_musica_animada')]),
+ C('Ajudar a afastar os copos dos equipamentos e liberar as saídas','k9_house_social',[F('casa_organizou_seguro'),F('casa_saidas')])]);
+N('k9_house_balcony','CASA DO LAGO · AR FRESCO','19:47','party',`A varanda é iluminada só pelas luzes coloridas vindas da sala. Você se afasta da caixa de som e encontra alguém apoiado no corrimão, observando o movimento do lago.
+
+Você: — Posso ficar aqui um pouco?
+
+A pessoa afasta o casaco da cadeira para abrir espaço. A música chega abafada. Pela primeira vez desde o memorial, é possível conversar sem elevar a voz.`,[
+ C('Perguntar o que a pessoa gostaria de fazer depois de tudo isso','k9_house_social',[F('varanda_sonhos')]),
+ C('Admitir que a festa dá um pouco de medo','k9_house_social',[F('varanda_medo')]),
+ C('Fazer uma piada sobre fugir do barulho','k9_house_social',[F('varanda_piada')])]);
+N('k9_house_game_intro','CASA DO LAGO · A BRINCADEIRA','19:46','party',`Perto da piscina, três convidados fizeram uma roda em torno de uma tigela com papeizinhos. A regra é simples: cada pessoa sorteia uma tarefa inocente; quem não quiser cumpri-la conta uma história constrangedora.
+
+CONVIDADA: — Ô, você aí! Vai ficar só olhando? Chega aqui!
+
+Você entra na roda. Uma das pessoas improvisa um microfone com uma colher de plástico. Outra protesta porque o desafio anterior foi muito fácil.
+
+Você: — Isso aqui é uma festa ou uma armadilha pra passar vergonha?
+
+CONVIDADO: — Os dois, provavelmente. Sua vez!
+
+Você retira um papel da tigela. A turma espera sua reação.`,[
+ C('Imitar um famoso e fazer todo mundo adivinhar','k9_house_game_round',[S('brincadeira_tipo','imitacao'),B('laisla',1)]),
+ C('Desafiar alguém para uma batalha de dança','k9_house_game_round',[S('brincadeira_tipo','danca')]),
+ C('Contar uma história engraçada do grupo','k9_house_game_round',[S('brincadeira_tipo','historia'),['trait','empatia',1]])]);
+N('k9_house_game_round','CASA DO LAGO · A RODA AUMENTA','19:50','party',`A brincadeira deixa de ser só uma ideia. As pessoas se aproximam, abrem espaço e esperam a sua apresentação. Um amigo cobre o rosto de vergonha alheia; outro começa a rir antes mesmo de você terminar.
+
+A festa tem alguns minutos de alegria real. Você quase esquece o quanto isso parecia impossível no começo da tarde.`,[
+ C('Convidar outra pessoa a entrar na brincadeira','k9_house_game_payoff',[F('brincadeira_incluiu')]),
+ C('Fazer uma segunda rodada para arrancar mais risadas','k9_house_game_payoff',[F('brincadeira_repetiu')]),
+ C('Encerrar a brincadeira enquanto todo mundo está rindo','k9_house_game_payoff',[F('brincadeira_encerrou')])]);
+N('k9_house_game_payoff','CASA DO LAGO · DEPOIS DA RISADA','19:53','party',`A roda se desfaz aos poucos. Alguém ainda repete sua imitação ou um passo de dança desastroso perto da porta. Uma pessoa levanta o copo e brinda à primeira noite em que conseguiu rir sem culpa.
+
+Você: — Da próxima vez, vocês vão escolher desafios menos humilhantes.
+
+CONVIDADA: — Mentira. Da próxima vez vai ser pior!
+
+Você sai da roda com as bochechas quentes e um sorriso que não precisa forçar. Agora pode procurar seus amigos pela casa.`,[G('k9_house_social','Voltar para perto dos amigos')]);
+N('k9_house_future','CASA DO LAGO · PLANOS PEQUENOS','20:01','party',`Você pega um refrigerante, senta na borda da varanda e pergunta a alguém do grupo o que faria se amanhã não houvesse telefonemas anônimos ou notícias ruins.
+
+A pergunta provoca um silêncio diferente: não de medo, mas de quem esqueceu como se planeja alguma coisa boa.`,[
+ C('Falar de uma viagem com o grupo','k9_house_evening',[F('futuro_viagem')]),
+ C('Confessar que só deseja passar um dia normal com alguém','k9_house_evening',[F('futuro_paz')]),
+ C('Perguntar quais sonhos o amigo deixou de lado','k9_house_evening',[F('futuro_sonho')])]);
+N('k9_house_flirt','CASA DO LAGO · UM LUGAR CALMO','20:02','party',`Você se afasta por alguns minutos da música e procura alguém com quem tenha intimidade suficiente para falar sem fingir tranquilidade. O reflexo das luzes coloridas alcança o vidro da varanda. Do outro lado da porta, a festa continua.
+
+Você: — Posso roubar uns minutos seus?
+
+Uma resposta vem acompanhada de um sorriso cansado.`,[
+ C('Convidar para dançar longe do centro da festa','k9_house_evening',[F('festa_dancou_junto')]),
+ C('Conversar sobre o medo de perder mais alguém','k9_house_evening',[F('festa_conversa_intima')]),
+ C('Ficar lado a lado e aproveitar o silêncio','k9_house_evening',[F('festa_momento_calmo')])]);
 N('k9_house_social','CASA DO LAGO · VARANDA','19:54','party',`A música muda para uma canção conhecida e duas pessoas começam a discutir qual versão é melhor. Na varanda, o ar é mais fresco e o lago parece apenas um reflexo distante entre as árvores.
 
 Ryan pode inventar uma competição boba perto da piscina. Allan, se presente, tenta convencer Samuel a não levar tudo tão a sério. Breno escolhe uma cadeira com visão da porta. Rauanny ajuda Laisla com uma caixa de som.
@@ -586,9 +658,9 @@ Você vê, por instantes, o grupo se comportar como antes da ameaça. Não como 
 
 Alguém pergunta se a cidade já começou a homenagem no palco. Um convidado mostra um vídeo da apresentação que acabou de acontecer.`,[
  C('Compartilhar com um amigo a informação de Bella','k9_house_doubt',[F('suspeita_compartilhada')]),
- C('Conversar sobre os planos para depois do fim dessa história','k9_house_evening',[F('planos_festa')]),
- C('Buscar um momento reservado com alguém querido','k9_house_evening',[F('carinho_festa')])]);
-N('k9_house_doubt','CASA DO LAGO · JARDIM','20:00','party',`Você conta a uma pessoa de confiança sobre o registro mostrado por Bella, sem transformar uma diferença de horário em acusação pública.
+ C('Conversar sobre os planos para depois do fim dessa história','k9_house_future',[F('planos_festa')]),
+ C('Buscar um momento reservado com alguém querido','k9_house_flirt',[F('carinho_festa')])]);
+N('k9_house_doubt','CASA DO LAGO · JARDIM','20:00','party',`Você procura quem está na festa para conversar reservadamente sobre o registro mostrado por Bella.
 
 A resposta é cautelosa. Um amigo lembra que todos escondem coisas desde a noite do acidente. Outro acha perigoso considerar alguém culpado apenas por estar perto de uma estação.
 
@@ -602,6 +674,54 @@ Uma pessoa sugere uma fotografia do grupo presente. Alguns aceitam; outros ficam
 Do centro da cidade chega uma mensagem: a homenagem municipal já começou. Rayssa diz que está auxiliando uma família a encontrar os lugares reservados.
 
 Há alguma coisa diferente na estrada de acesso. Um carro que você não reconhece ficou parado por alguns instantes antes de apagar os faróis.`,[G('k9_omen','Perceber que algo não combina')]);
+// V1.3.6 — confronto exclusivo da homenagem, antes do vídeo.
+// Só a rota do aniversário passa por estes nós; quem perdeu Breno não vê um morto conversar.
+N('k9_breno_encontro','ANIVERSÁRIO · ATRÁS DO MEMORIAL','20:09','town',`A cantora termina a última nota, mas o aplauso não consegue tirar da sua cabeça a folha que Bella mostrou mais cedo. Um registro de acesso, um horário que não coincide com um relato e um nome: Breno. Não é uma prova. A dúvida, no entanto, já mudou a maneira como você olha a multidão.
+
+Você o vê ao lado da barraca de bebidas, com o celular na mão e a jaqueta fechada apesar do calor. Ele guarda o aparelho quando nota sua aproximação.
+
+Breno: — Ei. Você tá bem? Você ficou estranho desde a conversa com a Bella.
+
+Você: — A gente precisa conversar. Sobre o horário perto da estação.
+
+O sorriso pequeno de Breno some. Ele olha primeiro para o palco, depois para você.
+
+Breno: — A Isa já levantou essa suspeita na discussão. Agora a Bella também te mostrou aquele registro?
+
+Você: — Mostrou. E o horário não bate com o que você contou.
+
+Breno: — Eu imaginava que isso ia chegar em você. Mas eu esperava que chegasse como uma pergunta, não como uma sentença.
+
+Você se aproxima da lateral do memorial para que as famílias não escutem a conversa. Breno vem atrás, relutante.`,[
+ C('Acusar Breno de ter mentido para todo mundo','k9_breno_explica',[S('breno_abordagem','acusacao'),B('breno',-12),['resent','breno',9],['trait','franqueza',1]]),
+ C('Perguntar por que ele omitiu aquele horário','k9_breno_explica',[S('breno_abordagem','duvida'),B('breno',-5),['trait','cautela',1]]),
+ C('Dizer que quer acreditar nele, mas precisa de uma explicação','k9_breno_explica',[S('breno_abordagem','cuidado'),B('breno',-2),['trait','empatia',1]])]);
+N('k9_breno_explica','HOMENAGEM · A VERSÃO DE BRENO','20:10','town',`Breno respira fundo e tenta responder, mesmo sem saber se você vai escutar. Ao lado do palco, uma família se abraça durante a leitura dos nomes das vítimas. O contraste torna a discussão ainda mais desconfortável.
+
+Breno: — Eu NÃO matei ninguém. Eu não sou o mascarado. Se é isso que você quer perguntar, pergunta olhando pra mim.
+
+Você sustenta o olhar dele, mas não consegue responder de imediato.
+
+Breno: — Eu passei perto da estação, sim. Eu saí pra esfriar a cabeça. Não entrei naquele prédio e não sei quem aparece nesse registro. Eu não falei daquele caminho porque achei que vocês iam fazer exatamente isso: transformar eu querer ficar sozinho numa prova de que sou um monstro.
+
+Você: — Só que você disse que não tinha ido pra aquela região.
+
+Breno: — Eu disse que não tinha entrado na estação. É diferente. Talvez eu tenha explicado mal, talvez você tenha entendido outra coisa. Mas eu não posso inventar um comprovante do que fiz só pra você parar de me olhar desse jeito.
+
+Ele esfrega o rosto com a palma da mão. Quando fala novamente, a voz sai mais baixa.
+
+Breno: — Eu tava do lado de vocês quando tudo começou. Eu também tenho medo de morrer. Você acha mesmo que eu ia fazer aquilo com vocês?
+
+A resposta não resolve a divergência. Você ainda pode escutá-lo — ou deixar que o medo fale mais alto.`,[
+ C('Insistir que ele está escondendo algo e exigir a verdade','k9_breno_saida',[S('breno_conclusao','rompimento'),B('breno',-16),['resent','breno',14],F('breno_rompeu_confianca')]),
+ C('Pedir para ver as mensagens e a localização dele','k9_breno_saida',[S('breno_conclusao','cobranca'),B('breno',-8),['resent','breno',6],F('breno_cobrou_prova')]),
+ C('Reconhecer que não há prova e pedir desculpas pelo tom','k9_breno_saida',[S('breno_conclusao','recuo'),B('breno',4),['trait','empatia',1],F('breno_recuou')])]);
+N('k9_breno_saida','ANIVERSÁRIO · ENTRE A MULTIDÃO','20:12','town',`Breno baixa os olhos por alguns segundos. Lá longe, o apresentador volta a anunciar a próxima atração. Vocês já não escutam a música da mesma maneira.
+
+Breno: — Eu já respondi. Agora eu preciso de um tempo.
+
+Ele fecha a jaqueta, recolhe o celular e começa a se afastar. Você tenta chamá-lo, mas não sabe que palavra conseguiria fazê-lo voltar.`,[
+ C('Respeitar o espaço dele e observar a praça de longe','k9_omen',[F('breno_respeitou_espaco')])]);
 N('k9_omen','LAKEWOOD · NOITE','20:13','town',`O primeiro sinal é pequeno demais para explicar o medo que você sente: uma resposta atrasada, uma cadeira vazia, um veículo desconhecido ou uma mensagem que aparece sem contexto.
 
 Você tenta lembrar qual foi a última vez que viu cada pessoa. Descobre que não consegue ordenar todos os movimentos da noite.
@@ -687,6 +807,15 @@ O motorista diminui ao encontrar um carro atravessado parcialmente na entrada. V
  C('Marcar o veículo como obstáculo e usar o acesso lateral','k9_house_warning',[F('preparo_acesso')]),
  C('Avisar a casa sobre a posição exata do carro','k9_house_warning',[F('preparo_alerta')]),
  C('Passar o obstáculo rapidamente e entrar pela frente','k9_house_warning',[F('preparo_forca')])]);
+
+N('k9_city_join','ESTRADA DO LAGO · A CHEGADA','20:58','road',`A estrada está congestionada por carros que estão saindo da festa. Você desce antes mesmo que o motorista termine de estacionar. Ao longe, a casa ainda está iluminada.
+
+Uma porta de vidro se abre. Os amigos que vieram do aniversário correm até o jardim, onde encontram os outros tentando conferir quem está dentro. Vocês chegaram antes de a casa ser invadida — mas a fotografia anônima continua no celular.
+
+Não dá para saber onde o assassino está. Dá para escolher como juntar todo mundo sem transformar o grupo numa fila de alvos.`,[
+ C('Entrar em dupla e conferir a saída da lavanderia','k9_house_warning',[F('cidade_entrada_duplas'),F('preparo_saida')]),
+ C('Avisar Laisla e conferir os nomes no jardim antes de entrar','k9_house_warning',[F('cidade_entrada_nomes'),F('preparo_contatos')]),
+ C('Pedir que todos se afastem das janelas e manter o portão livre','k9_house_warning',[F('cidade_entrada_portao'),F('casa_saidas')])]);
 N('k9_house_warning','CASA DO LAGO · PORTA DE SERVIÇO','21:02','party',`PONTO DE VISTA: UM SOBREVIVENTE NA CASA
 
 A música continua por mais alguns instantes. Há risadas na varanda, uma garrafa esquecida em cima da mesa e alguém procurando a chave da garagem.
@@ -716,8 +845,8 @@ N('k9_house_movement','CASA DO LAGO · CORREDORES','21:12','party',`A casa parec
 O mascarado está no piso térreo. Para alcançar os quartos, ele precisará subir. Para chegar à piscina, deverá passar pela porta dos fundos. Você acompanha os ruídos sem presumir que ele pode atravessar paredes.
 
 Alguém grita por ajuda mais adiante. É hora de descobrir quem está isolado e usar os preparativos que vocês fizeram.`,[G('k9_risk_1_pov','Acompanhar a primeira tentativa de fuga')]);
-for(let phase=1;phase<=3;phase++){
- const next=phase===3?'k9_reunion':'k9_risk_'+(phase+1)+'_pov';
+for(let phase=1;phase<=5;phase++){
+ const next=phase===5?'k9_reunion':'k9_risk_'+(phase+1)+'_pov';
  N('k9_risk_'+phase+'_pov','CASA DO LAGO · PERIGO '+phase,'21:'+String(12+phase*3).padStart(2,'0'),'party',`O perigo avança para um dos setores da casa. A saída mais evidente não é necessariamente segura. Um amigo tenta localizar uma passagem enquanto o som da perseguição se aproxima.
 
 Não basta correr. A pessoa precisa escolher como escapar e o que fazer com as informações de quem está em outro setor.`,[]);
@@ -785,7 +914,7 @@ N('k9_deck_arrive','DECK ANTIGO · A ÁGUA ESCURA','22:17','lake',`A madeira ran
 
 Na extremidade, há uma cadeira. A pessoa sequestrada está nela, com os pulsos presos. Sua cabeça se ergue quando reconhece sua voz.
 
-Você corre até ela, parando quando percebe que alguém deixou uma fita atravessando parte do apoio. Não há explosivo à vista, mas você não vai puxar uma estrutura desconhecida sem verificar.
+Você corre até a cadeira, parando quando percebe que alguém deixou uma fita atravessando parte do apoio. Não há explosivo à vista, mas você não vai puxar uma estrutura desconhecida sem verificar.
 
 Você: — Meu Deus... você tá bem?!
 
@@ -880,7 +1009,7 @@ Laisla conduz os convidados pelo corredor que liga a sala à cozinha. A casa dos
 
 Laisla: — NÃO EMPURRA! EU VOU ABRIR! EU CONHEÇO ESSA CASA!
 
-O mascarado quebra o vidro atrás dela. Laisla tenta segurar a porta enquanto os outros escapam. Uma borda de vidro rasga seu antebraço e sangue escorre até a mão. Ela consegue abrir a corrente, mas alguém tropeça. Laisla volta para ajudar.
+O mascarado quebra o vidro atrás dela. Laisla tenta segurar a porta enquanto os outros escapam. Uma borda de vidro rasga seu antebraço e sangue escorre até a mão. Ela consegue abrir a corrente, mas alguém tropeça. Laisla volta para ajudar o último amigo que ficou atrás.
 
 Um golpe a atinge nas costas. Ela cai com força contra a moldura quebrada e a mão encontra apenas estilhaços quando tenta se levantar. O sangue se espalha pela roupa e pelo piso de cerâmica.
 
@@ -889,7 +1018,7 @@ Laisla: — Rau... fala pra Rau... eu só queria...
 Ela não consegue terminar. O som dos passos que fogem se afasta e Laisla perde as forças diante da saída que conseguiu abrir para os outros.`,
  rauanny:`PONTO DE VISTA: RAUANNY BORGES
 
-Rauanny tenta alcançar o portão do jardim pela borda da piscina. Os convidados já saíram, mas uma pessoa ficou presa do outro lado. Ela volta, agarra uma cadeira e a lança contra a porta para abrir uma passagem.
+Rauanny tenta alcançar o portão do jardim pela borda da piscina. Os convidados comuns já saíram, mas um amigo ficou preso do outro lado. Ela volta, agarra uma cadeira e a lança contra a porta para abrir uma passagem.
 
 Rauanny: — VAI! EU TÔ LOGO ATRÁS!
 
@@ -930,7 +1059,7 @@ const THREATS={
  samuel:{where:'garagem',intro:'Samuel procura uma saída entre os carros. Uma porta de metal fecha aos solavancos, e a chave do carro está no porta-luvas.',good:'Testar a abertura da garagem e deixar o motor desligado até a fuga',risky:'Ligar o carro e acelerar antes de verificar o portão',bad:'Empurrar sozinho o portão de metal enquanto o mascarado se aproxima'},
  isabella:{where:'corredor do quadro elétrico',intro:'Isabella observa uma estante solta perto do corredor. Um fio rompido e uma tranca enferrujada impedem a saída mais curta.',good:'Usar o caminho sinalizado e chamar quem tem a planta da casa',risky:'Mover a estante na frente da porta sem conferir a janela',bad:'Forçar a tranca junto ao fio exposto'},
  laisla:{where:'passagem de serviço',intro:'Laisla conhece a despensa e a porta antiga dos tios. A corrente pode ser removida por um encaixe perto da parede.',good:'Soltar o encaixe da corrente e orientar todos a passar sem empurrar',risky:'Quebrar o vidro da porta com o ombro',bad:'Arremessar o corpo contra a fechadura presa'},
- rauanny:{where:'piscina e jardim',intro:'Rauanny procura um amigo do outro lado da piscina. O piso está molhado, mas há um caminho seco entre os canteiros.',good:'Contornar pelo canteiro seco e pedir que outra pessoa abra o portão',risky:'Correr junto à borda para ganhar tempo',bad:'Entrar na água para alcançar a passagem mais curta'},
+ rauanny:{where:'piscina e jardim',intro:'Rauanny procura um amigo do outro lado da piscina. O piso está molhado, mas há um caminho seco entre os canteiros.',good:'Contornar pelo canteiro seco e alcançar o ferrolho do portão externo',risky:'Correr junto à borda para ganhar tempo',bad:'Entrar na água para alcançar a passagem mais curta'},
  ryan:{where:'sacada',intro:'Ryan encontra uma escada externa. Ela parece alcançável pela lateral da sacada, mas uma das grades está empenada.',good:'Conferir a fixação e descer com três pontos de apoio',risky:'Pular diretamente para a escada externa',bad:'Usar a grade enferrujada como apoio para um salto longo'},
  breno:{where:'área de serviço e painel',intro:'Breno chega a uma área de serviço em que um disjuntor antigo está aquecendo. Há uma faixa seca de piso até a segunda porta.',good:'Desligar o circuito correto com o piso seco e manter distância da água',risky:'Tentar arrancar um fio para cortar a energia',bad:'Tocar o painel com as mãos molhadas'}
 };
@@ -938,6 +1067,447 @@ const extra={
  romance:{ryan:'Ryan: — Olha pra mim. Eu sei que faço piada de tudo, mas agora eu tô falando sério. Queria estar com você hoje. Sem obrigação de parecer corajoso.',breno:'Breno: — Eu ensaiei uma frase no caminho inteiro e esqueci tudo quando você abriu a porta. Acho que é porque eu queria muito estar aqui.',rayssa:'Rayssa: — Eu pensei em desistir de vir umas três vezes. Mas quando você disse que podia passar, eu só quis chegar logo. Tenho medo de perder noites assim.',rauanny:'Rauanny: — Não ri, tá? Eu passei um tempão escolhendo o que vestir. Sei lá. Queria que você me olhasse e percebesse que eu fiz isso pra te ver.'},
  pledge:{ryan:'Ryan: — Se a gente sobreviver, você vai me pagar aquele cinema. E eu vou reclamar do filme do começo ao fim.',breno:'Breno: — Eu queria que a próxima vez que você me chamasse fosse só pra gente passar uma tarde tranquila.',rayssa:'Rayssa: — Eu tenho vontade de congelar esse momento antes que alguma coisa ruim aconteça. Desculpa. Eu sei que é estranho falar isso.',rauanny:'Rauanny: — Quando isso acabar, eu quero que você me chame pra sair sem perguntar primeiro se tem alguém seguindo a gente.'}
 };
+// Reações roteirizadas: a opção escolhida vira uma ação/fala ANTES da próxima cena.
+// Guardadas no slot (não nos nós) para preservar a compatibilidade de saves existentes.
+const CHOICE_BEATS={
+ k9_mem_hero:[
+  'Você segura a flor contra o peito.\n\nVocê: — Eu só queria que vocês soubessem que ninguém aqui foi resumido à forma como morreu. A gente conheceu as risadas, as manias, as mensagens idiotas. Eu vou levar isso comigo.\n\nBella baixa a cabeça; outra pessoa toca seu ombro antes de você voltar à mesa.',
+  'Você conta uma lembrança de uma tarde em que todos discutiram por uma bobagem e acabaram rindo juntos. No começo sua voz treme. Depois alguém ri baixinho ao reconhecer a história.\n\nVocê: — Era só mais um dia. Eu daria tudo por outro dia assim.',
+  'Você escolhe não discursar. Deposita a flor ao lado de uma fotografia e segura por alguns segundos a mão de quem está mais perto. A pessoa aperta seus dedos de volta. O silêncio é compartilhado, não vazio.'
+ ],
+ k9_party_announce:[
+  'Você: — Lai, eu não acho errado você querer uma festa. Você quase perdeu tudo naquele apartamento. Se dançar hoje te fizer bem, você tem direito.\n\nLaisla: — Obrigada. Eu precisava que alguém entendesse que eu não tô rindo de quem morreu.\n\nRauanny respira fundo e não insiste em interrompê-la.',
+  'Você: — A Lai tem direito de escolher, mas vocês também têm razão sobre o risco. Uma casa cheia de desconhecidos assusta depois do que aconteceu.\n\nSamuel: — É isso. Não quero brigar, só não quero outra ligação do hospital.\n\nLaisla cruza os braços, mas escuta.',
+  'Você: — Então a gente combina regras: saídas desimpedidas, alguém de olho nos convites, localização compartilhada. E ninguém vai ser obrigado a ir.\n\nRauanny: — Se fizerem isso de verdade, eu ajudo.\n\nLaisla: — Tá. Mas você não vai virar minha fiscal de diversão, hein?'
+ ],
+ k9_anna_flashback:[
+  'Bella: — Ju, por que você tá tão magoada com a Ana?\n\nJullia: — Porque eu contei uma coisa que nem pra você eu tinha coragem de dizer. Aí ela usou isso numa conversa qualquer. Eu me senti uma idiota.\n\nBella deixa de procurar uma solução rápida; pela primeira vez entende o tamanho da confiança quebrada.',
+  'Bella senta ao lado da irmã e não faz outra pergunta. Passam alguns minutos ouvindo o relógio da cozinha.\n\nJullia: — Você não vai me dar um conselho?\n\nBella: — Hoje não. Hoje eu vou ficar.\n\nJullia encosta o ombro no dela.',
+  'Bella pega um garfo como se fosse um microfone.\n\nBella: — Senhora Jullia Gomes, o tribunal do bolo decreta que pessoas traidoras não terão direito à cobertura!\n\nJullia tenta segurar o riso.\n\nJullia: — Você é muito ridícula.\n\nBella: — Mas funcionou.'
+ ],
+ k9_bella_meet:[
+  'Você: — Qual é o documento, Bella? Não adianta me dar um nome sem explicar a origem da diferença.\n\nBella coloca lado a lado a anotação de acesso e a mensagem arquivada, marcando os horários com a unha.\n\nBella: — Aqui tem um registro de passagem. Aqui tem a versão que a gente ouviu. Não tem identificação da pessoa na passagem, entende?',
+  'Você: — E se não for mentira? A pessoa pode ter confundido o dia ou emprestado o carro.\n\nBella: — Pode. Por isso eu não fui falar disso na frente da sorveteria inteira. A gente precisa conferir o contexto, não caçar culpado.',
+  'Você: — Mesmo que eu esteja desconfiado, não vou sair apontando o dedo pra um amigo sem prova.\n\nBella: — Obrigada. Eu fiz isso uma vez com o Moisés. Sei quanto tempo leva pra desfazer o estrago, quando dá pra desfazer.'
+ ],
+ k9_bella_evidence:[
+  'Você: — Eu conheço essa pessoa. Uma hora num papel não apaga tudo que passamos juntos.\n\nBella: — Eu não quero que apague. Só quero entender a divergência.\n\nVocê fecha o envelope sem arrancar a página que incomoda.',
+  'Você: — Vou conversar com %SUSPECT%. Sem ameaça, sem plateia. Só quero ouvir a versão completa.\n\nBella: — Então começa perguntando por que a pessoa estava perto daquela região. E escuta a resposta toda.',
+  'Você: — Vou guardar isso até termos outra pista. Se eu acusar alguém agora, talvez nunca mais a gente consiga se olhar.\n\nBella: — Eu guardo os originais. Você guarda a cabeça no lugar. Combinado?'
+ ],
+ k9_love_message:[
+  'Você digita antes de perder a coragem: «Pode vir. Eu queria te ver também.»\n\n%LOVER% responde com um coração discreto e: «Tô saindo. Prometo não demorar».',
+  'Você: «Quero te ver. Só acho melhor encontrar a gente lá, com o pessoal.»\n\n%LOVER%: «Fechado. Eu mando a localização quando chegar. E fico te esperando».',
+  'Você: «Gosto muito de você, mas hoje preciso me arrumar e ficar sozinho um pouquinho. Não é por sua causa.»\n\n%LOVER%: «Eu entendo. Obrigado por falar comigo em vez de sumir. Se precisar, tô aqui».'
+ ],
+ k9_love_visit:[
+  'Você: — Você tá lind%LOVER_ADJ%. Sério.\n\n%LOVER% olha para a sua boca e sorri antes de encurtar a distância. Vocês se beijam com cuidado, ouvindo a música distante da rua.',
+  'Você segura a mão de %LOVER%.\n\nVocê: — Olha quem resolveu chegar! Eu já tava pensando em cobrar taxa de atraso.\n\n%LOVER%: — Nossa, desculpa, excelência. Da próxima vez eu marco consulta.\n\nO riso dos dois deixa o abraço mais demorado.',
+  'Você: — Como você tá de verdade? Se hoje for demais, não precisa fingir por mim.\n\n%LOVER% suspira e finalmente admite que dormir sozinho depois dos ataques tem sido difícil. Você escuta sem tentar resolver tudo.'
+ ],
+ k9_love_intimate:[
+  'Você: — Eu senti saudade de você mesmo com a gente se falando todo dia.\n\n%LOVER% ri baixinho: — Também. Parece idiota, mas é verdade.\n\nO beijo seguinte é mais seguro, com a mão de %LOVER% encontrando a sua.',
+  'Você abraça %LOVER% e não puxa conversa para preencher o silêncio. A respiração vai desacelerando até que %LOVER% apoia a cabeça no seu ombro.\n\n%LOVER%: — Posso ficar assim só mais um minuto?\n\nVocê: — Pode ficar dois.',
+  'Você abre no celular os dois convites.\n\nVocê: — Qual deles seria menos cansativo pra você?\n\n%LOVER% pensa por um momento, diz que gosta da ideia de estarem juntos e promete respeitar a escolha final, mesmo se forem separados pelo programa da noite.'
+ ],
+ k9_city_memorial:[
+  'Você escreve um acontecimento simples no papel e o deixa ao lado das flores. Uma senhora lê só a primeira linha e agradece com um movimento de cabeça. A lembrança ficará com a família.',
+  'Você fica ao lado do mural até o fim do discurso. Quando a voz da mulher falha, ninguém a apressa. Ao terminar, parte da multidão aplaude baixo, com respeito.',
+  'Você: — Vocês conseguiram falar com todas as famílias?\n\nVOLUNTÁRIA: — Com quase todas. Algumas pediram para não expor fotografias e a gente respeitou.\n\nVocê agradece por ela ter lembrado que homenagem também é saber quando ficar em silêncio.'
+ ],
+ k9_city_meet:[
+  'Você: — Me acompanha um pouco? Não queria ficar rodando essa praça sozinho.\n\n%FRIEND%: — Claro. Vem, vamos sair desse aperto perto do palco.\n\nVocês caminham entre as barraquinhas comparando qual comida vale o preço absurdo.',
+  'Você: — Você tá aguentando ficar aqui? Pode falar, não precisa bancar que tá ótimo.\n\n%FRIEND%: — Tem hora que eu tô bem. Aí olho pras fotos e parece que o chão some. Mas conversar ajuda.',
+  'Você aparece com dois copos de suco e oferece um a %FRIEND%.\n\n%FRIEND%: — Você comprou o sabor que eu gosto? Como assim ainda lembra disso?\n\nVocê: — Eu lembro de bastante coisa.\n\nPor alguns passos, o barulho do palco fica mais leve.'
+ ],
+ k9_city_doubt:[
+  'Você: — Por favor, fica entre a gente. Bella não mostrou nada que prove um crime.\n\nO amigo mais próximo guarda o telefone no bolso.\n\n%FRIEND%: — Pode deixar. A gente não precisa de mais uma fofoca destruindo o grupo.',
+  'Você: — Vamos organizar datas e pedir documentos antes de apontar alguém. Se tiver contradição, a gente pergunta.\n\n%FRIEND%: — Isso eu topo. Mas guarda cópia de tudo, tá?'
+ ],
+ k9_house_help:[
+  'Você pega o celular e escolhe uma batida conhecida. A música cresce pela caixa de som.\n\nVocê: — Tá proibido ficar encostado na parede essa música inteira!\n\nDuas pessoas vêm para a sala e começam a dançar sem muita coordenação.',
+  'Você afasta copos e gelo dos fios, prende a extensão atrás de uma mesa e deixa um corredor livre até a porta lateral.\n\nCONVIDADA: — Tá, isso foi muito mais útil que a minha ideia de esconder o fio debaixo do tapete.\n\nVocê: — De preferência ninguém morre eletrocutado numa festa.'
+ ],
+ k9_house_balcony:[
+  'Você: — Quando a gente sair dessa, você ainda vai querer fazer o que planejava antes?\n\n%FRIEND% observa as luzes da piscina e admite que abandonou vários planos por medo. Promete tentar retomar um de cada vez.',
+  'Você: — Eu queria curtir isso, mas fico procurando perigo em todo canto.\n\n%FRIEND%: — Eu também. Quando alguém fecha a porta, olho na hora. Talvez a gente leve tempo pra desaprender.',
+  'Você: — Se a música aumentar mais um pouquinho, eu vou morar nessa varanda.\n\n%FRIEND% solta uma risada: — Reserva um quarto pra mim. Mas longe da caixa de som.'
+ ],
+ k9_house_game_round:[
+  'Você chama %FRIEND% para o centro da roda.\n\nVocê: — Não vale rir de mim sem passar vergonha também!\n\n%FRIEND% protesta, mas aceita participar. A roda abre espaço e uma nova salva de palmas cobre a música.',
+  'Você: — Mais uma rodada. Quero ver se vocês têm coragem de me desafiar de novo!\n\nCONVIDADO: — Falou a pessoa que quase derrubou o copo fazendo a última!\n\nA gargalhada volta, e a disputa ganha mais um minuto.',
+  'Você ergue as mãos e dá um passo para fora.\n\nVocê: — Eu me aposento invicto. Sem comentários.\n\nCONVIDADA: — Invicto na vergonha, né?\n\nVocês riem juntos e a roda começa a se dispersar.'
+ ],
+ k9_house_future:[
+  'Você: — A gente podia fazer uma viagem qualquer dia, sem roteiro de fuga, sem ligar pra saber quem sumiu. Só mala, estrada e música ruim.\n\n%FRIEND%: — Se você prometer não escolher a playlist sozinho, eu topo.',
+  'Você: — Não preciso de nada incrível. Queria só acordar, comer alguma coisa e passar a tarde sem esperar uma notícia horrível.\n\n%FRIEND%: — Parece o melhor programa que eu ouvi nos últimos meses.',
+  'Você: — E você? O que ficou pra trás enquanto tudo isso acontecia?\n\n%FRIEND% hesita, então começa a contar um plano antigo que quase tinha vergonha de ainda querer realizar. Você ouve até o fim.'
+ ],
+ k9_house_flirt:[
+  'Você estende a mão.\n\nVocê: — Não precisa ir pro meio da pista. Só dança comigo aqui.\n\n%FRIEND% sorri e acompanha o ritmo mais lento. Vocês se aproximam sem pressa, enquanto as luzes da sala passam pelo vidro.',
+  'Você: — Eu tenho medo de te perder. Não tô falando isso pra estragar a noite.\n\n%FRIEND%: — Eu também tenho medo. Mas tô aqui, agora. Pode falar comigo quando bater esse desespero.\n\nA resposta não apaga o medo, mas torna mais fácil respirar.',
+  'Você encosta o ombro no de %FRIEND%. Não há grandes discursos. O barulho da festa fica distante e os dois permanecem olhando a água por alguns segundos, em paz.'
+ ],
+ k9_omen:[
+  'Você abre o mapa compartilhado, confere a última atualização de cada contato e envia uma captura de tela ao grupo. Um dos marcadores parou de atualizar; você pergunta se a bateria acabou. Ninguém responde imediatamente.',
+  'Você liga para o contato que ficou em silêncio. A chamada toca quatro vezes e cai na caixa postal.\n\nVocê: — Atende, por favor. Faz essa gentileza pra mim.\n\nTenta novamente, ouvindo o próprio pulso.',
+  'Você envia uma mensagem para cada grupo: «Responde com seu nome e quem tá do seu lado, agora». As confirmações chegam aos poucos. Falta uma pessoa.\n\nVocê: — Não, não, não... Quem viu %HOSTAGE% por último?'
+ ],
+ k9_missing:[
+  'Você volta ao último lugar citado por %HOSTAGE%. Pergunta aos funcionários, verifica corredores sem invadir áreas isoladas e encontra apenas um copo abandonado. A ausência fica mais concreta que qualquer pista.',
+  'Você chega ao funcionário responsável pela segurança.\n\nVocê: — %HOSTAGE% sumiu. Tenho foto, roupa e horário da última mensagem. Preciso que registrem isso agora.\n\nO segurança confirma a descrição por rádio e pede que você permaneça acessível.',
+  'Você pede um sinal de localização pelo celular e tenta uma chamada de voz. O aparelho não informa a posição atual. A única resposta é o toque contínuo até a ligação cair.'
+ ],
+ k9_video:[
+  'Você: — %HOSTAGE%! OLHA PRA MIM! A GENTE VAI TE TIRAR DAÍ!\n\nA multidão empurra de um lado; você segura uma criança pelo braço para que não seja derrubada e grita pedindo espaço. O telão se apaga antes de qualquer resposta.',
+  'Você agarra o braço do técnico antes que ele desligue tudo.\n\nVocê: — Não apaga! Salva uma cópia, por favor! É a única prova que temos de que %HOSTAGE% tá vivo!\n\nO técnico confirma que os arquivos serão preservados e encaminhados à equipe responsável.',
+  'Você atravessa os bastidores com um segurança e encontra cabos desconectados perto de um gabinete.\n\nTÉCNICO: — Entraram na transmissão por uma fonte externa. Não vi quem fez isso.\n\nVocê fotografa as conexões sem tocar nos equipamentos.'
+ ],
+ k9_video_react:[
+  'Você liga para o contato da casa.\n\nVocê: — SAI DA PISCINA! TRANCAM AS PORTAS! Tem alguém observando vocês e %HOSTAGE% apareceu amarrado num vídeo!\n\nDo outro lado, a pessoa repete as instruções aos convidados.',
+  'Você mostra a imagem a um policial e aponta o acesso do lago.\n\nVocê: — A foto é recente. Não quero que vocês cheguem depois de outra tragédia.\n\nO policial transmite o endereço e solicita reforço, sem prometer um tempo de resposta impossível.',
+  'Você amplia a fotografia e reconhece a borda do telhado e a posição da caixa de som.\n\nVocê: — Isso foi tirado de cima. Pode ser perto da lateral da casa.\n\nVocê envia a informação aos amigos sem fingir que sabe quem tirou a foto.'
+ ],
+ k9_prep_01:[
+  'Você compara o ângulo da fotografia com as entradas do terreno e circula duas janelas possíveis.\n\nVocê: — Não sabemos de onde tiraram, mas a porta lateral fica exposta. Evitem passar por ali sozinhos.',
+  'Você escreve no grupo: «Se a gente se perder, todo mundo se encontra no portão iluminado, fora da casa. Ninguém volta pra buscar bolsa». Dois amigos confirmam o ponto combinado.',
+  'Você pede ao técnico a origem do sinal e registra a identificação disponível do equipamento.\n\nTÉCNICO: — O canal foi invadido. Eu consigo preservar os registros, não apontar uma pessoa.\n\nVocê encaminha os dados à investigação.'
+ ],
+ k9_prep_02:[
+  'Você: — Antes de entrar, olhem a janela da cozinha, a porta da piscina e o acesso da garagem. Quero saber qual abre por dentro.\n\nAlguém responde descrevendo uma fechadura com defeito; você registra isso.',
+  'Você cria um grupo de emergência e pede que cada pessoa envie nome, localização e uma saída visível. Uma resposta demora. Você insiste até confirmar quem ainda tem sinal.',
+  'Você decide seguir pela estrada sem aguardar todas as confirmações.\n\nVocê: — Avisem a polícia de onde eu tô indo. Não quero perder mais ninguém por esperar demais.\n\nO carro avança; você sabe que chegar antes não significa chegar preparado.'
+ ],
+ k9_prep_03:[
+  'Você: — Esse carro tá bloqueando metade da passagem. Não vou tentar tirar ele agora. Vamos pela lateral e manter distância.\n\nVocê manda a posição para os outros e segue a pé por um trecho de cascalho.',
+  'Você fotografa a placa e descreve a posição do veículo no grupo.\n\nVocê: — Entrada principal obstruída. Fiquem longe da garagem até a gente entender o que aconteceu.\n\nUma pessoa acusa recebimento.',
+  'Você passa pelo espaço estreito ao lado do carro, prendendo a respiração quando o retrovisor raspa num galho. O risco economiza alguns segundos, mas deixa seu caminho de volta bloqueado.'
+ ],
+ k9_house_warning:[
+  'A pessoa mais próxima da cozinha testa a fechadura sem abrir a porta.\n\n%FRIEND%: — Todo mundo pra sala. Quero ver quem tá faltando antes de a gente sair!\n\nOs convidados se agrupam e alguém afasta uma mesa da passagem.',
+  'Você ouve um amigo descrever uma rota pelo jardim e apontar a saída do lado seco da piscina. Dois convidados começam a segui-lo antes de a luz piscar.',
+  'Você pede calma e abre espaço na porta externa.\n\nVocê: — Sem empurrar! Deixa a passagem livre! Quem tá com criança, sai primeiro!\n\nUm convidado ajuda a orientar quem ainda não percebeu o perigo.'
+ ],
+ k9_invasion:[
+  'Você aponta para as portas e chama cada amigo pelo nome, exigindo confirmação por voz. Os que respondem se dividem entre cozinha, garagem e jardim. O som da lâmina riscando uma parede obriga todos a se mover.',
+  'Você: — PELO JARDIM! UM ATRÁS DO OUTRO! NÃO EMPURRA!\n\nOs amigos se aproximam da porta da piscina. Um convidado tropeça num fio, e o grupo precisa reduzir o passo para não abandoná-lo.',
+  'Você corre até a garagem, encontra a alavanca do portão e tenta retirar uma bicicleta que caiu atrás do carro.\n\nUm impacto contra a porta faz você se virar. O agressor ainda está na cozinha; há poucos segundos para preparar a saída.'
+ ],
+ k9_reunion_luto:[
+  'Você pede que cada sobrevivente descreva onde viu os outros pela última vez. O grupo confronta horários e identifica os cômodos ainda sem resposta. O silêncio entre as confirmações é doloroso.',
+  'Você se ajoelha ao lado de quem está ferido e improvisa pressão com um pano limpo até a chegada do socorro.\n\nVocê: — Fica comigo. Respira. Você não vai enfrentar isso sozinho.\n\nUm amigo segura a sua mão trêmula.',
+  'Você observa o vidro quebrado e fotografa uma marca recente de sola no piso, sem se afastar sozinho da área segura. Você repassa a localização à polícia em vez de perseguir o agressor às cegas.'
+ ],
+ k9_last_call:[
+  'Você reúne os sobreviventes ao redor do telefone e conta o que ouviu: água, madeira e a referência à noite do acidente.\n\nVocê: — Ele quer que eu vá ao deck. Não vou deixar vocês no escuro sobre isso.\n\nUm amigo pede que espere a polícia.',
+  'Você liga para Bella e descreve o rangido do deck.\n\nBella: — Tem dois acessos naquela margem. O antigo fica do lado das pedras grandes. Não confunde com a estação. E não vai achar que precisa resolver isso sozinho.\n\nEla manda a posição que conseguiu conferir nas anotações.',
+  'Você guarda o telefone e parte antes de reunir todo o grupo, mas envia a um amigo a estrada e o local exato pelo qual pretende entrar.\n\nVocê: — Se eu não responder, passa essa localização pra polícia.\n\nA resposta vem quase imediata: «Não faz isso sozinho».'
+ ],
+ k9_deck_route:[
+  'Você caminha pela trilha alta e mantém o deck à vista entre os troncos. A lanterna revela folhas mexidas recentemente, mas nada que permita reconhecer quem passou. Você desliga a luz ao se aproximar.',
+  'Você segue pela margem de serviço, usando as pedras para evitar as tábuas mais ruidosas. Uma onda molha seus tênis; você se agacha ao ouvir passos que talvez sejam apenas galhos batendo.',
+  'Você avança pelo acesso principal.\n\nVocê: — EU TÔ AQUI! SE VOCÊ QUERIA QUE EU VIESSE, APARECE!\n\nO eco volta da água. Na ponta do deck, uma cadeira se move.'
+ ],
+ k9_deck_arrive:[
+  'Você ajoelha ao lado de %HOSTAGE%, identifica a fita que prende os pulsos e examina a estrutura antes de puxar.\n\nVocê: — Não se mexe de uma vez. Eu vou tentar soltar sem te machucar mais.\n\n%HOSTAGE% tenta acompanhar suas instruções, respirando com dificuldade.',
+  'Você abraça %HOSTAGE% sem tocar nos machucados.\n\nVocê: — Eu achei que não ia te ver de novo.\n\n%HOSTAGE%: — Eu tentei chamar... eu tentei.\n\nVocê segura seus ombros até a respiração da pessoa desacelerar.',
+  'Você verifica a sombra das árvores e a passagem pela qual chegou.\n\nVocê: — Tem alguém aqui com a gente?\n\n%HOSTAGE% não responde de imediato. Seus olhos seguem alguma coisa além do seu ombro.'
+ ],
+ k9_deck_hostage:[
+  'Você: — ME ESCUTA! Eu vim como você mandou. Agora solta %HOSTAGE% e a gente conversa sem machucar mais ninguém!\n\nO mascarado inclina a cabeça, mas não se afasta da passagem.',
+  'Você dá um passo à frente, protegendo a cadeira com o próprio corpo.\n\nVocê: — Você não vai encostar em %HOSTAGE% de novo.\n\nA figura para por um instante. A lâmina ainda está na mão dela.',
+  'Você: — OLHA PRA MIM! Fala dos meus amigos. Fala de quem você matou!\n\nA voz distorcida responde depois de uma pausa: — Você acha mesmo que é o único que perdeu alguém?'
+ ],
+ k9_deck_face:[
+  'Você avança um passo com os punhos fechados.\n\nVocê: — Você transformou nosso medo num espetáculo. Já chega dessa merda!\n\nO mascarado não recua. É você quem percebe que a raiva não torna a lâmina menos perigosa.',
+  'Você: — Pensa nas pessoas que morreram. Elas tinham família, amigos, planos. Nada disso traz a Jullia de volta.\n\nA figura inclina a cabeça. Por um segundo, você acha que ouviu uma respiração falhar atrás da máscara.',
+  'Você: — Chega de voz alterada e joguinhos. Mostra sua cara. Agora.\n\nA figura aproxima a mão da borda da máscara, como se tivesse esperado a noite inteira para esse pedido.'
+ ]
+};
+const PERSONALITY={
+ ryan:{meet:'Eu vim pelo pastel e fiquei pela sua companhia. Péssimo marketing, né?',balcony:'Sério, se eu fizer piada demais, me corta. Às vezes eu nem percebo que tô tentando escapar da conversa.',future:'Um dia eu ainda vou levar vocês num cinema e ninguém vai passar o filme inteiro preocupado com a saída.',flirt:'Eu faço graça pra caramba, mas você sabe quando eu tô falando sério. Tô feliz que você me chamou.'},
+ breno:{meet:'Achei que ia me perder nessa multidão. Ainda bem que você veio até aqui.',balcony:'Eu gosto daqui. Sem todo mundo olhando, dá pra falar sem pensar tanto no que vão achar.',future:'Eu tenho saudade de querer coisas pequenas. Sair de casa sem verificar a janela três vezes.',flirt:'Eu sempre demoro pra falar o que sinto. Mas ficar perto de você torna isso um pouco mais fácil.'},
+ rayssa:{meet:'Acho que eu precisava de alguém que me enxergasse como amiga, não só como quem trouxe flores.',balcony:'Eu queria conseguir escolher um dia e dizer: esse aqui foi bom, sem nada pra estragar depois.',future:'Eu queria viajar com a Isabella, fazer uma viagem de verdade. Às vezes ainda imagino o roteiro.',flirt:'Eu tenho medo de prometer coisas demais. Só posso dizer que estar com você agora é importante.'},
+ rauanny:{meet:'Demorou, hein! Eu já tava pensando em mandar uma mensagem te xingando por não aparecer.',balcony:'Não vou fingir que não tô tensa. Você me conhece. Fico irritada quando tô com medo.',future:'A Lai sempre quer fazer vinte planos de uma vez. Eu queria pelo menos cumprir um com ela.',flirt:'Não começa a rir de mim, tá? Eu não sou boa nessas coisas fofinhas. Mas eu queria ficar aqui com você.'},
+ laisla:{meet:'Você viu a fila daquela barraca? Nem em show grande eu passo por isso. Vem, conheço um atalho.',balcony:'Eu fiz todo mundo vir pra tentar lembrar que a gente também sabe se divertir. Tô cansada de ser só a sobrevivente.',future:'Eu ainda quero aquela viagem que vivo falando pra Rau. Nem precisa ser longe, só quero todo mundo na estrada.',flirt:'Eu sempre começo a falar sem parar quando fico nervosa. Hoje não vou nem tentar disfarçar.'},
+ allan:{meet:'Eu quase comprei dois refrigerantes sozinho. Você me salvou de virar a notícia: jovem consumiu açúcar demais.',balcony:'Eu faço graça, mas tem coisa que eu não consigo dizer na frente de todo mundo. Obrigado por me chamar.',future:'Eu quero umas férias completamente ridículas. Praia, foto ruim e meus amigos me zoando.',flirt:'Você vai me deixar emocionado, idiota. Eu prometi que hoje não ia borrar a cara chorando.'},
+ samuel:{meet:'A segurança tá do outro lado do palco. Já vi duas saídas. Desculpa, eu tô fazendo isso até quando tento descansar.',balcony:'Quando falo de risco, parece que eu tô querendo mandar nos outros. Na real, eu só não quero perder mais ninguém.',future:'Meu plano é terminar aquilo que comecei e não deixar meus amigos carregarem meus problemas.',flirt:'Eu fico tentando organizar tudo, até o que eu sinto. Não sei se dá pra fazer isso com você.'},
+ isabella:{meet:'Nossa, eu tava tentando encontrar um lugar que não parecesse uma coletiva de imprensa. Vem comigo.',balcony:'Eu odeio quando a gente tem que fingir que tá bem pra não preocupar os outros. É exaustivo.',future:'Eu queria voltar a trabalhar nos meus desenhos. Não consegui terminar nenhum desde aquela noite.',flirt:'Eu fiquei com receio de vir, mas foi bom. Eu tava precisando de uma conversa sem gente ouvindo.'}
+};
+function sceneCompanion(s,origin){
+ const f=s.flags||{},isCity=/^k9_city/.test(origin),ids=(isCity?f.c9_cidade_pessoas:f.c9_casa_pessoas)||[];
+ const afterKidnap=/^k9_(?:house_warning|invasion|house_movement|risk_|reunion|deck_|city_doubt|house_doubt)/.test(origin)&&f.c9_enter_k9_missing;
+ const available=ids.filter(x=>L[x]&&!dead(s,x)&&(!afterKidnap||x!==f.c9_refem));const lv=lover(s);
+ return (lv&&available.includes(lv)?lv:available.find(x=>x!=='rayssa')||available[0])||null;
+}
+// V1.3.3 — Elenco reconhecível: toda conversa sobre o grupo tem nomes,
+// falas e presença checada (inclusive após mortes e entre eventos separados).
+const C9_PERSONALITY={
+ allan:{doubt:'Eu não quero que a gente transforme um horário num julgamento. A gente já se machucou demais por falar antes de pensar.',counter:'Mas se alguém mentiu, esconder o assunto também não resolve. A gente conversa com calma, um de cada vez.',comfort:'Ei. Olha pra mim. Você não precisa resolver isso sozinho, tá?',danger:'Não vou largar ninguém aqui! Só me diz qual saída tá livre!'},
+ samuel:{doubt:'Qualquer registro pode ter erro. Precisamos conferir origem, data e quem realmente passou por lá.',counter:'Se a versão mudou, eu quero uma explicação. Só isso. Não dá pra fingir que não ouvimos.',comfort:'A gente checa os fatos primeiro. Depois decide o que fazer. Sem correr atrás de boato.',danger:'Confirma a porta! Não corre pra um corredor sem saída!'},
+ isabella:{doubt:'Eu tô cansada de ver a gente se acusando. Se for perguntar, pergunta olhando na cara. Não espalha.',counter:'Eu vou ouvir a explicação, mas não vou deixar passar uma contradição só porque gosto da pessoa.',comfort:'Me conta direito. Sem pular partes. Eu tô aqui pra te ouvir.',danger:'ME RESPONDE! Quem tá comigo? Preciso ouvir os nomes!'},
+ breno:{doubt:'Eu conheço o que é ser julgado por ficar quieto. Uma anotação não prova o que alguém fez.',counter:'Se a pessoa tava perto de lá, talvez tenha visto alguma coisa. Perguntar com respeito não é acusar.',comfort:'Você pode ficar aqui comigo. Nem precisa falar se não quiser.',danger:'Não toca no painel molhado! Tem outra saída do lado de cá!'},
+ ryan:{doubt:'Pera. A gente tá falando de um horário, não de alguém carregando uma faca na foto.',counter:'Só que também não dá pra fazer piada e virar as costas. Tem coisa muito errada acontecendo.',comfort:'Olha, minha piada vai ser péssima agora. Então vou só ficar aqui, beleza?',danger:'Ó, quem quiser sair vivo segue minha voz! E sem usar aquela grade quebrada!'},
+ rayssa:{doubt:'Eu sei como uma acusação pode destruir uma amizade. Não quero mais ver a gente se ferindo assim.',counter:'Mas, se tem uma mentira, eu quero entender por que alguém teria medo de contar a verdade.',comfort:'Eu posso te escutar. Mesmo que seja difícil.',danger:'Por favor, saiam da frente do vidro! Vem pra cá!'},
+ rauanny:{doubt:'Eu já explodi com gente sem ouvir tudo. Não vou repetir isso só porque tô com medo.',counter:'Agora, se tem coisa escondida, eu vou perguntar. Não gosto de gente me fazendo de idiota.',comfort:'Pode falar. Eu vou tentar não interromper, juro.',danger:'LAI! CADÊ A SAÍDA? Pessoal, não se empurra!'},
+ laisla:{doubt:'Olha, meu sonho era passar uma noite sem a gente se acusar. Bella pode ter razão e ainda faltar prova.',counter:'E meu medo é a gente ficar quieto até acontecer outra tragédia. Vamos conferir direito.',comfort:'Vem, senta aqui. Não precisa bancar o forte na minha festa.',danger:'A porta do corredor da cozinha! Eu conheço a casa, me sigam!'}
+};
+function c9Present(s,where,excluded=[]){const f=s.flags||{};const list=(where==='cidade'?f.c9_cidade_pessoas:f.c9_casa_pessoas)||[];return list.filter(x=>L[x]&&!dead(s,x)&&!excluded.includes(x));}
+function c9Pick(s,where,exclude=[],preferred=[]){const options=c9Present(s,where,exclude);return preferred.find(x=>options.includes(x))||options[0]||null;}
+function c9Line(x,kind){return x?`${name(x)}: — ${C9_PERSONALITY[x]?.[kind]||'Eu tô aqui. Vamos descobrir com cuidado.'}`:'';}
+function c9Dialogue(s,id,text,kid){
+ const f=s.flags||{},where=id.startsWith('k9_city')?'cidade':'casa';
+ const avoidKid=f.c9_enter_k9_missing?[kid]:[];
+ const first=c9Pick(s,where,[...avoidKid,f.c9_suspeito],['allan','isabella','breno','ryan','laisla','samuel','rauanny','rayssa']);
+ const second=c9Pick(s,where,[...avoidKid,f.c9_suspeito,first],['rauanny','samuel','laisla','rayssa','isabella','ryan','allan','breno']);
+ const suspectName=L[f.c9_suspeito]?name(f.c9_suspeito):'uma pessoa do grupo';
+ if(id==='k9_house_doubt'||id==='k9_city_doubt'){
+  if(!first){return `Você sai por alguns instantes do barulho da ${where==='cidade'?'praça':'festa'} e abre a fotografia da anotação enviada por Bella. Nenhum dos seus amigos está disponível ali para uma conversa em particular.\n\nVocê grava uma mensagem de voz para Bella.\n\nVocê: — Eu vi os horários, mas não vou sair acusando ${suspectName} sem saber quem usou aquele acesso. Se aparecer outro documento, me avisa.\n\nBella: — É isso que eu queria. Guardar uma dúvida não é ignorar a investigação.\n\nVocê guarda o celular e retorna à ${where==='cidade'?'praça':'casa'}, ainda inquieto.`.replaceAll('\\n','\n');}
+  const intro=where==='cidade'?'Você chama '+names([first,second].filter(Boolean))+' para perto de uma barraca mais vazia. O discurso do palco chega baixo, misturado às conversas dos visitantes.':'Você chama '+names([first,second].filter(Boolean))+' até o jardim, longe da porta de vidro e das caixas de som. Os três ficam perto do muro, de onde ainda é possível ver a festa.';
+  const own=`Você: — A Bella achou uma divergência entre o registro da estação e o que ${suspectName} contou. Não tem imagem de ninguém cometendo um crime. Só que eu não consigo tirar isso da cabeça.`;
+  const a=c9Line(first,'doubt');
+  const b=second?c9Line(second,'counter'):'';
+  const bridge=second?`${name(first)} olha para ${name(second)}. A conversa esquenta, mas ninguém grita.\n\nVocê: — Então a gente concorda em uma coisa: perguntar não é condenar. Vou conferir com a Bella o documento inteiro antes de falar com ${suspectName}.`.replaceAll('\\n','\n'):`Você: — É disso que eu precisava ouvir. Eu tô com medo de estar procurando um culpado em vez de procurar uma resposta.`;
+  const finale=second?`${name(second)}: — Beleza. Mas me avisa o que descobrir. Eu não quero ser o último a saber se alguém está em perigo.\n\n${name(first)}: — E não vai jogar isso no grupo. A gente conversa sem plateia.`.replaceAll('\\n','\n'):`${name(first)}: — Me promete que, se a dúvida piorar, vai conversar antes de acusar.\n\nVocê: — Prometo.`.replaceAll('\\n','\n');
+  return `${intro}\n\n${own}\n\n${a}${b?'\n\n'+b:''}\n\n${bridge}\n\n${finale}\n\nVocê volta para perto da música. A suspeita continua sem resposta, mas agora existe um acordo concreto, feito entre pessoas que você conhece.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_bella_evidence'){
+  text=text.replace('Você pensa em uma pessoa do grupo cuja explicação recente não se encaixa perfeitamente. A lembrança incomoda justamente porque você conhece o jeito dessa pessoa falar.',`Você reconhece a versão de ${suspectName} entre as anotações. A diferença de horário o incomoda porque você conhece ${suspectName} e não quer transformar lembranças em acusações.`);
+  text=text.replace('A conversa continua por vários minutos, incluindo as informações que o jogador efetivamente preservou da estação.',`Você: — E se alguém simplesmente confundiu a hora?\n\nBella: — Então a gente descobre. Eu prefiro ouvir a explicação inteira do que perder mais alguém por causa de uma conclusão apressada.\n\nVocê: — Vou guardar o que você me mostrou. Mas não prometo que vou parar de pensar nisso.\n\nBella: — Nem eu.`);
+ }
+ if(id==='k9_bella_decide'){
+  text=text.replace('Defender um amigo naquela ocasião também trouxe consequências. Agora uma suspeita ameaça transformar tudo em outra briga.',`Você lembra da discussão no hospital e olha para o nome de ${suspectName} mais uma vez. Uma suspeita, sem outras provas, ainda não é uma sentença.`);
+  text=text.replace('Agora uma suspeita ameaça transformar tudo em outra briga.','Você decide não deixar que a dúvida destrua mais uma amizade antes de haver provas.');
+ }
+ if(id==='k9_city_arrive'&&!dead(s,'rayssa')&&!c9Present(s,'cidade').includes('rayssa'))text=text.replace('Rayssa está entre elas, ajudando a orientar convidados perto da área das homenagens.','Você observa os voluntários trabalhando perto das homenagens; Rayssa não está nesse setor da praça.');
+ if(id==='k9_city_evening'){
+  const other=c9Pick(s,'cidade',avoidKid,['ryan','allan','isabella','samuel','rayssa','breno','rauanny','laisla']);
+  const last=c9Present(s,'cidade').includes(kid)?kid:other;
+  text=text.replace('Algumas pessoas do grupo conversam perto da mesa de bebidas, e outras saem para ver as barracas de comida.',`${other?`${name(other)} caminha ao seu lado até a mesa de bebidas.`:'Você para diante da mesa de bebidas, procurando uma nova apresentação no programa.'}`);
+  text=text.replace('Laisla, caso esteja viva, tentando organizar os copos',(!dead(s,'laisla')&&c9Present(s,'casa').includes('laisla'))?'Laisla organizando os copos':(c9Pick(s,'casa',[],['rauanny','allan','ryan'])?name(c9Pick(s,'casa',[],['rauanny','allan','ryan']))+' organizando os copos':'os convidados perto da mesa'));
+  text=text.replace('Alguém comenta que precisa ir aos bastidores buscar uma coisa. A frase parece banal. Cinco minutos depois, você vai lembrar dela com uma precisão cruel.',last?`${name(last)} confere uma mensagem e guarda o telefone.\n\n${name(last)}: — Vou ali rapidinho, depois a gente se fala.\n\nVocê: — Beleza. Me avisa se mudar de lugar.\n\nVocê volta a observar o palco, sem imaginar como vai se lembrar dessa conversa mais tarde.`:'Uma voluntária anuncia que a apresentação vai continuar. Você confere o celular para saber se o restante do grupo está bem.');
+ }
+ if(id==='k9_house_evening'){
+  const p=c9Pick(s,'casa',avoidKid,['laisla','rauanny','ryan','allan','breno','isabella','samuel']);
+  const other=c9Pick(s,'casa',[...avoidKid,p],['allan','ryan','rauanny','laisla','breno','samuel','isabella']);
+  text=text.replace('Uma pessoa sugere uma fotografia do grupo presente. Alguns aceitam; outros ficam fora do enquadramento. Ninguém é obrigado a aparecer no retrato.',p?`${name(p)} tira o celular do bolso.\n\n${name(p)}: — Antes que a gente se espalhe, bora tirar uma foto? Só quem quiser, tá?\n\n${other?`${name(other)}: — Pera, deixa eu ajeitar esse cabelo, pelo amor de Deus!`:`Você: — Vamos, mas sem colocar ninguém que não queira aparecer.`}\n\nVocês se juntam ao lado da piscina para a foto. Quem não quer posar fica fora do enquadramento.`:'Uma convidada pergunta se alguém quer uma foto junto à piscina. Você prefere guardar o celular e observar a luz refletida na água.');
+  if(dead(s,'rayssa'))text=text.replace('Rayssa diz que está auxiliando uma família a encontrar os lugares reservados.','Os voluntários do aniversário informam que a homenagem está em andamento.');
+ }
+ if(id==='k9_omen'){
+  text=`O celular vibra com uma resposta que não chega inteira. Você abre as mensagens e procura o último contato de ${name(kid)}. As outras conversas continuam, mas a de ${name(kid)} parou.\n\nVocê: — Estranho... ${name(kid)} sempre responde, nem que seja pra mandar eu parar de encher.\n\n${f.c9_hero_local==='casa'?'O som da festa continua na varanda. Você observa as portas de vidro e lembra dos convidados que foram embora.':'Perto do palco, alguém testa o microfone enquanto você procura rostos conhecidos nas barracas.'}\n\nVocê abre as duas conversas do grupo e decide conferir onde cada um está, com nomes e não só mensagens dizendo «tá tudo bem».`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_missing'){
+  const area=f.c9_refem_local==='casa'?'casa':'cidade';
+  const w=c9Pick(s,area,[kid],['laisla','rauanny','allan','ryan','isabella','breno','samuel','rayssa']);
+  const secondW=c9Pick(s,area,[kid,w],['samuel','isabella','ryan','allan','rauanny','laisla','rayssa','breno']);
+  const hint=w?`${f.c9_hero_local===area?'Perto de você, ': 'Pelo viva-voz, '}${name(w)}: — Eu vi ${name(kid)} há pouco, mas não consigo dizer se ${['rayssa','rauanny','laisla','isabella'].includes(kid)?'ela':'ele'} saiu por aquela porta. Tinha gente demais.`:'Você pergunta aos voluntários se alguém viu '+name(kid)+'. Ninguém consegue confirmar um destino.';
+  const other=secondW?`${f.c9_hero_local===area?'': 'Você escuta outra voz na mesma ligação.\n\n'}${name(secondW)}: — Espera. Acho que ${name(kid)} olhou o celular e se afastou. Mas eu não vou inventar certeza, eu tava distraíd${fem134(secondW)?'a':'o'} também.`:'';
+  text=`A última mensagem de ${name(kid)} continua sem resposta. Você liga. O telefone chama até cair.\n\nVocê: — ${name(kid)}? Atende, por favor... só fala que tá tudo bem.\n\n${f.c9_hero_local===area?'Você procura quem estava por perto.':'Você telefona para o outro evento e pede que procurem sem espalhar pânico.'}\n\n${hint}${other?'\n\n'+other:''}\n\nVocê: — Eu preciso saber onde ${name(kid)} foi visto por último. Não vou aceitar «acho que saiu» como se fosse uma resposta.\n\nO barulho do festival e da festa continua. Cada chamada sem resposta parece durar um minuto inteiro.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_house_warning'){
+  const p=c9Pick(s,'casa',avoidKid,['laisla','rauanny','samuel','allan','ryan','isabella','breno']);
+  if(p)text+=`\n\n${name(p)} apalpa a maçaneta do corredor antes de virar para os convidados.\n\n${c9Line(p,'danger')}\n\nVocê: — ${name(p)}, me diz quais portas ainda abrem por dentro. A gente precisa tirar o pessoal daqui sem empurrar ninguém.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_invasion'){
+  const p=c9Pick(s,'casa',avoidKid,['laisla','rauanny','ryan','allan','samuel','isabella','breno']);
+  const other=c9Pick(s,'casa',[...avoidKid,p],['samuel','allan','ryan','breno','isabella','rauanny','laisla']);
+  text=text.replace('Outro amigo corre para trancar a porta do corredor.',other?`${name(other)} atravessa a sala para trancar a porta do corredor, mas para ao escutar um golpe do lado oposto.`:'Você corre até a porta do corredor e tenta segurar a maçaneta enquanto os convidados saem.');
+  if(p)text+=`\n\n${name(p)}: — Eu vi a máscara! Não fica perto do vidro!\n\nVocê: — ${name(p).toUpperCase()}! A porta da piscina ainda tá livre?\n\n${name(p)}: — Por enquanto, sim! Mas a gente tem que sair AGORA!`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_house_movement'){
+  const endangered=(f.c9_casa_pessoas||[]).find(x=>x!==kid&&!dead(s,x));
+  text=text.replace('Alguém grita por ajuda mais adiante.',endangered?`${name(endangered)} chama por ajuda perto do próximo corredor. Você reconhece a voz imediatamente.`:'Um dos convidados grita por ajuda perto da despensa.');
+  if(endangered)text+=`\n\n${name(endangered)}: — EU TÔ AQUI! A PORTA EMPERROU!\n\nVocê: — FALA QUAL CORREDOR, ${name(endangered).toUpperCase()}! A GENTE VAI ENCONTRAR UMA SAÍDA!`.replaceAll('\\n','\n');
+ }
+ for(let stage=1;stage<=5;stage++){
+  const tgt=f['c9_r'+stage+'_target'];
+  if(!tgt)continue;
+  const helper=c9Pick(s,'casa',[...avoidKid,tgt],['samuel','laisla','ryan','allan','rauanny','isabella','breno']);
+  const voice=helper?name(helper):'Você';
+  if(id==='k9_risk_'+stage+'_act')text=text.replace('Do outro lado da porta alguém responde com um grito e a maçaneta sacode com força.',helper?`${name(helper)} grita do outro lado, sem enxergar ${name(tgt)}.\n\n${name(helper)}: — ${name(tgt).toUpperCase()}, SE AFASTA DA PORTA! TÔ TENTANDO ABRIR!\n\nA maçaneta sacode com força.`.replaceAll('\\n','\n'):`A maçaneta sacode com força e um dos convidados grita que a porta está presa.`);
+  if(id==='k9_risk_'+stage+'_final')text=text.replace('O perseguidor pressiona a passagem',`${name(tgt)} escuta ${helper?name(helper)+' chamar seu nome por trás da porta':'os convidados pedindo socorro no jardim'}. O perseguidor pressiona a passagem`);
+  if(id==='k9_risk_'+stage+'_result'&&f['c9_r'+stage+'_result']==='injured')text=text.replace('Um amigo responde pelo celular e o orienta a comprimir o ferimento com um pano limpo.',helper?`${name(helper)} atende pelo celular.\n\n${name(helper)}: — ${name(tgt).toUpperCase()}, FICA COMIGO! Pressiona o corte com uma toalha e me diz onde você tá!\n\n${name(tgt)}: — Eu... eu tô tentando. Não desliga!`.replaceAll('\\n','\n'):'Você atende ao chamado e orienta a comprimir o ferimento com um pano limpo até a chegada do socorro.');
+  if(id==='k9_risk_'+stage+'_result'&&f['c9_r'+stage+'_result']==='safe')text=text.replace('Quem ajudou confirma pelo celular.',helper?`${name(helper)} atende.\n\n${name(helper)}: — ${name(tgt).toUpperCase()}! Eu te escutei! Não sai daí sozinho, tô indo te encontrar!`.replaceAll('\\n','\n'):'Você escuta a confirmação pelo celular e orienta a pessoa a encontrar a saída sinalizada.');
+ }
+ if(id==='k9_reunion'){
+  const survivors=c9Present(s,'casa',[kid]);
+  const p=survivors[0],other=survivors[1];
+  text=text.replace('A voz de alguém falha ao perguntar por um amigo.',p?`${name(p)} tenta falar, mas a voz falha antes de completar uma pergunta sobre ${name(kid)}.`:'Você pergunta em voz alta se alguém viu '+name(kid)+'.');
+  if(p)text+=`\n\n${name(p)}: — Quem viu ${name(kid)} por último? Por favor, fala que tem notícia.\n\n${other?name(other)+': — Eu tô aqui. Vamos conferir os quartos, mas ninguém volta sozinho.':'Você: — A gente não vai desistir de procurar. Só não pode entrar sozinho.'}`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_reunion_luto'&&!(IDS.some(x=>f['c9_morto_'+x]))){
+  const p=c9Pick(s,'casa',avoidKid,['ryan','allan','laisla','rauanny','isabella','breno','samuel']);
+  text=text.replace('Ryan, se está presente, tenta fazer uma brincadeira para aliviar a tensão, mas ninguém ri por muito tempo.',p?`${name(p)} se aproxima de você, ainda ofegante.\n\n${c9Line(p,'comfort')}\n\nVocê: — Faltou o ${['rayssa','rauanny','laisla','isabella'].includes(kid)?'sinal dela':'sinal dele'}. A gente não pode comemorar ainda.`.replaceAll('\\n','\n'):'Você tenta respirar, mas o silêncio de '+name(kid)+' impede qualquer sensação de vitória.');
+ }
+ if(id==='k9_reunion_after'){
+  const p=c9Pick(s,'casa',avoidKid,['isabella','allan','laisla','rauanny','samuel','ryan','breno']);
+  if(p)text+=`\n\nVocê: — ${name(p)}, me conta a última coisa que você viu antes de sair. Sem pular nenhum detalhe.\n\n${name(p)}: — Tinha alguém perto da cozinha. Aí a luz apagou e eu só pensei em achar uma porta. Eu não vi o rosto.\n\nVocê: — Tá. Não precisa inventar nada que não lembra.\n\n${name(p)}: — Eu não vou esquecer essa noite. Nem se eu quiser.`.replaceAll('\\n','\n');
+ }
+
+ // Revisão das conversas e do deslocamento: ninguém que está ausente aparece
+ // como interlocutor apenas para preencher uma fala narrativa.
+ if(id==='k9_house_future'){
+  const partner=sceneCompanion(s,id);
+  if(partner){
+   text=text.replace('pergunta a alguém do grupo o que faria',`pergunta a ${name(partner)} o que faria`);
+   text+=`\n\nVocê: — Eu quero te perguntar sem pressa: qual era seu plano pra esse ano, antes dessa confusão toda?\n\n${name(partner)}: — ${C9_PERSONALITY[partner]?.future||'Eu ainda tenho coisas que quero fazer. Só preciso encontrar coragem de voltar a planejar.'}`.replaceAll('\\n','\n');
+  }else{
+   text='Você encontra a varanda vazia. Senta com um refrigerante, escuta a música e tenta lembrar dos seus próprios planos antes dos ataques. Nem toda pausa precisa ser preenchida por uma conversa inventada.';
+  }
+ }
+ if(id==='k9_house_flirt'){
+  const partner=sceneCompanion(s,id);
+  if(partner)text=text.replace('Uma resposta vem acompanhada de um sorriso cansado.',`${name(partner)} sorri de leve e afasta uma cadeira para você.\n\n${name(partner)}: — Pode roubar. Mas tem que me prometer que não é mais um interrogatório sobre o lago.`.replaceAll('\\n','\n'));
+  else text=text.replace('Uma resposta vem acompanhada de um sorriso cansado.','Você não encontra ninguém conhecido naquele momento. Do lado de dentro, a música volta a ficar animada.');
+ }
+ if(id==='k9_house_game_payoff'){
+  const buddy=sceneCompanion(s,'k9_house_arrive');
+  if(buddy)text=text.replace('Alguém ainda repete sua imitação ou um passo de dança desastroso perto da porta. Uma pessoa levanta o copo e brinda à primeira noite em que conseguiu rir sem culpa.',`${name(buddy)} ainda imita o passo de dança que viu na roda.\n\n${name(buddy)}: — Não acredito que você teve coragem de fazer isso. Eu vou lembrar pra sempre!\n\nVocê: — Não se atreve a mostrar o vídeo pra ninguém!\n\n${name(buddy)}: — Sem promessas. Mas foi bom ver você rindo de verdade.\n\nVocê ergue o copo. Por alguns segundos, o medo deixa de ocupar toda a conversa.`.replaceAll('\\n','\n'));
+ }
+ if(id==='k9_house_help'){
+  const host=f.c9_anfitriao;
+  if(host&&!dead(s,host))text=text.replace('enquanto a anfitriã confere se a passagem para o corredor não está bloqueada.',`enquanto ${name(host)} confere se a passagem para o corredor não está bloqueada.\n\n${name(host)}: — Valeu mesmo pela ajuda. Eu já tava me embolando com essas caixas.`.replaceAll('\\n','\n'));
+ }
+ if(id==='k9_missing_search'){
+  const area=f.c9_refem_local==='casa'?'casa':'cidade';
+  const hero=f.c9_hero_local==='casa'?'casa':'cidade';
+  const local=hero===area;
+  const w=c9Pick(s,area,[kid],area==='casa'?['laisla','rauanny','allan','ryan','breno','isabella','samuel']:['isabella','rayssa','breno','samuel','allan','rauanny','ryan']);
+  const w2=c9Pick(s,area,[kid,w],['rauanny','samuel','isabella','allan','rayssa','breno','ryan','laisla']);
+  const source=w?name(w):area==='casa'?'Marina':'a coordenadora da homenagem';
+  const speaker=w?name(w)+':':area==='casa'?'MARINA:':'COORDENADORA:';
+  const place=area==='casa'?'a casa do lago':'a praça da homenagem';
+  const index=f.c9_last_act_origin==='k9_missing'?Number(f.c9_last_act_index):-1;
+  let opening='',discussion='',action='';
+  if(!local){
+   opening=hero==='cidade'?`Você está na homenagem, mas ${name(kid)} estava na casa do lago quando perdeu contato. Você continua perto do palco, abre o viva-voz e liga para ${source}.`: `Você está na casa do lago, mas o último contato de ${name(kid)} veio da homenagem. Você liga para ${source}, que está perto do palco. Não adianta procurar pelos cômodos da casa.`;
+   discussion=w?`${speaker} — Eu vi ${name(kid)} mais cedo, mas não sei se ${pron134(kid)} saiu. Tinha gente demais.
+
+Você: — Tá. Não inventa nada. Só me conta onde ${pron134(kid)} estava e o que você consegue conferir daí.`:area==='casa'?`MARINA: — A última mensagem que recebi de ${name(kid)} foi aqui na casa. Vou pedir para conferirem as portas, mas não vou falar que vi o que não vi.`:`COORDENADORA: — Vou perguntar aos funcionários do palco e conferir com a equipe de segurança. Ainda não sabemos para onde ${name(kid)} foi.`;
+   if(index===0){
+    action=area==='casa'?`Você: — ${source}, por favor, começa pelo último cômodo onde viram ${name(kid)}. Pergunta também aos convidados que estavam na varanda. Não entra em nenhum lugar fechado sem companhia.
+
+${speaker} — Vou chamar ${w2?name(w2):'outra pessoa da organização'} pra vir comigo. Te ligo assim que souber de alguma coisa.
+
+Você fica na linha, ouvindo passos e uma porta se abrir do outro lado da chamada. Não aparece nenhuma resposta concreta.`:`Você: — ${source}, pede pra alguém conferir as barracas e a saída dos bastidores onde viram ${name(kid)}. Eu não tô aí, então preciso de informação pelo telefone.
+
+${w?speaker+' — Vou com a equipe, sem me afastar sozinho.': 'COORDENADORA: — Vou avisar os seguranças da entrada.'} A ligação permanece aberta enquanto procuram. Ninguém consegue confirmar para onde ${name(kid)} foi.`;
+   }else if(index===1){
+    action=area==='casa'?`Você: — ${source}, confere o portão, a câmera da varanda e a entrada da garagem. Se alguma câmera estiver desligada, me avisa.
+
+${speaker} — A imagem da lateral tá parada. Vou pedir para verificarem o portão. Não vou sair procurando no escuro.
+
+Você anota a informação e pede que preservem a gravação, caso ainda exista.`:`Você: — ${source}, consegue pedir à segurança da praça para conferir as câmeras do palco e as saídas? Eu mando uma foto de ${name(kid)} e o horário da última mensagem.
+
+${w?speaker+' — Vou falar com a equipe agora.':'COORDENADORA: — Pode enviar. Vou repassar aos agentes.'} A equipe confirma o recebimento, mas não consegue apontar a última saída de ${name(kid)}.`;
+   }else{
+    action=`Você liga novamente para ${name(kid)}. O sinal chama, mas ninguém atende. Você abre o compartilhamento de localização: o último ponto registrado está desatualizado.
+
+Você: — Isso não prova onde ${name(kid)} tá agora. Me avisa se ${pron134(kid)} entrar em contato com vocês.
+
+${speaker} — Combinado. Eu fico com o celular na mão.`;
+   }
+  }else{
+   opening=area==='casa'?`Você está na festa do lago, o último local em que ${name(kid)} foi vist${fem134(kid)?'a':'o'}. As luzes da varanda continuam acesas, mas você já não consegue acompanhar a música.`:`Você está na homenagem, onde ${name(kid)} foi vist${fem134(kid)?'a':'o'} pela última vez. O palco continua iluminado; você procura rostos conhecidos perto das barracas.`;
+   discussion=w?`${name(w)} se aproxima quando você chama por ${name(kid)}.
+
+${name(w)}: — Eu vi ${name(kid)} faz pouco tempo, mas não prestei atenção em qual direção ${pron134(kid)} foi. Desculpa.
+
+Você: — Só me diz o que tem certeza. Não vou transformar um palpite numa pista.`:`Você pergunta aos responsáveis pelo evento se viram ${name(kid)}. Ninguém consegue confirmar por onde ${pron134(kid)} saiu.`;
+   if(index===0){
+    action=area==='casa'?`Você volta à varanda e percorre o corredor dos banheiros, onde ${name(kid)} tinha sido vist${fem134(kid)?'a':'o'}. Chama pelo nome, verifica as saídas sem abrir portas trancadas e encontra apenas um copo esquecido.
+
+Você: — ${name(kid)}! Responde, por favor!`:`Você refaz o caminho entre a barraca de bebidas e a lateral do palco, onde ${name(kid)} tinha sido vist${fem134(kid)?'a':'o'}. Pergunta a dois voluntários, mas as descrições não coincidem.
+
+Você: — Alguém viu para onde ${name(kid)} foi? Preciso de certeza.`;
+   }else if(index===1){
+    action=area==='casa'?`Você chama ${w?name(w):'Marina'} e pede que confira o portão e o monitor das câmeras.
+
+Você: — Não quero deixar ninguém isolado procurando. Vamos ver o que as câmeras mostram e ficar juntos.
+
+A gravação da entrada está incompleta. Vocês preservam o que existe, mas não encontram uma resposta.`:`Você encontra a equipe de segurança perto do palco e mostra uma foto de ${name(kid)}.
+
+Você: — ${name(kid)} sumiu aqui na homenagem. Essa foi a última mensagem. Confiram as câmeras e avisem as saídas, por favor.
+
+O segurança confirma a informação pelo rádio, mas ninguém viu ${name(kid)} partir.`;
+   }else{
+    action=`Você liga para ${name(kid)} mais uma vez. Só escuta o toque até a chamada cair. A localização compartilhada não registra movimento recente.
+
+Você: — Não faz isso comigo, ${name(kid)}. Atende...`;
+   }
+  }
+  const cityVoice=c9Pick(s,'cidade',[kid],['rayssa','isabella','breno','samuel','allan','ryan','rauanny']);
+  const end=hero==='cidade'?`Antes que você consiga decidir o próximo passo, a música do aniversário da cidade é interrompida. Um murmúrio corre pela multidão. Você se vira para o telão, onde uma imagem começa a aparecer.`:`Sua conversa é interrompida por uma ligação de ${cityVoice?name(cityVoice):'um funcionário da homenagem'}. ${cityVoice?`${name(cityVoice)}: — A música acabou de parar! Apareceu um vídeo estranho no telão... eu tô te mandando agora!`:'FUNCIONÁRIO: — A transmissão do palco foi interrompida. Vou encaminhar uma cópia do que apareceu.'} Um arquivo de vídeo chega ao grupo pelo celular.`;
+  text=`${opening}
+
+${discussion}
+
+${action}
+
+${end}`;
+ }
+ if(id==='k9_video_react'&&f.c9_hero_local==='casa'){
+  const p=c9Pick(s,'casa',[kid],['laisla','rauanny','samuel','allan','ryan','isabella','breno']);
+  const other=c9Pick(s,'casa',[kid,p],['allan','ryan','breno','samuel','rauanny','isabella','laisla']);
+  if(p){
+   text=text.replace('Uma pessoa fecha as portas de vidro e outra procura o responsável pela festa.',`${name(p)} fecha as portas de vidro. ${other?name(other)+' corre para avisar os convidados na cozinha.':'Você afasta os convidados da varanda.'}`);
+   text+=`\n\n${name(p)}: — A foto da piscina é de agora! Dá pra ver os copos que eu coloquei na mesa faz dez minutos!\n\nVocê: — Ninguém chega perto das janelas. Me diz quem ainda tá na casa, pelo nome!`.replaceAll('\\n','\n');
+  }
+ }
+ if(id==='k9_prep_01'){
+  const p=c9Pick(s,'casa',[kid],['laisla','samuel','rauanny','ryan','allan','breno','isabella']);
+  const other=c9Pick(s,'casa',[kid,p],['breno','allan','samuel','rauanny','ryan','isabella','laisla']);
+  if(f.c9_hero_local==='casa'){
+   text=text.replace('Uma pessoa fecha uma cortina. Outra chama os convidados para longe do vidro.',p?`${name(p)} puxa a cortina. ${other?name(other)+' chama os convidados para longe da varanda.':'Você orienta os convidados a se afastarem do vidro.'}`:'Você puxa uma das cortinas e pede aos convidados que se afastem do vidro.');
+  }else if(p){
+   text=text.replace('Uma ligação toca. Uma voz familiar informa que uma porta de serviço bateu mesmo sem vento forte, mas não quer causar pânico entre os convidados.',`Você liga para ${name(p)}, que atende no meio da música.\n\n${name(p)}: — Acabou de bater uma porta de serviço aqui. Nem tá ventando. Eu não quero assustar a galera, mas achei melhor avisar.`.replaceAll('\\n','\n'));
+   text+=`\n\n${name(p)}: — Eu vou conferir quem tá comigo. Você consegue chamar alguém pra ajudar a gente?\n\nVocê: — Já tô tentando. Não sai sozinho, ${name(p)}.`.replaceAll('\\n','\n');
+  }
+ }
+ if(id==='k9_prep_02'){
+  const p=c9Pick(s,'casa',[kid],['samuel','laisla','isabella','ryan','allan','rauanny','breno']);
+  if(p)text+=`\n\n${name(p)}: — Tô na casa. Já anotei quem saiu pela garagem e quem ainda tá perto da piscina.\n\nVocê: — Ótimo. Me manda cada nome. Se alguém mudar de lugar, avisa de novo.\n\n${name(p)}: — Combinado. E me fala quando chegar.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_reunion_after'){
+  const p=c9Pick(s,'casa',[kid],['isabella','allan','laisla','rauanny','samuel','ryan','breno']);
+  if(p)text=text.replace('O telefone vibra quando você está tentando ouvir o que um amigo conta.',`O telefone vibra enquanto ${name(p)} descreve o corredor por onde fugiu.`);
+ }
+ if(id==='k9_city_meet'&&!sceneCompanion(s,id)){
+  text='Você procura um rosto conhecido entre as barracas, mas ninguém do seu grupo está disponível aqui. Em vez de inventar companhia, você decide voltar ao palco e ficar perto dos voluntários.';
+ }
+ return text;
+}
+function priorAction(s,id,text){const f=s.flags||{};
+ // A busca tem quatro versões contextuais próprias. Não prependar o antigo trecho genérico.
+ if(id==='k9_missing_search'&&f.c9_last_act_origin==='k9_missing')return text;
+ if(f.c9_last_act_target!==id||!f.c9_last_act_origin||!Array.isArray(CHOICE_BEATS[f.c9_last_act_origin]))return text;
+ const entry=CHOICE_BEATS[f.c9_last_act_origin][Number(f.c9_last_act_index)];
+ if(!entry)return text;
+ let rendered=entry.replaceAll('%LOVER%',name(lover(s)||'seu contato'))
+  .replaceAll('%HOSTAGE%',name(f.c9_refem||'a pessoa sequestrada'))
+  .replaceAll('%SUSPECT%',name(f.c9_suspeito||'seu amigo'))
+  .replaceAll('%FRIEND%',name(f.c9_last_act_friend||'Seu amigo'))
+  .replaceAll('%LOVER_ADJ%', ['rayssa','rauanny'].includes(lover(s))?'a':'o');
+ // A discussão da festa também existe sem Laisla: não reproduzir falas de quem morreu.
+ if(f.c9_last_act_origin==='k9_party_announce'&&dead(s,'laisla')){
+  const i=Number(f.c9_last_act_index),host=sceneCompanion(s,'k9_house_arrive');
+  const line=i===0?'Eu acho que a gente pode reunir quem quiser lembrar da Laisla. Mas sem fingir que ela tá aqui.':i===1?'A casa lembra muita coisa. Talvez a homenagem da cidade seja melhor pra quem não aguenta isso agora.':'O importante é respeitar quem quer ir e quem prefere não ir. Ninguém tá errado por sentir diferente.';
+  rendered=`Você: — ${line}\n\n${host?name(host)+': — Eu concordo. A gente avisa os parentes e organiza sem pressão.':'Um dos amigos concorda e propõe consultar os parentes antes de tomar qualquer decisão.'}`;
+ }
+ if(f.c9_last_act_origin==='k9_party_announce'){
+  // Mortos não participam nem da reação à escolha do protagonista.
+  for(const x of ['samuel','rauanny'])if(dead(s,x)){
+   const label=name(x),replacement=alive(s).find(y=>y!=='laisla'&&y!==x);
+   rendered=rendered.replace(new RegExp('^'+label+': —[^\n]*','gm'),replacement?name(replacement)+': — É importante que todo mundo seja ouvido, mesmo com medo.':'');
+  }
+ }
+ // Cada personalidade responde de modo próprio, sem apagar a ação escolhida.
+ const char=f.c9_last_act_friend;
+ const context=f.c9_last_act_origin==='k9_city_meet'?'meet':f.c9_last_act_origin==='k9_house_balcony'?'balcony':f.c9_last_act_origin==='k9_house_future'?'future':f.c9_last_act_origin==='k9_house_flirt'?'flirt':null;
+ const additional=context&&PERSONALITY[char]?.[context];
+ if(additional&&(!f.c9_enter_k9_missing||char!==f.c9_refem))rendered+=`\n\n${name(char)}: — ${additional}`;
+ return rendered+'\n\n'+text;
+}
 function planParties(s){let f=s.flags;if(Array.isArray(f.c9_casa_pessoas)&&Array.isArray(f.c9_cidade_pessoas))return;
  const group=alive(s),house=[];
  if(group.includes('laisla'))house.push('laisla');
@@ -951,26 +1521,60 @@ function planParties(s){let f=s.flags;if(Array.isArray(f.c9_casa_pessoas)&&Array
  f.c9_anfitriao=house.includes('laisla')?'laisla':house[0]||'';
 }
 function hostage(s){const f=s.flags;planParties(s);if(f.c9_refem)return f.c9_refem;const lv=lover(s);if(lv){f.c9_refem=lv;return lv;}const options=alive(s).filter(x=>x!=='rayssa');options.sort((a,b)=>Number(s.bonds[b]||50)-Number(s.bonds[a]||50));f.c9_refem=options[0]||(alive(s).includes('rayssa')?'rayssa':'bella');return f.c9_refem;}
-function nextRisk(s,stage){const f=s.flags;const list=(f.c9_casa_pessoas||[]).filter(x=>x!==f.c9_refem&&!dead(s,x)&&!['rayssa'].includes(x));const used=[1,2,3].filter(i=>i<stage).map(i=>f['c9_r'+i+'_target']);return list.filter(x=>!used.includes(x))[0]||'';}
-function markRisk(s,stage){const f=s.flags;if(f['c9_r'+stage+'_resolved'])return;f['c9_r'+stage+'_resolved']=true;const id=f['c9_r'+stage+'_target'];if(!id){f['c9_r'+stage+'_result']='none';return;}
- let score=Number(f.c9_preparo_saida||f.c9_preparo_acesso||f.c9_casa_saidas||f.c9_casa_portas)+Number(f.c9_preparo_contatos||f.c9_preparo_alerta||f.c9_casa_juntos||f.c9_perseguicao_coord)+Number(f['c9_r'+stage+'_plan']==='safe')+Number(f['c9_r'+stage+'_act']==='safe')+Number(f['c9_r'+stage+'_last']==='safe');
- const status=score>=4?'safe':score===3?'injured':'fatal';f['c9_r'+stage+'_result']=status;
- if(status==='fatal'&&IDS.filter(x=>f['c9_morto_'+x]).length<3)f['c9_morto_'+id]=true;
- else if(status!=='safe'){f['c9_ferido_'+id]=true;f['c9_r'+stage+'_result']='injured';}
+function nextRisk(s,stage){const f=s.flags;const list=(f.c9_casa_pessoas||[]).filter(x=>x!==f.c9_refem&&!dead(s,x)&&!['rayssa'].includes(x));const used=[1,2,3,4,5].filter(i=>i<stage).map(i=>f['c9_r'+i+'_target']);const pending=list.filter(x=>!used.includes(x));
+ // Mantém a ligação entre Laisla/Rauanny e, quando os grupos chegam juntos,
+ // garante uma chance de Isabella e Rayssa atravessarem o ataque em dupla.
+ if(f.c9_cidade_chegou_a_tempo){const priority=['laisla','rauanny','isabella','samuel','allan','breno','ryan'];return priority.find(x=>pending.includes(x))||pending[0]||'';}
+ return pending[0]||'';}
+function markRisk(s,stage){
+ const f=s.flags;if(f['c9_r'+stage+'_resolved'])return;
+ f['c9_r'+stage+'_resolved']=true;
+ const id=f['c9_r'+stage+'_target'];
+ if(!id||dead(s,id)){f['c9_r'+stage+'_result']='none';return;}
+ const p=f['c9_r'+stage+'_plan'],a=f['c9_r'+stage+'_act'],last=f['c9_r'+stage+'_last'];
+ const safe=[p,a,last].filter(x=>x==='safe').length;
+ const bad=[p,a,last].filter(x=>x==='bad').length;
+ const preparation=Number(!!(f.c9_preparo_saida||f.c9_preparo_acesso||f.c9_casa_saidas||f.c9_casa_portas||f.c9_casa_organizou_seguro))+
+  Number(!!(f.c9_preparo_contatos||f.c9_preparo_alerta||f.c9_casa_juntos||f.c9_perseguicao_coord||f.c9_preparo_encontro));
+ // Ferimentos de capítulos anteriores nunca são uma sentença de morte.
+ // Há resgate possível mesmo após um erro: o risco fatal exige decisões sucessivas perigosas.
+ let status=safe>=2&&preparation>=1?'safe':safe>=2||safe===1||preparation>=2?'injured':bad>=2&&last==='bad'?'fatal':'injured';
+ const previous=IDS.filter(x=>f['c9_morto_'+x]).length;
+ if(status==='fatal'&&previous>=2)status='injured';
+ f['c9_r'+stage+'_result']=status;
+ if(status==='fatal')f['c9_morto_'+id]=true;
+ if(status==='injured')f['c9_ferido_'+id]=true;
 }
+
 function enter(s,id){if(!id.startsWith('k9_')||!s?.flags)return false;const f=s.flags,stamp='c9_enter_'+id;if(f[stamp])return false;f[stamp]=true;
  if(id==='k9_choose_event'||id==='k9_missing'||id==='k9_house_warning')planParties(s);
+ if(id==='k9_house_warning'&&f.c9_hero_local==='cidade'&&!f.c9_cidade_chegou_a_tempo){
+  planParties(s);
+  f.c9_casa_originais=[...(f.c9_casa_pessoas||[])];
+  const house=(f.c9_casa_pessoas||[]), city=(f.c9_cidade_pessoas||[]), mixed=[];
+  for(let i=0;i<Math.max(house.length,city.length);i++){
+   if(house[i]&&!mixed.includes(house[i]))mixed.push(house[i]);
+   if(city[i]&&!mixed.includes(city[i]))mixed.push(city[i]);
+  }
+  f.c9_casa_pessoas=mixed; // all friends are physically at the house from this point on
+  f.c9_cidade_chegou_a_tempo=true;
+ }
  if(id==='k9_bella_meet')f.c9_suspeito=suspect(s)||'desconhecido';
  if(id==='k9_video_react'&&f.c9_refem==='rayssa')f.c9_armadilha_saiu_controle=true;
  if(id==='k9_missing'){const h=hostage(s);f.c9_refem_local=(f.c9_casa_pessoas||[]).includes(h)?'casa':'cidade';f.c9_refem_inicio=Date.now();if(h==='rayssa')f.c9_encenacao_inicial=true;}
- for(let stage=1;stage<=3;stage++){
-  if(id==='k9_risk_'+stage+'_pov')f['c9_r'+stage+'_target']=nextRisk(s,stage);
+ for(let stage=1;stage<=5;stage++){
+  if(id==='k9_risk_'+stage+'_pov'){f['c9_r'+stage+'_target']=nextRisk(s,stage);const t=f['c9_r'+stage+'_target'];if(t&&!f['c9_r'+stage+'_witness'])f['c9_r'+stage+'_witness']=witness134(s,t,f.c9_refem);}
   if(id==='k9_risk_'+stage+'_result')markRisk(s,stage);
  }
  if(id==='k9_final')f.c9_concluido=true;
  return true;
 }
-function onChoice(s,id,c){if(!id.startsWith('k9_'))return;}
+function onChoice(s,id,c){if(!id.startsWith('k9_')||!s?.flags)return;
+ const f=s.flags;f.c9_last_act_origin=id;f.c9_last_act_target=c.to;f.c9_last_act_label=String(c.originText||c.text||'');
+ const all=NODES[id]?.choices||[];
+ f.c9_last_act_index=all.findIndex(v=>v.text===f.c9_last_act_label);
+ f.c9_last_act_friend=sceneCompanion(s,id);
+}
 function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||{},live=alive(s),lv=lover(s),kid=f.c9_refem||hostage(s),lost=IDS.filter(x=>dead(s,x)),lost9=IDS.filter(x=>f['c9_morto_'+x]);let text=n.text,choices=[...(n.choices||[])],location=n.location,scene=n.scene;
  const isLive=id=>live.includes(id);const isHome=x=>(f.c9_casa_pessoas||[]).includes(x);
  const pov=who=>`PONTO DE VISTA: ${name(who).toUpperCase()}\n\n`;
@@ -999,7 +1603,7 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  if(id==='k9_ice_choose'){
   const done=IDS.filter(x=>f['c9_chat_done_'+x]);choices=visits(s)>=2?[G('k9_ice_group','Voltar para a conversa de todos')]:live.filter(x=>!done.includes(x)).map(x=>G('k9_ice_'+x+'_1','Conversar com '+name(x)));
   if(!choices.length)choices=[G('k9_ice_group','Voltar à mesa central')];
-  text+='\n\n'+(done.length?'Você já conversou com '+names(done)+'. Pode procurar outra pessoa.':'Você escolhe quem gostaria de ouvir com calma.');
+  text+='\n\n'+(done.length?'Você já conversou com '+names(done)+'. Pode procurar outra pessoa.':'Você decide com quem quer passar alguns minutos.');
  }
  // Conclusões das escolhas da sorveteria: diálogo específico para o personagem e o assunto escolhido.
  if(id==='k9_ice_01'){
@@ -1063,6 +1667,13 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  if(id==='k9_bella_pov'){
   if(f.c8_bella_condicao==='hospital')text=text.replace('Bella aguarda sob uma árvore antiga, com uma pasta de documentos apoiada no colo.','Bella participa da conversa por chamada de vídeo de seu quarto de observação, porque ainda não recebeu alta. A praça aparece na tela, e o telefone está apoiado num banco junto às anotações do protagonista.');
  }
+ if(f.c8_bella_condicao==='hospital'&&['k9_bella_pov','k9_bella_meet','k9_bella_evidence','k9_bella_decide'].includes(id)){
+  scene='phone';location=id==='k9_bella_pov'?'HOSPITAL · QUARTO DE BELLA':'CELULAR · CHAMADA COM BELLA';
+  if(id==='k9_bella_pov')text=`PONTO DE VISTA: BELLA GOMES\n\nBella apoia o telefone numa mesa do quarto de observação. A perna ainda dói, e os médicos não a liberaram para ir ao mirante ou caminhar pela praça.\n\nNa tela, uma notícia mostra a preparação do aniversário de Lakewood e uma fotografia antiga de Jullia. Bella toca a imagem da irmã com o polegar.\n\nBella: — Eu sei que não posso sair daqui ainda, Ju. Mas não vou parar de procurar o que aconteceu.\n\nEla fecha os olhos e lembra de uma tarde na cozinha dos Gomes, anos antes.`;
+  if(id==='k9_bella_meet')text=`Você liga para Bella. Ela atende por vídeo do hospital, com o rosto cansado e alguns papéis espalhados na mesa.\n\nBella: — Se você perguntar se eu tô bem, vou desligar. Brincadeira. Mais ou menos.\n\nVocê: — Eu queria conversar sobre os registros da estação.\n\nBella aproxima duas anotações da câmera e pede que você preste atenção nas datas.\n\nBella: — Um acesso aparece num horário diferente daquele que a gente ouviu num relato. Mas isso não identifica quem passou por ali, tá? Não quero condenar ninguém com um papel.`;
+  if(id==='k9_bella_evidence')text=text.replace('Bella mostra dois registros:','Pela câmera, Bella mostra dois registros:').replace('Bella compara fotografias parciais','Bella mostra fotografias parciais');
+  if(id==='k9_bella_decide')text=text.replace('Bella encosta o envelope no seu braço.','Bella aproxima o envelope da câmera e você vê a marcação que ela fez com caneta.');
+ }
  if(id==='k9_bella_meet'){const suspected=f.c9_suspeito; if(L[suspected])text+='\n\nBella: — Se você quer mesmo um nome pra conferir, tem '+name(suspected)+'. Mas, pelo amor de Deus, eu não disse que foi essa pessoa. Só quero saber por que o horário que ela mencionou não bate com o registro de movimentação. E nem dá pra garantir que o acesso foi usado por ela.\n\nVocê tenta imaginar '+name(suspected)+' escondendo alguma coisa de todos. É a possibilidade, e não a prova, que te assusta.';}
  if(id==='k9_bella_evidence'){
   if(f.c8_prova==='completa')text+='\n\nBella confere os códigos do original preservado na estação. O documento continua sem nome de destinatário.';
@@ -1070,6 +1681,11 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
   else text+='\n\nComo o envelope se perdeu, Bella compara apenas as datas da biblioteca e o que vocês lembram das mensagens. A hipótese é mais frágil.';
  }
  if(id==='k9_city_doubt'||id==='k9_house_doubt'){const suspected=f.c9_suspeito;const candid=live.filter(x=>x!==suspected&&x!==kid);const cautious=candid.find(x=>['isabella','breno','allan','ryan'].includes(x))||candid[0];const skeptical=candid.find(x=>x!==cautious&&['samuel','rauanny','laisla','rayssa'].includes(x))||candid.find(x=>x!==cautious);if(cautious&&skeptical)text+='\n\n'+name(cautious)+': — Eu sei que você tá pensando em '+name(suspected)+', mas uma data não é um assassinato. Não fala disso na frente de todo mundo.\n\n'+name(skeptical)+': — Tá, mas se alguém mentiu sobre por onde passou, não acha que a gente tem que pelo menos perguntar por quê?';}
+ const romantic=lv?name(lv):null;
+ if(id==='k9_invites'){
+  if(lv)text=text.replace('Seu interesse romântico, caso esteja vivo, envia uma mensagem particular perguntando se pode encontrar você em casa antes de sair.',`${romantic} envia uma mensagem particular perguntando se pode passar na sua casa antes dos eventos.`);
+  else text=text.replace('Seu interesse romântico, caso esteja vivo, envia uma mensagem particular perguntando se pode encontrar você em casa antes de sair.','Nenhuma mensagem romântica chega esta noite. Você confere os convites do grupo e se prepara para escolher um dos dois eventos.');
+ }
  if(id==='k9_love_message'){
   if(!lv){text='Você observa a tela do celular. Não há mensagem de uma rota romântica ativa e disponível nesta noite. Se você perdeu alguém, ainda existe uma conversa antiga que não teve continuação. A ausência da notificação faz você ficar imóvel por alguns segundos.\n\nO grupo envia os horários dos dois eventos, e você decide como quer passar a noite.';choices=[G('k9_choose_event','Escolher onde passar a noite')];}
   else text+='\n\n'+name(lv)+': — Posso passar na sua casa antes de sair? Queria te ver um pouco. A gente pode ir junto ou se encontrar mais tarde, o que você preferir.';
@@ -1079,11 +1695,116 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
   else {text='Você termina de se arrumar sozinho. A roupa escolhida pode ser simples; não existe obrigação de aparecer com ânimo.\n\nUma mensagem do grupo confirma os horários das festas. Você respira fundo antes de sair.';choices=[G('k9_choose_event','Sair de casa')];}
  }
  if(id==='k9_love_brief'&&lv)text+='\n\n'+name(lv)+': — Tudo bem. Obrigado por me avisar. Depois a gente conversa com calma.';
+ if(lv&&id==='k9_love_message'){
+  text=`Você abre a conversa de ${romantic}. A última mensagem chegou há poucos minutos.\n\n${romantic}: — Eu tô tentando escolher uma roupa faz meia hora e nada parece bom. Posso passar aí antes da gente sair? Nem que seja por uns minutos.\n\nVocê começa a responder, apaga a primeira frase e ri sozinho. Faz tanto tempo que uma pergunta assim não chegava sem uma ameaça depois.`;
+ }
+ if(lv&&['k9_love_visit','k9_love_intimate','k9_love_goodbye','k9_love_brief'].includes(id)){
+  choices=choices.map(c=>({...c,originText:c.text,text:c.text.replaceAll('a pessoa',romantic).replaceAll('A pessoa',romantic)}));
+  if(id==='k9_love_visit')text=`A campainha toca quando você termina de se vestir. Ao abrir a porta, encontra ${romantic} segurando o celular e tentando esconder o nervosismo.\n\n${romantic}: — Oi. E antes que você pergunte: sim, eu troquei de roupa três vezes. Não comenta.\n\nVocê: — Entra, idiota.\n\n${romantic} solta uma risada e se aproxima. A primeira coisa que você percebe não é a roupa: é a expressão de alívio ao encontrar você bem.\n\n${extra.romance[lv]}`;
+  if(id==='k9_love_intimate'){
+   const fl=f.c9_romance_mais_beijos,br=f.c9_romance_brincou,care=f.c9_romance_cuidado;
+   text=`A porta fica fechada e o som da rua parece distante. ${romantic} está tão perto que você percebe as pequenas pausas antes de cada frase.\n\n${fl?`O beijo que começaram no corredor continua, com ${romantic} sorrindo quando vocês se separam para respirar.`:br?`Depois da brincadeira sobre o atraso, ${romantic} segura sua mão e aproxima a testa da sua. Vocês trocam um beijo breve e riem sem saber por que ficaram tão nervosos.`:care?`${romantic} fala do medo que tem carregado. Você escuta, acaricia seus dedos e pergunta antes de aproximar o rosto. Um beijo cuidadoso acontece quando os dois querem; não é usado para encerrar o assunto.`:`Vocês trocam um olhar demorado e se aproximam sem pressa.`}\n\n${extra.pledge[lv]}\n\nNão existe namoro oficial entre vocês, mas o carinho não precisa de um rótulo para ser verdadeiro.`;
+  }
+  if(id==='k9_love_goodbye')text=`Você pega as chaves e confere o celular antes de abrir a porta. ${romantic} ajeita a roupa na entrada e olha para você por mais um segundo.\n\n${romantic}: — Se a gente se separar lá, me manda mensagem. Promete?\n\nVocê: — Prometo. E você também.\n\n${romantic} entrelaça os dedos nos seus e sorri. Não é uma despedida definitiva, só a tentativa de continuar juntos depois de um dia difícil.`;
+  if(id==='k9_love_brief')text=`Você termina a mensagem para ${romantic} e observa as bolinhas indicando que está digitando.\n\n${romantic}: — Beleza. A gente se encontra quando der. Só me avisa que chegou bem.\n\nVocê: — Pode deixar. Quero te ver mais tarde também.\n\nA conversa termina com um emoji bobo que faz você sorrir, apesar de tudo. Agora é hora de decidir para onde ir.`;
+ }
+ if(id==='k9_city_evening'){
+  // Confronto é obrigatório apenas na homenagem; em rotas com Breno morto,
+  // nunca evocá-lo como se estivesse presente.
+  if(dead(s,'breno'))choices=choices.map(c=>({...c,to:'k9_omen',originText:c.originText||c.text,text:'Conferir o celular e observar a movimentação'}));
+  else choices=choices.map(c=>({...c,to:'k9_breno_encontro',originText:c.originText||c.text,text:'Perceber Breno perto do memorial e conversar com ele'}));
+ }
+ if(id==='k9_breno_encontro'&&!dead(s,'breno')){
+  const bAtCity=(f.c9_cidade_pessoas||[]).includes('breno');
+  text+=bAtCity?'\n\nBreno havia ficado na praça para acompanhar a homenagem. Ele parece cansado de precisar justificar até os próprios silêncios.':'\n\nBreno explica que passou pelo memorial antes de seguir para a casa do lago. A visita era rápida, mas você o alcança antes que parta.';
+  if(s.romanceEscolhido==='breno')text+='\n\nVocês estiveram próximos poucas horas antes. Lembrar da maneira como ele segurou sua mão faz sua suspeita parecer ainda mais cruel — e não a faz desaparecer.';
+ }
+ if(id==='k9_breno_explica'&&!dead(s,'breno')){
+  const tone=f.c9_breno_abordagem;
+  const responses={
+    acusacao:`Você: — Você mentiu pra gente! Como é que eu vou acreditar que não foi você?\n\nBreno: — Caralho... É isso mesmo que você pensa de mim? Nem perguntou se eu estava bem. Já chegou me tratando como criminoso.`,
+    duvida:`Você: — Por que você não contou que tinha passado perto da estação? Isso parece muito estranho, Breno.\n\nBreno: — Eu sei que parece. Mas eu fiquei com medo de vocês julgarem até o caminho que eu faço pra respirar. Não pensei que isso viraria um interrogatório.`,
+    cuidado:`Você: — Eu quero confiar em você. Só que a Isabella levantou uma dúvida, e eu precisava te perguntar olhando no seu rosto.\n\nBreno: — Eu agradeço por não ter me colocado contra todo mundo. Só queria que você acreditasse que eu também tô apavorado com tudo isso.`
+  };
+  if(responses[tone])text=responses[tone]+'\n\n'+text;
+  if(s.romanceEscolhido==='breno')text+='\n\nBreno: — Eu achei que, depois do que aconteceu entre a gente hoje, eu podia te contar as coisas sem precisar me defender desse jeito. Você faz ideia de como é ouvir isso de você?';
+ }
+ if(id==='k9_breno_saida'&&!dead(s,'breno')){
+  const outcome=f.c9_breno_conclusao;
+  const romance=s.romanceEscolhido==='breno',physical=f.c9_encontro_em_casa;
+  if(outcome==='rompimento')text=`Você: — Eu não consigo acreditar em você. Se não esconde nada, por que muda a versão?\n\nBreno: — Porque eu fiquei com medo! Eu falei onde passei. Falei o que lembro. E você continua me olhando como se eu tivesse uma faca escondida!\n\nVocê: — Talvez eu não conheça você tanto quanto pensei.\n\nA expressão dele desaba. Breno abre a boca, mas nenhuma resposta sai de imediato.\n\nBreno: — Tá. Se você realmente acha que eu seria capaz de machucar vocês... eu não tenho mais o que fazer aqui.\n\nEle dá um passo para trás. Você tenta se aproximar, mas Breno ergue a mão, pedindo distância.\n\nBreno: — Não. Por favor. Eu preciso ir embora daqui. Você conseguiu fazer eu me sentir mais sozinho do que já tava.`;
+  else if(outcome==='cobranca')text=`Você: — Então me mostra as mensagens. A localização. Alguma coisa que prove onde você tava.\n\nBreno: — Você quer meu celular? É sério?\n\nVocê: — Eu preciso saber que você tá falando a verdade.\n\nBreno desbloqueia a tela, hesita e volta a apagá-la.\n\nBreno: — Tem conversa minha com gente que não tem nada a ver com isso. Tem coisa pessoal. Eu não vou entregar minha vida inteira porque alguém anotou um horário.\n\nVocê: — É justamente você esconder que me deixa desconfiado.\n\nBreno: — Eu não tô escondendo um assassinato. Eu tô tentando não perder minha privacidade também. Achei que você fosse entender a diferença.\n\nEle guarda o celular com os dedos trêmulos, visivelmente ferido pela desconfiança.`;
+  else text=`Você: — Eu acho que fui longe demais. A Bella falou de uma divergência, não de uma prova. Desculpa por te colocar contra a parede.\n\nBreno: — Obrigado por perceber isso. Mas... foi muito ruim. Ouvir você perguntando como se eu fosse capaz de matar alguém.\n\nVocê: — Eu tô com medo. E não quero que isso acabe com a gente.\n\nBreno: — Eu também tô com medo. Só preciso que você lembre que eu sou seu amigo, mesmo quando não tenho a resposta perfeita.\n\nVocê deixa que o silêncio dure alguns segundos, sem exigir perdão instantâneo.`;
+  if(romance)text+=physical?'\n\nBreno: — Você me beijou antes de vir pra cá. Eu passei o caminho inteiro pensando naquilo... e agora eu não sei nem se você confia em mim.':'\n\nBreno: — Eu não sei onde fica a gente no meio dessa suspeita. Gostar de você não me obriga a aceitar que me trate como culpado.';
+  text+='\n\n'+(outcome==='rompimento'?'Breno vira as costas e atravessa a multidão sem aceitar que você o acompanhe.':'Breno se afasta em direção às barracas para ficar sozinho. Não está tudo resolvido, mesmo que a conversa tenha terminado sem gritos.')+'\n\nVocê ainda o vê por um instante entre as luzes da homenagem. Então alguém passa na frente, e Breno desaparece de vista. O palco anuncia a próxima atração. Você fica com a dúvida — e com as palavras que não pode recolher.';
+ }
+ if(id==='k9_omen'&&f.c9_enter_k9_breno_saida&&f.c9_hero_local==='cidade'){
+  const severe=f.c9_breno_conclusao==='rompimento';
+  text+='\n\n'+(severe?'Você abre a conversa com Breno, digita uma mensagem e apaga. Ainda está magoado e desconfiado, mas a última expressão dele não sai da sua cabeça.':'Você pensa em escrever para Breno depois do confronto. Decide dar a ele alguns minutos de espaço antes de tentar conversar de novo.');
+ }
  if(id==='k9_choose_event'){planParties(s);text+='\n\nNa casa, por enquanto: '+names(f.c9_casa_pessoas)+'. No aniversário da cidade: '+names(f.c9_cidade_pessoas)+'. Bella confirma que vai permanecer acessível mesmo se precisar de cuidados por causa do ferimento.';}
+ // Lembranças e interações variam com o elenco VIVO e PRESENTE na rota.
+ if(id==='k9_city_meet'){
+  const who=sceneCompanion(s,id);
+  if(!who)choices=[G('k9_city_social','Voltar para perto do palco')];
+  if(who){
+   text+=`\n\n${name(who)} reconhece você entre as barracas e levanta o braço para chamar sua atenção.\n\n${name(who)}: — Ei! Pensei que não fosse te encontrar com essa multidão toda. Tá fugindo do discurso ou veio mesmo me procurar?\n\nVocê: — Um pouco dos dois. Mas principalmente vim te ver.`;
+   if(lv===who)text+=`\n\n${name(who)} encosta os dedos nos seus, discretamente.\n\n${name(who)}: — Ainda bem. Já tava procurando um jeito de te chamar também.`;
+  }else text=`Você procura por amigos entre as barracas, mas os sobreviventes que vieram ao aniversário estão em outro setor ou ocupados com a homenagem. Uma voluntária pergunta se você precisa de água. Você agradece e decide permanecer perto do movimento, em vez de fingir que alguém conhecido está ali.`;
+ }
+ if(id==='k9_house_balcony'){
+  const who=sceneCompanion(s,id);if(!who)choices=[G('k9_house_social','Voltar para perto dos convidados')];if(who){
+   text=text.replace('alguém apoiado no corrimão',name(who)+' apoiado no corrimão').replace('A pessoa afasta',name(who)+' afasta');
+   text+=`\n\n${name(who)}: — Vem. Aqui dá até pra ouvir o lago quando a música abaixa.\n\nVocê: — Parece que você tá pensando em mil coisas.\n\n${name(who)}: — Tô. Mas agora quero tentar conversar de algo que não seja morte.`;
+  }else{text=text.replace('encontra alguém apoiado no corrimão, observando o movimento do lago','encontra duas cadeiras vazias e o reflexo do lago entre as árvores').replace('A pessoa afasta o casaco da cadeira para abrir espaço.','Você afasta uma cadeira e respira com calma.');}
+ }
+ if(id==='k9_house_future'){
+  const who=sceneCompanion(s,id);
+  if(!who)choices=[G('k9_house_evening','Continuar a festa')];
+  if(who)text+=`\n\n${name(who)}: — Tá. Se for pra falar de futuro, eu posso tentar. Mas escolhe uma pergunta que não tenha resposta triste, por favor.\n\nVocê ri e concorda.`;
+  else text+='\n\nUm convidado que ainda não conhecia você se senta por perto e aceita conversar sobre planos para depois do fim do ano.';
+ }
+ if(id==='k9_house_flirt'){
+  const who=sceneCompanion(s,id),lvHere=lover(s)&&who===lover(s);
+  if(!who)choices=[G('k9_house_evening','Voltar à festa')];
+  if(who){text+=`\n\n${name(who)}: — Pode roubar. Mas se for pra me arrastar pra uma palestra sobre o assassino eu volto pra pista.\n\nVocê: — Prometo que é só pra ficar com você um pouco.`;
+   if(lvHere)text+=`\n\n${name(who)} fica mais perto, toca sua mão e baixa a voz.\n\n${name(who)}: — Senti sua falta no meio dessa confusão. E olha que você tava bem aqui.`;
+   else text+=`\n\n${name(who)}: — Então fica. Acho que nenhum de nós tá muito a fim de bancar o forte hoje.`;
+  }else text='Você sai da pista, mas não encontra um amigo disponível naquele canto. Decide guardar alguns minutos para si mesmo e observa a festa da varanda.';
+  if(!lvHere){choices=choices.map(c=>({...c,originText:c.text,text:c.text.replace('Convidar para dançar','Convidar um amigo para dançar').replace('Ficar lado a lado','Ficar na varanda lado a lado')}));}
+ }
+ if(id==='k9_house_game_round'){
+  const who=sceneCompanion(s,'k9_house_arrive'),type=f.c9_brincadeira_tipo;
+  if(type==='imitacao')text=`Você ergue a colher de plástico como um microfone e imita o apresentador exagerado do aniversário de Lakewood: sotaque carregado, pose dramática e um anúncio interminável sobre a barraca de cachorro-quente.\n\nCONVIDADA: — GENTE, É IGUALZINHO!\n\nVocê: — Muito obrigado, Lakewood! Próxima atração, a pessoa que vai pagar meu lanche!\n\nAs pessoas caem na risada. ${who?name(who)+' se curva de rir e bate palmas junto.':'Os convidados batem palmas e pedem bis.'}`;
+  else if(type==='danca')text=`Você abre espaço na varanda e aponta para ${who?name(who):'uma pessoa da roda'}.\n\nVocê: — Duelo de dança. Sem desculpa, hein!\n\nO adversário aceita com um gesto desafiador. Você arrisca um giro, quase perde o chinelo e consegue recuperar o equilíbrio no último segundo. A outra pessoa improvisa um passo totalmente sem coordenação.\n\nCONVIDADO: — EU DECRETO EMPATE POR FALTA DE TALENTO!\n\nTodos riem e começam a bater palmas no ritmo da música.`;
+  else if(type==='historia')text=`Você conta aquela vez em que um passeio do grupo terminou com todo mundo no ônibus errado, discutindo quem tinha dito que conhecia o caminho. Faz uma imitação exagerada das vozes sem dizer que alguém morto está ali para rir com vocês.\n\nVocê: — E a pior parte? A gente desceu exatamente onde tinha começado!\n\n${who?name(who)+': — Você não vai contar a parte em que VOCÊ falou que era a linha certa?':'CONVIDADA: — Não acredito que vocês fizeram isso!'}\n\nVocê: — Isso aí é detalhe técnico!\n\nA roda responde com gargalhadas e o som das palmas cobre a música por alguns segundos.`;
+ }
+ if(id==='k9_house_game_payoff'&&f.c9_brincadeira_tipo==='danca')text+='\n\nUm convidado ainda repete seu passo de dança perto da piscina. Outro grita que vai exigir uma revanche na próxima festa.';
+ if(id==='k9_city_doubt'||id==='k9_house_doubt'){
+  const group=(id==='k9_city_doubt'?f.c9_cidade_pessoas:f.c9_casa_pessoas)||[];
+  const speakers=group.filter(x=>!dead(s,x)&&x!==f.c9_suspeito).slice(0,2);
+  if(speakers.length){
+   const one=speakers[0],two=speakers[1];
+   text=`Você chama ${names(speakers)} para um lugar onde a música não cubra as palavras.\n\nVocê: — Bella encontrou uma diferença entre um registro de acesso e o que alguém contou. Não tem assinatura, não tem câmera mostrando um crime. Mas eu fiquei pensando nisso.\n\n${name(one)}: — Você fez bem em não soltar isso no grupo inteiro. Uma coisa é desconfiar, outra é acusar.\n\n${two?name(two)+': — Mas também não podemos fingir que ninguém esconde nada. Pelo menos vamos conferir se os horários fazem sentido.':''}\n\nVocê explica que o documento não aponta quem realmente usou o acesso. Ninguém chega a uma conclusão mágica; a conversa termina com o compromisso de procurar evidências reais.`;
+  }else text='Você procura um amigo disponível para falar com discrição sobre Bella. Não há ninguém do grupo naquele lugar a quem possa confidenciar a suspeita. Em vez de transformar isso em conversa com um desconhecido, registra suas perguntas para depois.';
+ }
+ if(id==='k9_city_arrive'&&lv){const inCity=(f.c9_cidade_pessoas||[]).includes(lv);choices=choices.map(c=>({...c,originText:c.text,text:c.text.replace('o interesse romântico ou outro amigo',inCity?name(lv)+' ou outro amigo':'um amigo')}));}
+ if(id==='k9_city_arrive'&&!lv){choices=choices.map(c=>({...c,originText:c.text,text:c.text.replace('o interesse romântico ou outro amigo','um amigo')}));}
  if(id==='k9_city_arrive'||id==='k9_city_social'){
   if(dead(s,'rayssa'))text=text.replace(/Rayssa[^\n]*\n?/g,'').replace(/Isabella: — É estranho[^]*?Rayssa: — Não sei\./,'O espaço das homenagens permanece iluminado, mas Isabella não encontra a amiga com quem costumava conversar sobre essas noites.');
   else if(dead(s,'isabella'))text=text.replace(/Isabella: — É estranho[^]*?Rayssa: — Não sei\./,'Rayssa observa o mural de fotografias em silêncio. Uma pessoa pergunta se ela está bem, e ela desvia os olhos antes de responder.');
  }
+ if(id==='k9_city_social'){
+  const city=(f.c9_cidade_pessoas||[]).filter(x=>!dead(s,x));
+  let lines=['Você caminha entre as barracas. Uma criança divide um doce com o irmão enquanto uma cantora retoma uma música suave no palco.'];
+  if(city.includes('isabella'))lines.push('Isabella observa a parede das homenagens.\n\nIsabella: — É estranho ver gente sorrindo para fotografias de quem morreu. Eu entendo, mas ainda dói.');
+  if(city.includes('rayssa'))lines.push(`Rayssa ajuda uma família a encontrar as cadeiras reservadas. ${city.includes('isabella')?'Quando Isabella se aproxima, as duas se entendem com um olhar cansado.':'Ela para diante de uma fotografia e abaixa os olhos.'}\n\nRayssa: — Espero que isso ajude alguém, pelo menos um pouquinho.`);
+  for(const x of city.filter(x=>!['isabella','rayssa'].includes(x)).slice(0,2))lines.push(`${name(x)} surge com um copo de refrigerante e acena para você.\n\n${name(x)}: — Vem. A banda começou de novo. Se a gente for ficar aqui, vamos tentar aproveitar um pouco.`);
+  if(!city.length)lines.push('Você não encontra ninguém do grupo naquela área. Os voluntários continuam trabalhando, e você escolhe permanecer por perto para não ficar isolado.');
+  lines.push('Perto dos bastidores, dois seguranças discutem a posição de uma porta que deveria estar fechada. Nenhum deles parece perceber que alguém os observa do outro lado da praça.');
+  text=lines.join('\n\n');
+ }
+ if(id==='k9_city_evening'&&dead(s,'laisla'))text=text.replace('e Laisla, caso esteja viva, tentando organizar os copos','e o grupo que organizou a reunião tentando recolher copos');
  if(id==='k9_house_arrive'){
   const house=(f.c9_casa_pessoas||[]).filter(x=>!dead(s,x));
   text+='\n\nEntre os amigos que decidiram vir estão '+names(house)+'. Os demais não estão aqui e não aparecerão na festa sem uma chegada explicada.';
@@ -1094,14 +1815,52 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  }
  if(id==='k9_omen'){const city=f.c9_hero_local!=='casa';text+='\n\n'+(city?'Você está na praça e recebe uma mensagem incompleta da casa.':'Você está na casa e recebe uma mensagem curta do centro.');}
  if(id==='k9_missing'){
-  const where=f.c9_refem_local==='casa'?'casa':'praça';text=`Você percebe que ${name(kid)} não respondeu à última mensagem. ${where==='casa'?'A informação chega por um dos amigos que está na casa de veraneio.':'Entre a multidão do aniversário da cidade, não há sinal de '+name(kid)+'.'}\n\nAntes de se afastar, ${name(kid)} parecia preocupado com alguma coisa que você não conseguiu ouvir. Agora o telefone toca sem resposta. Você pergunta aos outros se alguém viu essa pessoa sair. As respostas não combinam.\n\nSe continuar procurando por muito tempo, talvez perca uma chance de encontrar o caminho do sequestrador. Se agir rápido demais, pode deixar passar um detalhe importante.`;
+  const where=f.c9_refem_local==='casa'?'casa':'praça';text=`Você percebe que ${name(kid)} não respondeu à última mensagem. ${where==='casa'?'A informação chega por um dos amigos que está na casa de veraneio.':'Entre a multidão do aniversário da cidade, não há sinal de '+name(kid)+'.'}\n\nAntes de desaparecer, ${name(kid)} parecia ${['rayssa','rauanny','laisla','isabella'].includes(kid)?'preocupada':'preocupado'} com alguma coisa. Agora o telefone toca sem resposta. Você pergunta aos outros se alguém viu essa pessoa sair. As respostas não combinam.\n\nSe continuar procurando por muito tempo, talvez perca uma chance de encontrar o caminho do sequestrador. Se agir rápido demais, pode deixar passar um detalhe importante.`;
  }
+ if(id==='k9_missing'){
+  const origin=f.c9_hero_local==='casa'?'casa':'cidade';
+  const area=f.c9_refem_local==='casa'?'casa':'cidade';
+  const local=origin===area;
+  const who=c9Pick(s,area,[kid],area==='casa'?['laisla','rauanny','allan','ryan','breno','isabella','samuel']:['isabella','rayssa','breno','samuel','allan','rauanny','ryan']);
+  const contact=who?name(who):area==='casa'?'Marina':'a equipe da homenagem';
+  const suffix=area==='casa'?'da casa':'do palco';
+  const options=local?(area==='casa'?[
+   `Procurar ${name(kid)} na varanda e no corredor dos banheiros`,
+   `Solicitar que ${contact} confira o portão e as câmeras da casa`,
+   `Ligar novamente para ${name(kid)} e conferir a localização`
+  ]:[
+   `Refazer o caminho de ${name(kid)} perto do palco`,
+   `Alertar a segurança da homenagem sobre ${name(kid)}`,
+   `Ligar novamente para ${name(kid)} e conferir a localização`
+  ]):(area==='casa'?[
+   `Ligar para ${contact} e pedir que procure ${name(kid)} na casa`,
+   `Solicitar que ${contact} confira o portão e as câmeras da casa`,
+   `Ligar para ${name(kid)} e conferir a última localização`
+  ]:[
+   `Ligar para ${contact} e pedir que procure ${name(kid)} na praça`,
+   `Pedir à segurança da homenagem que confira as câmeras`,
+   `Ligar para ${name(kid)} e conferir a última localização`
+  ]);
+  choices=choices.map((c,i)=>({...c,originText:c.originText||c.text,text:options[i]}));
+  location=origin==='cidade'?'ANIVERSÁRIO DE LAKEWOOD · DESAPARECIMENTO':'CASA DO LAGO · DESAPARECIMENTO';
+ }
+ if(id==='k9_missing_search'){const remote=f.c9_hero_local!==f.c9_refem_local;location=(f.c9_hero_local==='casa'?'CASA DO LAGO':'ANIVERSÁRIO DE LAKEWOOD')+(remote?' · BUSCA À DISTÂNCIA':' · BUSCA NO LOCAL');}
+
  if(id==='k9_missing_search')text=text.replace(/Rayssa se aproxima[^]*?com quem o amigo saiu\./,dead(s,'rayssa')?'Ninguém do grupo consegue explicar o desaparecimento. A equipe de segurança começa a consultar os registros disponíveis.':'Rayssa envia uma mensagem dizendo que viu movimento perto dos bastidores, mas não consegue identificar com quem '+name(kid)+' saiu.');
  if(id==='k9_video'){
   text=text.replace('o rosto da pessoa capturada','o rosto de '+name(kid));
   if(f.c9_hero_local==='casa'){
    location='CASA DO LAGO · VÍDEO RECEBIDO';text=`Uma ligação do aniversário de Lakewood chega ao seu celular. Do outro lado, você escuta gritos e alguém dizendo que a apresentação foi interrompida.\n\nUma gravação é enviada para o grupo. ${name(kid)} aparece com os pulsos presos numa cadeira, diante de uma câmera que esconde a maior parte do cenário.\n\nVOZ DISTORCIDA: — Olá, Lakewood. Vieram homenagear os mortos? Que bonitinho.\n\nA figura mascarada toca o ombro do refém.\n\nVOZ DISTORCIDA: — Mas ainda falta gente nessa homenagem.\n\nA gravação termina numa imagem escura da estrada do lago. Você escuta pelo telefone o pânico na praça. Quem está na casa vê o vídeo na tela pequena do aparelho e entende que a festa acabou.`;
   }
+ }
+ if(id==='k9_video_react'&&f.c9_hero_local==='casa'){
+  text=`O vídeo chega ao fim na tela do seu celular. Você ouve a confusão no aniversário pela ligação, mas está na casa do lago, cercado por convidados que começam a perguntar se foi encenação.\n\nVocê: — Não! Essa é ${name(kid)}! Isso não é brincadeira!\n\nUma pessoa fecha as portas de vidro e outra procura o responsável pela festa. Uma nova fotografia chega do número desconhecido: a piscina da casa, tirada de um ângulo elevado.\n\nNa legenda, apenas: «Ainda estão se divertindo?»\n\nVocê olha para o alto da varanda, tentando descobrir de onde podem estar observando vocês.`;
+ }
+ if(id==='k9_prep_01'&&f.c9_hero_local==='casa'){
+  text=`Você mostra a fotografia para os amigos que continuam na casa.\n\nVocê: — Olhem a posição da piscina. Alguém tirou isso de cima e mandou agora. Eu não sei quem, mas não dá pra fingir que estamos seguros.\n\nUma pessoa fecha uma cortina. Outra chama os convidados para longe do vidro. No telefone, um policial registra o endereço enquanto você tenta organizar as rotas disponíveis.\n\nNão existe tempo para checar tudo. Você precisa decidir qual preparação vem primeiro.`;
+ }
+ if(id==='k9_prep_03'&&f.c9_hero_local==='casa'){
+  text=`Do lado de dentro da casa, você escuta uma buzina longa. Um dos convidados olha pela janela e vê um veículo atravessado perto da entrada.\n\nVocê: — Tem um carro bloqueando metade do acesso. Se alguém precisar sair de ambulância, isso vai atrapalhar.\n\nPelo celular, os amigos que vêm da cidade pedem uma indicação segura de entrada. Você pode sinalizar o obstáculo, orientar a chegada ou tentar liberar a frente. A escolha não garante que todos cheguem a tempo.`;
  }
  if(id==='k9_video_react'&&kid==='rayssa')text+='\n\nNa imagem, Rayssa parece aterrorizada. Ela repete uma frase que o microfone mal capta: «Você prometeu». Não há explicação sobre o que alguém teria prometido.';
  if(id==='k9_house_warning'){
@@ -1115,22 +1874,40 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
   else text=text.replace('Laisla, se está ali, tenta juntar os convidados.','Laisla tenta juntar os convidados e aponta a saída lateral.');
   if(f.c9_hero_local==='cidade')text+='\n\nVocê chega ao acesso da casa depois de receber os avisos. Os primeiros convidados já estão saindo. Não esteve presente desde o começo da invasão e precisa perguntar qual corredor foi bloqueado.';
  }
- for(let stage=1;stage<=3;stage++){
+ for(let stage=1;stage<=5;stage++){
   const tgt=f['c9_r'+stage+'_target'];
   if(id==='k9_risk_'+stage+'_pov'){
-   if(!tgt||!THREATS[tgt]){choices=[G(stage===3?'k9_reunion':'k9_risk_'+(stage+1)+'_pov','Prosseguir com quem ainda está vivo')];text='Este setor da casa está vazio. Os personagens que poderiam estar aqui já morreram, foram capturados ou não compareceram. Não inventaremos uma vítima para preencher a cena.';}
+   if(!tgt||!THREATS[tgt]){choices=[G(stage===5?'k9_reunion':stage===3&&f.c9_hero_local!=='cidade'?'k9_reunion':'k9_risk_'+(stage+1)+'_pov','Seguir os passos no próximo corredor')];text='O corredor está vazio quando a porta se abre. Uma cadeira tombada bloqueia metade da passagem, e passos se afastam do outro lado da casa. Você chama por alguém, mas não recebe resposta. Quem poderia estar nesse cômodo partiu antes de o perigo alcançá-lo. É preciso seguir para o próximo setor.';}
    else {const t=THREATS[tgt];location='CASA DO LAGO · '+t.where.toUpperCase();text=pov(tgt)+t.intro+'\n\n'+name(tgt)+': — Eu preciso pensar. Não vou sair correndo sem saber onde piso.\n\nO mascarado se aproxima por um único acesso. '+name(tgt)+' pode usar uma passagem que já observou ou correr no escuro.';
     choices=[C(t.good,'k9_risk_'+stage+'_act',[S('r'+stage+'_plan','safe')]),C(t.risky,'k9_risk_'+stage+'_act',[S('r'+stage+'_plan','risk')]),C(t.bad,'k9_risk_'+stage+'_act',[S('r'+stage+'_plan','bad')])];}
   }
   if(id==='k9_risk_'+stage+'_act'&&tgt&&THREATS[tgt]){
-   text=pov(tgt)+`${name(tgt)} continua na ${THREATS[tgt].where}. A escolha anterior determina a distância até a saída, mas o mascarado não ficou parado esperando.\n\n${name(tgt)}: — Calma... só preciso de mais alguns segundos.\n\nUm objeto cai do outro lado da porta. Você reconhece o som de uma tentativa de entrada. É preciso escolher como agir agora.`;
+   const plan=f['c9_r'+stage+'_plan'];
+   const route=THREATS[tgt];
+   const chosenPlan=plan==='safe'?`${name(tgt)} executa a parte mais cuidadosa do plano: ${route.good.toLowerCase()}. O teste da primeira passagem revela um obstáculo, mas dá tempo de ajustar o corpo e orientar quem vem atrás.`:plan==='risk'?`${name(tgt)} decide ganhar tempo: ${route.risky.toLowerCase()}. A tentativa funciona por instantes, até uma pancada violenta na porta fazer o corredor inteiro estremecer.`:`${name(tgt)} age no impulso: ${route.bad.toLowerCase()}. O impacto deixa uma dor aguda e a passagem parece ainda mais estreita, mas parar significa deixar o perseguidor aproximar-se.`;
+   text=pov(tgt)+`${chosenPlan}\n\nUm ruído de metal arranhando a parede segue ${name(tgt)} pelo corredor. A luz fraca mostra marcas de sangue próximas ao rodapé — impossível saber a quem pertencem.\n\n${name(tgt)}: — Merda. Merda, eu preciso sair daqui!\n\nDo outro lado da porta alguém responde com um grito e a maçaneta sacode com força. A decisão agora precisa acontecer enquanto a porta ainda resiste.`;
   }
-  if(id==='k9_risk_'+stage+'_final'&&tgt&&THREATS[tgt])text=pov(tgt)+`Uma batida faz ${name(tgt)} perder o equilíbrio por um instante. Alguém chama do outro setor da casa. Ainda é possível alcançar uma rota planejada — se o acesso estiver livre e se o amigo tiver sido avisado.\n\n${name(tgt)}: — Não me deixa aqui!\n\nHá uma última oportunidade de agir. O perigo é real, mas o desfecho não foi determinado apenas pela escolha de entrar na casa.`;
+  if(id==='k9_risk_'+stage+'_final'&&tgt&&THREATS[tgt]){
+   const a=f['c9_r'+stage+'_act'],p=f['c9_r'+stage+'_plan'];
+   const progress=a==='safe'?`${name(tgt)} se agacha para testar a estrutura e avisa os amigos pelo celular. Um golpe de lâmina atravessa a madeira a poucos centímetros de seu rosto; estilhaços cortam sua bochecha, mas a rota ainda pode estar aberta.`:a==='risk'?`${name(tgt)} tenta cortar o corredor pelo caminho curto. Um objeto cai da prateleira e espalha cacos sob seus pés. O mascarado aparece na curva; a pessoa recua antes que a lâmina a alcance por inteiro.`:`${name(tgt)} dispara pelo acesso sem verificar o apoio. O tornozelo dobra num degrau quebrado. O mascarado empurra a porta e uma lâmina risca sua roupa, abrindo um corte que queima na pele.`;
+   text=pov(tgt)+`${progress}\n\n${name(tgt)}: — SOCORRO! TÔ AQUI!\n\nO perseguidor pressiona a passagem por onde veio. Atrás, a única saída exige uma última escolha: confiar no que já foi preparado ou arriscar um salto desesperado. ${p==='safe'?'O plano inicial ainda pode ajudar.':'O erro da primeira tentativa já custou segundos preciosos.'}`;
+  }
   if(id==='k9_risk_'+stage+'_result'){
    const status=f['c9_r'+stage+'_result'];
    if(!tgt||status==='none')text='O cômodo foi encontrado vazio. Quem estava ali não retorna como uma vítima inventada. O próximo perigo acontece em outro setor.';
    else if(status==='fatal')text=window.UG107?.state?.(s)?.graphicOff?`${pov(tgt)}${name(tgt)} tenta escapar, mas é alcançado durante a perseguição. O ferimento é grave, e a ajuda chega tarde demais. A morte é confirmada no local. Os amigos ainda precisarão receber a notícia.`:DEATH[tgt];
-   else if(status==='injured')text=pov(tgt)+`${name(tgt)} consegue escapar do pior, mas cai contra a estrutura ao sair. O impacto deixa um ferimento importante, e cada passo dói. Mesmo assim, há sinais claros de vida e uma rota para receber socorro.\n\n${name(tgt)}: — Eu tô vivo... só me ajuda a sair daqui.\n\nO telefone registra a posição. Mais tarde os outros saberão exatamente onde o encontraram.`;
+   else if(status==='injured'){
+    const injuries={
+     allan:'cortes profundos no antebraço e uma torção ao cair da escada',
+     samuel:'um corte extenso na coxa e costelas doloridas pelo impacto na garagem',
+     isabella:'uma laceração na mão e o ombro ferido pelos estilhaços do corredor',
+     laisla:'um corte aberto no braço e ferimentos no joelho ao passar pelo vidro',
+     rauanny:'um corte no ombro e hematomas ao cair no piso molhado',
+     ryan:'a palma da mão dilacerada na grade e a perna machucada na descida',
+     breno:'queimaduras superficiais na mão e um corte no rosto junto ao painel'
+    };
+    text=pov(tgt)+`${name(tgt)} escapa por uma passagem estreita quando a ponta da lâmina acerta a parede atrás de seu ombro. O sangue pinga no chão durante a fuga: ${injuries[tgt]||'vários ferimentos que exigem atendimento'}. ${name(tgt)} se arrasta até uma área em que o mascarado não consegue alcançá-lo imediatamente.\n\n${name(tgt)}: — EU TÔ AQUI! Me ajuda... por favor!\n\nUm amigo responde pelo celular e o orienta a comprimir o ferimento com um pano limpo. A dor não desaparece e a pessoa precisa de atendimento médico; escapar não significa sair ileso.`;
+   }
    else text=pov(tgt)+`${name(tgt)} usa a passagem conferida, apoia-se na estrutura firme e aguarda a resposta de um amigo antes de avançar. Um golpe atinge a porta atrás, mas a pessoa consegue sair do setor sem ficar encurralada.\n\n${name(tgt)}: — TÔ AQUI! EU CONSEGUI!\n\nQuem ajudou confirma pelo celular. A fuga custou esforço e preparação, mas foi possível.`;
   }
  }
@@ -1158,6 +1935,7 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  if(id==='k9_deck_route'){text+='\n\n'+(f.c9_bella_ajudou_deck?'Bella examina as anotações e indica qual é o deck ligado ao acidente, sem precisar correr até lá.':'Você usa a memória daquela noite e os acessos conhecidos para identificar o deck, sem inventar uma localização.');}
  if(id==='k9_deck_arrive'||id==='k9_deck_hostage'){
   text=text.replaceAll('o refém',name(kid)).replaceAll('O refém',name(kid));
+  text=text.replace(name(kid)+' está abalada',name(kid)+' está '+(['rayssa','rauanny','laisla','isabella','bella'].includes(kid)?'abalada':'abalado'));
   text=text.replaceAll('A pessoa',name(kid)).replaceAll('a pessoa',name(kid));
   text=text.replace('REFÉM: — Ele tá aqui.',name(kid)+': — Ele tá aqui.');
   if(id==='k9_deck_hostage'&&lv===kid)text+='\n\nVocê encosta a testa na de '+name(kid)+' e o beija rapidamente, antes de tentar afrouxar a fita. Não há tempo para fingir que esse sentimento é pequeno.';
@@ -1165,8 +1943,15 @@ function resolve(id,s,n){if(!id.startsWith('k9_')||!n)return n;const f=s.flags||
  }
  if(id==='k9_deck_face')text=text.replace('deixa essa pessoa ir embora','deixa '+name(kid)+' ir embora');
  if(id==='k9_final'){
-  text=`Você: — Ok..Chegou a hora de acabar com tudo isso, Chega de Joguinhos..E chega de máscaras seu idiota!\n\nDigo e o Assassino finalmente tira a sua máscara.\n\nVocê: — O que?... Você?\n\nFIM DO CAPÍTULO 9 — UM ÚLTIMO JOGO`;
+  text=`Você sustenta o olhar do mascarado enquanto ${name(kid)} tenta se libertar da cadeira. Sua garganta está seca, mas você não recua.\n\nVocê: — Acabou. Chega de mortes, chega de ameaças... e chega dessa porcaria de máscara. Mostra quem você é!\n\nO silêncio dura tempo demais. Então a pessoa leva a mão ao próprio rosto e começa a erguer a máscara, devagar, até revelar a identidade.\n\nVocê sente o ar faltar. Conhece aquele rosto.\n\nVocê: — Não... não pode ser. Você?!\n\nO lago continua batendo nas tábuas. Atrás de você, ${name(kid)} prende a respiração.\n\nFIM DO CAPÍTULO 9 — UM ÚLTIMO JOGO`;
  }
+ // Entrega a ação já escolhida como parte visível da história, não apenas como flag.
+ text=c9Dialogue(s,id,text,kid);
+ text=priorAction(s,id,text);
+ ({text,choices,location,scene}=c9Revision134(s,id,text,choices,location,scene,kid));
+ ({text,choices,location,scene}=c9Revision135(s,id,text,choices,location,scene,kid));
+ ({text,choices,location,scene}=c9Revision138(s,id,text,choices,location,scene,kid));
+ ({text,choices,location,scene}=c9Revision139(s,id,text,choices,location,scene,kid));
  return {...n,text,choices,location,scene};
 }
 const CLUES={
@@ -1175,6 +1960,891 @@ const CLUES={
  c9_foto_casa:{title:'Imagem recente da festa no lago',category:'Capítulo 9 · Ameaça',text:'Fotografia feita de ângulo elevado mostra a área da piscina. A origem da imagem não foi identificada.'},
  c9_canal_video:{title:'Rastro técnico da transmissão',category:'Capítulo 9 · Evento municipal',text:'A transmissão foi inserida no sistema do evento; sua autoria ainda depende de investigação.'}
 };
+
+// V1.3.4: cenas escritas para cada personagem; mesmas flags antigas e mesmos IDs de nós.
+const FEMALE134=new Set(['rayssa','rauanny','laisla','isabella','bella']);
+const fem134=id=>FEMALE134.has(id);
+const pron134=id=>fem134(id)?'ela':'ele';
+const artigo134=id=>fem134(id)?'Essa é a':'Esse é o';
+const friendly134={
+ ryan:'Ryan não acha graça nem na própria tentativa de brincar. Ele engole o choro e pergunta se ainda dá tempo de fazer alguma coisa.',
+ breno:'Breno está pálido. Ele repete o endereço baixinho, como se assim pudesse impedir que as mãos tremessem.',
+ allan:'Allan aperta seu ombro, tentando sustentar uma tranquilidade que não sente.',
+ samuel:'Samuel tenta organizar os fatos e interrompe a si mesmo quando a voz falha.',
+ rauanny:'Rauanny xinga, bate o celular na palma da mão e depois pede desculpas sem olhar para ninguém.',
+ laisla:'Laisla olha para a piscina e fecha as mãos. A ideia de alguém estar espionando a casa a deixa sem ar.',
+ rayssa:'Rayssa morde o lábio até quase sangrar. Demora a conseguir dizer que também está com medo.',
+ isabella:'Isabella tira o celular da mão, respira fundo e o devolve, pedindo que ninguém faça uma loucura.'
+};
+const ESC134={
+ allan:{one:['Usar a lanterna do celular para enxergar os degraus soltos','Puxar a estante para improvisar uma ponte até o patamar','Descer correndo pelo trecho com a grade rachada'],two:['Avisar Samuel pelo rádio e sair pela escada de serviço','Saltar por cima dos dois degraus quebrados até o corredor','Agarrar a grade enferrujada para se balançar até a porta'],detail:'A grade estala. Allan enxerga a escada de serviço logo abaixo, mas há um vão entre ele e o corrimão.'},
+ samuel:{one:['Procurar a trava manual da garagem e deixar o motor desligado','Mover o carro devagar para tentar abrir espaço junto ao portão','Acelerar em direção à porta metálica antes de ela terminar de descer'],two:['Escapar pela portinhola de pedestres com as chaves na mão','Forçar o portão emperrado com uma barra encontrada no carro','Passar por baixo da porta de metal enquanto ela desce'],detail:'O portão bate e a vibração faz cair uma ferramenta sobre o capô. Samuel tem segundos para alcançar a portinhola.'},
+ isabella:{one:['Usar a maçaneta interna e afastar o fio rompido com distância','Arrastar o móvel para bloquear o mascarado e procurar a janela','Tocar a fechadura danificada perto do fio desencapado'],two:['Sair pela janela baixa e avisar sobre o fio elétrico','Enfrentar a porta por trás da estante para abrir passagem','Atravessar a área alagada perto do cabo exposto'],detail:'Uma faísca ilumina a porta. Isabella sente cheiro de madeira queimando e vê uma janela que abre para o jardim.'},
+ laisla:{one:['Lembrar onde os tios guardam a chave da porta lateral','Quebrar a corrente com o peso de uma cadeira','Lançar-se contra a porta de vidro para abrir passagem'],two:['Tirar a corrente pelo encaixe e conduzir o grupo pela despensa','Tentar passar pelo vidro já trincado para cortar caminho','Voltar sozinha pelo corredor onde a sombra mascarada apareceu'],detail:'Laisla reconhece o armário com as ferramentas dos tios. O encaixe da corrente está ao alcance se ela mantiver a calma.'},
+ rauanny:{one:['Contornar a piscina pela faixa de piso seco','Pular sobre as cadeiras para alcançar o portão','Correr rente à borda molhada com o mascarado atrás'],two:['Abrir o portão pelo trinco do lado do jardim e chamar Laisla','Escalar a cerca escorregadia para alcançar a rua','Saltar na piscina para evitar o agressor'],detail:'A água se agita com a vibração dos passos. Rauanny vê a saída pelo canteiro, mas o piso ao lado da piscina está ensopado.'},
+ ryan:{one:['Verificar o apoio da escada externa e segurar a parede','Alcançar a escada saltando o espaço da sacada','Apoiar todo o peso na grade antiga para descer mais rápido'],two:['Descer pela escada fixada à parede, um pé de cada vez','Pular para o telhado baixo da garagem','Se pendurar na grade enferrujada para despistar o agressor'],detail:'Uma das barras da sacada solta ferrugem quando Ryan a toca. A escada fixa está dois passos atrás dele.'},
+ breno:{one:['Percorrer a faixa seca até o interruptor de segurança','Puxar a tampa do painel para procurar um disjuntor alternativo','Segurar o cabo desencapado para tentar apagar as luzes'],two:['Isolar a área molhada e escapar pela porta da lavanderia','Arrancar a caixa do painel e usá-la contra o mascarado','Cruzar a poça com o equipamento ainda energizado'],detail:'O painel chia e pequenas faíscas iluminam a bancada. Breno vê uma saída atrás da lavanderia, longe da água.'}
+};
+const DEATH_REACT134={
+ allan:{samuel:'Samuel: — ALLAN? ALLAN, RESPONDE! A gente combinou que ia sair junto... CARALHO, RESPONDE!\n\nSamuel se joga ao lado dele, chama seu nome outra vez e precisa ser puxado quando os passos voltam pelo corredor.',default:'O silêncio de Allan, que sempre tinha uma piada para cada tragédia, corta a voz de quem o encontra.'},
+ samuel:{allan:'Allan: — Samu? Não, não faz isso comigo. Olha pra mim, seu idiota...\n\nEle segura a manga de Samuel e continua falando mesmo quando não há mais resposta. Seus joelhos cedem.',default:'O telefone de Samuel ainda mostra as instruções de saída. Quem chega tenta chamá-lo, mas ele não responde.'},
+ isabella:{rayssa:'Rayssa: — ISA?! VOCÊ DISSE QUE IA ME ESPERAR!\n\nEla se ajoelha perto de Isabella e não suporta olhar para a tela do celular que ainda exibe seu nome.',default:'O celular de Isabella cai com o visor iluminado. Um sobrevivente reconhece sua voz gravada no último pedido de socorro.'},
+ laisla:{rauanny:'Rauanny: — LAI! OLHA PRA MIM, POR FAVOR! Eu devia ter ficado com você!\n\nRauanny tenta erguê-la, mas percebe o quanto está ferida e começa a chorar sem conseguir parar.',default:'A porta que Laisla abriu para o grupo permanece balançando. Do outro lado, a ausência da anfitriã se torna insuportável.'},
+ rauanny:{laisla:'Laisla: — RAU?! RAU, CADÊ VOCÊ?!\n\nEla cai de joelhos junto à piscina e estende a mão para a água mesmo depois de ser avisada de que o agressor ainda pode estar perto.',default:'O movimento na piscina termina. A primeira pessoa que vê Rauanny chama por ajuda, com a voz quebrada.'},
+ ryan:{breno:'Breno: — RYAN! Segura em mim, eu tô chegando!\n\nBreno alcança a parte de baixo da escada e percebe tarde demais que Ryan não reage. Fica repetindo seu nome.',default:'A escada ainda oscila quando os amigos olham para baixo. O último chamado de Ryan fica ecoando entre os andares.'},
+ breno:{ryan:'Ryan: — BRENO? Cara, não... Você tava aqui agora.\n\nRyan aperta o próprio rosto com as mãos sujas de sangue, incapaz de inventar uma piada para atravessar aquele silêncio.',default:'O telefone de Breno vibra debaixo da bancada. A pessoa que chega encontra a tela iluminada e não consegue pedir socorro sem chorar.'}
+};
+function witness134(s,target,kid){
+ // Samuel enfrenta a garagem sozinho: ninguém testemunha seus minutos de fuga.
+ if(target==='samuel')return null;
+ const house=(s.flags?.c9_casa_pessoas||[]).filter(x=>x!==target&&x!==kid&&!dead(s,x));
+ const relations={allan:['samuel','ryan'],samuel:['allan','breno'],isabella:['rayssa','laisla'],laisla:['rauanny','allan'],rauanny:['laisla','ryan'],ryan:['breno','allan'],breno:['ryan','samuel']};
+ return relations[target]?.find(x=>house.includes(x))||house[0]||null;
+}
+function c9Revision134(s,id,text,choices,location,scene,kid){
+ const f=s.flags||{},home=f.c9_hero_local==='casa',city=(f.c9_cidade_pessoas||[]).filter(x=>!dead(s,x)&&x!==kid),house=(f.c9_casa_pessoas||[]).filter(x=>!dead(s,x)&&x!==kid);
+ const p=house[0]||null,q=house[1]||null,cp=city[0]||null;
+ const lv=lover(s),kn=name(kid),kp=pron134(kid),kArt=artigo134(kid);
+ // Normalização da identificação de quem foi levado: nunca trocar um nome por 'refém'.
+ if(f.c9_enter_k9_missing||['k9_video','k9_video_react','k9_deck_arrive','k9_deck_hostage','k9_deck_face'].includes(id)){
+  text=text.replaceAll('da pessoa sequestrada','de '+kn).replaceAll('do refém','de '+kn)
+   .replaceAll('da refém','de '+kn).replaceAll('ao refém','a '+kn).replaceAll('à refém','a '+kn)
+   .replaceAll('pelo refém','por '+kn).replaceAll('pela refém','por '+kn)
+   .replaceAll('a pessoa sequestrada',kn).replaceAll('A pessoa sequestrada',kn)
+   .replaceAll('a pessoa capturada',kn).replaceAll('A pessoa capturada',kn)
+   .replaceAll('o refém',kn).replaceAll('O refém',kn)
+   .replaceAll('a refém',kn).replaceAll('A refém',kn)
+   .replaceAll('REFÉM:',kn+':').replaceAll('refém continua',kn+' continua')
+   .replaceAll('refém não',kn+' não').replaceAll('refém,',kn+',');
+ }
+ if(id==='k9_mem_response'){
+  const present=alive(s).filter(x=>x!==f.c9_refem);
+  if(present.length)text=text.replace('outra pessoa toca seu ombro',name(present[0])+' toca seu ombro');
+ }
+ if(id==='k9_prep_03'){
+  const contact=p||cp;
+  if(home){
+   text=`Você chega até a janela da cozinha e vê um carro parado atravessado no acesso da casa. ${p?name(p):'Marina'} aponta para a entrada da garagem.
+
+Você: — Se vier ajuda, esse carro vai bloquear a passagem. A gente precisa avisar todo mundo.
+
+${p?name(p)+': — O portão lateral ainda abre, mas a porta da lavanderia tá com a fechadura ruim. Eu passei por lá antes da festa.':'MARINA: — Tem um portão menor atrás da lavanderia. Não sei se tá aberto.'}
+
+Você registra quais acessos estão livres enquanto manda uma mensagem para quem vem do aniversário da cidade. Não conhece o motorista e não sabe se o carro foi deixado ali de propósito.`;
+  }else{
+   text=`Na estrada do lago, o carro que leva você e os amigos da cidade reduz a velocidade ao encontrar um veículo parado na entrada da casa.
+
+Você: — Esse carro tá bloqueando metade da entrada. A gente não pode ficar preso aqui.
+
+${p?name(p)+': — A porta lateral ainda abre. A fechadura da lavanderia tá ruim, mas dá pra passar pela garagem, se não estiver bloqueada.':'Marina atende do lado de dentro da casa e explica qual portão dá para o jardim.'}
+
+Você passa a informação para quem está na casa e tenta encontrar um acesso sem se aproximar dos faróis apagados do carro abandonado.`;
+  }
+ }
+ if(id==='k9_deck_route'){
+  const helper=home?(house[0]||city[0]):(city[0]||house[0]);
+  if(helper)text=text.replaceAll('um amigo a estrada',''+name(helper)+' a estrada').replaceAll('Um amigo pede que espere a polícia.',name(helper)+': — Espera reforço, por favor. Você não sabe se essa voz tá preparando outra armadilha.');
+ }
+ if(id==='k9_missing')text=text.replaceAll('Falta uma pessoa.','Falta '+kn+'.');
+ if(id==='k9_bella_evidence'&&f.c9_suspeito&&L[f.c9_suspeito])text=text.replace('um amigo sem prova',name(f.c9_suspeito)+' sem prova');
+ if(id==='k9_house_game_round')text=text.replace('A outra pessoa improvisa um passo totalmente sem coordenação.', 'Marina improvisa um passo totalmente sem coordenação.').replace('CONVIDADO: — EU DECRETO EMPATE', 'MARINA: — EU DECRETO EMPATE');
+ if(/^k9_risk_\d+_pov$/.test(id)){
+  const n=Number(id.match(/k9_risk_(\d+)_pov/)[1]),target=f['c9_r'+n+'_target'],helper=witness134(s,target,kid);
+  if(target&&helper)text=text.replace('um amigo do outro lado da piscina',name(helper)+' do outro lado da piscina');
+ }
+ if(id==='k9_house_balcony'){
+  const partner=sceneCompanion(s,id);
+  if(partner&&fem134(partner))text=text.replace(name(partner)+' apoiado no corrimão',name(partner)+' apoiada no corrimão');
+ }
+ if(id==='k9_love_visit'&&lv){
+  const loverLines={ryan:'Ryan: — Eu tava pensando numa piada pra dizer quando você abrisse. Esqueci todas.\n\nVocê: — Milagre.\n\nRyan: — Não espalha. Eu tenho uma reputação.\n\nEle ri, mas o sorriso desaparece quando percebe que você parece cansado.',breno:'Breno: — Eu trouxe aquela bala que você gosta. Não sabia o que fazer com as mãos no caminho.\n\nVocê: — Você atravessou a cidade por uma bala?\n\nBreno: — Não. Pela pessoa que vai comer.\n\nEle cora e começa a tirar o casaco, sem conseguir esconder o sorriso.',rayssa:'Rayssa: — Eu trouxe uma flor da praça. Não é nada especial.\n\nVocê: — Você lembrou de mim quando viu uma flor?\n\nRayssa: — Não começa. Eu já tô nervosa demais pra você ficar fofo comigo.\n\nEla ri e, por um instante, deixa a bolsa de preocupações na porta.',rauanny:'Rauanny: — Demorei porque a Lai não parava de mandar mensagem sobre as bebidas.\n\nVocê: — Eu achei que você tinha desistido de vir.\n\nRauanny: — Nem ferrando. Eu só tava tentando ficar bonita. Funcionou?\n\nVocê abre um sorriso. Ela levanta o queixo, fingindo que não se importa com a resposta.'};
+  text=`Você termina de ajeitar a roupa quando a campainha toca. É ${name(lv)}, ${fem134(lv)?'nervosa':'nervoso'} e claramente contente por estar ali.\n\n${loverLines[lv]}\n\n${name(lv)} se aproxima sem a pressa das últimas semanas. Os olhos param nos seus, depois em suas mãos.\n\nVocê: — Vem cá. Eu tava precisando te ver.\n\n${name(lv)}: — Eu também. E hoje eu queria que a gente tivesse pelo menos uns minutos sem falar de assassino.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_love_intimate'&&lv){
+  const action=f.c9_romance_mais_beijos?'Você se aproxima, elogia o sorriso de '+name(lv)+' e o beija depois de um olhar que pede permissão.':f.c9_romance_brincou?'Você brinca que '+name(lv)+' vai fazer vocês chegarem atrasados. '+name(lv)+' tenta retrucar, mas ri quando você puxa sua mão.':f.c9_romance_cuidado?'Você pergunta se '+name(lv)+' consegue realmente aproveitar o momento depois do que aconteceu. Em vez de apressar a resposta, espera ao lado.':'Vocês sentam juntos por um instante, deixando a pressa do lado de fora.';
+  const line={ryan:'Ryan: — Eu faço graça quando tô apavorado. Você sabe, né? Só que aqui... não preciso fingir que tá tudo ótimo.\n\nVocê: — Não precisa.\n\nRyan: — Então me abraça mais um pouco. Prometo não fazer piada com seu perfume.',breno:'Breno: — Eu sempre acho que vou dizer alguma coisa errada e você vai perceber que sou um desastre nisso.\n\nVocê: — Breno, olha pra mim.\n\nBreno: — Tô olhando.\n\nVocê: — Você não precisa acertar tudo. Só ficar comigo já tá bom.\n\nEle sorri de um jeito tímido antes de encostar a testa na sua.',rayssa:'Rayssa: — Eu sinto que qualquer momento bom pode ser arrancado de mim. Eu odeio pensar assim.\n\nVocê: — A gente não precisa prometer o futuro inteiro. Só estar aqui agora.\n\nRayssa: — Tá. Agora eu consigo. Só... me beija de novo?',rauanny:'Rauanny: — Eu tô com vergonha. Não fala pra ninguém.\n\nVocê: — Você, com vergonha?\n\nRauanny: — Cala a boca! Tô falando sério. Eu gosto de você, idiota.\n\nVocê: — Eu gosto de você também.\n\nEla segura sua nuca e ri bem perto da sua boca.'};
+  text=`${action}\n\n${line[lv]}\n\nO beijo seguinte não apaga as lembranças ruins, mas dá a vocês alguma coisa boa para lembrar. Vocês se afastam para respirar, entrelaçam os dedos e ficam ouvindo o barulho dos carros indo para as festas. Não existe namoro oficial; existe vontade de continuar se escolhendo.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_love_goodbye'&&lv){
+  const response=f.c9_romance_saudade?'Você: — Eu senti tanta saudade de ter um momento assim com você.\n\n'+name(lv)+': — Eu também. Achei que não ia conseguir dizer.':f.c9_romance_abraco?'Você não diz nada por um minuto. Abraça '+name(lv)+' perto da porta até sentir a respiração dos dois ficar mais calma.\n\n'+name(lv)+': — Obrigado por não ter pressa.':f.c9_romance_planejou_juntos?'Você: — A gente devia decidir a noite juntos. Eu não quero ficar me perguntando onde você tá.\n\n'+name(lv)+': — Eu vou te dizer onde estiver. Só não precisa escolher por minha causa.':'Você arruma o casaco e confere o celular.';
+  text=`${response}\n\n${name(lv)} segura sua mão antes que você abra a porta.\n\n${name(lv)}: — Mas você já decidiu qual festa vai? A homenagem em Lakewood ou a casa da Laisla?\n\nVocê: — Ainda não. A homenagem parece importante, mas eu também queria um tempo com a galera.\n\n${name(lv)}: — Eu entendo. Eu te mando mensagem de onde eu estiver. Só não some, tá? A gente já teve susto demais.\n\nVocê: — Você também me promete isso.\n\n${name(lv)}: — Prometo.\n\nVocês trocam outro beijo, curto e demorado na memória. A escolha da festa continua sendo sua; o carinho de ${name(lv)} não a decide automaticamente.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_house_arrive'&&home){
+  text+='\n\nMarina, uma colega de Laisla que você conhece só de vista, aparece carregando copos descartáveis. Davi, outro convidado, vai atrás dela segurando uma caixa de gelo.\n\nMARINA: — Se alguém perguntar, o Davi derrubou refrigerante no tapete, não fui eu.\n\nDAVI: — Mentira! Eu ainda nem encostei na mesa!\n\nO breve bate-boca termina numa gargalhada. Você vê Davi pegar o corredor do banheiro alguns minutos depois.';
+ }
+ if(id==='k9_video'){
+  if(home){text=`Seu celular recebe um arquivo de vídeo encaminhado pelo grupo do aniversário da cidade. É uma gravação — não uma chamada ao vivo. Você aperta o play.\n\nNa tela, ${kn} aparece amarrad${fem134(kid)?'a':'o'} numa cadeira. O mascarado permanece atrás, sem deixar ver as paredes.\n\nVOZ DISTORCIDA: — Olá, Lakewood. Vocês vieram homenagear os mortos? Que bonitinho.\n\nA mão enluvada aperta o ombro de ${kn}, que estremece.\n\nVOZ DISTORCIDA: — Mas ainda falta gente nessa homenagem.\n\nO arquivo termina com uma imagem breve da estrada do lago. A gravação é encerrada. Não dá para responder, não dá para falar com o agressor por ela.\n\nVocê revê um segundo do rosto de ${kn} antes de o vídeo desaparecer. Os gritos que chegam por mensagens da praça só aumentam a sensação de que a ameaça foi planejada.`;}
+  else{text=text.replace('O mascarado aproxima uma mão do ombro do refém.',`O mascarado aproxima uma mão do ombro de ${kn}.`).replace('o refém',kn).replace('a pessoa capturada',kn);text=text.replace('O telão acende com uma imagem granulada.', 'O telão começa a reproduzir um vídeo pré-gravado, com imagem granulada.');}
+  choices=choices.map(c=>({...c,originText:c.originText||c.text,text:c.text.replace('pelo refém','por '+kn).replace('Chamar por '+kn,'Gritar o nome de '+kn)}));
+ }
+ if(id==='k9_video_react'){
+  if(home){
+   const a=p?`${name(p)} segura seus braços quando você começa a caminhar para a porta.\n\n${name(p)}: — Olha pra mim. Eu também quero salvar ${kn}, mas quem mandou o vídeo pode estar esperando a gente correr pra fora!\n\n${friendly134[p]}`:'Marina se aproxima, assustada, e tenta impedir que você saia sem olhar a estrada.';
+   const b=q?`${name(q)}: — ${kn} tá viv${fem134(kid)?'a':'o'} na gravação, mas a gente não sabe onde filmaram. Não vamos dar mais uma vítima pra esse desgraçado!`:'MARINA: — Você não vai sair sozinho. Pelo amor de Deus, pensa primeiro!';
+   text=`O arquivo termina. Você aperta para reproduzir de novo, mas suas mãos tremem tanto que quase derrubam o celular.\n\nVocê: — NÃO! ${kArt} ${kn}! Não é montagem! A gente tem que ir atrás ${fem134(kid)?'dela':'dele'} AGORA!\n\nSua voz sobe. Você tenta ligar para ${kn}; chama até cair.\n\nVocê: — EU NÃO VOU FICAR AQUI DANÇANDO ENQUANTO ${kn.toUpperCase()} TÁ PRES${fem134(kid)?'A':'O'} EM ALGUM LUGAR!\n\n${a}\n\nVocê: — E se ${kn} morrer porque a gente demorou? E se esse vídeo for antigo?\n\n${b}\n\nVocê se apoia na mesa da varanda, lutando para respirar. ${p?name(p):'Marina'} fica perto, sem fingir que tem uma resposta.\n\nO celular vibra de novo. Não é notícia de ${kn}: é uma fotografia recente da piscina da casa, tirada de cima. Os copos da mesa aparecem exatamente onde estão agora.\n\nMensagem desconhecida: «Ainda estão se divertindo?»\n\nVocê: — Merda. A foto é daqui. Alguém tá olhando pra gente NESSE INSTANTE.\n\n${p?name(p)+': — Então a gente avisa os convidados sem fazer todo mundo correr para a mesma porta.':'Marina acena e vai avisar os convidados mais próximos.'}`.replaceAll('\\n','\n');
+  }else{
+   text=`O vídeo pré-gravado desaparece do telão e a praça vira uma confusão de passos. Você tenta encontrar ${kn} no meio da multidão, embora saiba que a cadeira da gravação não estava no palco.\n\nVocê: — ${kn.toUpperCase()}! Por favor... atende o celular.\n\n${cp?`${name(cp)} segura seu braço.\n\n${name(cp)}: — A gente vai atrás ${fem134(kid)?'dela':'dele'}. Mas espera. Quem fez isso pode estar tentando separar a gente. É uma armadilha.`:'Um funcionário da segurança pede que você não entre sozinho nos bastidores.'}\n\nVocê: — Eu não vou abandonar ${kn}.\n\nUma mensagem anônima chega: a fotografia da piscina da casa do lago, tirada de um ângulo alto, com os copos e a iluminação daquela noite. «Ainda estão se divertindo?»\n\nVocê mostra a foto ao grupo. Se estão espionando a casa, a ameaça não acabou no telão.`.replaceAll('\\n','\n');
+  }
+ }
+ if(id==='k9_prep_02'){
+  text=text.replaceAll('A mensagem do refém não chega',`A mensagem de ${kn} não chega`);
+  const w=p||cp;
+  if(w)text+=`\n\nVocê: — ${name(w)}, confirma uma coisa: quem tá com você agora?\n\n${name(w)}: — Vou te mandar por escrito. Não quero que nenhum nome se perca no meio dessa confusão.`;
+ }
+ if(id==='k9_house_warning'){
+  const heroIn=home,spot=p?name(p):'Marina';
+  const inHouse=heroIn?'Você está perto da sala quando':'Na casa do lago, '+spot+' está perto da sala quando';
+  const line=p?`${name(p)}: — O Davi tava aqui há dez minutos. Isso não é brincadeira. Tira todo mundo daqui!`:'MARINA: — Era o Davi! Ele tava aqui com a gente... alguém chama ajuda!';
+  text=`${inHouse} Marina, uma convidada da festa, sai do corredor do banheiro com o rosto sem cor.\n\nMARINA: — TEM UM CARA MORTO NO BANHEIRO! TEM SANGUE NO CHÃO!\n\n${heroIn?'Você corre até a porta, mas para antes de encostar na maçaneta.':spot+' vai até a porta e descreve ao telefone o que vê.'} Davi está caído ao lado da pia, sem reagir. A camiseta está encharcada de sangue; o espelho tem uma rachadura e há marcas de luta na parede. Não existe tempo para investigar quem entrou ali.\n\n${line}\n\n${heroIn?'Você: — TODO MUNDO PRA FORA! AGORA! NÃO VÃO SOZINHOS PRO CORREDOR!':p?name(p)+': — A FESTA ACABOU! TODO MUNDO SAI PELO JARDIM!':'MARINA: — SAIAM PELA PORTA DOS FUNDOS!'}\n\nMarina pede ajuda para chamar os convidados. Algumas pessoas choram, outras acham que é uma encenação até verem o sangue perto da porta. Os convidados comuns correm para os carros e saem da propriedade; a música é desligada às pressas.\n\nA casa esvazia. ${house.length?'Ficam os amigos '+names(house)+', tentando não se separar.':'Restam apenas você e Marina, que procuram a saída sem se afastar do celular.'}\n\n${heroIn?'Você reconhece os nomes que ainda precisam sair da casa.':'Você recebe mensagens de '+spot+' relatando o que aconteceu, enquanto tenta orientar os amigos até a casa.'} Uma luz pisca sobre o corredor. Depois outra. O andar térreo mergulha em escuridão, e o trinco da porta do jardim bate sozinho.`.replaceAll('\\n','\n');
+  choices=heroIn?[
+   C('Reunir '+(house.length?names(house):'Marina')+' longe do banheiro e conferir as trancas','k9_invasion',[F('casa_portas'),F('casa_juntos')]),
+   C('Examinar a saída da lavanderia para evitar o corredor escuro','k9_invasion',[F('casa_saidas')]),
+   C('Orientar os últimos convidados a fugir e impedir que alguém volte','k9_invasion',[F('casa_evacuacao')])
+  ]:[
+   C('Orientar '+spot+' a manter os amigos juntos e trancar o corredor','k9_invasion',[F('casa_portas'),F('casa_juntos')]),
+   C('Pedir a '+spot+' que procure a saída lateral sem entrar no banheiro','k9_invasion',[F('casa_saidas')]),
+   C('Avisar pelo telefone que ninguém deve voltar à propriedade','k9_invasion',[F('casa_evacuacao')])
+  ];
+ }
+ if(id==='k9_invasion'){
+  const lead=house[0],other=house[1];
+  text=`PONTO DE VISTA: ${home?'VOCÊ':lead?name(lead).toUpperCase():'CASA DO LAGO'}\n\nO portão bate depois do último carro. A festa acabou: os convidados comuns fugiram quando Marina encontrou Davi morto no banheiro. Agora só os amigos tentam alcançar a saída.\n\n${lead?name(lead)+': — A gente precisa ficar junto! Se aquele desgraçado tá aqui, não pode pegar ninguém sozinho!':'Você escuta um movimento no corredor vazio.'}\n\nAs lâmpadas da cozinha apagam de vez. Uma pancada vem da área de serviço, seguida de passos pesados. A sombra de uma máscara aparece atrás da porta de vidro.\n\n${other?name(other)+': — ELE TÁ NO JARDIM! NÃO ABRE ESSA PORTA!':'Você: — TEM ALGUÉM DO OUTRO LADO DO VIDRO!'}\n\nUm golpe estilhaça a vidraça. Fragmentos atingem o chão; a pessoa mascarada entra por onde a fechadura já não segura nada.\n\n${home?'Você recua com os amigos e escuta cada um chamar o outro pelo nome. Não há caminho seguro que sirva para todos.':`Você, que veio da cidade, ainda está do outro lado do acesso bloqueado. Pelo telefone, escuta ${lead?name(lead):'o grupo'} descrever o estrondo. Precisa orientar a fuga sem fingir que já está dentro da casa.`}\n\nO mascarado está no térreo. Enquanto avança pela cozinha, os outros têm segundos para escolher rotas diferentes. A perseguição começa.`.replaceAll('\\n','\n');
+  if(!home)choices=[C('Pedir a '+(lead?name(lead):'Marina')+' que use as rotas já mapeadas','k9_house_movement',[F('perseguicao_coord')]),C('Orientar a turma a tentar a saída lateral em pares','k9_house_movement',[F('perseguicao_unidos')]),C('Pedir para verificarem a saída pela garagem','k9_house_movement',[F('perseguicao_carro')])];
+ }
+ if(id==='k9_house_movement'){
+  text=`${home?'Você se afasta da vidraça quebrada.':'Do lado de fora, você tenta reconhecer os ruídos que chegam pelo telefone de '+(p?name(p):'Marina')+'.'} A casa tem três setores que não se conectam sem passar pelo corredor: a escada dos quartos, a lavanderia e a garagem. A piscina fica além da porta de serviço.\n\n${p?name(p)+': — Não dá pra fugir todo mundo pelo mesmo lugar. O corredor já tá bloqueado!':'Você: — Preciso saber qual porta ainda abre!'}\n\n${q?name(q)+': — Eu vou pelo outro lado! Se conseguir sair, aviso vocês!':'Marina: — Vou pelo jardim pedir ajuda!'}\n\nO som de passos muda de direção. A figura mascarada avança primeiro pela cozinha; só depois poderia alcançar a escada ou a piscina. Quando alguém deixa de responder, vocês precisam descobrir o motivo, não supor que morreu.\n\nVocê ouve o primeiro nome ser chamado e acompanha a fuga.`.replaceAll('\\n','\n');
+ }
+ const match=/^k9_risk_(\d+)_(pov|act|final|result)$/.exec(id);
+ if(match){
+  const stage=Number(match[1]),part=match[2],tgt=f['c9_r'+stage+'_target'],r=ESC134[tgt];
+  if(tgt&&r){
+   const nameT=name(tgt),plan=f['c9_r'+stage+'_plan'],act=f['c9_r'+stage+'_act'],last=f['c9_r'+stage+'_last'];
+   const helper=witness134(s,tgt,kid);
+   if(part==='act'){
+    choices=r.one.map((label,i)=>C(label,'k9_risk_'+stage+'_final',[S('r'+stage+'_act',['safe','risk','bad'][i])]));
+    text=`PONTO DE VISTA: ${nameT.toUpperCase()}\n\n${nameT} escolheu ${plan==='safe'?'um caminho mais estável':plan==='risk'?'uma rota mais curta, mas exposta':'correr antes de conferir o chão'}. ${r.detail}\n\n${nameT}: — Merda... só preciso de mais uns segundos.\n\n${helper?name(helper)+': — '+nameT.toUpperCase()+', VOCÊ ME OUVE?!':'Uma porta bate no cômodo ao lado.'}\n\nO mascarado raspa a lâmina na parede, se aproximando. ${nameT} tem três possibilidades concretas: usar o espaço que conhece, improvisar um atalho ou arriscar o obstáculo mais perigoso.`.replaceAll('\\n','\n');
+   }
+   if(part==='final'){
+    choices=r.two.map((label,i)=>C(label,'k9_risk_'+stage+'_result',[S('r'+stage+'_last',['safe','risk','bad'][i])]));
+    text=`PONTO DE VISTA: ${nameT.toUpperCase()}\n\n${nameT} ${act==='safe'?'tenta agir com cuidado e ganha alguns segundos de distância':act==='risk'?'derruba um móvel ao buscar um atalho; o barulho entrega sua posição':'se machuca ao tentar forçar a passagem sem verificar o perigo'}.\n\n${r.detail}\n\nUma lâmina atravessa a porta atrás ${fem134(tgt)?'dela':'dele'}, deixando uma fenda de madeira rachada. ${helper?name(helper)+' chama do outro lado, tentando descobrir onde '+nameT+' está.':'O telefone vibra sem uma localização de quem poderia ajudar.'}\n\n${nameT}: — Não! NÃO VOU FICAR AQUI!\n\nA última decisão é a mais difícil: escolher por onde o próprio ${nameT} consegue chegar a uma saída, e não repetir um plano que só serviria em outra parte da casa.`.replaceAll('\\n','\n');
+   }
+   if(part==='result'){
+    const outcome=f['c9_r'+stage+'_result'];
+    const action=last==='safe'?`${nameT} chega à saída que reconheceu e verifica o apoio antes de atravessar.`:last==='risk'?`${nameT} tenta abrir passagem à força, corta a mão e tropeça num móvel tombado.`:`${nameT} tenta ultrapassar o obstáculo mais perigoso, perde o equilíbrio e fica por um instante ao alcance da lâmina.`;
+    const prior=`PONTO DE VISTA: ${nameT.toUpperCase()}\n\n${action}\n\n`;
+    if(outcome==='safe')text=prior+`${nameT} escapa por pouco. O mascarado golpeia a moldura atrás ${fem134(tgt)?'dela':'dele'}, mas a porta de saída finalmente cede.\n\n${nameT}: — EU CONSEGUI! ${helper?helper.toUpperCase():'TEM ALGUÉM AÍ'}! EU TÔ VIVO!\n\n${helper?`${name(helper)}: — NÃO PARA! VEM PRO JARDIM, EU TÔ AQUI!`:'Você escuta a voz e indica o caminho até o jardim.'}\n\n${nameT} chega ao exterior, cobert${fem134(tgt)?'a':'o'} de poeira, e finalmente consegue respirar.`;
+    else if(outcome==='injured'){
+     const injuries={allan:'um rasgo profundo no antebraço ao proteger o rosto',samuel:'um corte na coxa que encharca a calça',isabella:'uma mão ferida por estilhaços e uma pancada no ombro',laisla:'um corte longo no braço e uma torção dolorosa no joelho',rauanny:'um ferimento no ombro e hematomas da queda',ryan:'a perna ferida e um corte na palma da mão ao agarrar a escada',breno:'um corte na testa e queimaduras superficiais na mão'};
+     text=prior+`A última manobra abre uma saída, mas não sem consequências. ${nameT} sofre ${injuries[tgt]}. A dor quase faz ${fem134(tgt)?'ela':'ele'} desmaiar. Mesmo assim, consegue arrastar o corpo até o jardim antes de o mascarado alcançá-${fem134(tgt)?'la':'lo'}.\n\n${nameT}: — EU TÔ FERID${fem134(tgt)?'A':'O'}! MAS TÔ AQUI!\n\n${helper?`${name(helper)} corre até ${nameT}, tira uma peça de roupa e pressiona o ferimento.\n\n${name(helper)}: — Olha pra mim! Respira! Eu vou ficar com você até a gente conseguir ajuda.`:'Você ouve a voz pelo telefone, localiza a saída e orienta a compressão do ferimento.'}\n\n${nameT} está machucad${fem134(tgt)?'a':'o'}, mas continua viv${fem134(tgt)?'a':'o'}. O sangramento ainda assusta os amigos, mas a respiração se acalma enquanto esperam ajuda. A noite continua perigosa; por enquanto, estar vivo já é uma vitória.`.replaceAll('\\n','\n');
+    }else if(outcome==='fatal'){
+     const previousLoss=(f.c9_morto_allan&&tgt==='samuel')?'O Allan já morreu e agora o Samuel também!':(f.c9_morto_samuel&&tgt==='allan')?'A gente já perdeu o Samuel, não pode perder você também!':'';
+     const genericGrief=helper?`${name(helper)}: — ${previousLoss||nameT.toUpperCase()+'! NÃO, RESPONDE PRA MIM!'}\n\n${name(helper)} dá um passo para trás, incapaz de reconhecer a sala onde ainda estavam conversando há pouco.`:'';
+     const react=DEATH_REACT134[tgt]?.[helper]||genericGrief||DEATH_REACT134[tgt]?.default||'';
+     const deathScene=tgt==='rauanny'?DEATH[tgt].replace('um amigo ficou preso do outro lado',helper?name(helper)+' ficou pres'+(fem134(helper)?'a':'o')+' do outro lado':'a passagem ficou bloqueada do outro lado'):DEATH[tgt];
+     text=prior+deathScene+`\n\n${helper?`${name(helper)} chega segundos depois, alertad${fem134(helper)?'a':'o'} pelo último grito. Encontra ${nameT} imóvel e tenta chamá-${fem134(tgt)?'la':'lo'} pelo nome.\n\n${react}`:`O último som de ${nameT} chega pelo celular, antes de a ligação cair. A primeira pessoa a alcançá-${fem134(tgt)?'la':'lo'} vai precisar enfrentar aquela cena.`}\n\nO corredor continua sem socorro e sem segurança. Quem encontrou o corpo precisa avisar os outros, mesmo sabendo que o mascarado ainda pode estar perto.`.replaceAll('\\n','\n');
+     if(s.romanceEscolhido===tgt)text+=`\n\nA lembrança do beijo antes da festa se mistura à voz que chamava seu nome. Você não consegue aceitar que ${nameT} tenha desaparecido daquela forma.`;
+    }
+    text=text.replaceAll('\\n','\n');
+   }
+  }
+ }
+ if(id==='k9_reunion'){
+  const survivors=house.filter(x=>!dead(s,x)),lost=house.filter(x=>f['c9_morto_'+x]);
+  text=`A grama molhada e os cacos de vidro estão espalhados perto da piscina. Os convidados comuns já fugiram. A porta da lavanderia fica batendo com o vento.\n\n${survivors.length?'Você encontra '+names(survivors)+' junto ao portão.':'Você chega ao jardim e só encontra marcas de passos e copos espalhados.'}\n\n${lost.length?'Não há resposta de '+names(lost)+'. Cada nome ausente faz os outros se calarem por um segundo.':'Os amigos da casa conseguem responder à chamada, embora alguns estejam machucados.'}\n\n${home?`Faróis surgem na curva: ${city.length?'os amigos '+names(city)+' chegam do aniversário da cidade, depois de abandonar a homenagem quando receberam os avisos.':'pessoas que fugiram pedem ajuda no acesso da estrada.'}`:`Você finalmente alcança o portão junto ${city.length?'a '+names(city.filter(x=>x!==cp)):'aos demais do aniversário'}. A perseguição já começou antes de vocês chegarem. Agora é possível ouvir quem estava dentro da casa.`}\n\nVocê: — Todo mundo fala um nome de cada vez! Quem conseguiu sair? Quem tá faltando?\n\n${survivors[0]?name(survivors[0])+': — Eu vi gente correndo, mas não vi todo mundo atravessar o portão. A gente precisa conferir.':'Você tenta ligar para os telefones que ainda não responderam.'}\n\n${kn} continua desaparecid${fem134(kid)?'a':'o'}. Vocês não sabem onde o vídeo foi gravado.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_reunion_luto'){
+  const fallen=(f.c9_casa_pessoas||[]).filter(x=>f['c9_morto_'+x]),survivors=house.filter(x=>!dead(s,x)),arrived=city;
+  const lines=[`Os que estavam no aniversário da cidade chegaram ao portão. ${arrived.length?names(arrived)+' '+(arrived.length>1?'perguntam':'pergunta')+' o que aconteceu.':'Você escuta os últimos convidados arrancando os carros pela estrada.'} Os sobreviventes tentam falar entre soluços, ainda sem sirenes na porta e sem certeza sobre todos os cômodos.`,`${kn} não apareceu. A gravação continua sendo a única prova de que ${kn} estava viv${fem134(kid)?'a':'o'} quando foi filmad${fem134(kid)?'a':'o'}.`];
+  if(!fallen.length)lines.push('Nenhum dos amigos foi perdido nesta invasão. Isso não torna as feridas menores: alguns precisam de ajuda imediata, outros mal conseguem repetir como escaparam.');
+  for(const x of fallen){
+   const w=witness134(s,x,kid),n=name(x),linespecific={allan:'A lembrança de Allan gritando da escada passa de boca em boca. A porta continua aberta, e ninguém consegue acreditar que ele não veio atrás.',samuel:'No chão da garagem ficou o celular de Samuel. Os amigos escutam o relato de quem o encontrou, mas ninguém consegue olhar por muito tempo para aquela porta.',isabella:'O aparelho de Isabella foi encontrado iluminado perto do corredor. A notícia atinge os amigos antes que alguém termine a frase.',laisla:'A passagem lateral que Laisla conseguiu abrir ainda está destrancada. Saber que ela salvou outros não diminui a dor de perdê-la.',rauanny:'A água da piscina está parada. Ninguém encontra palavras quando o nome de Rauanny é chamado e não recebe resposta.',ryan:'A grade da sacada ficou dobrada para fora. Olhar para o piso abaixo basta para entender por que Ryan não voltou.',breno:'Uma luz fraca ainda sai da lavanderia onde Breno caiu. O barulho do painel elétrico continua depois que os amigos o encontram.'}[x];
+   const accounts={
+    allan:'Eu escutei o Allan gritar perto da escada. Quando cheguei, ele já não conseguia responder.',
+    samuel:'O celular do Samuel tava iluminado no chão da garagem. Chamei por ele até a voz falhar.',
+    isabella:'Vi a Isabella perto da estante caída. A porta estava arrebentada e não consegui puxar ela a tempo.',
+    laisla:'A passagem da despensa tava aberta. A Laisla ficou do outro lado para salvar os outros.',
+    rauanny:'A Rauanny tava perto da água. Eu procurei até não ouvir mais a voz dela.',
+    ryan:'O Ryan caiu da sacada. Eu tentei alcançar a escada, mas a grade tava soltando pedaços.',
+    breno:'Eu passei pela lavanderia e encontrei o Breno perto do painel. Fiquei chamando ele, mas não respondeu.'
+   };
+   const heroReply={allan:'Você: — O Allan foi lá pra tentar salvar os outros... Eu não consigo acreditar.',samuel:'Você: — O Samu era quem sempre pedia pra gente pensar antes de agir. E agora isso...',isabella:'Você: — A Isabella tinha tanta coisa que queria fazer. Me diz que vocês tentaram chamá-la.',laisla:'Você: — A Lai abriu a porta pros outros. Ela devia estar aqui contando isso pra gente.',rauanny:'Você: — A Rauanny não ia desistir sem lutar. Eu queria ter chegado antes.',ryan:'Você: — Ryan... eu ainda escuto a voz dele naquela sacada.',breno:'Você: — O Breno ficou tentando encontrar uma saída. Eu queria ter ouvido ele a tempo.'};
+   lines.push(`${linespecific}\n\n${w?`${name(w)}: — ${accounts[x]}\n\n${heroReply[x]}`:`Você recebe o relato do cômodo onde ${n} foi encontrado, sem transformar uma suspeita em laudo de uma polícia que ainda não chegou.`}`.replaceAll('\\n','\n'));
+   const close=({'allan':'samuel','samuel':'allan','laisla':'rauanny','rauanny':'laisla','isabella':'rayssa','ryan':'breno','breno':'ryan'})[x];
+   if(close&&!dead(s,close)&&close!==kid&&(house.includes(close)||arrived.includes(close))){
+    const re={samuel:'Samuel: — Não me pede pra ir embora sem ele! Era o Allan, porra! Era o meu melhor amigo!',allan:'Allan: — O Samu falava que ia ficar tudo bem... ele não pode simplesmente não voltar.',rauanny:'Rauanny: — Eu ajudei a montar essa festa com ela. A Lai tava tão feliz...',laisla:'Laisla: — EU PROMETI QUE IA CUIDAR DA RAU! Não consigo nem olhar praquela piscina.',rayssa:'Rayssa: — A Isabella falou que a gente ia conversar depois. Eu devia ter atendido...',breno:'Breno: — O Ryan tava gritando meu nome. Eu devia ter corrido mais rápido.',ryan:'Ryan: — O Breno só queria ajudar... Eu não consigo fazer uma piada sobre isso.'};
+    lines.push(re[close]);
+   }
+   if(s.romanceEscolhido===x)lines.push(`Você tenta dizer o nome de ${n} e a voz não sai. A pessoa que você beijou antes da noite começar não vai voltar; ninguém apressa seu luto.`);
+  }
+  lines.push('Ainda é cedo para saber tudo o que houve. Vocês ligam novamente para a emergência, informam o endereço e os ferimentos, e tentam manter a passagem livre para a chegada do socorro. Nenhum policial chegou à propriedade até aquele momento. Tudo o que sabem vem de quem esteve dentro da casa.');
+  text=lines.join('\n\n');
+  const injured=house.filter(x=>!!f['c9_ferido_'+x]);
+  choices=choices.map(c=>({...c,originText:c.originText||c.text,text:c.text.replace('Confortar os amigos e pedir atendimento aos feridos',injured.length?'Ajudar '+names(injured)+' e acolher os amigos':'Acolher quem está em choque e telefonar para o socorro')}));
+ }
+ if(id==='k9_reunion_after'){
+  const injured=house.filter(x=>!!f['c9_ferido_'+x]),fallen=(f.c9_casa_pessoas||[]).filter(x=>f['c9_morto_'+x]),liveWitness=house[0]||city[0];
+  if(f.c9_reuniao_amparou&&injured.length){const who=injured[0];text=`Você se ajoelha ao lado de ${name(who)}, que está ferid${fem134(who)?'a':'o'} depois da fuga.\n\nVocê: — ${name(who)}, olha pra mim. Onde dói mais? Consegue falar?\n\n${name(who)}: — Tô... tô tentando. Não deixa ninguém me levar de volta praquela casa.\n\nVocê pega uma toalha limpa, faz pressão sobre o ferimento e pede que alguém descreva a situação ao atendimento de emergência. ${name(who)} segura sua mão com força.\n\n${name(who)}: — Achei que ia morrer.\n\nVocê: — Você tá aqui comigo. A gente vai pedir ajuda.\n\n${injured.length>1?'Além de '+name(who)+', '+names(injured.slice(1))+' também precisa de atenção. Os sobreviventes distribuem toalhas e mantêm todos perto do portão.':'Vocês permanecem perto do portão, esperando o socorro chegar.'}\n\n${fallen.length?'O vazio deixado por '+names(fallen)+' transforma cada silêncio em uma lembrança da perseguição.':'Ninguém esquece que a ameaça continua.'}`.replaceAll('\\n','\n');}
+  else if(f.c9_reuniao_amparou){const who=liveWitness;text=`Você olha em volta procurando alguém ferido que possa ajudar. Você procura alguém que precise de um curativo, mas encontra apenas rostos assustados e mãos trêmulas. Ninguém parece precisar de um atendimento imediato naquela parte do jardim.\n\n${who?`${name(who)} está encostad${fem134(who)?'a':'o'} no muro, tremendo. Você se aproxima.\n\nVocê: — ${name(who)}, vem. Fica aqui comigo.\n\n${name(who)}: — Eu achei que não ia sair. Eu ouvi ele atrás de mim...\n\nVocê: — Eu sei. Não precisa contar tudo agora.`:'Você se senta por um instante perto do portão, respira e liga para a emergência para informar o que aconteceu.'}\n\nAjudar também pode significar ficar do lado de alguém em choque.`.replaceAll('\\n','\n');}
+  else if(f.c9_reuniao_verificou){text=`Você abre as mensagens e confere os nomes com ${liveWitness?name(liveWitness):'quem conseguiu chegar ao portão'}.\n\nVocê: — Eu vou falar um por um. Me diz a última vez que viu cada um. Se não souber, fala que não sabe.\n\n${liveWitness?name(liveWitness)+': — Tá. Eu lembro de quem correu para a garagem. Sobre os outros, não vou inventar.':'A lista fica incompleta. Você guarda os horários e os nomes para contar ao socorro.'}\n\nVocês registram os setores da casa onde ainda há perigo, sem afirmar que a polícia investigou qualquer cena.`;}
+  else if(f.c9_reuniao_rastro){text=`Você observa os estilhaços junto ao jardim sem entrar na casa. Há marcas de sapato na terra úmida, mas você não consegue afirmar a quem pertencem.\n\n${liveWitness?name(liveWitness)+': — Não chega perto. Se aquela pessoa ainda tá aqui, você vira mais um alvo.':'Você avisa ao telefone onde a porta foi quebrada e mantém distância.'}\n\nVocê fotografa as marcas do lado seguro do portão e encaminha o endereço à emergência. Os amigos feridos e as perdas continuam precisando de atenção.`;}
+  text+=`\n\nQuando o telefone vibra, você ainda procura notícias de ${kn}. O número não tem identificação.`;
+ }
+ if(id==='k9_deck_arrive'){
+  text=`A madeira do deck geme sob seus passos. Pres${fem134(kid)?'a':'o'} à cadeira da extremidade, ${kn} ergue a cabeça quando reconhece sua voz.\n\nVocê: — ${kn}?! MEU DEUS!\n\n${kn}: — Você... você veio.\n\nVocê se aproxima, mas percebe uma fita passando pelo apoio da cadeira. Não sabe se aquilo prende a madeira ou apenas as mãos de ${kn}.\n\nVocê: — Eu tô aqui. Não se mexe até eu conseguir ver direito.\n\n${kn} tenta respirar com calma, com marcas vermelhas nos pulsos. Pela primeira vez desde o vídeo, você consegue falar com ${kp} de verdade, frente a frente.`;
+  choices=choices.map(c=>({...c,originText:c.originText||c.text,text:c.text.replace('o refém',kn)}));
+ }
+ if(id==='k9_deck_hostage'){
+  text=`Você se ajoelha ao lado de ${kn}, segurando a fita sem puxá-la de repente. O vento traz o cheiro de madeira molhada.\n\nVocê: — Onde você tava? A gente procurou por todo lado!\n\n${kn}: — Eu não sei quanto tempo fiquei pres${fem134(kid)?'a':'o'}. Me levaram de um lugar pra outro. Não conseguia ver quase nada.\n\nVocê: — Você conseguiu ver um rosto? Ouvir algum nome?\n\n${kn}: — Não. Só aquela voz... e o jeito de alguém ficar andando atrás de mim.\n\nVocê começa a afrouxar as amarras. ${kn} olha por cima do seu ombro e aperta seus dedos.\n\n${kn}: — Não vira rápido...\n\nVocê: — O quê?\n\n${kn}: — Ele tá aqui.\n\nVocê olha para a entrada do deck. O mascarado está entre vocês e a margem.`;
+  choices=choices.map(c=>({...c,originText:c.originText||c.text,text:c.text.replace('o refém',kn)}));
+ }
+ if(id==='k9_deck_face'){text=text.replace('essa pessoa',kn).replace('o refém',kn);}
+ if(id==='k9_last_call')text=text.replace('a quem contar','com quem conversar');
+ // Pronome de Ryan e dos outros personagens quando se fala explicitamente deles.
+ text=text.replaceAll('Essa é Ryan','Esse é o Ryan').replaceAll('Essa é o Ryan','Esse é o Ryan')
+  .replaceAll('Ryan está abalada','Ryan está abalado').replaceAll('Ryan parecia preocupada','Ryan parecia preocupado')
+  .replaceAll('Ryan ficou ferida','Ryan ficou ferido').replaceAll('Rauanny está abalado','Rauanny está abalada');
+ return {text,choices,location,scene};
+}
+
+
+// V1.3.5 · homenagem converge ANTES da invasão; mortes são ataques do mascarado.
+const KILL135={
+ allan:`Allan recua pela escada de serviço, segurando a lanterna do celular entre os dentes. O metal range acima dele. Ao chegar ao patamar, vê a porta para o jardim e grita por Samuel.
+
+ALLAN: — SAMU! EU ACHEI A SAÍDA!
+
+A resposta vem abafada, do outro lado do corredor. Allan se vira para ajudar, e o mascarado aparece na curva da escada. O agressor o intercepta, avança com a faca e crava a lâmina no abdômen dele. Allan tenta segurar o braço enluvado, mas recebe outro golpe, mais alto, entre as costelas. O sangue salpica o corrimão.
+
+ALLAN: — Não... para... O Samuel tá... 
+
+Ele tenta continuar lutando, desfere um chute e quase derruba o agressor. O mascarado o empurra contra o patamar, rasga seu abdômen num golpe longo e expõe parte das vísceras sob a camiseta rasgada. Allan cai ao lado da porta que tinha encontrado. Seus dedos ainda procuram a maçaneta antes de pararem.`,
+ samuel:`Samuel alcança a garagem. Ele encontra a portinhola lateral e tenta abrir para que os outros passem. Os faróis de um carro iluminam uma máscara parada entre as colunas.
+
+SAMUEL: — Não chega perto! EU TÔ MANDANDO!
+
+Ele ergue uma chave de roda para manter distância, mas o mascarado desvia, atinge seu braço com a lâmina e avança quando Samuel tenta alcançar a porta. Os dois se chocam contra o capô. O agressor enterra a faca em seu flanco e a retira antes que ele consiga agarrar o pulso.
+
+Samuel reage, bate a ferramenta contra o ombro do assassino e abre espaço para correr. Está quase na passagem quando o mascarado o puxa pelo casaco e o esfaqueia novamente, impedindo que atravesse. Sangue escorre pela lataria; a chave de roda cai perto de uma roda.
+
+SAMUEL: — Allan... não vem... 
+
+A última palavra se perde quando Samuel desliza até o chão. A portinhola fica aberta: ele conseguiu mostrar aos outros uma saída, mas não chegou a usá-la.`,
+ isabella:`Isabella atravessa o corredor com o celular aceso, tentando orientar o grupo pela janela baixa. Um estalo faz a porta do quadro elétrico bater atrás dela. O mascarado surge da sombra.
+
+ISABELLA: — NÃO! SAI DE PERTO DE MIM!
+
+Ela empurra uma estante na direção do agressor e consegue prendê-lo por segundos. Ao tentar abrir a janela para os amigos, sente a lâmina atravessar seu ombro. Ela grita, agarra o pulso enluvado e o atinge no rosto com o telefone. O mascarado perde o equilíbrio, mas volta antes que ela passe.
+
+Um segundo golpe abre um ferimento profundo abaixo das costelas. Isabella cai junto à janela e tenta puxar a trava, deixando marcas vermelhas na madeira.
+
+ISABELLA: — Rayssa... eu tô... 
+
+A frase não termina. Do outro lado do vidro, alguém ouve os últimos golpes na janela. O mascarado sai pelo corredor, deixando o celular dela ainda iluminado no chão.`,
+ laisla:`Laisla encontra a corrente da porta dos fundos e consegue soltar o encaixe que os tios sempre deixavam emperrado. Atrás dela, os amigos correm para o jardim. Ela mantém a passagem aberta e grita para que ninguém volte.
+
+LAISLA: — VAI! EU TÔ ATRÁS DE VOCÊS!
+
+O mascarado irrompe da despensa antes que ela consiga atravessar. Laisla pega uma cadeira e golpeia o braço armado, abrindo um corte na luva. O agressor a agarra pela manga e a esfaqueia no ventre. Mesmo ferida, ela chuta a porta para mantê-la aberta e tenta se arrastar para fora.
+
+LAISLA: — Rau... não volta... 
+
+O assassino alcança Laisla na soleira e a atinge outra vez. O sangue se espalha pelo piso claro enquanto seus dedos apertam a madeira da porta. A saída que ela abriu permanece livre para os outros, mas Laisla deixa de responder aos chamados.`,
+ rauanny:`Rauanny atravessa o jardim pelas pedras secas, procurando o portão. Ela vê Laisla do outro lado da piscina e faz sinal para que venha. Atrás do vidro partido, a máscara reaparece.
+
+RAUANNY: — LAI! NÃO VEM POR AQUI! ELE TÁ ATRÁS DE MIM!
+
+O assassino toma o caminho entre os canteiros para cortá-la antes do portão. Rauanny se defende com a haste de uma cadeira, consegue acertar o ombro do agressor e quase alcança a trava. A lâmina atinge seu lado, e ela cai sobre os joelhos no piso molhado.
+
+O mascarado a alcança, bloqueia a passagem e a esfaqueia outra vez enquanto ela luta para tirar a mão armada de perto. A água da piscina reflete o movimento dos dois. Rauanny deixa um rastro de sangue ao se arrastar na direção do portão.
+
+RAUANNY: — Laisla... corre... 
+
+O portão continua fechado quando os braços dela perdem a força.`,
+ ryan:`Ryan sai para a sacada e encontra a escada presa à parede. Ele começa a descer com cuidado, chamando os amigos lá embaixo. Quando ouve vidro quebrando atrás de si, vira a cabeça e vê o mascarado ocupar a porta.
+
+RYAN: — TÁ LEGAL! VOCÊ VENCEU! SÓ DEIXA EU DESCER!
+
+Ele tenta ganhar tempo falando, mas o agressor avança e golpeia seu braço com a faca. Ryan se segura na escada com a outra mão, se impulsiona de volta para a sacada e atinge o mascarado com uma barra solta. Por um instante, consegue abrir caminho.
+
+O assassino intercepta Ryan no acesso à escada, puxa sua camiseta e crava a lâmina em seu peito. Ryan ainda tenta empurrá-lo para longe, mas recebe outro golpe e se dobra contra a grade. Sangue escorre pelos degraus de ferro.
+
+RYAN: — Eu... eu só queria... 
+
+Ele não termina. O agressor o solta no piso da sacada e desaparece pela porta. Ryan permanece imóvel, a poucos passos da escada que teria levado ao jardim.`,
+ breno:`Breno atravessa a lavanderia evitando a água próxima ao painel. Ele abre a segunda porta e grita para os amigos que a saída está livre. Uma sombra atravessa a luz de emergência antes que alguém responda.
+
+BRENO: — EU ACHEI! VEM PELO CORREDOR! 
+
+O mascarado aparece e o golpeia com a faca. Breno se protege com um antebraço, abre um corte profundo na mão ao agarrar a lâmina e empurra uma mesa na direção do agressor. O estrondo faz os amigos chamarem por ele.
+
+Breno poderia escapar se alcançasse o vão da porta, mas o assassino contorna a bancada e o impede de sair. A lâmina atinge seu abdômen, seguida de outro golpe quando ele tenta recuperar o equilíbrio. O sangue mancha o azulejo e as pontas dos dedos com que ele procura o telefone.
+
+BRENO: — Não deixa... eles... entrarem...
+
+A mão dele para antes de tocar a tela. O mascarado recua pela lavanderia, enquanto a porta que Breno abriu permanece entreaberta para os sobreviventes.`
+};
+function c9Revision135(s,id,text,choices,location,scene,kid){
+ const f=s.flags||{},inCity=f.c9_hero_local==='cidade',together=inCity&&!!f.c9_cidade_chegou_a_tempo;
+ const kn=name(kid),p=fem134(kid)?'ela':'ele',kin=fem134(kid)?'dela':'dele';
+ const city=(f.c9_cidade_pessoas||[]).filter(x=>!dead(s,x)&&x!==kid);
+ const first=(arr,ex=[])=>arr.find(x=>!ex.includes(x))||null;
+ const houseOrig=(f.c9_casa_originais||f.c9_casa_pessoas||[]).filter(x=>!dead(s,x)&&x!==kid);
+ const togetherGroup=(f.c9_casa_pessoas||[]).filter(x=>!dead(s,x)&&x!==kid);
+ const cityFriend=first(city),secondCity=first(city,[cityFriend]);
+ const houseFriend=first(houseOrig),secondHouse=first(houseOrig,[houseFriend]);
+ if(id==='k9_video_react'&&inCity){
+  const reply1=cityFriend?`${name(cityFriend)} agarra seu braço antes que você alcance o palco.\n\n${name(cityFriend)}: — Eu sei que você quer ir atrás ${kin}. Mas não sai sozinho! Quem botou esse vídeo no telão quer fazer a gente correr sem pensar.`:'A coordenadora da homenagem impede que você invada os bastidores, pedindo que respire e mostre a gravação à segurança.';
+  const reply2=secondCity?`${name(secondCity)}: — Se a gente for atrás dessa pessoa sem saber onde ela tá, o assassino ganha duas vítimas. Mas também não vamos ficar parados.`:'Você ouve um dos organizadores pedir o endereço completo da última localização conhecida.';
+  text=`O telão fica preto. O som da praça desaparece de sua cabeça, mas a imagem de ${kn}, pres${fem134(kid)?'a':'o'} naquela cadeira, continua diante dos seus olhos.\n\nVocê: — NÃO, NÃO, NÃO! ${kn.toUpperCase()}!\n\nVocê tenta ligar. Chama. Chama de novo. Não atende. As pessoas ao redor param de olhar para o palco e começam a olhar para você.\n\nVocê: — EU TENHO QUE ENCONTRAR ${kn.toUpperCase()}! EU NÃO VOU FICAR AQUI ENQUANTO AQUELE FILHO DA PUTA FAZ ISSO!\n\n${s.romanceEscolhido===kid?`Você lembra do beijo de poucas horas atrás e de ${kn} perguntando a qual festa você iria. A lembrança atravessa o desespero com uma força que quase tira seu ar.\n\nVocê: — Eu prometi que ia encontrar ${kn} hoje. Eu prometi...`:`A lembrança da última conversa com ${kn} torna a gravação insuportável.`}\n\n${reply1}\n\nVocê: — E SE ${kn.toUpperCase()} MORRER ANTES DE A GENTE CHEGAR?!\n\n${reply2}\n\nVocê apoia as mãos num dos pilares do palco e força o ar para dentro dos pulmões. ${cityFriend?name(cityFriend)+' permanece ao seu lado':'A coordenadora fica por perto'}. Não há como responder à gravação; ela foi exibida para provocar vocês.\n\nSeu telefone vibra. Um número desconhecido enviou uma foto da piscina da casa de Laisla, tirada de cima, com os copos ainda espalhados pela mesa. A legenda diz: «Ainda estão se divertindo?»\n\nVocê: — Essa foto é de AGORA. Ele também tá na casa da Laisla! A gente tem que ir pra lá!\n\n${cityFriend?`${name(cityFriend)}: — Então avisa a Lai, manda a foto e vem comigo. A gente vai junto, sem deixar ninguém sozinho.`:'Você encaminha a fotografia para o grupo da casa e pede que mantenham as portas fechadas.'}\n\nOs amigos que estavam no aniversário se reúnem para sair. Você ainda treme, mas agora sabe onde precisa estar primeiro.`.replaceAll('\\n','\n');
+  choices=[C('Ligar para os amigos da casa e enviar a fotografia','k9_prep_01',[F('aviso_casa_rapido')]),C('Pedir que o grupo saia junto e avise a emergência','k9_prep_01',[F('apoio_policia'),F('cidade_grupo_unido')]),C('Analisar o ângulo da foto para planejar a entrada','k9_prep_01',[F('foto_casa_analisada'),Q('c9_foto_casa')])];
+ }
+ if(id==='k9_video_react'&&inCity&&f.c9_enter_k9_breno_saida&&kid==='breno'){
+  text+='\n\n'+(f.c9_breno_conclusao==='rompimento'?'Você lembra da última coisa que disse a Breno perto do memorial: que talvez não o conhecesse. Ele apareceu amarrado no telão antes que você pudesse retirar a acusação. Seu estômago se contrai.':'A última conversa com Breno volta inteira à sua memória. Você tinha acabado de pedir espaço e tempo — e agora daria tudo para ouvi-lo responder ao telefone.');
+ }
+ if(id==='k9_prep_01'&&inCity){
+  text=`Você sai da praça com ${city.length?names(city):'o pequeno grupo que estava na homenagem'}. As buzinas da avenida parecem distantes. Cada pessoa tenta telefonar para alguém da casa.\n\n${cityFriend?`${name(cityFriend)}: — Eu já encaminhei a foto. ${houseFriend?name(houseFriend):"Marina"} precisa saber que não pode confiar em ninguém que apareça no portão.`:'Você manda a foto e solicita uma confirmação dos presentes na casa.'}\n\nVocê: — Não importa se a gravação foi feita antes. ${kn} tá desaparecid${fem134(kid)?'a':'o'}, e ele sabe onde nossos amigos estão!\n\n${secondCity?`${name(secondCity)}: — Eu sei. Mas a gente chega todo mundo junto. Se isso for uma armadilha, não vai pegar a gente separado.`:'Você pede que o motorista não faça nenhuma manobra arriscada na estrada.'}\n\nUma ligação da casa confirma que ainda há música e convidados. Vocês combinam ir até lá, reunir os amigos e depois decidir como procurar ${kn}, sem entrar cegamente no lugar onde a gravação foi feita.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_prep_02'&&inCity){
+  text=`Dentro do carro, você liga o viva-voz. ${houseFriend?name(houseFriend):'Marina'} atende da casa, com a música estourando no microfone.\n\nVocê: — Escuta! Todo mundo se afasta das janelas. Receberam aquela foto?\n\n${houseFriend?`${name(houseFriend)}: — Recebemos. Tô tentando descobrir se alguém saiu pelo portão sem avisar.`:'MARINA: — Sim. Tô tentando avisar os convidados.'}\n\nVocê: — Eu tô indo. Eu e ${city.length?names(city):'a turma do aniversário'}. A gente vai chegar antes que você precise enfrentar isso sozinho.\n\n${cityFriend?`${name(cityFriend)}: — Confirma quem tá dentro. Eu não quero nenhum nome esquecido na confusão.`:'Você pede a lista dos presentes pelo aplicativo de mensagens.'}\n\nA resposta chega aos poucos, por nome. Não há localização de ${kn}, apenas a gravação e a fotografia recente. A estrada fica mais estreita; vocês têm poucos minutos para decidir por qual acesso entrar.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_prep_03'&&inCity){
+  text=`Os faróis iluminam a entrada da propriedade. Um veículo sem motorista bloqueia metade da passagem. Você vê a luz da piscina acesa atrás das árvores; não há gritos ainda.\n\nVocê: — A gente chegou. Agora, por favor, ninguém corre pra dentro sozinho.\n\n${cityFriend?`${name(cityFriend)}: — Eu vou com você. O resto espera a confirmação do portão lateral.`:'Você chama o grupo para perto e verifica a passagem pela lateral.'}\n\nVocê escuta música na casa. Uma pessoa acena de dentro do jardim, aliviada ao reconhecer o carro. Ainda dá tempo de reunir os dois grupos antes que alguma coisa aconteça.`.replaceAll('\\n','\n');
+  choices=choices.map(c=>({...c,to:'k9_city_join',originText:c.originText||c.text}));
+ }
+ if(id==='k9_city_join'){
+  choices=choices.map(c=>({...c,originText:c.originText||c.text,text:c.text.replace('Avisar Laisla',houseFriend?'Avisar '+name(houseFriend):'Avisar Marina')}));
+  text=`Você corre até o portão com ${city.length?names(city):'os amigos do aniversário da cidade'}. ${houseFriend?name(houseFriend):'Marina'} abre a passagem, reconhece sua voz e quase chora de alívio.\n\n${houseFriend?`${name(houseFriend)}: — Vocês chegaram! Eu tava achando que o celular tinha perdido sinal.`:'MARINA: — Graças a Deus! Achei que ninguém ia chegar.'}\n\nVocê: — Onde tá todo mundo? E quem tava na piscina quando tiraram essa foto?\n\n${secondHouse?`${name(secondHouse)}: — A gente não sabe. Mas ainda tem convidados aqui, e as câmeras pararam de registrar.`:houseFriend?`${name(houseFriend)}: — Ainda tem gente na cozinha e no jardim. Vou chamar pelo nome.`:'Marina aponta para a varanda e tenta alcançar os convidados.'}\n\n${cityFriend?`${name(cityFriend)}: — A gente chegou antes que alguma coisa acontecesse aqui. Então vamos fazer valer: ninguém fica sozinho.`:'Você posiciona todos perto da passagem e confere quem pode ajudá-los.'}\n\nDavi, um convidado que você ainda não conhecia, atravessa o jardim levando uma caixa de gelo.
+
+DAVI: — Quem disse que acabaram as bebidas? Calma, gente, eu vou salvar essa festa!
+
+Marina reclama da bagunça e os dois trocam uma provocação boba antes de Davi entrar pelo corredor dos banheiros. Você vê os rostos conhecidos dos dois eventos se encontrando sob as luzes da piscina. O alívio não dura: uma porta do corredor dos banheiros bate por dentro. Marina se vira para o som.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_house_warning'&&together){
+  const opt=f.c9_cidade_entrada_duplas?'Você havia conferido a saída da lavanderia com '+(cityFriend?name(cityFriend):'o grupo')+'.':f.c9_cidade_entrada_nomes?'Você anotou os nomes dos presentes antes de entrar.':'Você manteve o portão livre para uma evacuação.';
+  text=`Você ainda está na varanda com ${city.length?names(city):'o grupo que chegou da cidade'} quando Marina sai do corredor do banheiro. Ela tenta gritar, mas a voz falha na primeira tentativa.\n\nMARINA: — TEM ALGUÉM NO BANHEIRO! O DAVI! PELO AMOR DE DEUS!\n\n${houseFriend?`${name(houseFriend)} corre até a porta, olha para dentro e recua.\n\n${name(houseFriend)}: — ELE TÁ MORTO! TEM SANGUE NA PIA!`:'Você olha pelo batente e vê o corpo de Davi, ensanguentado, junto à pia.'}\n\nVocê vê Davi caído, com marcas de agressão e a camisa vermelha de sangue. Uma torneira aberta continua pingando perto do corpo. O espelho está partido. Não há sinal de luta acontecendo agora, só a certeza de que o assassino já esteve dentro da casa.\n\nVocê: — TODO MUNDO PRA FORA! AGORA! NÃO ENTREM NO CORREDOR!\n\n${cityFriend?`${name(cityFriend)}: — Eu levo os convidados até o portão! ${houseFriend?name(houseFriend):'Marina'}, chama quem tá na cozinha!`:'Marina chama os convidados da cozinha e indica o jardim.'}\n\nOs convidados comuns saem gritando, alguns sem pegar as bolsas. Os carros começam a descer a estrada. Você segura a porta enquanto um casal passa com o rosto em lágrimas. A música é desligada.\n\n${opt}\n\nQuando o último convidado vai embora, restam os amigos dos dois eventos. Você tenta fazer a contagem em voz alta: ${togetherGroup.length?names(togetherGroup):'todos os que ainda estão na casa'}. ${kn} ainda não apareceu.\n\nA cozinha apaga. Em seguida, a luz da escada. Um trinco metálico bate no escuro. Agora vocês sabem que o mascarado está por perto.`.replaceAll('\\n','\n');
+  choices=[C('Reunir os amigos dos dois eventos e trancar o corredor do banheiro','k9_invasion',[F('casa_portas'),F('casa_juntos')]),C('Preparar a lavanderia e a saída para o jardim','k9_invasion',[F('casa_saidas')]),C('Conferir se todos os convidados saíram e manter o portão livre','k9_invasion',[F('casa_evacuacao'),F('cidade_grupo_unido')])];
+ }
+ if(id==='k9_invasion'&&together){
+  text=`O último carro vira a esquina da estrada. Dentro da casa, nenhuma música toca. O silêncio parece impossível depois da confusão na festa.\n\nVocê: — ${cityFriend?name(cityFriend).toUpperCase():'GENTE'}, FICA COMIGO! E TODO MUNDO QUE VEIO DA CASA, RESPONDE!\n\n${houseFriend?`${name(houseFriend)}: — EU TÔ AQUI! MAS A PORTA DA COZINHA NÃO ABRE!`:'Marina chama do corredor indicando a porta da cozinha bloqueada.'}\n\n${secondCity?`${name(secondCity)}: — Ele tá tentando prender a gente aqui. Tem que sair pelo jardim!`:secondHouse?`${name(secondHouse)}: — Não vem pela lavanderia! Tem vidro quebrado!`:'Você vê a sombra do mascarado recortada pela luz da varanda.'}\n\nUm golpe estoura a vidraça da cozinha. O mascarado atravessa o vidro, ergue a faca e avança. Você puxa quem está mais perto para trás. Os amigos dos dois eventos recuam juntos, chamando uns pelos outros. A faca corta o ar perto de sua mão e se enterra no batente.\n\n${cityFriend?`${name(cityFriend)} pega uma cadeira para impedir a passagem enquanto ${houseFriend?name(houseFriend):'Marina'} chama os outros para o corredor lateral.`:'Você empurra uma mesa para atrasar o agressor e chama os amigos para a saída.'}\n\nO mascarado abandona a cozinha e corre na direção da escada. Mais adiante, alguém fecha uma porta. Não há como manter o grupo inteiro num único cômodo; será preciso proteger as rotas e decidir como cada um vai escapar.`.replaceAll('\\n','\n');
+  choices=[C('Proteger o corredor com os amigos da homenagem e tirar os da cozinha','k9_house_movement',[F('perseguicao_coord')]),C('Dividir os sobreviventes em duplas para abrir as saídas do jardim','k9_house_movement',[F('perseguicao_unidos')]),C('Impedir que o mascarado alcance a garagem e avisar os outros','k9_house_movement',[F('perseguicao_carro')])];
+ }
+ if(id==='k9_house_movement'&&together){
+  const other=first(togetherGroup,[houseFriend,cityFriend]);
+  text=`A cozinha virou um corredor de vidro partido. Você segura o celular numa mão e procura a passagem para a lavanderia com a outra.\n\n${cityFriend?`${name(cityFriend)}: — A gente precisa escolher quem vai abrir as portas e quem vai tirar o pessoal daqui!`:'Você tenta organizar a saída sem deixar ninguém isolado.'}\n\n${houseFriend?`${name(houseFriend)}: — Eu conheço a despensa! O mascarado foi pra escada. Se a gente abrir a saída lateral, dá pra chegar na piscina!`:'Marina indica o caminho da despensa e corre para o jardim.'}\n\n${other?`${name(other)}: — Eu fico olhando o corredor. Vai! Se eu gritar, não volta sozinho!`:''}\n\nVocê: — Um setor por vez! A gente não vai sair deixando um nome para trás!\n\nO som da faca raspando na madeira vem do andar de cima. As botas pesadas atravessam o corredor e começam a subir a escada. Pelo som, vocês conseguem prever qual porta o agressor alcançará primeiro — mas ele conhece a casa bem o bastante para cortar os caminhos.\n\nOs próximos minutos vão colocar pessoas diferentes em risco — inclusive quem acabou de chegar da homenagem.`.replaceAll('\\n','\n');
+ }
+ const match=/^k9_risk_(\d+)_(pov|act|final|result)$/.exec(id);
+ if(match){
+  const stage=Number(match[1]),part=match[2],target=f['c9_r'+stage+'_target'];
+  const helper=target?witness134(s,target,kid):null;
+  if(part==='result'&&stage===3&&!together)choices=[G('k9_reunion','Reunir quem conseguiu sair')];
+  if(part==='result'&&target&&f['c9_r'+stage+'_result']==='fatal'){
+   const off=!!window.UG107?.state?.(s)?.graphicOff;
+   const sceneText=off?`O mascarado intercepta ${name(target)} e desfere golpes de faca durante a tentativa de fuga. Quando os amigos chegam, ${name(target)} já não responde. O ataque é fatal. Os amigos encontram marcas de sangue no local onde ele tentou impedir a fuga.`:KILL135[target];
+   const reaction=DEATH_REACT134[target]?.[helper]||DEATH_REACT134[target]?.default||'';
+   const shared=together&&helper?`Você escuta ${name(helper)} gritar e corre na direção do setor, mas a porta bate entre vocês. Quando consegue abrir, o mascarado já fugiu.`:'';
+   text=`PONTO DE VISTA: ${name(target).toUpperCase()}\n\n${sceneText}\n\n${shared}\n\n${helper?`${name(helper)} chega até ${name(target)}, chama pelo nome e se ajoelha apesar do perigo.\n\n${reaction}`:`Você encontra as marcas do confronto e o corpo de ${name(target)}. O assassino não está mais naquele cômodo.`}\n\nAinda não há policiais na propriedade. Quem encontrou ${name(target)} precisa alertar os outros, mesmo sabendo que o mascarado pode voltar por outra porta.`.replaceAll('\\n','\n');
+   if(s.romanceEscolhido===target)text+=`\n\nVocê se lembra do beijo antes das festas. É impossível ouvir o nome de ${name(target)} e continuar como se essa perda pudesse ser resumida numa frase.`;
+  }
+  if(together&&part==='pov'&&target&&helper&&target!==helper){
+   text+=`\n\n${name(helper)} já está na casa e escuta ${name(target)} chamar pelo corredor.\n\n${name(helper)}: — ${name(target)}! EU TÔ PERTO! ME DIZ QUAL PORTA VOCÊ VIU!`;
+  }
+  if(together&&part==='act'&&target&&helper){
+   text+=`\n\n${name(helper)}: — NÃO PARA DE FALAR COMIGO! SE EU SOUBER ONDE VOCÊ TÁ, POSSO TENTAR ALCANÇAR VOCÊ!`;
+  }
+ }
+ if(id==='k9_reunion'&&together){
+  const survivors=togetherGroup,fallen=(f.c9_casa_pessoas||[]).filter(x=>f['c9_morto_'+x]&&!dead(s,kid));
+  const saw=first(survivors);
+  text=`O portão lateral abre com dificuldade. Você alcança o jardim entre os sobreviventes. Os faróis do carro em que vocês vieram da cidade permanecem apagados junto à cerca. Faz poucos minutos que todos se encontraram na varanda; agora, a mesma reunião acontece entre cacos de vidro e pedidos de ajuda.\n\n${survivors.length?'Os amigos que responderam até agora são '+names(survivors)+'.':'Você chama por todos, mas a noite devolve silêncio.'}\n\n${fallen.length?'Não respondem '+names(fallen)+'. Você lembra dos gritos e sabe que alguns corpos foram encontrados ainda durante as fugas.':'Apesar dos ferimentos e da correria, nenhum amigo foi perdido na invasão.'}\n\n${saw?`${name(saw)}: — Fecha o portão! Não deixa ele chegar aqui também!`:'Você procura uma saída que não leve de volta à casa.'}\n\nVocê: — A gente veio da homenagem para ajudar. Agora precisa contar cada pessoa, ver quem sangra, e ninguém volta pra dentro sem saber se o mascarado saiu.\n\n${kn} permanece desaparecid${fem134(kid)?'a':'o'}. Não houve tempo para a polícia chegar e ainda não há notícias do lugar onde o vídeo foi gravado.`.replaceAll('\\n','\n');
+ }
+ if(id==='k9_reunion_luto'&&together){
+  const fallen=(f.c9_casa_pessoas||[]).filter(x=>f['c9_morto_'+x]);
+  const injured=(f.c9_casa_pessoas||[]).filter(x=>f['c9_ferido_'+x]&&!dead(s,x));
+  const survivors=(f.c9_casa_pessoas||[]).filter(x=>x!==kid&&!dead(s,x));
+  const lines=[`Os sobreviventes dos dois eventos tentam recuperar o fôlego junto ao portão. Não há sirenes na estrada. Os amigos que vieram do aniversário não precisam descobrir tudo por telefone: estavam dentro da casa quando o mascarado atacou.`,`Você liga novamente para a emergência, informa o endereço e pede que mantenham o acesso livre. ${kn} continua desaparecid${fem134(kid)?'a':'o'}.`];
+  if(!fallen.length)lines.push(`Ninguém do grupo morreu na invasão. ${injured.length?'Ainda assim, '+names(injured)+' precisam de cuidados e os outros se revezam para ajudar.':'O pânico deixou todos sem voz por alguns minutos.'}`);
+  for(const x of fallen){
+   const buddy=witness134(s,x,kid),close=({allan:'samuel',samuel:'allan',isabella:'rayssa',laisla:'rauanny',rauanny:'laisla',ryan:'breno',breno:'ryan'})[x];
+   lines.push(`Você reconhece o setor em que ${name(x)} foi atacad${fem134(x)?'a':'o'}. A notícia vem acompanhada das palavras trêmulas de quem ouviu o confronto; as marcas da faca continuam no lugar.`);
+   if(buddy)lines.push(`${name(buddy)}: — Eu tentei chegar! Eu ouvi ${name(x)} gritando e a porta não abria!\n\nVocê: — Você não tem que fingir que tá bem. A gente vai contar o que aconteceu, mas agora sai de perto da casa.`);
+   if(close&&survivors.includes(close))lines.push(DEATH_REACT134[x]?.[close]||`${name(close)} chama por ${name(x)} e perde a voz ao reconhecer que não haverá resposta.`);
+   if(s.romanceEscolhido===x)lines.push(`Você olha para suas mãos e lembra de ${name(x)} segurando uma delas antes de sair de casa. Os outros aguardam em silêncio, sem pedir que você seja forte.`);
+  }
+  lines.push('Vocês aguardam o resgate longe das portas quebradas. Só há os relatos de quem viu, os ferimentos e as marcas no piso. A polícia ainda não chegou; ninguém aparece para anunciar mortes como se tivesse investigado o lugar.');
+  text=lines.join('\n\n');
+  choices=choices.map(c=>({...c,originText:c.originText||c.text,text:c.text.replace('Confortar os amigos e pedir atendimento aos feridos',injured.length?'Ajudar '+names(injured)+' e acolher os amigos':'Acolher os amigos em choque e chamar ajuda')}));
+ }
+ if(id==='k9_reunion_after'&&together){
+  text=text.replace('os amigos que vêm da cidade','os amigos que vieram do aniversário');
+  if(!f.c9_reuniao_amparou)text+=`\n\nOs grupos da homenagem e da casa do lago atravessaram a invasão juntos. Você não descobre essas perdas por uma ligação tardia: ouviu os ataques e os pedidos de ajuda durante a perseguição.`;
+ }
+ return {text,choices,location,scene};
+}
+
+// V1.3.8 · Continuidade física da perseguição: cada fuga conserva a posição de quem ajudou,
+// encena a ação escolhida e mostra consequências próprias. Compatível com slots anteriores.
+const CHASE138={
+ laisla:{loc:'DESPENSA E SAÍDA DE SERVIÇO',
+  intro:'A luz de emergência revela as caixas dos tios e a velha corrente da porta de serviço. Laisla sabe que o encaixe fica por trás de uma prateleira. Do jardim, Rauanny grita que mantém o portão aberto; o assassino ainda está no corredor da cozinha.',
+  voice:'Laisla: — Eu conheço essa porcaria de corrente. Só preciso de tempo! Ninguém entra de novo!',
+  plan:[
+   'Laisla afasta a prateleira devagar. Encontra o pino que os tios usam quando a corrente emperra. Ela indica a Rauanny o caminho para afastar quem já saiu.',
+   'Laisla ergue a cadeira contra a corrente. O metal se desloca, mas o estrondo denuncia a despensa. Ela percebe a sombra chegando à cozinha.',
+   'Laisla dá uma ombrada no vidro. O ombro arde e o vidro apenas racha; ela recua quando vê a faca refletida no batente.'
+  ],act:[
+   'Com a mão apoiada na parede, Laisla retira o pino sem tocar nos cacos e faz a porta abrir alguns centímetros. Precisa decidir se sai agora ou garante a passagem para os demais.',
+   'A cadeira cai entre ela e o mascarado. Laisla abre espaço, mas a corrente pende sobre o vão e pode prender a roupa de quem tentar atravessar.',
+   'A moldura se parte e corta o braço de Laisla. Ela respira entre os dentes, ouvindo a voz de Rauanny no jardim, e procura outra forma de passar.'
+  ],last:[
+   'Laisla volta ao encaixe, solta a corrente de uma vez e conduz a saída para o jardim. O mascarado golpeia a madeira onde estava sua cabeça.',
+   'Ela tenta erguer a cadeira contra o mascarado, conquistando segundos, mas o corredor fica estreito para os dois.',
+   'Ela tenta saltar por cima do vidro quebrado. O pé fica preso e a figura mascarada bloqueia a soleira.'
+  ],safe:'Laisla atravessa a saída lateral e puxa o portão de jardim para evitar que o agressor siga os convidados. Ela ainda enxerga a despensa às costas e consegue avisar onde está a corrente.',
+  injury:'O mascarado alcança o braço de Laisla com a faca quando ela gira a corrente. O corte sangra, e o joelho bate na soleira. Mesmo ferida, ela se protege com a cadeira, chega ao jardim e pede ajuda sem voltar para a cozinha.',
+  route:'jardim junto à saída de serviço', link:'entrada da despensa'
+ },
+ rauanny:{loc:'JARDIM E BORDA DA PISCINA',
+  intro:'Rauanny continua perto da saída de serviço, ao lado de onde Laisla tentou abrir passagem. A piscina fica entre o canteiro e a passagem maior, mas o portão exterior está no fim da faixa de pedras secas. Um refletor apaga e uma figura atravessa a vidraça quebrada da varanda.',
+  voice:'Rauanny: — Lai, fica longe da borda! Eu vou abrir aquele portão e a gente sai por fora!',
+  plan:[
+   'Rauanny pisa nas pedras ásperas que contornam os canteiros. Da varanda escuta o mascarado forçar a trava e procura o ferrolho do portão exterior.',
+   'Rauanny sobe numa cadeira caída para cortar caminho. Ela alcança a passagem entre duas mesas, mas uma cadeira se vira e faz barulho.',
+   'Rauanny corre pela borda molhada. O tênis perde aderência e ela precisa apoiar uma mão no chão para não cair na piscina.'
+  ],act:[
+   'Ela usa o pé para tirar um vaso do caminho e alcança o ferrolho pelo lado do jardim. O metal está duro, mas não exige voltar para dentro da casa.',
+   'Rauanny salta as cadeiras; uma delas bate na grade. O mascarado percebe a direção e atravessa o caminho entre a varanda e a piscina.',
+   'O piso faz Rauanny escorregar para perto da água. Ela prende os dedos na borda de pedra e vê a sombra se aproximar por trás.'
+  ],last:[
+   'Rauanny destrava o portão de jardim e atravessa pelo canteiro, deixando a passagem aberta para quem ainda pode alcançá-la.',
+   'Ela tenta subir no muro lateral e grita para que alguém do outro lado estenda a mão. O mascarado corta o caminho por entre os vasos.',
+   'Ela pula na água tentando despistar a figura mascarada, mas fica sem acesso imediato à escada do outro lado.'
+  ],safe:'Rauanny alcança o portão externo, empurra o ferrolho com o ombro e atravessa. Consegue gritar da passagem para que ninguém tente correr pela borda molhada da piscina.',
+  injury:'O mascarado rasga o ombro de Rauanny quando ela alcança o ferrolho. Ela reage com um vaso de barro, escapa pelo canteiro e sai para a parte seca do jardim. Sangue mancha sua manga, mas ela está consciente e consegue pedir ajuda.',
+  route:'canteiro junto ao portão externo',link:'vidraça da varanda'
+ },
+ allan:{loc:'ESCADA DO DEPÓSITO',
+  intro:'Allan está no patamar entre o depósito e o corredor da garagem. A grade de ferro tem parafusos soltos; um adesivo antigo marca o degrau de madeira podre. Samuel lhe avisa pelo telefone que o corredor inferior ainda dá para o jardim.',
+  voice:'Allan: — Samu! Se eu sair dessa, nunca mais reclamo do seu excesso de planejamento, juro!',
+  plan:[
+   'Allan liga a lanterna do celular e ilumina o degrau que afundou. Com a outra mão testa a parede de tijolos, procurando apoio firme.',
+   'Allan arrasta a estante do depósito. O móvel faz uma ponte instável sobre o vão, mas obriga o corpo a ficar exposto ao corredor.',
+   'Allan desce de dois em dois degraus. A grade se curva sob seu ombro e o barulho faz a máscara surgir no topo da escada.'
+  ],act:[
+   'Ele desce pelo lado da parede, evitando os parafusos frouxos. O celular ilumina a maçaneta do patamar que leva ao jardim.',
+   'A estante escorrega alguns centímetros. Allan alcança a extremidade, mas fica pendurado no patamar acima da saída.',
+   'Um degrau racha. Allan prende a camiseta num prego e precisa soltá-la antes que o mascarado alcance a escada.'
+  ],last:[
+   'Allan toca a saída no patamar inferior e chama Samuel pelo celular, indicando o degrau seguro a quem vier depois.',
+   'Allan tenta saltar sobre o pedaço da escada que cedeu. O salto reduz a distância, mas o deixa ao lado do corrimão frouxo.',
+   'Ele se pendura na grade enferrujada para alcançar a porta mais rápido. A fixação estala quando seu peso se concentra nela.'
+  ],safe:'Allan consegue descer encostado à parede e abre a passagem do depósito para o jardim. De fora, aponta com a lanterna os degraus que ninguém deve pisar.',
+  injury:'Uma facada de raspão atinge o antebraço de Allan quando ele segura o portão do patamar. Ele derruba uma caixa para conter o agressor e chega ao jardim com a manga ensanguentada, ainda falando com Samuel.',
+  route:'saída inferior da escada',link:'corredor do depósito'
+ },
+ samuel:{loc:'GARAGEM E PORTINHOLA LATERAL',
+  intro:'Samuel entra na garagem por uma passagem aberta ao lado da despensa. O portão basculante desceu pela metade, mas a portinhola de pedestres ainda tem uma trava mecânica. A chave de roda está no banco do carro. O assassino foi visto por último na saída do corredor de serviço.',
+  voice:'Samuel: — Não acelera! Se o portão fechar de vez, a gente fica preso com esse desgraçado!',
+  plan:[
+   'Samuel encosta a mão na trava da portinhola e identifica a lingueta de segurança. Ele prefere abrir a passagem a tentar ligar o carro no escuro.',
+   'Samuel engata a marcha lenta para afastar o carro do portão. Os faróis acendem e revelam a própria posição ao assassino.',
+   'Samuel pisa fundo em direção à chapa metálica. O carro treme, mas o vão não aumenta e o motor engasga.'
+  ],act:[
+   'Ele ergue a lingueta e deixa a portinhola encostada para o restante do grupo. A chave de roda fica ao alcance caso precise se defender.',
+   'O para-choque raspa no concreto; Samuel abre a porta do motorista para correr, mas fica com o caminho parcialmente bloqueado.',
+   'O carro bate e imobiliza uma roda. A porta de serviço range atrás dele, e Samuel vê que precisa abandonar o volante.'
+  ],last:[
+   'Samuel usa a portinhola de pedestres que destravou e mantém a chave de roda à frente do corpo enquanto atravessa.',
+   'Samuel tenta forçar o portão com uma barra, atraindo a atenção da máscara para longe do carro.',
+   'Samuel se abaixa para passar sob o portão basculante no momento em que o motor volta a girar.'
+  ],safe:'Samuel atravessa a portinhola sem tentar enfrentar o portão pesado. Atravessa para o jardim e informa pelo rádio que a garagem não é uma saída segura para veículos.',
+  injury:'O mascarado crava a faca na coxa de Samuel quando ele empurra a portinhola. Samuel acerta o agressor com a chave de roda e, mancando, consegue se apoiar no muro até a saída. A perna sangra, mas ele continua consciente.',
+  route:'portinhola externa da garagem',link:'entrada de serviço da garagem'
+ },
+ isabella:{loc:'CORREDOR ELÉTRICO E JANELA BAIXA',
+  intro:'Isabella está perto do corredor do quadro elétrico, no térreo. Uma estante caiu diante da porta, há um cabo desencapado do outro lado e uma janela baixa abre para o canteiro do jardim. Ela escuta a figura mascarada no corredor principal.',
+  voice:'Isabella: — Eu não vou morrer porque alguém achou que esse fio solto era uma boa ideia!',
+  plan:[
+   'Isabella segura na maçaneta isolada, mantendo distância do fio, e olha pela janela para confirmar se há um caminho livre até o canteiro.',
+   'Ela empurra a estante para bloquear a entrada. O móvel emperra a porta, mas esconde a janela por um instante.',
+   'Isabella alcança a fechadura quebrada perto do fio vivo. Uma faísca estoura e faz sua mão recuar.'
+  ],act:[
+   'Ela abre a trava da janela com a manga envolvendo a mão e chama por quem está do outro lado do jardim.',
+   'A estante desliza sobre a tomada danificada; Isabella puxa o móvel de volta enquanto escuta passos do assassino.',
+   'Uma descarga corre pela fechadura e adormece os dedos de Isabella. Ela se afasta do cabo e busca a janela.'
+  ],last:[
+   'Isabella usa a janela baixa, passando primeiro a mochila e depois o corpo, sem tocar no cabo no chão.',
+   'Ela tenta manter o móvel entre si e a faca enquanto força espaço até a janela, mas perde alguns segundos.',
+   'Isabella atravessa o chão molhado perto da fiação na tentativa de alcançar a porta lateral antes do mascarado.'
+  ],safe:'Isabella atravessa a janela baixa e aterrissa no canteiro sem pisar perto dos fios. Lá de fora avisa que ninguém deve entrar no corredor elétrico.',
+  injury:'O mascarado fere o ombro de Isabella no momento em que ela alcança a janela. Ela arremessa uma caixa contra o agressor e cai do outro lado, com sangue na camisa e a mão cortada no batente. Consegue pedir socorro do jardim.',
+  route:'canteiro sob a janela baixa',link:'corredor da fiação'
+ },
+ ryan:{loc:'SACADA E ESCADA EXTERNA',
+  intro:'Ryan alcança a sacada dos quartos. A escada de ferro está parafusada na parede à direita, enquanto a grade diante dele está enferrujada. A luz dos carros que abandonaram a festa ainda aparece além do muro.',
+  voice:'Ryan: — Cara, eu juro que nunca mais reclamo de escada! Só não deixa essa merda cair comigo!',
+  plan:[
+   'Ryan segura o corrimão da escada fixada à parede e testa o primeiro degrau com a ponta do tênis.',
+   'Ryan mede a distância do parapeito até a escada e se prepara para saltar. O vão parece menor à luz do celular do que realmente é.',
+   'Ryan transfere o peso para a velha grade. Dois rebites caem no piso de madeira, denunciando que ela não vai aguentar muito.'
+  ],act:[
+   'Ele encosta o corpo na parede enquanto desce o primeiro degrau. Pela janela vê o mascarado abrir a porta do quarto.',
+   'O salto faz Ryan alcançar a escada apenas com as mãos. Ele precisa encontrar apoio com os pés enquanto a máscara se aproxima.',
+   'A grade dobra. Ryan se agarra à coluna da sacada, com o braço estendido para escapar de um golpe de faca.'
+  ],last:[
+   'Ryan continua pela escada parafusada à parede e alcança a plataforma inferior sem depender da grade antiga.',
+   'Ele salta para o telhado baixo da garagem; o piso aguenta, mas a descida para o jardim fica mais distante.',
+   'Ryan tenta se balançar pela grade avariada para ganhar velocidade. O assassino chega à porta da sacada quando o ferro cede.'
+  ],safe:'Ryan desce pela escada fixada na parede e põe os dois pés no jardim. Ainda com medo, aponta para a sacada e avisa que a grade externa não suporta peso.',
+  injury:'A faca corta o braço de Ryan quando ele vira a esquina da sacada. Ele se segura na escada com a mão ferida e consegue descer até o jardim. A perna falha ao aterrissar, mas ele se mantém acordado e chama ajuda.',
+  route:'base da escada junto ao jardim',link:'porta da sacada'
+ },
+ breno:{loc:'LAVANDERIA E QUADRO DE ENERGIA',
+  intro:'Breno está na lavanderia, separada da piscina por uma parede e uma saída para o jardim. Uma tubulação vazou sobre o piso perto do quadro elétrico. A faixa seca junto à máquina de lavar permite chegar à maçaneta.',
+  voice:'Breno: — Não toca nessa água! Se a energia ainda tá ligada, a gente tem que passar pelo lado da máquina!',
+  plan:[
+   'Breno segue pela faixa seca e confirma o disjuntor principal pelo rótulo, sem pisar na água.',
+   'Breno levanta a tampa do quadro e procura um segundo circuito. Uma faísca o faz esconder o rosto.',
+   'Breno tenta puxar um cabo solto. O isolamento se rompe e o cheiro de plástico queimado toma a lavanderia.'
+  ],act:[
+   'Ele desliga o circuito correto e alcança a porta do jardim, avisando pelo celular que a passagem está seca.',
+   'Breno empurra a tampa do painel para afastar o braço do mascarado, mas a caixa fica pendurada e bloqueia metade da saída.',
+   'O cabo estoura. Breno cai de joelhos, com a mão dolorida, e vê a máscara tomar a única passagem para a cozinha.'
+  ],last:[
+   'Breno mantém a distância da poça, pisa junto à máquina e alcança a saída externa da lavanderia.',
+   'Ele arranca a caixa solta para tentar bloquear a faca e se desloca de lado em direção à porta.',
+   'Breno cruza a água perto do painel energizado na tentativa de passar mais rápido antes que o assassino o alcance.'
+  ],safe:'Breno atravessa a porta do jardim pelo piso seco, fecha a passagem sem trancar os amigos lá dentro e avisa que a lavanderia continua perigosa.',
+  injury:'O assassino golpeia Breno no braço enquanto ele afasta a tampa do painel. Ele evita a poça, derruba um cesto contra a figura mascarada e alcança a saída do jardim com sangue no antebraço e um corte na testa.',
+  route:'saída externa da lavanderia',link:'porta do corredor da lavanderia'
+ }
+};
+const CHASE138_LINK={
+ laisla:{rauanny:'Rauanny chegou ao jardim junto com Laisla; as duas estavam lado a lado quando a porta de serviço bateu. O mascarado surgiu na varanda e correu pelo lado oposto da piscina, cortando o acesso delas ao portão. Laisla fica do lado seco junto ao canteiro; Rauanny precisa destravar a grade exterior pelo outro lado.'},
+ rauanny:{laisla:'Laisla ouviu o grito de Rauanny no jardim e correu até a saída de serviço. Antes de conseguirem atravessar juntas, o mascarado tomou o vão da porta. Rauanny permanece protegida atrás de um canteiro; Laisla precisa libertar o caminho sem voltar ao corredor da cozinha.'},
+ allan:{samuel:'Samuel acabara de ajudar Allan a alcançar o patamar. Quando Samuel tentou acompanhá-lo, a porta corta-fogo bateu e separou os dois. Allan ficou do lado do jardim; Samuel seguiu pelo acesso da garagem, o único ainda aberto.'},
+ samuel:{allan:'Allan ajudou Samuel a passar pelo portão da garagem, mas o assassino atravessou o corredor de ferramentas. Allan precisou recuar pela escada do depósito enquanto Samuel permaneceu junto à portinhola, chamando o amigo pelo nome.'},
+ ryan:{breno:'Breno conseguiu falar com Ryan do jardim. Ao ouvir os passos no andar de cima, Breno se afastou do muro e entrou pela saída externa da lavanderia para encontrar quem ainda estava preso. A máscara o alcança antes de ele voltar.'},
+ breno:{ryan:'Ryan estava junto à lavanderia quando ouviu Breno abrir a porta. Os dois tentaram se reencontrar, mas uma pancada bloqueou o corredor. Breno conseguiu alcançar o jardim; Ryan ficou no andar superior, com a sacada como única saída.'}
+};
+function c9Revision138(s,id,text,choices,location,scene,kid){
+ const match=/^k9_risk_(\d+)_(pov|act|final|result)$/.exec(id);
+ if(!match)return {text,choices,location,scene};
+ const f=s.flags||{},stage=Number(match[1]),part=match[2],t=f['c9_r'+stage+'_target'],data=CHASE138[t];
+ if(!data)return {text,choices,location,scene};
+ const n=name(t),female=fem134(t),g=female?'a':'o',kn=name(kid),off=!!window.UG107?.state?.(s)?.graphicOff;
+ const helper=f['c9_r'+stage+'_witness']||witness134(s,t,kid);
+ // A witness who already died is not retroactively revived by a stage transition.
+ const h=helper&&!dead(s,helper)&&helper!==t&&helper!==kid?helper:null;
+ let prev=stage>1?f['c9_r'+(stage-1)+'_target']:null;
+ const pw=stage>1?f['c9_r'+(stage-1)+'_witness']:null;
+ const pr=stage>1?f['c9_r'+(stage-1)+'_result']:null;
+ const earlierHelp=Array.from({length:stage-1},(_,i)=>stage-1-i).find(i=>f['c9_r'+i+'_witness']===t);
+ const aided=earlierHelp?f['c9_r'+earlierHelp+'_target']:null;
+ const aidedOutcome=earlierHelp?f['c9_r'+earlierHelp+'_result']:null;
+ const witnessBefore=pw===t;
+ const otherExited=h&&[1,2,3,4,5].some(i=>i<stage&&f['c9_r'+i+'_target']===h&&f['c9_r'+i+'_result']!=='fatal');
+ const liveHelper=h?(otherExited?`${name(h)} está do lado de fora, junto à saída. Pelo celular, continua em contato com ${n} sem regressar ao interior da casa.`:`${name(h)} responde do setor vizinho sem se colocar diante da faca.`):`Nenhum amigo consegue chegar fisicamente até ${n} neste momento.`;
+ const lastIndex=stage>1?stage-1:0;
+ let transition='';
+ if(prev&&prev!==t){
+  transition=`Poucos minutos depois do confronto de ${name(prev)}, o som dos passos armados muda de direção. ${n} escuta a movimentação chegar ao setor onde está. O barulho dos passos permite acompanhar sua aproximação pelo acesso de ${data.link}.\n\n`;
+  if(witnessBefore){
+   if(CHASE138_LINK[prev]?.[t]&&pr!=='fatal')transition=CHASE138_LINK[prev][t]+'\n\n';
+   else if(pr==='fatal')transition=`${n} ainda está perto do setor onde ouviu os últimos gritos de ${name(prev)}. Não houve tempo para se despedir. Ao perceber a máscara avançar por ${data.link}, ${n} recua até ${data.loc.toLowerCase()}, sem conseguir fugir junto dos outros.\n\n`;
+   else transition=`${n} acabou de ajudar ${name(prev)} a chegar à saída. Quando o mascarado atravessa o acesso que liga os dois setores, ${n} se afasta pelo único caminho desimpedido e acaba em ${data.loc.toLowerCase()}. ${name(prev)} permanece fora do alcance imediato, chamando pelo celular.\n\n`;
+  }
+ }
+ if(earlierHelp&&!witnessBefore&&aided!==t){
+  const parallel=earlierHelp<stage-1?'Enquanto outros amigos tentavam fugir pelos cômodos da casa, ':'Depois de ajudar no setor anterior, ';
+  if(aidedOutcome==='fatal')transition=parallel+`${n} continuou perto de onde ${name(aided)} caiu. Quando o mascarado mudou de direção, precisou recuar até ${data.loc.toLowerCase()}. A lembrança da morte não o deixou em paz.\n\n`;
+  else transition=parallel+(CHASE138_LINK[aided]?.[t]||`${n} ajudou ${name(aided)} a chegar à saída e permaneceu naquele acesso. Quando o mascarado se aproximou, ${n} precisou buscar abrigo em ${data.loc.toLowerCase()}, pelo caminho que ainda estava livre.`)+'\n\n';
+ }
+ const shout=h?`${name(h)}: — ${n.toUpperCase()}! Eu tô aqui! ${otherExited?'Não volta pra dentro, eu vou tentar te orientar daqui!':'Fala pra mim qual lado tá livre!'}\n\n`:'';
+ location='CASA DO LAGO · '+data.loc;
+ if(part==='pov'){
+  let intro=data.intro,voice=data.voice;
+  if(t==='rauanny'&&dead(s,'laisla')){intro=intro.replace('Rauanny continua perto da saída de serviço, ao lado de onde Laisla tentou abrir passagem.','Rauanny está junto à saída de jardim onde ouviu os últimos gritos de Laisla.').replace('Uma figura atravessa a vidraça quebrada da varanda.','Uma figura atravessa a vidraça quebrada da varanda e bloqueia a trilha por onde Laisla tentou fugir.');voice='Rauanny: — A Lai... meu Deus, a Lai... Não! Eu não vou morrer aqui também!';}
+  if(t==='laisla'&&dead(s,'rauanny'))intro=intro.replace('Do jardim, Rauanny grita que mantém o portão aberto;','Do jardim não vem nenhuma resposta de Rauanny;');
+  if(t==='allan'&&dead(s,'samuel')){intro=intro.replace('Samuel lhe avisa pelo telefone que o corredor inferior ainda dá para o jardim.','Allan lembra da rota que Samuel tinha indicado na última conversa.');voice='Allan: — Samu... eu vou tentar sair daqui. Por nós dois.';}
+  let near=liveHelper;
+  if(t==='rauanny'&&h==='laisla')near=`Laisla está no mesmo jardim, protegida pelo canteiro. ${f.c9_ferido_laisla?'Ela mantém a mão sobre o próprio ferimento e, mesmo assim,':'Ela'} grita para Rauanny usar as pedras secas; não volta para dentro da casa.`;
+  if(t==='laisla'&&h==='rauanny')near='Rauanny segura o portão no jardim e chama Laisla pela saída de serviço. As duas conseguem se ouvir sem atravessar os cômodos da casa.';
+  const link=(prev&&pw===t&&pr==='fatal')?`${n} ainda está em choque com o que acabou de acontecer com ${name(prev)}. Uma vida foi perdida diante de seus olhos, mas os passos do mascarado não pararam.`:'';
+  text=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${transition}${intro}\n\n${voice}\n\n${link?link+'\n\n':''}${near}\n\nO estalo de vidro anuncia que o agressor se aproxima. ${n} procura uma maneira de ganhar distância antes que a máscara ${female?'a':'o'} alcance.`;
+ }
+ if(part==='act'){
+  const p=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_plan']);
+  text=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${data.plan[Math.max(0,p)]}\n\n${shout}Os passos se aproximam do acesso: ${data.link}. A rota de volta está bloqueada pelo barulho e pelo movimento atrás de ${n}. Não pode perder mais tempo.\n\n${n}: — Eu não vou ficar esperando ele chegar!`;
+ }
+ if(part==='final'){
+  if(t==='rauanny'&&dead(s,'laisla'))choices=choices.map(c=>({...c,text:c.text.replace('chamar Laisla','avisar os sobreviventes')}));
+  if(t==='allan'&&dead(s,'samuel'))choices=choices.map(c=>({...c,text:c.text.replace('Avisar Samuel pelo rádio','Avisar os sobreviventes pelo rádio')}));
+  const a=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_act']);
+  text=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${data.act[Math.max(0,a)]}\n\nO mascarado finalmente aparece no acesso à área de ${data.loc.toLowerCase()}, com a faca na mão. ${n} ainda tem uma última decisão. O metal vibra com um impacto, e a faca risca a quina da parede. A saída está a poucos passos, mas o mascarado também.\n\n${shout}${n}: — Eu tô vendo a saída... preciso chegar até ela!`;
+ }
+ if(part==='result'){
+  const escapeSays={laisla:'A porta de serviço abriu! A Rauanny tá ali fora!',rauanny:'EU ABRI O PORTÃO! Lai, vem pelo lado seco!',allan:'A escada de baixo tá livre! Samu, me escuta?',samuel:'A portinhola abre pra fora! Saiam pela lateral!',isabella:'Eu saí pela janela! Não encostem naquele cabo!',ryan:'Consegui descer! A grade velha tá soltando!',breno:'A lavanderia tem uma saída seca! Eu tô no jardim!'};
+  const hurtSays={laisla:'Meu braço... droga! Abri a porta, mas preciso de ajuda!',rauanny:'Me cortou! Eu tô perto do portão, não deixa ele fechar!',allan:'Meu braço tá sangrando, Samu! Mas eu tô fora!',samuel:'Atingiu minha perna! Preciso de uma toalha, agora!',isabella:'Minha mão tá cortada! Eu tô no canteiro, me escutam?',ryan:'Acertei a escada, mas ele me cortou! Tô aqui embaixo!',breno:'Pegou meu braço! Eu tô do lado de fora da lavanderia!'};
+  if(t==='allan'&&dead(s,'samuel')){escapeSays.allan='Eu consegui passar! O Samu não tá aqui pra ver...';hurtSays.allan='Meu braço tá sangrando! Alguém, por favor, me escuta!';}
+  if(t==='laisla'&&dead(s,'rauanny'))escapeSays.laisla='A saída abriu! Alguém me ouve do jardim?';
+  if(t==='rauanny'&&dead(s,'laisla')){escapeSays.rauanny='Eu abri o portão! Não vou deixar aquele desgraçado levar mais ninguém!';hurtSays.rauanny='Me cortou! Tem alguém vivo perto do portão?!';}
+  const finalChoice=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_last']);
+  const lead=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${data.last[Math.max(0,finalChoice)]}\n\n`;
+  const outcome=f['c9_r'+stage+'_result'];
+  if(outcome==='safe'){
+   text=lead+`${data.safe}\n\n${n}: — ${escapeSays[t]}\n\n${h?`${name(h)}: — Eu te ouvi! Fica aí, não volta pra dentro!\n\n${name(h)} alcança ${n} pelo acesso do jardim e confere se há sangramento, sem abandonar a passagem desprotegida.`:'Os amigos conseguem ouvir seu chamado do lado de fora. A área próxima à saída fica livre por alguns instantes.'}\n\n${n} consegue respirar, mas não abandona quem ainda está procurando outra saída.`;
+  }else if(outcome==='injured'){
+   text=lead+`${data.injury}\n\n${n}: — ${hurtSays[t]}\n\n${h?`${name(h)}: — ${n.toUpperCase()}, OLHA PRA MIM! Não tenta levantar rápido.\n\n${f['c9_ferido_'+h]?`${name(h)}, apesar do próprio ferimento, consegue alcançar ${n} perto da saída e estende um tecido limpo para comprimir o corte.`:`${name(h)} alcança ${n} perto da saída e pressiona o ferimento com um tecido limpo.`} Ainda não há socorro no local.`:'Os outros escutam o pedido por ajuda e orientam que ${n} não tente voltar ao interior da casa.'}\n\nO ferimento exige atendimento; ${n}, porém, continua consciente. ${n} segura a mão de quem oferece ajuda e tenta controlar a respiração.`;
+  }else if(outcome==='fatal'){
+   let demise=off?`O mascarado intercepta ${n} em ${data.loc.toLowerCase()}. ${n} tenta se defender e alcançar a saída, mas é atacad${g} com a faca e para de responder. O assassino abandona o setor deixando a porta entreaberta, enquanto o pedido de ajuda de ${n} fica sem resposta.`:KILL135[t];
+   // Coerência quando Laisla já morreu e Rauanny passou a testemunhar esse ataque.
+   if(t==='rauanny'&&!dead(s,'laisla')&&aided==='laisla')demise=demise.replace('Rauanny atravessa o jardim pelas pedras secas, procurando o portão. Ela vê Laisla do outro lado da piscina e faz sinal para que venha.','Rauanny continua no jardim onde ajudou Laisla. Laisla está do lado seco, junto ao portão; o mascarado corta o caminho entre os canteiros e as impede de fugir juntas.');
+   if(t==='rauanny'&&dead(s,'laisla'))demise=demise.replace('Ela vê Laisla do outro lado da piscina e faz sinal para que venha.','Atravessa o jardim ainda abalada pela morte de Laisla, sem conseguir olhar para a despensa.').replace('LAI! NÃO VEM POR AQUI! ELE TÁ ATRÁS DE MIM!','NÃO! EU NÃO VOU DEIXAR VOCÊ LEVAR MAIS NINGUÉM!').replace('RAUANNY: — Laisla... corre...','RAUANNY: — Não... mais...');
+   const witnessLine=h?(DEATH_REACT134[t]?.[h]||`${name(h)}: — ${n.toUpperCase()}, RESPONDE!\n\n${name(h)} tenta alcançá-${female?'la':'lo'}, mas recua quando o mascarado ergue a faca.`):`Do jardim, os sobreviventes ouvem o grito de ${n}. Ainda não sabem exatamente o que aconteceu lá dentro.`;
+   text=lead+demise+`\n\n${h?`${name(h)} vê o assassino se afastar por ${data.link} antes de se aproximar de ${n}. Não há ninguém ali para confirmar a morte por outra pessoa ou por um acidente.`:''}\n\n${witnessLine}\n\nOs outros ainda precisam fugir. Não há polícia na propriedade e ninguém pode permanecer no local sem correr perigo.`;
+   if(s.romanceEscolhido===t)text+=`\n\nAo ouvir o nome de ${n}, você se lembra do encontro antes das festas. O medo se transforma num vazio que ainda não consegue compreender.`;
+  }
+ }
+ return {text:text.replaceAll('\\n','\n'),choices,location,scene};
+}
+
+// V1.3.9 · Cada fuga tem seu próprio conflito; Samuel fica sozinho na garagem.
+// Isabella e Rayssa dividem uma perseguição somente quando estão juntas no lago.
+const DRAMA139={
+ laisla:{opening:'O cheiro de alimentos guardados se mistura ao de fumaça de uma tomada. Laisla distingue os ruídos da cozinha: a porta da despensa está sendo empurrada pelo lado de dentro. Ela sabe exatamente como os tios costumavam abrir a corrente.',
+   voice:'LAISLA: — Não vou deixar a casa dos meus tios virar um túmulo. A corrente sai por cima. Eu sei que sai.',
+   lead:'Ela ouve a cadeira arrastando atrás da despensa. Seu problema não é encontrar uma porta: é decidir quanto tempo ainda pode mantê-la aberta sem ficar presa com o assassino.',
+   step:'Uma prateleira cambaleia quando algo se choca contra a parede. Laisla tem o vão da porta diante de si, mas a corrente atravessada pode prender a roupa de quem vier atrás.',
+   last:'LAISLA: — Foi aqui que a gente comemorou meu aniversário. Você não vai me tirar isso também!',
+   help:'Rauanny atravessa o canteiro sem entrar na despensa. — Lai! Pelo amor de Deus, olha pra mim! Você não precisa provar nada pra ninguém!',
+   alone:'O vento entra pela fresta do serviço. Laisla espera uma resposta de fora, mas precisa terminar de destravar a passagem com as próprias mãos.',
+   safe:'Laisla põe o pé na grama e ri uma única vez, sem humor. — Se eu voltar aqui um dia, juro que jogo essa corrente no lixo.',
+   injured:'LAISLA: — Eu tô bem... não, mentira, tá doendo pra caralho. Só não deixa aquela porta fechar!',
+   tail:'Um barulho de louça quebrada vem da cozinha. Mesmo do lado de fora, Laisla mantém os olhos na porta que conhece desde criança.'},
+ rauanny:{opening:'Rauanny ficou perto do canteiro onde se encontrou com Laisla. Os reflexos na piscina confundem a distância; a saída real é um ferrolho enferrujado no muro, não uma porta no meio da área molhada.',
+   voice:'RAUANNY: — Eu falei que não ia largar a Lai. Se ele vier por aqui, vai ter que passar por mim primeiro.',
+   lead:'O agressor atravessa a varanda e muda de direção ao vê-la alcançar o portão. Rauanny precisa escolher entre o chão firme dos canteiros e a borda da piscina, onde pode perder os segundos de que precisa.',
+   step:'A luz submersa acende por um instante; o brilho revela a sombra do mascarado avançando por trás dos vasos. O ferrolho continua distante, e um mergulho não impediria que ele esperasse na escada.',
+   last:'RAUANNY: — Olha pra mim, seu covarde! Não encosta nela!',
+   help:'Laisla se abaixa atrás do canteiro. — Rau, não vem pra água! Usa as pedras que o meu tio colocou!',
+   alone:'Ela olha para a saída de serviço, mas não encontra Laisla. Cerra os dentes, sem desistir de alcançar a grade exterior.',
+   safe:'Rauanny solta a grade aberta e bate a mão no muro. — A gente vai sair daqui. Nem que eu tenha que arrancar isso tudo!',
+   injured:'RAUANNY: — MERDA! Meu ombro! Lai, fica atrás do canteiro e não corre pra cá!',
+   tail:'A superfície da piscina continua tremendo. Rauanny evita olhar para a água enquanto mantém o portão destravado.'},
+ allan:{opening:'Na escada do depósito, Allan engole uma piada ao sentir o degrau tremer. Um bilhete amarelo preso no corrimão diz “NÃO PISAR” e parece ridículo diante da faca que arranha a porta de cima.',
+   voice:'ALLAN: — Eu devia ter começado a academia. Ou ouvido o Samu quando ele disse pra não subir aqui. Preferencialmente os dois.',
+   lead:'Allan sabe que fazer barulho vai chamar o mascarado, mas ficar parado no patamar também é arriscado. Seu celular está em modo lanterna e a bateria pisca em vermelho.',
+   step:'O solado encontra madeira oca. Allan prende a respiração. Se descer junto à parede, o corrimão pode servir de guia; se saltar, a aterrissagem o colocará diante da saída e do assassino ao mesmo tempo.',
+   last:'ALLAN: — Tá bom, universo, eu retiro TODAS as piadas que fiz sobre filme de terror!',
+   help:'Samuel fala depressa pelo rádio, sem atravessar a escada. — Não pisa no quarto degrau. Eu vi a rachadura antes de descer!',
+   alone:'O fone chia. Allan aperta o rádio sem receber resposta e se obriga a ler o bilhete no corrimão outra vez.',
+   safe:'ALLAN: — Tô vivo! Alguém me lembra de nunca mais ser engraçadinho perto de uma escada.',
+   injured:'ALLAN: — Tá... o sangue é meu. Antes que alguém pergunte: definitivamente não é ketchup.',
+   tail:'Sua lanterna ainda aponta para o degrau partido. Allan deixa o aviso visível para o próximo que tentar a passagem.'},
+ samuel:{opening:'A porta da garagem bate atrás de Samuel e o deixa completamente sozinho. O sinal de celular desaparece. Ele distingue o clique do relé no teto, o cheiro de combustível e a portinhola encaixada no portão basculante. Ninguém vai orientá-lo pelo rádio.',
+   voice:'SAMUEL: — Tá, pensa. Duas travas. Uma barra. Um assassino. Você não precisa de plateia, Samuel. Só precisa fazer isso direito.',
+   lead:'Ele coloca as chaves sobre o capô para não perdê-las. Então vê a silhueta refletida no retrovisor: alguém já entrou pela passagem de serviço. Se ligar o carro, os faróis vão entregar seu esconderijo.',
+   step:'O retrovisor vibra com a batida de uma bota no concreto. Samuel se esconde entre o veículo e a parede, escutando as próprias respirações. A chave de roda pode atrasar a faca, mas não substituir uma saída.',
+   last:'SAMUEL: — Eu não vou te dar a satisfação de me ouvir implorar. Vem tentar.',
+   help:'',
+   alone:'Não há resposta de ninguém porque não há ninguém na garagem. Samuel está completamente por conta própria.',
+   safe:'Samuel pisa na grama sem acreditar e tira as chaves da mão trêmula. — Por pouco. Por muito pouco.',
+   injured:'SAMUEL: — Filho da puta... acertou minha perna. Mas não vai me pegar de novo.',
+   tail:'O alarme do carro dispara sozinho, abafando a última respiração de Samuel antes que ele se afaste mancando ou correndo.'},
+ isabella:{opening:'No corredor de manutenção, Isabella encontra um fio exposto junto ao rodapé e uma janela para os arbustos. O problema não é só escapar: a fiação ameaça qualquer pessoa que atravesse o chão molhado.',
+   voice:'ISABELLA: — Ótimo. Um psicopata e uma instalação elétrica feita por um idiota. Que bela combinação.',
+   lead:'Ela arrasta um banco até a janela para medir a altura. Do outro lado do corredor, a maçaneta gira devagar. Isabella sabe que precisa escolher o que proteger primeiro: a passagem ou o próprio corpo.',
+   step:'A lâmpada de emergência apaga, mas uma faísca ilumina o chão. Isabella vê onde o fio termina e onde começa o trecho seco; o assassino empurra a estante que bloqueia a entrada.',
+   last:'ISABELLA: — Escuta bem: eu não vou ficar aqui esperando você decidir como eu morro!',
+   help:'Rayssa mantém distância do fio e fala junto à janela. — Isa, eu tô aqui. Não põe a mão naquele metal, pelo amor de Deus!',
+   alone:'Isabella chama por Rayssa, mas sabe que a amiga está longe daquela casa. Precisa descobrir a altura da janela e agir sozinha.',
+   safe:'Isabella desce no canteiro, olha para a janela e cospe no chão. — Nunca mais me peçam pra mexer numa porcaria de disjuntor.',
+   injured:'ISABELLA: — Eu tô respirando. Tá doendo, mas eu tô respirando. Não mexe nos fios!',
+   tail:'As luzes do corredor piscam pela última vez. Isabella memoriza a posição do fio, para impedir que os próximos pisem ali.'},
+ ryan:{opening:'Ryan alcança a sacada no momento em que o último convidado acelera pela estrada. A escada externa está presa à parede, mas a grade lateral pende de um parafuso quase solto.',
+   voice:'RYAN: — Beleza. Eu que morro de medo de altura vou ter que virar dublê. Incrível. Sensacional.',
+   lead:'O assassino aparece refletido no vidro da suíte, alguns passos atrás. Ryan tenta medir a distância da escada com os pés, sem olhar para o chão lá embaixo.',
+   step:'Uma das barras vibra quando ele encosta a mão. Ryan percebe que o lado junto à parede permanece firme, enquanto o parapeito externo se move perigosamente.',
+   last:'RYAN: — Eu tô tentando manter a calma! Se eu fizer piada agora, prometo que é desespero!',
+   help:'Breno olha para cima, de trás do muro, sem se aproximar da sacada. — Ryan, a escada da parede! Não coloca o pé na grade!',
+   alone:'Lá embaixo não há resposta. Ryan engole a vontade de gritar e segura a barra mais próxima da parede.',
+   safe:'RYAN: — Meu Deus, chão! Eu te amo, chão! Nunca mais falo mal de você.',
+   injured:'RYAN: — Minha mão tá escorregando! Não olha pra cima, me ajuda só a sentar!',
+   tail:'A escada balança com o peso que acabou de abandonar os degraus; lá em cima, a máscara continua à procura de outro acesso.'},
+ breno:{opening:'Breno fica preso na lavanderia quando o corredor apaga. O cano vazando formou uma poça próxima ao quadro elétrico, mas existe uma faixa de azulejos secos junto à máquina.',
+   voice:'BRENO: — Calma. Não toca nos fios. Primeiro entende de onde vem a água, depois mexe na saída.',
+   lead:'Uma faísca azul corta o escuro. Breno sabe que o assassino pode estar do lado de fora da porta, mas abrir o quadro às cegas oferece outro risco.',
+   step:'A máquina desliga de repente. Uma sombra aparece pelo vidro fosco e Breno precisa escolher entre perder tempo isolando o circuito ou manter o corpo distante da água.',
+   last:'BRENO: — Eu não devo explicação pra aquele desgraçado. Se quiser me pegar, vai ter que entrar aqui.',
+   help:'Ryan se mantém do lado seco, atrás da porta do jardim. — Breno! Não atravessa a água, cara! Eu vi uma faísca!',
+   alone:'Nenhum amigo pode alcançar a lavanderia. Breno se lembra da faixa seca que havia mostrado aos convidados antes da queda de luz.',
+   safe:'Breno passa a mão pelo rosto e encontra suor e poeira. — Eu falei que tinha um caminho. Pelo menos dessa vez eu tava certo.',
+   injured:'BRENO: — Não tenta entrar! A poça ainda tá perto do quadro... Eu tô saindo.',
+   tail:'O disjuntor bate uma última vez. Breno mantém a passagem aberta apenas do lado seco.'}
+};
+const DUO139={
+ pov:`PONTO DE VISTA: ISABELLA E RAYSSA
+
+Isabella encosta as costas na parede do corredor de manutenção. Rayssa, que chegou da homenagem minutos antes, está ali com ela — não do outro lado de uma porta ou em outra festa. As duas ouviram o assassino subir a escada. Ele pode retornar pelo corredor, enquanto um cabo solto lança faíscas perto do chão molhado.
+
+ISABELLA: — Não me vem com esse olhar de despedida. A gente já passou por coisa pior. Ou quase.
+
+RAYSSA: — Eu não tô me despedindo, sua idiota. Só tô tentando entender se essa janela abre.
+
+Isabella encontra um banco para alcançar a janela baixa; Rayssa distingue um interruptor de emergência na parede seca, longe da fiação. Elas precisam trabalhar juntas: uma abre a passagem, a outra observa por onde o assassino pode aparecer.`,
+ act:[
+  `Isabella usa a manga para erguer a trava da janela, enquanto Rayssa procura o interruptor sem pisar na água. Por um instante, as duas se movem no mesmo ritmo.
+
+RAYSSA: — Isa, quando eu disser 'agora', você passa primeiro.
+
+ISABELLA: — Eu passo quando você tiver um jeito de passar também. Não começa com heroísmo.`,
+  `Rayssa empurra a estante contra a entrada e Isabella usa o barulho para alcançar a janela. O móvel bloqueia metade do corredor, mas também dificulta que Rayssa a siga.
+
+ISABELLA: — A gente ficou separada por uma estante! Isso é tão estúpido!
+
+RAYSSA: — Então para de gritar e me ajuda a puxar!`,
+  `Isabella se aproxima demais do quadro elétrico para procurar a fechadura. Uma faísca explode; Rayssa a puxa pela cintura antes que toque a parte metálica.
+
+RAYSSA: — VOCÊ QUER MORRER? Aquele fio tá VIVO!
+
+ISABELLA: — Eu vi, porra! Não precisa me sacudir!`
+ ],
+ final:[
+  `A janela já abre para os arbustos. Isabella segura o batente enquanto Rayssa sobe no banco para testar o lado de fora. Os passos do agressor se aproximam do corredor principal. Ambas terão que atravessar sem tocar no cabo.
+
+ISABELLA: — Você me segura quando eu descer?
+
+RAYSSA: — Seguro. E depois você não solta a minha mão.`,
+  `A estante tomba quando o agressor a golpeia. Isabella segura a madeira para impedir que caia sobre Rayssa; Rayssa recolhe o banco e o usa como barreira improvisada.
+
+RAYSSA: — Não olha pra ele! Olha pra janela!
+
+ISABELLA: — Eu tô olhando, só não consigo atravessar se você ficar no caminho!`,
+  `O fio rompido estala no chão molhado. Isabella recua e bate o ombro na parede, enquanto Rayssa tenta alcançar a janela passando por cima de uma caixa.
+
+ISABELLA: — Rayssa, sai daqui! Eu me viro!
+
+RAYSSA: — Você sabe que eu não vou deixar você aí!`
+ ],
+ result:{
+  safe:`Isabella passa pela janela e cai no canteiro, arrancando as folhas de um arbusto. Rayssa vem logo atrás, com um pé no batente e outro apoiado na terra.
+
+ISABELLA: — Eu tô aqui. Você tá aqui. Repete pra mim: as duas estão aqui.
+
+RAYSSA: — As duas. Agora corre, antes que eu desmaie de nervoso.
+
+Elas seguem juntas pela lateral externa, sem se separarem novamente.`,
+  injured:`O mascarado atinge Isabella no ombro quando ela empurra Rayssa para fora da janela. A amiga volta até o batente, agarra seu antebraço e a puxa até o canteiro. A roupa de Isabella está manchada de sangue.
+
+ISABELLA: — Não me larga, Ray. Só... espera um pouco.
+
+RAYSSA: — Não vou soltar. Eu prometo. Um passo de cada vez, tá?
+
+As duas escapam, mas Isabella precisa de atendimento.`,
+  fatal:`O mascarado rompe a barreira do corredor. Isabella empurra Rayssa para o outro lado da janela, impedindo que a lâmina a alcance. Quando tenta atravessar, o agressor a puxa de volta. Isabella luta, acerta o mascarado com o telefone, mas recebe golpes de faca e cai perto do batente.
+
+ISABELLA: — Rayssa... corre. Agora!
+
+Rayssa não obedece de imediato; tenta voltar pela janela. A ponta da lâmina rasga seu braço. Ela cai no canteiro e grita pela amiga, que já não consegue responder.
+
+RAYSSA: — ISA! POR FAVOR! EU TÔ AQUI! NÃO FAZ ISSO COMIGO!
+
+A máscara reaparece atrás do vidro. Rayssa precisa fugir sangrando, olhando para trás a cada passo. Ela viu o que aconteceu; não precisa de um estranho para lhe anunciar a morte.`
+ }
+};
+function c9Revision139(s,id,text,choices,location,scene,kid){
+ const match=/^k9_risk_(\d+)_(pov|act|final|result)$/.exec(id);
+ if(!match)return {text,choices,location,scene};
+ const f=s.flags||{},stage=Number(match[1]),part=match[2],t=f['c9_r'+stage+'_target'];
+ if(!t||!CHASE138[t]||!DRAMA139[t])return {text,choices,location,scene};
+ const x=CHASE138[t],d=DRAMA139[t],n=name(t);
+ const plan=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_plan']);
+ const act=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_act']);
+ const last=['safe','risk','bad'].indexOf(f['c9_r'+stage+'_last']);
+ const p=Math.max(plan,0),a=Math.max(act,0),z=Math.max(last,0);
+ const outcome=f['c9_r'+stage+'_result'];
+ const together=!!f.c9_cidade_chegou_a_tempo;
+ const duo=t==='isabella'&&together&&(f.c9_casa_pessoas||[]).includes('rayssa')&&!dead(s,'rayssa')&&kid!=='rayssa';
+ const helper=t==='samuel'?null:(f['c9_r'+stage+'_witness']||witness134(s,t,kid));
+ const h=helper&&!dead(s,helper)&&helper!==kid&&helper!==t?helper:null;
+ const prev=stage>1?f['c9_r'+(stage-1)+'_target']:null;
+ const alreadyHit=prev&&f['c9_r'+(stage-1)+'_result']==='fatal';
+ const related=(t==='rauanny'&&prev==='laisla')||(t==='laisla'&&prev==='rauanny');
+ let transition='';
+ if(part==='pov'&&prev&&prev!==t){
+  if(related)transition=`Depois do ataque à saída de serviço, ${n} não se teletransporta para outro cômodo: permanece no jardim ao lado dos canteiros. ${alreadyHit?'O último grito de '+name(prev)+' ainda ecoa; não houve tempo de voltar para ajudar.':'O caminho que '+name(prev)+' usou continua à vista.'} O assassino alcança o exterior pelo lado da varanda.\n\n`;
+  else if(t==='samuel')transition='Enquanto os outros tentavam abrir passagem pela parte de fora, Samuel ficou isolado na garagem. A porta corta-fogo bateu; ele não ouve mais vozes do outro lado.\n\n';
+  else transition=`O agressor abandona o setor onde ${name(prev)} tentou escapar e segue pelo corredor. ${n} escuta a movimentação alcançar ${x.loc.toLowerCase()}; sua posição já é diferente da de quem acabou de fugir.\n\n`;
+ }
+ if(part==='pov'){
+  location='CASA DO LAGO · '+(duo?'CORREDOR ELÉTRICO · ISABELLA E RAYSSA':x.loc);
+  if(duo){text=DUO139.pov;}
+  else{
+   let intro=d.opening+'\n\n'+x.intro;
+   if(t==='samuel')intro=d.opening; // sozinho, sem telefone ou companheiro invisível
+   if(t==='rauanny'&&dead(s,'laisla'))intro=d.opening+'\n\nA passagem por onde Laisla tentou escapar ficou para trás. Rauanny ouve apenas o último grito dela; não existe mais resposta do canteiro.';
+   if(t==='laisla'&&dead(s,'rauanny'))intro=d.opening+'\n\nLaisla chama por Rauanny e não ouve resposta. Nenhuma outra voz surge artificialmente do jardim.';
+   if(t==='isabella'&&!duo)intro=d.opening+'\n\nRayssa não está neste corredor; Isabella não pode esperar por ela.';
+   const help=t==='samuel'?'':(h&&h==='rayssa'&&t==='isabella'?'':h&&h==='rauanny'&&t==='laisla'&&!dead(s,'rauanny')?d.help:h&&h==='laisla'&&t==='rauanny'&&!dead(s,'laisla')?d.help:'');
+   text=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${transition}${intro}\n\n${d.voice}\n\n${help?help+'\n\n':''}${d.lead}`;
+  }
+  choices=THREATS[t]?['good','risky','bad'].map((k,i)=>C(THREATS[t][k],'k9_risk_'+stage+'_act',[S('r'+stage+'_plan',['safe','risk','bad'][i])])):choices;
+  if(duo)choices=[C('Isabella abre a janela; Rayssa procura o interruptor seguro','k9_risk_'+stage+'_act',[S('r'+stage+'_plan','safe')]),C('Rayssa bloqueia o agressor; Isabella corre para a janela','k9_risk_'+stage+'_act',[S('r'+stage+'_plan','risk')]),C('Isabella tenta abrir o quadro; Rayssa tenta afastar o cabo','k9_risk_'+stage+'_act',[S('r'+stage+'_plan','bad')])];
+ }
+ if(part==='act'){
+  location='CASA DO LAGO · '+(duo?'CORREDOR ELÉTRICO · ISABELLA E RAYSSA':x.loc);
+  text=duo?`PONTO DE VISTA: ISABELLA E RAYSSA\n\n${DUO139.act[p]}\n\nO vidro vibra com a primeira pancada do assassino. As duas agora precisam decidir juntas como reagir sem se separarem.`:
+  `PONTO DE VISTA: ${n.toUpperCase()}\n\n${x.plan[p]}\n\n${d.lead}\n\n${t==='samuel'?'Samuel escuta metal arranhando a lataria e se abaixa atrás do carro. Não há voz de auxílio; precisa escolher a própria reação.':t==='ryan'?'Ryan sente o corrimão balançar e aperta o celular contra o peito para não deixá-lo cair.':t==='breno'?'Breno se afasta da tomada que faiscou e percebe que o assassino está testando a maçaneta pelo lado de fora.':t==='allan'?'Allan olha uma última vez o aviso colado na escada, calculando quantos degraus pode pular sem desabar.':t==='rauanny'?'A água da piscina se agita quando uma cadeira cai. Rauanny vê a sombra cruzar a varanda e mudar de direção.':t==='laisla'?'Uma panela bate contra o piso da cozinha e Laisla segura a corrente da porta para não deixá-la retinir.':'O fio desencapado estala a poucos centímetros do sapato de Isabella.'}`;
+  choices=duo?[
+   C('Isabella mantém o caminho da janela; Rayssa protege o batente','k9_risk_'+stage+'_final',[S('r'+stage+'_act','safe')]),
+   C('Isabella segura a estante; Rayssa tenta chegar ao jardim primeiro','k9_risk_'+stage+'_final',[S('r'+stage+'_act','risk')]),
+   C('As duas correm junto à fiação para alcançar a porta lateral','k9_risk_'+stage+'_final',[S('r'+stage+'_act','bad')])
+  ]:(ESC134[t]?.one||[]).map((label,i)=>C(label,'k9_risk_'+stage+'_final',[S('r'+stage+'_act',['safe','risk','bad'][i])]));
+ }
+ if(part==='final'){
+  location='CASA DO LAGO · '+(duo?'CORREDOR ELÉTRICO · ISABELLA E RAYSSA':x.loc);
+  text=duo?`PONTO DE VISTA: ISABELLA E RAYSSA\n\n${DUO139.final[a]}\n\nDo corredor vem o golpe que rompe a última madeira da porta. A decisão final precisa levar as duas para fora, e não apenas Isabella.`:
+  `PONTO DE VISTA: ${n.toUpperCase()}\n\n${x.act[a]}\n\n${d.step}\n\n${d.last}\n\n${t==='samuel'?'Ele vê o reflexo da máscara no vidro do carro, entre a portinhola e o volante. A faca não está perto da escada; está dentro da garagem, com ele.':'O próximo movimento vai decidir se o assassino alcança a passagem antes dele ou dela.'}`.replace('O próximo movimento vai decidir se o assassino alcança a passagem antes dele ou dela.', t==='ryan'?'A escada externa ainda é sua única chance; um salto para a grade velha colocaria a vida em risco.':t==='breno'?'Breno consegue ver a faixa de piso seco até a porta; a poça continua eletrificada.':t==='allan'?'A saída está no patamar inferior; a grade solta não vai sustentar outro salto.':t==='rauanny'?'O portão continua do mesmo lado do jardim, atrás dos canteiros; a água não é uma saída.':t==='laisla'?'A madeira da soleira range. Se a corrente travar, o mascarado alcançará a despensa.':'A janela continua ao alcance, mas o fio impede um atalho pelo meio do corredor.');
+  choices=duo?[
+   C('Isabella e Rayssa atravessam a janela em sequência, se ajudando','k9_risk_'+stage+'_result',[S('r'+stage+'_last','safe')]),
+   C('Rayssa afasta o agressor com o banco; Isabella tenta puxá-la','k9_risk_'+stage+'_result',[S('r'+stage+'_last','risk')]),
+   C('Isabella foge sozinha pela janela enquanto Rayssa distrai o mascarado','k9_risk_'+stage+'_result',[S('r'+stage+'_last','bad')])
+  ]:(ESC134[t]?.two||[]).map((label,i)=>C(label,'k9_risk_'+stage+'_result',[S('r'+stage+'_last',['safe','risk','bad'][i])]));
+ }
+ if(part==='result'){
+  location='CASA DO LAGO · '+(duo?'JANELA DO CORREDOR · AS DUAS':x.loc);
+  if(duo){
+   const vulnerable=([p,a,z].filter(q=>q===2).length>=2)||outcome==='fatal';
+   if(vulnerable){f.c9_ferido_rayssa=true;f.c9_dupla_rayssa_ferida=true;}
+   else f.c9_dupla_rayssa_resgatada=true;
+   text='PONTO DE VISTA: ISABELLA E RAYSSA\n\n'+(DUO139.result[outcome]||DUO139.result.injured);
+   if(z===2&&outcome==='safe')text='Isabella pula primeiro no canteiro, acreditando que Rayssa ficou para trás. Mas a amiga arrasta o banco contra o mascarado e salta pela janela momentos depois, alcançando Isabella entre os arbustos.\n\nISABELLA: — Você ficou! Eu pensei que...\n\nRAYSSA: — Depois você briga comigo. Corre!\n\nO atalho as separou por segundos; agora voltam a fugir juntas.';
+   if(z===2&&outcome==='injured')text='Isabella atravessa a janela antes de Rayssa. Do lado de dentro, a amiga tenta deter o mascarado com um banco, mas perde o equilíbrio. Ao perceber que a deixou sozinha, Isabella agarra o braço de Rayssa pelo batente e as duas caem no canteiro. A lâmina atinge o ombro de Isabella na saída.\n\nISABELLA: — Eu não devia ter te deixado lá!\n\nRAYSSA: — A gente tá aqui. Não discute comigo agora!\n\nIsabella precisa de atendimento; Rayssa não consegue parar de tremer.';
+   if(outcome==='injured'&&vulnerable)text+='\n\nRayssa também sofre um corte no antebraço ao retirar Isabella do batente. Mesmo sangrando, ela não a abandona.';
+   if(outcome==='safe'&&vulnerable)text+='\n\nRayssa arranha o braço no vidro ao saltar e precisa apertar o ferimento com a manga.';
+  }else{
+   const lastBeat=x.last[z];
+   let help='';
+   if(h&&t!=='samuel'){
+    if((t==='laisla'&&h==='rauanny')||(t==='rauanny'&&h==='laisla')||(t==='allan'&&h==='samuel')||(t==='ryan'&&h==='breno')||(t==='breno'&&h==='ryan'))help=d.help;
+    else help=`${name(h)} escuta o movimento perto de ${x.route}, mas não atravessa o cômodo onde o assassino ainda está.`;
+   }
+   const head=`PONTO DE VISTA: ${n.toUpperCase()}\n\n${lastBeat}\n\n`;
+   if(outcome==='safe')text=head+x.safe+'\n\n'+d.safe+'\n\n'+(help||d.alone)+'\n\n'+d.tail;
+   else if(outcome==='injured')text=head+x.injury+'\n\n'+d.injured+'\n\n'+(help||d.alone)+'\n\n'+d.tail;
+   else if(outcome==='fatal'){
+    let sceneDeath=KILL135[t];
+    if(t==='samuel')sceneDeath=sceneDeath.replace('para que os outros passem','para tentar escapar').replace('SAMUEL: — Allan... não vem...','SAMUEL: — Não... assim...').replace('ele conseguiu mostrar aos outros uma saída, mas não chegou a usá-la','ele abriu uma passagem, mas não teve forças para atravessá-la');
+    if(t==='rauanny'&&dead(s,'laisla'))sceneDeath=sceneDeath.replace('Ela vê Laisla do outro lado da piscina e faz sinal para que venha.','A ausência de Laisla ainda pesa quando o mascarado invade o jardim.').replace('LAI! NÃO VEM POR AQUI! ELE TÁ ATRÁS DE MIM!','NÃO VOU DEIXAR VOCÊ ME LEVAR TAMBÉM!').replace('RAUANNY: — Laisla... corre...','RAUANNY: — Laisla...');
+    if(t==='laisla'&&dead(s,'rauanny'))sceneDeath=sceneDeath.replace('Laisla: — Rau... não volta...','Laisla: — Não... fecha... a porta...').replace('LAISLA: — Rau... não volta...','LAISLA: — Não... fecha... a porta...');
+    const reaction=t==='samuel'?'Nenhum amigo testemunha o ataque: só o alarme do carro rompe o silêncio. Mais tarde, encontrarão as marcas da luta perto da portinhola.':h?(DEATH_REACT134[t]?.[h]||`${name(h)} ouve os golpes e chama por ${n}, mas não consegue entrar antes que o agressor fuja.`):'Do lado de fora, ninguém ainda sabe o que aconteceu naquele setor.';
+    text=head+sceneDeath+'\n\n'+reaction+'\n\nO agressor deixa o setor. O próximo amigo terá que fugir sem presumir que tudo acabou.';
+   }
+  }
+ }
+ return {text:text.replaceAll('\\n','\n'),choices,location,scene};
+}
+
 function phoneThreads(s,base){if(!s?.flags?.c9_enter_k9_01)return base;const t=base.map(x=>({...x,messages:[...(x.messages||[])]}));
  const get=(id,label)=>{let x=t.find(y=>y.id===id);if(!x){x={id,name:label,sub:'Lakewood',messages:[],replyKey:''};t.push(x)}return x;};
  const group=get('grupo','Grupo de amigos');if(s.flags.c9_enter_k9_invites){group.messages.push({who:'Laisla',time:'CAPÍTULO 9 · TARDE',text:dead(s,'laisla')?'A casa dos tios de Laisla está disponível para uma reunião pequena.':'Hoje vou fazer uma festa na casa dos meus tios, perto do lago. Quem quiser vem. Sem pressão.'});}
