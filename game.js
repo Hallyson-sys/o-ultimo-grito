@@ -3,7 +3,7 @@ const $=s=>document.querySelector(s),app=$('#app');
 const OLD_KEY='ultimo-grito-save';const SLOT_PREFIX='ultimo-grito-slot-';let activeSlot=1;const KEY_UNUSED='ultimo-grito-save';
 const LEGACY=['ultimo-grito-save-v06','ultimo-grito-save-v05','ultimo-grito-save-v04','ultimo-grito-save-v03','ultimo-grito-save-v02'];
 let save=null,view='menu';let castSelected=null;
-let previousAudioView='menu';const audio=window.UGAudio;const inter=window.UGInteractive;const social=window.UG107; let urgentInterval=null,urgentArmedNode=null,urgentRemaining=0;let phoneTab='chats',phoneThread='grupo';let investigationSelection=null;let expandedAlert=false;let selectedMedia=null;let chapterOpeningTimer=null,chapterOpeningHideTimer=null,chapterOpeningSeenNode=null;
+let previousAudioView='menu';const audio=window.UGAudio;const inter=window.UGInteractive;const social=window.UG107; let urgentInterval=null,urgentArmedNode=null,urgentRemaining=0;let phoneTab='chats',phoneThread='grupo';let investigationSelection=null;let expandedAlert=false;let selectedMedia=null;
 
 const CHAPTERS=[
   {id:'prologo', short:'PRÓLOGO', title:'A noite em que tudo mudou', label:'PRÓLOGO · A NOITE EM QUE TUDO MUDOU', start:'p01', summary:'A festa de Jullia, o acidente e o pacto no lago.'},
@@ -15,8 +15,7 @@ const CHAPTERS=[
   {id:'cap6',short:'CAPÍTULO 06',title:'O silêncio tem testemunhas',label:'CAPÍTULO 06 · O SILÊNCIO TEM TESTEMUNHAS',start:'h01',summary:'Bella investiga o paradeiro da irmã. O jantar no apartamento de Laisla vira uma perseguição.'},
   {id:'cap7',short:'CAPÍTULO 07',title:'A noite dos traidores',label:'CAPÍTULO 07 · A NOITE DOS TRAIDORES',start:'j01',summary:'Conversa íntima, jantar, investigação de Bella e Moisés, perspectivas alternadas e decisões que determinam quem consegue fugir da oficina.'},
   {id:'cap8',short:'CAPÍTULO 08',title:'Águas turvas',label:'CAPÍTULO 08 · ÁGUAS TURVAS',start:'k8_01',summary:'Depois da mensagem sobre o traidor, Bella segue os registros da estação do lago. Investigar a verdade pode custar caro.'},
-  {id:'cap9',short:'CAPÍTULO 09',title:'Um último jogo',label:'CAPÍTULO 09 · UM ÚLTIMO JOGO',start:'k9_01',summary:'Memorial, festa de Lakewood, festa de Laisla, uma armadilha e a última máscara.'},
-  {id:'cap10',short:'CAPÍTULO 10',title:'O Grand Finale',label:'CAPÍTULO 10 · O GRAND FINALE',start:'k10_01',summary:'O rosto por trás da máscara, a revelação da cumplicidade e a última noite no lago.'}
+  {id:'cap9',short:'CAPÍTULO 09',title:'Um último jogo',label:'CAPÍTULO 09 · UM ÚLTIMO JOGO',start:'k9_01',summary:'Memorial, festa de Lakewood, festa de Laisla, uma armadilha e a última máscara.'}
 ];
 
 const CLUE_DATA={
@@ -100,12 +99,7 @@ const CLUE_DATA={
 
 Object.assign(CLUE_DATA,window.UGRevisionClues||{},window.UGFinale108?.clues||{},window.UG7?.clues||{},window.UG8?.clues||{},window.UG9?.clues||{});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const baseSave=(name,pronouns,look,hair='curto',temperament='observador',fear='perda')=>{
-  const s={hero:{name:name.trim(),pronouns,look,hair,temperament,fear},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:21,socialReviewVersion:1,socialDepthVersion:1,knowledge:window.UGKnowledge?.empty?.()||null,interactive:inter?.empty?.()||null,social107:social?.empty?.()||null,finale108:window.UGFinale108?.empty?.()||null};
-  const starts={protetor:{empatia:6,cautela:3},observador:{cautela:7,franqueza:2},impulsivo:{coragem:7,cautela:-3},franco:{franqueza:8,empatia:1}};
-  if(s.social107?.personality){for(const [k,d] of Object.entries(starts[temperament]||{}))s.social107.personality[k]=Math.max(0,Math.min(100,(s.social107.personality[k]??50)+d));}
-  return s;
-};
+const baseSave=(name,pronouns,look)=>({hero:{name:name.trim(),pronouns,look},node:'p01',bonds:Object.fromEntries(ELENCO.map(x=>[x[0],50])),traits:{coragem:0,empatia:0,cautela:0},romance:Object.fromEntries(['ryan','breno','rayssa','rauanny'].map(id=>[id,{atracao:0,ressentimento:0}])),flags:{},clues:[],history:[],updated:Date.now(),saveVersion:20,socialReviewVersion:1,socialDepthVersion:1,knowledge:window.UGKnowledge?.empty?.()||null,interactive:inter?.empty?.()||null,social107:social?.empty?.()||null,finale108:window.UGFinale108?.empty?.()||null});
 
 function chapterIdFromLabel(label=''){
   if(label.startsWith('PRÓLOGO')) return 'prologo';
@@ -118,36 +112,9 @@ function chapterIdFromLabel(label=''){
   if(label.startsWith('CAPÍTULO 07')) return 'cap7';
   if(label.startsWith('CAPÍTULO 08')) return 'cap8';
   if(label.startsWith('CAPÍTULO 09')) return 'cap9';
-  if(label.startsWith('CAPÍTULO 10')) return 'cap10';
   return 'prologo';
 }
 function chapterMetaForNode(nodeId){const node=window.NODES?.[nodeId];return CHAPTERS.find(c=>c.id===chapterIdFromLabel(node?.chapter||''))||CHAPTERS[0]}
-function chapterOpeningForNode(nodeId){return CHAPTERS.find(c=>c.start===nodeId)||null}
-function chapterOpeningMarkup(meta){
-  if(!meta)return '';
-  const title=esc((meta.title||'').toUpperCase());
-  const subtitle=meta.id==='prologo'?'— PRÓLOGO —':`— ${esc(meta.short)} —`;
-  return `<section class="chapter-opening" id="chapter-opening" aria-label="Abertura do capítulo"><div class="chapter-opening-backdrop" aria-hidden="true"></div><div class="chapter-opening-inner"><span class="chapter-opening-kicker">O ÚLTIMO GRITO</span><h2 class="chapter-opening-title">${title}</h2><p class="chapter-opening-subtitle">${subtitle}</p><button class="chapter-opening-skip" type="button">TOQUE PARA CONTINUAR</button></div></section>`;
-}
-function activateChapterOpening(nodeId){
-  const overlay=document.getElementById('chapter-opening');
-  if(!overlay)return;
-  chapterOpeningSeenNode=nodeId;
-  if(chapterOpeningTimer)clearTimeout(chapterOpeningTimer);
-  if(chapterOpeningHideTimer)clearTimeout(chapterOpeningHideTimer);
-  let closed=false;
-  const close=()=>{
-    if(closed)return;
-    closed=true;
-    overlay.classList.add('closing');
-    chapterOpeningHideTimer=setTimeout(()=>overlay.remove(),650);
-    window.removeEventListener('keydown',onKey);
-  };
-  const onKey=e=>{if(['Enter',' ','Escape'].includes(e.key)){e.preventDefault();close();}};
-  overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('.chapter-opening-skip')||e.target.closest('.chapter-opening-inner'))close();});
-  window.addEventListener('keydown',onKey);
-  chapterOpeningTimer=setTimeout(close,6000);
-}
 function highestReached(a){
   if(!a||!a.node||!window.NODES?.[a.node]) return 0;
   const ids=[...new Set([chapterIdFromLabel(window.NODES[a.node].chapter), ...((a.history||[]).map(h=>chapterIdFromLabel(h.chapter)))])];
@@ -155,10 +122,9 @@ function highestReached(a){
 }
 function normalize(a){
   if(!a||!a.hero||typeof a.hero.name!=='string'||!window.NODES?.[a.node]) return null;
-  const b=baseSave(a.hero.name,a.hero.pronouns||'ele',a.hero.look||'casual',a.hero.hair||'curto',a.hero.temperament||'observador',a.hero.fear||'perda');
-  b.hero={...b.hero,...(a.hero||{})};
+  const b=baseSave(a.hero.name,a.hero.pronouns||'ele',a.hero.look||'casual');
   b.node=a.node;
-  b.bonds={...b.bonds,...(a.bonds||{})};for(const id of Object.keys(b.bonds)){const v=Number(b.bonds[id]);b.bonds[id]=Number.isFinite(v)?Math.max(0,Math.min(100,v)):50;}
+  b.bonds={...b.bonds,...(a.bonds||{})};
   b.traits={...b.traits,...(a.traits||{})};
   b.romance={...b.romance,...(a.romance||{})};
   for(const id of Object.keys(b.romance)){b.romance[id]={atracao:0,ressentimento:0,...(b.romance[id]||{})};}
@@ -188,7 +154,7 @@ function normalize(a){
   b.social107=social?.restore?.(a.social107,b)||b.social107;
   b.finale108=window.UGFinale108?.restore?.(a.finale108,b)||b.finale108;
   b.updated=a.updated||Date.now();
-  b.saveVersion=21;
+  b.saveVersion=20;
   return b;
 }
 function slotKey(n){return SLOT_PREFIX+n}
@@ -204,11 +170,11 @@ function persist(){try{if(save)localStorage.setItem(slotKey(activeSlot),JSON.str
 function interp(s){const name=save?.hero?.name?.split(' ')[0]||'Você';return esc(s).replaceAll('{nome}',esc(name))}
 function formatted(s){return String(s||'').split(/\n\n/).flatMap(part=>{
  // Narration and dialogue occupy distinct cards even when the source previously joined them.
- const chunks=part.replace(/([^\n])\s+((?:Ryan|Breno|Rayssa|Rauanny|Laisla|Isabella|Allan|Samuel|Bella|Moisés|Diego|Paramédico|Apresentadora|Você|Enfermeira|Policial|Atendente|Garçom|Número desconhecido|NÚMERO DESCONHECIDO):\s*[—-])/g,'$1\n\n$2').split(/\n\n/);
+ const chunks=part.replace(/([^\n])\s+((?:Ryan|Breno|Rayssa|Rauanny|Laisla|Isabella|Allan|Samuel|Bella|Moisés|Você|Enfermeira|Policial|Atendente|Garçom|Número desconhecido|NÚMERO DESCONHECIDO):\s*[—-])/g,'$1\n\n$2').split(/\n\n/);
  return chunks.map(chunk=>{let content=chunk.trim();if(!content)return '';const m=content.match(/^([A-Za-zÀ-ÿ ]{2,32}|Você):\s*[—-]\s*([\s\S]*)$/);if(m){return `<div class="spoken"><div class="speaker-name">${interp(m[1]==='Você'?(save?.hero?.name||'Você'):m[1])}</div><p>${interp(m[2])}</p></div>`}if(content==='UM ANO DEPOIS.'||(content.startsWith('ENQUANTO ISSO')||content.startsWith('PONTO DE VISTA:')))return `<div class="intertitle">${interp(content)}</div>`;return `<p class="narrative">${interp(content).replaceAll('\n','<br>')}</p>`});
  }).join('')}
 function allowed(req){return !req||req.every(([type,key,val])=>type==='flag'?Boolean(save.flags[key])===Boolean(val):type==='clue'?save.clues.includes(key)===Boolean(val):type==='bond'?(save.bonds[key]||0)>=val:true)}
-function apply(effects){(effects||[]).forEach(([type,key,val])=>{if(type==='flag'){save.flags[key]=!!val;if(key.startsWith('romance_')&&key.endsWith('_c5')&&val)save.romanceEscolhido=key.slice(8,-3)}if(type==='clue'&&!save.clues.includes(key))save.clues.push(key);if(type==='set')save.flags[key]=val;if(type==='cross')save.flags['c6_crossed_'+key]=true;if(type==='death7'){const deaths=['samuel','breno','allan','ryan','rauanny','laisla','isabella','rayssa'].filter(id=>save.flags['c7_morto_'+id]).length;if(deaths<3)save.flags['c7_morto_'+key]=true;else save.flags['c7_ferido_'+key]=true;}if(type==='injury7')save.flags['c7_ferido_'+key]=true;if(type==='death'){const deaths=window.UG6?.countDeaths?.(save)||0;if(deaths<3)save.flags['c6_morto_'+key]=true;else {save.flags['c6_ferida_'+key]=true;save.flags['c6_crossed_'+key]=true;}}if(type==='romance'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].atracao=Math.max(0,Math.min(100,save.romance[key].atracao+val))}if(type==='resent'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].ressentimento=Math.max(0,Math.min(100,save.romance[key].ressentimento+val))}if(type==='trait')save.traits[key]=(save.traits[key]||0)+val;if(type==='bond')save.bonds[key]=Math.max(0,Math.min(100,(save.bonds[key]??50)+val));if(type==='friendBond'&&Array.isArray(key)&&key.length===2){save.friendBonds??={};const pair=pairKey(key[0],key[1]);save.friendBonds[pair]=Math.max(-100,Math.min(100,(save.friendBonds[pair]||0)+Number(val||0)))}})}
+function apply(effects){(effects||[]).forEach(([type,key,val])=>{if(type==='flag'){save.flags[key]=!!val;if(key.startsWith('romance_')&&key.endsWith('_c5')&&val)save.romanceEscolhido=key.slice(8,-3)}if(type==='clue'&&!save.clues.includes(key))save.clues.push(key);if(type==='set')save.flags[key]=val;if(type==='cross')save.flags['c6_crossed_'+key]=true;if(type==='death7'){const deaths=['samuel','breno','allan','ryan','rauanny','laisla','isabella','rayssa'].filter(id=>save.flags['c7_morto_'+id]).length;if(deaths<3)save.flags['c7_morto_'+key]=true;else save.flags['c7_ferido_'+key]=true;}if(type==='injury7')save.flags['c7_ferido_'+key]=true;if(type==='death'){const deaths=window.UG6?.countDeaths?.(save)||0;if(deaths<3)save.flags['c6_morto_'+key]=true;else {save.flags['c6_ferida_'+key]=true;save.flags['c6_crossed_'+key]=true;}}if(type==='romance'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].atracao=Math.max(0,Math.min(100,save.romance[key].atracao+val))}if(type==='resent'){save.romance[key]??={atracao:0,ressentimento:0};save.romance[key].ressentimento=Math.max(0,Math.min(100,save.romance[key].ressentimento+val))}if(type==='trait')save.traits[key]=(save.traits[key]||0)+val;if(type==='bond')save.bonds[key]=Math.max(0,Math.min(100,(save.bonds[key]||50)+val));if(type==='friendBond'&&Array.isArray(key)&&key.length===2){save.friendBonds??={};const pair=pairKey(key[0],key[1]);save.friendBonds[pair]=Math.max(-100,Math.min(100,(save.friendBonds[pair]||0)+Number(val||0)))}})}
 
 function ui(body){if(urgentInterval){clearInterval(urgentInterval);urgentInterval=null}app.innerHTML=`<div class="grain"></div><div class="ui">${body}</div>`;audio?.syncView(view)}
 function header(chapter='UMA HISTÓRIA DE LAKEWOOD',isLanding=false){
@@ -234,29 +200,15 @@ function audioBack(){view=previousAudioView==='audio'?'menu':previousAudioView;r
 
 function menu(){
   view='menu'; const existing=getSave();
-  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions main-menu-compact"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button>${existing?'<button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="import">IMPORTAR SAVE</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.7.7 · A ÚLTIMA LIGAÇÃO</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.7.7 · LAKEWOOD</span></footer></main>`);
+  ui(`<main class="landing scenic town"><div class="vignette"></div>${header('UMA HISTÓRIA DE LAKEWOOD',true)}<div class="landing-center"><div class="eyebrow">UM VERÃO. OITO SEGREDOS. UMA ÚLTIMA CHANCE.</div><div class="main-title og-logo" aria-label="O Último Grito"><span class="og-overline">O <em>ÚLTIMO</em></span><span class="og-headline">GRITO<span class="og-cut" aria-hidden="true"></span></span><span class="og-baseline">UM SEGREDO NUNCA MORRE</span></div><p class="tagline">Alguém sabe o que aconteceu naquela noite — e está cansado de esperar.</p><div class="actions"><button class="primary" data-act="new">NOVO JOGO <span>↗</span></button>${existing?'<button class="secondary" data-act="continue">CONTINUAR HISTÓRIA</button><button class="secondary" data-act="chapters">CAPÍTULOS</button><button class="secondary" data-act="recap">ANTERIORMENTE · SUA HISTÓRIA</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="phone">CELULAR INTERATIVO</button><button class="secondary" data-act="butterfly">EFEITO BORBOLETA</button><button class="secondary" data-act="export">EXPORTAR SAVE</button>':''}<button class="secondary" data-act="slots">PARTIDAS / SLOTS</button><button class="secondary" data-act="cast">CONHECER PERSONAGENS</button><button class="secondary" data-act="import">IMPORTAR SALVAMENTO</button><button class="secondary" data-act="audio">♫ CONFIGURAR ÁUDIO</button></div><p class="subtitle">V1.3.2 · CAPÍTULO 9 — UM ÚLTIMO JOGO</p></div><footer>LAKEWOOD · VERÃO DE 2026 <span>V1.3.2 · LAKEWOOD</span></footer></main>`);
 }
 function creator(){
   view='creator';
-  ui(`<main class="landing scenic house">${header('CRIAÇÃO DE PERSONAGEM')}<section class="panel creator"><div class="eyebrow">ANTES DE VOLTAR A LAKEWOOD</div><h1>Quem vai sobreviver?</h1><p>Você é o nono personagem dessa história. Suas escolhas, sua maneira de agir e os vínculos que construir vão mudar como Lakewood se lembra de você.</p><form id="creator"><label>SEU NOME COMPLETO<input name="name" maxlength="48" minlength="2" placeholder="Digite seu nome" required autocomplete="off"></label><div class="field-row"><label>PRONOMES<select name="pronouns"><option value="ela">Ela / dela</option><option value="ele">Ele / dele</option><option value="elu">Elu / delu</option></select></label><label>ESTILO VISUAL<select name="look"><option value="casual">Casual</option><option value="alternativo">Alternativo</option><option value="elegante">Elegante</option><option value="esportivo">Esportivo</option></select></label></div><div class="field-row"><label>SEU CABELO<select name="hair"><option value="curto">Curto</option><option value="medio">Médio</option><option value="longo">Longo</option><option value="cacheado">Cacheado</option><option value="crespo">Crespo</option></select></label><label>JEITO DE AGIR<select name="temperament"><option value="observador">Observador — percebe detalhes</option><option value="protetor">Protetor — cuida dos outros</option><option value="franco">Franco — fala o que pensa</option><option value="impulsivo">Impulsivo — age depressa</option></select></label></div><label>O QUE MAIS TE ASSUSTA?<select name="fear"><option value="perda">Perder alguém importante</option><option value="abandono">Ficar para trás</option><option value="mentira">Ser enganado por quem confia</option></select></label><p class="note">Seu jeito de agir altera diálogos e algumas opções. Nenhum traço define sozinho quem vive ou morre. Sua aparência ainda é descrita em texto, sem retrato automático.</p><button class="primary full" type="submit">COMEÇAR PRÓLOGO ↗</button></form><button class="back" data-act="menu">← Voltar ao menu</button></section></main>`);
+  ui(`<main class="landing scenic house">${header('CRIAÇÃO DE PERSONAGEM')}<section class="panel creator"><div class="eyebrow">ANTES DE VOLTAR A LAKEWOOD</div><h1>Quem vai sobreviver?</h1><p>Você é o nono personagem dessa história. Os outros oito carregam o peso de um verão que ninguém deveria lembrar.</p><form id="creator"><label>SEU NOME COMPLETO<input name="name" maxlength="48" minlength="2" placeholder="Digite seu nome" required autocomplete="off"></label><div class="field-row"><label>PRONOMES<select name="pronouns"><option value="ela">Ela / dela</option><option value="ele">Ele / dele</option><option value="elu">Elu / delu</option></select></label><label>ESTILO VISUAL<select name="look"><option value="casual">Casual</option><option value="alternativo">Alternativo</option><option value="elegante">Elegante</option><option value="esportivo">Esportivo</option></select></label></div><p class="note">Os romances, as pistas e as consequências acompanharão esse personagem em todos os capítulos.</p><button class="primary full" type="submit">COMEÇAR PRÓLOGO ↗</button></form><button class="back" data-act="menu">← Voltar ao menu</button></section></main>`);
 }
-function sceneNode(id){const n=window.NODES?.[id];if(!n)return null;const resolved=window.UG6?.resolve?.(id,save)||n;const polished=window.UGPolish?.resolve?.(id,save,resolved)||resolved;const known=window.UGKnowledge?.resolve?.(id,save,polished)||polished;const cons=window.UGConsequences?.resolve?.(id,save,known)||known;const linked=inter?.resolve?.(id,save,cons)||cons;const enriched=social?.sceneAddon?.(save,id,linked)||linked;const continuous=window.UG108?.resolve?.(id,save,enriched)||enriched;const finalised=window.UGFinale108?.resolve?.(id,save,continuous)||continuous;const c7=window.UG7?.resolve?.(id,save,finalised)||finalised;const c8=window.UG8?.resolve?.(id,save,c7)||c7;const c9=window.UG9?.resolve?.(id,save,c8)||c8;const c10=window.UG10?.resolve?.(id,save,c9)||c9;const c150=window.UG150?.resolve?.(id,save,c10)||c10;const c151=window.UG151?.resolve?.(id,save,c150)||c150;const c152=window.UG152?.resolve?.(id,save,c151)||c151;const c160=window.UG160?.resolve?.(id,save,c152)||c152;const c161=window.UG161?.resolve?.(id,save,c160)||c160;const c170=window.UG170?.resolve?.(id,save,c161)||c161;const c171=window.UG171?.resolve?.(id,save,c170)||c170;const c172=window.UG172?.resolve?.(id,save,c171)||c171;const c175=window.UG175?.resolve?.(id,save,c172)||c172;const c176=window.UG176?.resolve?.(id,save,c175)||c175;return window.UG177?.resolve?.(id,save,c176)||c176;}
-function seasonFinaleBoard(s){
-  const f=s?.flags||{};
-  const ids=['allan','samuel','isabella','rayssa','rauanny','laisla','ryan','breno'];
-  const names={allan:'Allan',samuel:'Samuel',isabella:'Isabella',rayssa:'Rayssa',rauanny:'Rauanny',laisla:'Laisla',ryan:'Ryan',breno:'Breno'};
-  const dead=id=>window.UG10?.dead?.(s,id)||false;
-  const alive=ids.filter(id=>!dead(id)),gone=ids.filter(dead);
-  const hero=esc(s?.hero?.name?.split(' ')[0]||'Protagonista');
-  const heroDead=!!f.c10_heroi_morto;
-  const jullia=f.c10_jullia_fim==='presa'?['Capturada','Contida e entregue às autoridades']:f.c10_jullia_fim==='lago'&&f.c10_pistola?['Desaparecida após o disparo','A morte ainda depende da confirmação da polícia']:['Foragida','Paradeiro desconhecido'];
-  const rayssa=dead('rayssa')?['Morreu','Perda confirmada durante a história']:f.c10_rayssa_justica==='depoimento'?['Detida','Responderá por sua participação']:f.c10_rayssa_justica==='segredo'?['Em liberdade','O grupo decidiu ocultar parte da participação dela']:f.c10_rayssa_status==='jullia'||f.c10_rayssa_justica==='foragida'?['Foragida','Escolheu não se entregar']:['Situação indefinida','Os depoimentos e as provas decidirão o próximo passo'];
-  const pills=arr=>(arr.length?arr.map(id=>`<span class="season-finale-pill">${esc(names[id])}</span>`).join(''):'<span class="season-finale-empty">Nenhum</span>');
-  return `<section class="season-finale-board" aria-label="Resumo dos finais da primeira temporada"><div class="season-finale-eyebrow">O ÚLTIMO GRITO · TEMPORADA 1</div><h2>O Grand Finale</h2><p class="season-finale-subtitle">O que restou depois daquela noite em Lakewood</p><div class="season-finale-cards"><article><span>PROTAGONISTA</span><strong>${hero}</strong><small>${heroDead?'Morreu no confronto final':'Sobreviveu ao confronto'}</small></article><article><span>JULLIA</span><strong>${esc(jullia[0])}</strong><small>${esc(jullia[1])}</small></article><article><span>RAYSSA</span><strong>${esc(rayssa[0])}</strong><small>${esc(rayssa[1])}</small></article></div><div class="season-finale-list"><div class="season-finale-list-title">SOBREVIVENTES <b>${alive.length}</b></div><div class="season-finale-pills">${pills(alive)}</div></div><div class="season-finale-list"><div class="season-finale-list-title">PERDAS <b>${gone.length}</b></div><div class="season-finale-pills">${pills(gone)}</div></div><p class="season-finale-close">Nem todas as perguntas tiveram resposta. Mas suas escolhas decidiram quem pôde atravessar a noite.</p><p class="season-finale-coming">CONTINUA...</p></section>`;
-}
+function sceneNode(id){const n=window.NODES?.[id];if(!n)return null;const resolved=window.UG6?.resolve?.(id,save)||n;const polished=window.UGPolish?.resolve?.(id,save,resolved)||resolved;const known=window.UGKnowledge?.resolve?.(id,save,polished)||polished;const cons=window.UGConsequences?.resolve?.(id,save,known)||known;const linked=inter?.resolve?.(id,save,cons)||cons;const enriched=social?.sceneAddon?.(save,id,linked)||linked;const continuous=window.UG108?.resolve?.(id,save,enriched)||enriched;const finalised=window.UGFinale108?.resolve?.(id,save,continuous)||continuous;const c7=window.UG7?.resolve?.(id,save,finalised)||finalised;const c8=window.UG8?.resolve?.(id,save,c7)||c7;return window.UG9?.resolve?.(id,save,c8)||c8;}
 function game(){
-  view='game'; if(save?.node && window.UG151?.enter?.(save,save.node))persist(); if(save?.node && window.UG10?.enter?.(save,save.node))persist(); if(save?.node && window.UG9?.enter?.(save,save.node))persist(); if(save?.node && window.UG8?.enter?.(save,save.node))persist(); if(save?.node && window.UG7?.enter?.(save,save.node))persist();if(save?.node && window.UGFinale108?.enter?.(save,save.node))persist(); if(save?.node && window.UGKnowledge?.enter?.(save,save.node))persist(); if(save?.node&&social?.enter?.(save,save.node))persist(); const n=sceneNode(save?.node); if(!n){menu();return}
-  const opening=chapterOpeningForNode(n.id); const showOpening=!!(opening&&chapterOpeningSeenNode!==n.id);
+  view='game'; if(save?.node && window.UG9?.enter?.(save,save.node))persist(); if(save?.node && window.UG8?.enter?.(save,save.node))persist(); if(save?.node && window.UG7?.enter?.(save,save.node))persist();if(save?.node && window.UGFinale108?.enter?.(save,save.node))persist(); if(save?.node && window.UGKnowledge?.enter?.(save,save.node))persist(); if(save?.node&&social?.enter?.(save,save.node))persist(); const n=sceneNode(save?.node); if(!n){menu();return}
   const choices=n.choices.filter(c=>allowed(c.requires));
   const active=inter?.activeAlert?.(save,n.id);
   const explore=social?.opportunity?.(save,n.id);const remembered=save?.social107?.scenes?.[n.id];
@@ -267,29 +219,17 @@ function game(){
   const usedMarkup=(social?.usedResults?.(save,n.id)||[]).map(t=>`<section class="v107-result">${esc(t)}</section>`).join('');
   const sceneExtras=explore?`<section class="v107-explore"><h3>EXPLORAR · ${esc(explore.title)}</h3><p>${esc(explore.intro)}</p><div class="v107-explore-actions">${explore.options.map(o=>`<button class="secondary" data-explore="${o.id}">${esc(o.text)}</button>`).join('')}</div></section>`:remembered?`<section class="v107-result">${esc(remembered.result)}</section>`:'';
   const timedReady=emergency&&urgentArmedNode!==n.id;const timeMarkup=emergency?(timedReady?`<section class="v107-timer-ready"><b>O PERIGO SE APROXIMA</b><p>Leia a cena antes de iniciar. Depois, você terá ${emergency.secs} segundos para decidir.</p><button class="primary" data-urgent-start="${n.id}">COMEÇAR DECISÃO URGENTE</button></section>`:`<div class="v107-countdown" role="timer" aria-label="Tempo restante">Tempo para agir: <strong id="v107-clock">${urgentRemaining}s</strong></div>`):'';
-  ui(`<main class="play scenic ${esc(n.scene)}${n.id.startsWith('c152_')?' memory-scene':n.id.startsWith('c170_')?' testimony-scene':n.id.startsWith('c175_romance_')?' romantic-finale-scene':n.id.startsWith('c175_breno_')?' emotional-reunion-scene':n.id.startsWith('c176_podcast_')||n.id==='k10_53'?' podcast-epilogue-scene':n.id.startsWith('c177_')||n.id==='k10_54'?' final-call-scene':''}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${n.id==='k10_55'?seasonFinaleBoard(save)+(window.UG172?.creditsMarkup?.(save,esc)||''):formatted(n.text)}</div>${alertMarkup}${sceneExtras}${usedMarkup}${useMarkup}${timeMarkup}<div class="choices" ${timedReady?'hidden':''}>${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div>${n.id==='k10_55'?`<div class="season-passport-action"><p>Continue sua história na próxima temporada: exporte suas decisões sem substituir o save completo.</p><button class="primary" data-act="season-passport">⇩ EXPORTAR PASSAPORTE DA TEMPORADA 1</button></div>`:''}<div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div></div>${showOpening?chapterOpeningMarkup(opening):''}</main>`);
-  audio?.syncNode(n);if(showOpening)activateChapterOpening(n.id);if(emergency&&!timedReady&&urgentArmedNode===n.id)startUrgentTick(n.id);
+  ui(`<main class="play scenic ${esc(n.scene)}"><div class="vignette"></div>${header(n.chapter)}<div class="hud-left"><b>${esc(n.location)}</b><span>${esc(n.time)} · LAKEWOOD</span></div><div class="scene-accent">${n.scene==='phone'?'✆':n.scene==='lake'?'≈':n.scene==='road'?'⌁':n.scene==='party'?'✧':'◇'}</div><div class="dialogue"><div class="line-top"><span class="narrator">${esc(n.speaker||'NARRADOR')}</span><span class="chapter-index">${esc(n.chapter)}</span></div><div class="story-text">${formatted(n.text)}</div>${alertMarkup}${sceneExtras}${usedMarkup}${useMarkup}${timeMarkup}<div class="choices" ${timedReady?'hidden':''}>${choices.length?choices.map((c,i)=>`<button class="choice" data-choice="${i}"><span class="choice-num">${String(i+1).padStart(2,'0')}</span><span>${esc(c.text)}</span><b>↗</b></button>`).join(''):`<button class="primary" data-act="chapters">VER CAPÍTULOS ↗</button><button class="secondary" data-act="clues">QUADRO DE PISTAS</button><button class="secondary" data-act="menu">MENU PRINCIPAL</button>`}</div></div><div class="save-note">◆ PROGRESSO SALVO AUTOMATICAMENTE</div></main>`);
+  audio?.syncNode(n);if(emergency&&!timedReady&&urgentArmedNode===n.id)startUrgentTick(n.id);
 }
 function startUrgentTick(id){if(urgentInterval)clearInterval(urgentInterval);urgentInterval=setInterval(()=>{if(view!=='game'||!save||save.node!==id){clearInterval(urgentInterval);urgentInterval=null;return}if(document.hidden)return;urgentRemaining--;const c=document.getElementById('v107-clock');if(c)c.textContent=Math.max(0,urgentRemaining)+'s';if(urgentRemaining<=0){clearInterval(urgentInterval);urgentInterval=null;urgentArmedNode=null;const n=sceneNode(id);const cc=n.choices.filter(v=>allowed(v.requires));if(cc.length){const fallback=(window.UG8?.timer?.(save,id,cc)||window.UG7?.timer?.(save,id,cc))?.fallback;select(Number.isInteger(fallback)&&fallback>=0&&fallback<cc.length?fallback:cc.length-1);}}},1000);}
 function exportSave(){const data=save||getSave();if(!data){alert('Nenhuma partida para exportar.');return}const payload=JSON.stringify({game:'o-ultimo-grito',format:1,save:normalize(data)},null,2);const blob=new Blob([payload],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='o-ultimo-grito-slot-'+activeSlot+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
-function exportSeasonPassport(){
- const data=save||getSave();if(!data){alert('Nenhuma partida encontrada.');return;}
- try{
-  const passport=(window.UG172?.seasonPassport||window.UG161?.seasonPassport)?.(data);
-  if(!passport)throw Error('O exportador da Temporada 1 não está disponível.');
-  const blob=new Blob([JSON.stringify(passport,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='o-ultimo-grito-passaporte-temporada-1.json';
-  document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
- }catch(e){alert('Passaporte indisponível: '+e.message)}
-}
 function importSave(){const picker=document.createElement('input');picker.type='file';picker.accept='.json,application/json';picker.onchange=async()=>{const f=picker.files?.[0];if(!f)return;if(f.size>2000000){alert('Arquivo muito grande.');return}try{const parsed=JSON.parse(await f.text());if(parsed.game!=='o-ultimo-grito'||parsed.format!==1)throw Error('Formato de salvamento incompatível.');const imported=normalize(parsed.save);if(!imported)throw Error('O ponto salvo não existe nesta versão ou os dados estão incompletos.');if(getSave()&&!confirm('Importar irá substituir APENAS o slot '+activeSlot+'. Deseja continuar?'))return;save=imported;persist();alert('Salvamento importado com sucesso!');game()}catch(e){alert('Não foi possível importar: '+e.message)}};picker.click()}
 function select(i){
  const n=sceneNode(save.node),choices=n.choices.filter(c=>allowed(c.requires)),c=choices[i];if(!c)return;
  audio?.cue('toque');const before={...save.bonds},beforePairs={...save.friendBonds};
  const social=[...(window.UGReview?.socialForChoice?.(n.id,c.text)||[]),...(window.UGConsequences?.socialForChoice?.(n.id,c,save)||[])].map(([a,b,delta])=>['friendBond',[a,b],delta]);
- const effects=[...(c.effects||[]),...social,...(window.UG151?.bonus?.(save,n.id,c)||[])];apply(effects);
+ const effects=[...(c.effects||[]),...social];apply(effects);
  window.UG107?.onChoice?.(save,n.id,c,effects);
  window.UG9?.onChoice?.(save,n.id,c,effects);
  window.UG8?.onChoice?.(save,n.id,c,effects);
@@ -310,7 +250,7 @@ function select(i){
 function journal(){
   if(!save){menu();return} view='journal';
   const rows=save.history.slice().reverse().map(h=>`<li><small>${esc(h.chapter)}</small><div>${esc(h.choice)}</div>${h.effects.filter(e=>e.type==='bond'||e.type==='friendBond').length?`<span>${h.effects.filter(e=>e.type==='bond'||e.type==='friendBond').map(e=>`${esc(e.name)}: ${e.from} → ${e.to}`).join(' · ')}</span>`:''}</li>`).join('');
-  ui(`<main class="landing scenic road">${header('DIÁRIO DE CONSEQUÊNCIAS')}<section class="panel wide"><div class="eyebrow">EFEITO BORBOLETA</div><h1>Suas escolhas deixam marcas.</h1><div class="consequence-overview"><h3>CONDIÇÕES E LEMBRANÇAS DO GRUPO</h3><div class="consequence-mini-grid">${ELENCO.map(([id,name])=>{const cond=window.UGConsequences?.status?.(save,id)||'Vivo';const n=window.UGConsequences?.memories?.(save,id)?.length||0;return `<button class="consequence-mini" data-person="${id}"><b>${esc(name)}</b><span>${esc(cond)}${n?' · '+n+' memória(s)':''}</span></button>`}).join('')}</div><p class="note">Toque em um nome para abrir sua ficha. As marcas só aparecem quando os acontecimentos foram registrados na partida.</p></div>${(window.UG151?.mementos?.(save)||[]).length?`<section class="butterfly-memory"><h3>LEMBRANÇAS QUE VOLTAM</h3><p>O jogo reconhece essas decisões de capítulos anteriores.</p><div class="butterfly-memory-grid">${window.UG151.mementos(save).map(m=>`<article><strong>${esc(m.title)}</strong><span>${esc(m.detail)}</span></article>`).join('')}</div></section>`:''}${(window.UG152?.memories?.(save)||[]).length?`<section class="butterfly-memory"><h3>MEMÓRIAS AFETIVAS</h3><p>Esses momentos foram vividos e registrados na sua partida. Personagens mortos continuam presentes apenas nas lembranças.</p><div class="butterfly-memory-grid">${window.UG152.memories(save).map(m=>`<article><strong>${esc(m.title)}</strong><span>${esc(m.detail)}</span></article>`).join('')}</div></section>`:''}<div class="dashboard"><div><h3>PERSONAGENS</h3>${ELENCO.map(p=>`<div class="bond"><span>${esc(p[1])}</span><div class="meter"><i style="width:${save.bonds[p[0]]??50}%"></i></div><strong>${save.bonds[p[0]]??50}</strong></div>`).join('')}</div><div><h3>INTERESSE ROMÂNTICO</h3><p class="note">${save.romanceEscolhido?save.romanceEscolhido==='solteiro'?'Nenhum':esc((ELENCO.find(p=>p[0]===save.romanceEscolhido)?.[1]||'—').split(' ')[0]):'Ainda não definido'}</p><h3>TRAÇOS DESENVOLVIDOS</h3>${Object.entries(save.traits).map(([k,v])=>`<p class="stat">${esc(k)} <strong>${v}</strong></p>`).join('')}<h3>DECISÕES (${save.history.length})</h3><ol class="history">${rows||'<li>Nenhuma decisão registrada.</li>'}</ol></div></div><div class="actions"><button class="primary" data-act="resume">VOLTAR À HISTÓRIA ↗</button><button class="secondary" data-act="butterfly">LINHA DO TEMPO</button><button class="secondary" data-act="phone">CELULAR</button><button class="secondary" data-act="clues">VER PISTAS</button><button class="back" data-act="menu">← Menu</button></div></section></main>`);
+  ui(`<main class="landing scenic road">${header('DIÁRIO DE CONSEQUÊNCIAS')}<section class="panel wide"><div class="eyebrow">EFEITO BORBOLETA</div><h1>Suas escolhas deixam marcas.</h1><div class="consequence-overview"><h3>CONDIÇÕES E LEMBRANÇAS DO GRUPO</h3><div class="consequence-mini-grid">${ELENCO.map(([id,name])=>{const cond=window.UGConsequences?.status?.(save,id)||'Vivo';const n=window.UGConsequences?.memories?.(save,id)?.length||0;return `<button class="consequence-mini" data-person="${id}"><b>${esc(name)}</b><span>${esc(cond)}${n?' · '+n+' memória(s)':''}</span></button>`}).join('')}</div><p class="note">Toque em um nome para abrir sua ficha. As marcas só aparecem quando os acontecimentos foram registrados na partida.</p></div><div class="dashboard"><div><h3>PERSONAGENS</h3>${ELENCO.map(p=>`<div class="bond"><span>${esc(p[1])}</span><div class="meter"><i style="width:${save.bonds[p[0]]||50}%"></i></div><strong>${save.bonds[p[0]]||50}</strong></div>`).join('')}</div><div><h3>INTERESSE ROMÂNTICO</h3><p class="note">${save.romanceEscolhido?save.romanceEscolhido==='solteiro'?'Você preferiu não investir em uma relação romântica agora.':esc(ELENCO.find(p=>p[0]===save.romanceEscolhido)?.[1]||'—'):'Ainda não definido — decida no capítulo 5.'}</p><h3>AFINIDADES ROMÂNTICAS</h3>${['ryan','breno','rayssa','rauanny'].map(id=>`<p class="stat">${esc(ELENCO.find(x=>x[0]===id)?.[1]||id)} <strong>♥ ${save.romance?.[id]?.atracao||0} · Mágoas ${save.romance?.[id]?.ressentimento||0}</strong></p>`).join('')}<h3>TRAÇOS</h3>${Object.entries(save.traits).map(([k,v])=>`<p class="stat">${esc(k)} <strong>${v}</strong></p>`).join('')}<h3>DECISÕES (${save.history.length})</h3><ol class="history">${rows||'<li>Nenhuma decisão registrada.</li>'}</ol></div></div><div class="actions"><button class="primary" data-act="resume">VOLTAR À HISTÓRIA ↗</button><button class="secondary" data-act="butterfly">LINHA DO TEMPO</button><button class="secondary" data-act="phone">CELULAR</button><button class="secondary" data-act="clues">VER PISTAS</button><button class="back" data-act="menu">← Menu</button></div></section></main>`);
 }
 const TRAITS={
  rayssa:[90,65,86,42,58],ryan:[75,70,76,82,48],laisla:[68,79,91,78,52],samuel:[37,83,72,85,78],rauanny:[66,87,92,87,63],allan:[79,72,83,95,61],isabella:[62,84,93,59,77],breno:[82,62,88,35,80]
@@ -318,16 +258,9 @@ const TRAITS={
 // Retratos ilustrados oficiais do elenco (arquivos locais, sem rede ou APIs externas).
 const CAST_PORTRAITS=Object.freeze({
   rayssa:'rayssa.webp',ryan:'ryan.webp',laisla:'laisla.webp',samuel:'samuel.webp',
-  rauanny:'rauanny.webp',allan:'allan.webp',isabella:'isabella.webp',breno:'breno.webp',
-  bella:'bella.webp?v=1.7.4',jullia:'jullia.webp?v=1.7.4',moises:'moises.webp?v=1.7.4',diego:'diego.webp?v=1.7.4'
+  rauanny:'rauanny.webp',allan:'allan.webp',isabella:'isabella.webp',breno:'breno.webp'
 });
-const NPC_CAST=[
- ['bella','Bella Gomes','Irmã de Jullia, que não desistiu de procurar respostas sobre seu desaparecimento.','Bella segue pistas com coragem, mas também carrega o peso de uma família que mudou para sempre.'],
- ['jullia','Jullia Gomes','Anfitriã da festa do prólogo e centro da história de Lakewood.','A lembrança daquela festa ganha significados diferentes conforme a verdade é descoberta.'],
- ['moises','Moisés Oliveira','Namorado de Jullia, marcado pelo desaparecimento e pelos segredos de Lakewood.','Suas ações e seus silêncios são parte importante da investigação.'],
- ['diego','Xerife Diego','Xerife de Lakewood, disposto a ajudar o grupo a encontrar respostas mesmo quando o silêncio atrapalha a investigação.','Diego tenta proteger os sobreviventes, seguir as provas corretas e ouvir cada versão dos fatos sem apagar a dor que ficou para trás.']
-];
-function characterDead(id){return (id==='allan'&&!!save?.flags?.allan_morto_c4)||!!save?.flags?.['c6_morto_'+id]||!!save?.flags?.['c7_morto_'+id]||!!save?.flags?.['c8_morto_'+id]||!!save?.flags?.['c9_morto_'+id]||!!save?.flags?.['c10_morto_'+id];}
+function characterDead(id){return (id==='allan'&&!!save?.flags?.allan_morto_c4)||!!save?.flags?.['c6_morto_'+id]||!!save?.flags?.['c7_morto_'+id]||!!save?.flags?.['c8_morto_'+id]||!!save?.flags?.['c9_morto_'+id];}
 function castPortrait(id,name,large=false){
   const image=CAST_PORTRAITS[id];
   if(!image)return `<div class="cast-portrait-placeholder" aria-hidden="true">${esc(name.charAt(0))}</div>`;
@@ -374,15 +307,12 @@ function relationRows(id){
  }).join('');
 }
 function characterStatus(id){
- if(!save)return 'Sem informações da partida';
- const f=save.flags||{};
- const current=window.UG150?.status?.(save,id)||window.UGConsequences?.status?.(save,id)||'Vivo';
- if(window.UG150?.dead?.(save,id)){
-  if(id==='allan'&&f.allan_morto_c4)return current+' · Capítulo 4';
-  const chapter=[10,9,8,7,6].find(c=>f[`c${c}_morto_${id}`]);
-  return current+(chapter?' · Capítulo '+chapter:'');
- }
- return current;
+ if(save?.flags?.['c7_morto_'+id])return ['rayssa','isabella','laisla','rauanny'].includes(id)?'Falecida · Capítulo 7':'Falecido · Capítulo 7';
+ if(save?.flags?.['c7_ferido_'+id])return 'Ferimento · Capítulo 7';
+ if(save?.flags?.['c6_morto_'+id])return 'Falecido · Capítulo 6';
+ if(id==='allan'&&save?.flags?.allan_morto_c4)return 'Falecido · Capítulo 4';
+ const status=window.UGConsequences?.status?.(save,id);
+ return status&&status!=='Sem ferimentos registrados' ? status+' · recuperação pendente' : 'Vivo · acompanhando os acontecimentos';
 }
 function physicalProfile(id){
  const cons=window.UGConsequences;
@@ -396,13 +326,8 @@ function cast(){if(!save)save=getSave();view='cast';castSelected=null;renderCast
 function renderCast(){
  const selected=ELENCO.find(x=>x[0]===castSelected);
  let content='';
- if(String(castSelected||'').startsWith('npc:')){
-  const npc=NPC_CAST.find(x=>x[0]===String(castSelected).slice(4));
-  if(npc){const [id,name,desc,biography]=npc;
-   content=`<button class="back" data-act="castback">← Voltar ao elenco</button><div class="char-head">${castPortrait(id,name,true)}<div><div class="eyebrow">OUTROS ROSTOS DE LAKEWOOD</div><h1>${esc(name)}</h1><p>${esc(desc)}</p><p>${esc(biography)}</p><p class="note">Os retratos não revelam acontecimentos futuros da sua partida.</p></div></div>`;
-  }
- }else if(selected){const [id,name,age,desc]=selected;const dims=['Empatia','Coragem','Lealdade','Extroversão','Perspicácia'];const vals=TRAITS[id]||[50,50,50,50,50];const romance=save?.romance?.[id];content=`<button class="back" data-act="castback">← Voltar ao elenco</button><div class="char-head">${castPortrait(id,name,true)}<div><div class="eyebrow">PERFIL DE PERSONAGEM</div><h1>${esc(name)}</h1><p>${age} anos · ${esc(characterStatus(id))}</p><p>${esc(desc)}</p></div></div><div class="dashboard"><section><h3>CARACTERÍSTICAS</h3>${dims.map((d,i)=>`<div class="bond"><span>${d}</span><div class="meter"><i style="width:${vals[i]}%"></i></div><strong>${vals[i]}</strong></div>`).join('')}<p class="note">Traços de personalidade-base; o relacionamento com o protagonista evolui com as escolhas.</p></section><section><h3>RELACIONAMENTOS</h3>${relationRows(id)}<p class="note">Barras de afinidade com todo o grupo. Os valores variam conforme as relações e os acontecimentos da história.</p>${romance?`<p class="note">Rota afetiva: ${save?.romanceEscolhido===id?'APROXIMAÇÃO EXCLUSIVA (SEM NAMORO OFICIAL)':save?.romanceEscolhido?'AMIZADE':'AINDA EM ABERTO'} · Sua atração: ${romance.atracao}/100 · Mágoas: ${romance.ressentimento}/100</p>`:''}<h3>ESTADO ATUAL</h3><p>${esc(characterStatus(id))}</p></section></div>${physicalProfile(id)}`;
- }else content=`<div class="eyebrow">O GRUPO DE AMIGOS</div><h1>Oito amigos. Um segredo.</h1><p>Clique em um card para conhecer seus traços, relações e estado atual.</p><div class="cast-grid">${ELENCO.map(([id,name,age,desc],i)=>`<button class="cast-card cast-click${characterDead(id)?' cast-card--memorial':''}" data-person="${id}" aria-label="Abrir perfil de ${esc(name)}">${castPortrait(id,name)}<div class="cast-info"><b>${esc(name)}</b><small>${age} ANOS</small><p>${esc(desc)}</p><span>${save?esc(window.UGConsequences?.status?.(save,id)||'Vivo')+' · ':''}Confiança: ${save?.bonds?.[id]??50}/100 · VER PERFIL ↗</span></div></button>`).join('')}</div><h2 class="v172-npc-title">Outros rostos de Lakewood</h2><p>Conheça personagens que mudaram o rumo dessa história. As fichas não antecipam revelações.</p><div class="cast-grid v172-npc-grid">${NPC_CAST.map(([id,name,desc])=>`<button class="cast-card cast-click" data-person="npc:${id}" aria-label="Abrir perfil de ${esc(name)}">${castPortrait(id,name)}<div class="cast-info"><b>${esc(name)}</b><p>${esc(desc)}</p><span>VER PERFIL ↗</span></div></button>`).join('')}</div>`;
+ if(selected){const [id,name,age,desc]=selected;const dims=['Empatia','Coragem','Lealdade','Extroversão','Perspicácia'];const vals=TRAITS[id]||[50,50,50,50,50];const romance=save?.romance?.[id];content=`<button class="back" data-act="castback">← Voltar aos oito amigos</button><div class="char-head">${castPortrait(id,name,true)}<div><div class="eyebrow">PERFIL DE PERSONAGEM</div><h1>${esc(name)}</h1><p>${age} anos · ${esc(characterStatus(id))}</p><p>${esc(desc)}</p></div></div><div class="dashboard"><section><h3>CARACTERÍSTICAS</h3>${dims.map((d,i)=>`<div class="bond"><span>${d}</span><div class="meter"><i style="width:${vals[i]}%"></i></div><strong>${vals[i]}</strong></div>`).join('')}<p class="note">Traços de personalidade-base; o relacionamento com o protagonista evolui com as escolhas.</p></section><section><h3>RELACIONAMENTOS</h3>${relationRows(id)}<p class="note">Barras de afinidade com todo o grupo. Os valores variam conforme as relações e os acontecimentos da história.</p>${romance?`<p class="note">Rota afetiva: ${save?.romanceEscolhido===id?'APROXIMAÇÃO EXCLUSIVA (SEM NAMORO OFICIAL)':save?.romanceEscolhido?'AMIZADE':'AINDA EM ABERTO'} · Sua atração: ${romance.atracao}/100 · Mágoas: ${romance.ressentimento}/100</p>`:''}<h3>ESTADO ATUAL</h3><p>${esc(characterStatus(id))}</p></section></div>${physicalProfile(id)}`;
+ }else content=`<div class="eyebrow">O GRUPO DE AMIGOS</div><h1>Oito amigos. Um segredo.</h1><p>Clique em um card para conhecer seus traços, relações e estado atual.</p><div class="cast-grid">${ELENCO.map(([id,name,age,desc],i)=>`<button class="cast-card cast-click${characterDead(id)?' cast-card--memorial':''}" data-person="${id}" aria-label="Abrir perfil de ${esc(name)}">${castPortrait(id,name)}<div class="cast-info"><b>${esc(name)}</b><small>${age} ANOS</small><p>${esc(desc)}</p><span>${save?esc(window.UGConsequences?.status?.(save,id)||'Vivo')+' · ':''}Confiança: ${save?.bonds?.[id]??50}/100 · VER PERFIL ↗</span></div></button>`).join('')}</div>`;
  ui(`<main class="landing scenic lake">${header('PERSONAGENS DE LAKEWOOD')}<section class="panel wide cast-panel">${content}<button class="primary" data-act="${save?'resume':'menu'}">${save?'VOLTAR À HISTÓRIA':'VOLTAR AO MENU'} ↗</button></section></main>`)
 }
 function slotsScreen(){view='slots';migrateLegacy();ui(`<main class="landing scenic house">${header('SALVAMENTOS')}<section class="panel wide"><div class="eyebrow">LINHAS DO TEMPO</div><h1>Minhas partidas</h1><p>Você pode criar até 3 histórias independentes. A partida antiga foi preservada no slot 1 quando encontrada. Exporte os slots antes de mudar de navegador ou computador.</p><div class="slot-grid">${[1,2,3].map(i=>{const d=slotSave(i),cur=d&&chapterMetaForNode(d.node);return `<article class="slot-card ${activeSlot===i?'active':''}"><small>SLOT ${i} ${activeSlot===i?'· ATIVO':''}</small><h3>${esc(d?.hero?.name||'Vazio')}</h3><p>${d?esc(cur.short+' — '+cur.title):'Nenhum progresso neste slot'}</p><button class="secondary" data-slot="${i}">${d?'CARREGAR PARTIDA':'USAR SLOT VAZIO'} ↗</button></article>`}).join('')}</div><div class="actions"><button class="primary" data-act="menu">MENU PRINCIPAL</button><button class="secondary" data-act="import">IMPORTAR PARA SLOT ATIVO</button><button class="secondary" data-act="export">EXPORTAR SLOT ATIVO</button></div></section></main>`)}
@@ -516,7 +441,7 @@ app.addEventListener('click',e=>{
   const urgent=e.target.closest('[data-urgent-start]');if(urgent&&save&&urgent.dataset.urgentStart===save.node){const now=sceneNode(save.node);const config=window.UG8?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)))||window.UG7?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)))||social?.timer?.(save,now.id,now.choices.filter(c=>allowed(c.requires)));if(config){urgentArmedNode=now.id;urgentRemaining=config.secs;game();}return;}
   const goreToggle=e.target.closest('[data-gore-toggle]');if(goreToggle&&save){social.state(save).graphicOff=!social.state(save).graphicOff;persist();systemsScreen();return;}
   const timedToggle=e.target.closest('[data-urgency-toggle]');if(timedToggle&&save){social.state(save).timedOff=!social.state(save).timedOff;urgentArmedNode=null;persist();systemsScreen();return;}
-  const person=e.target.closest('[data-person]');if(person){castSelected=person.dataset.person;renderCast();return;}const slot=e.target.closest('[data-slot]');if(slot){activeSlot=Number(slot.dataset.slot);save=getSave();expandedAlert=false;selectedMedia=null;chapterOpeningSeenNode=null;if(save)game();else creator();return;}const btn=e.target.closest('[data-act],[data-choice]'); if(!btn) return;
+  const person=e.target.closest('[data-person]');if(person){castSelected=person.dataset.person;renderCast();return;}const slot=e.target.closest('[data-slot]');if(slot){activeSlot=Number(slot.dataset.slot);save=getSave();expandedAlert=false;selectedMedia=null;if(save)game();else creator();return;}const btn=e.target.closest('[data-act],[data-choice]'); if(!btn) return;
   if(btn.dataset.choice!==undefined){ select(Number(btn.dataset.choice)); return; }
   const action=btn.dataset.act;
   if(action==='sound') sound();
@@ -525,7 +450,7 @@ app.addEventListener('click',e=>{
   else if(action==='sound-settings'){audio?.toggle();audioScreen();}
   else if(action==='preview-message'){if(!audio?.enabled){audio?.enable();audioScreen()}audio?.cue('mensagem');}
   else if(action==='preview-knock'){if(!audio?.enabled){audio?.enable();audioScreen()}audio?.cue('batidas');}
-  else if(action==='new'){ if(getSave()&&!confirm('Novo jogo substituirá apenas o slot '+activeSlot+'. Continuar?')) return; chapterOpeningSeenNode=null; creator(); }
+  else if(action==='new'){ if(getSave()&&!confirm('Novo jogo substituirá apenas o slot '+activeSlot+'. Continuar?')) return; creator(); }
   else if(action==='continue'){ save=getSave(); if(save) game(); else menu(); }
   else if(action==='resume'){ if(save) game(); else menu(); }
   else if(action==='menu') menu();
@@ -539,10 +464,9 @@ app.addEventListener('click',e=>{
   else if(action==='butterfly')butterflyScreen();
   else if(action==='notebook')notebookScreen();
   else if(action==='export') exportSave();
-  else if(action==='season-passport') exportSeasonPassport();
   else if(action==='import') importSave();
 });
 app.addEventListener('input',e=>{if(e.target?.dataset?.playerNotes!==undefined&&save){save.interactive??=inter.empty();save.interactive.notes=String(e.target.value).slice(0,1500);persist();const status=document.getElementById('notes-status');if(status)status.textContent='Anotações salvas neste slot.';return;}const key=e.target?.dataset?.audioVolume;if(key!=='music'&&key!=='effects')return;const v=Number(e.target.value);audio?.updateSettings({[key]:v});const label=document.getElementById(key==='music'?'audio-music-value':'audio-effects-value');if(label)label.textContent=v+'%';});
-app.addEventListener('submit',e=>{ if(e.target.id!=='creator') return; e.preventDefault(); const f=new FormData(e.target); const name=String(f.get('name')||'').trim(); if(name.length<2) return; save=baseSave(name,String(f.get('pronouns')),String(f.get('look')),String(f.get('hair')||'curto'),String(f.get('temperament')||'observador'),String(f.get('fear')||'perda')); chapterOpeningSeenNode=null; persist(); game(); });
+app.addEventListener('submit',e=>{ if(e.target.id!=='creator') return; e.preventDefault(); const f=new FormData(e.target); const name=String(f.get('name')||'').trim(); if(name.length<2) return; save=baseSave(name,String(f.get('pronouns')),String(f.get('look'))); persist(); game(); });
 menu();
 })();

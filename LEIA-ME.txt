@@ -1,34 +1,7 @@
-VERSÃO ATUAL: V1.7.7 — Pós-crédito com ligação do assassino e interface corrigida.
-VERSÃO ATUAL: V1.7.4 — Xerife Diego adicionado aos retratos de NPCs e correção do layout mobile do elenco.
-Consulte NOVIDADES-V1.7.3.txt; todas as melhorias de V1.7.2 permanecem.
-Consulte COMO_TESTAR-V1.7.2.txt para validar os capítulos e finais.
-
-O ÚLTIMO GRITO — V1.3.5 · ROTA DA HOMENAGEM + PERSEGUIÇÕES REVISADAS
-
-CONTEÚDO: prólogo, capítulos 1 a 9. O capítulo 10 ainda não foi criado neste pacote.
-
-Leia NOVIDADES-V1.3.5.txt para as mudanças desta versão.
-
-PARA ATUALIZAR SEU SITE NO RENDER:
-1. No site antigo, exporte seus saves dos slots (arquivos JSON) e guarde uma cópia.
-2. Descompacte o ZIP e abra a pasta V1.3.5.
-3. Envie TODOS OS ARQUIVOS QUE ESTÃO DENTRO DA PASTA para a raiz do mesmo repositório GitHub.
-4. Não envie apenas chapter9.js nem coloque index.html dentro de outra subpasta.
-5. Aguarde o deploy no Render; recarregue o site no navegador (se houver cache, feche a aba e abra novamente).
-6. Continue no save existente. Novas cenas só aparecem ao alcançá-las; cenas já passadas não são reexecutadas.
-
-Os identificadores e a estrutura de saves preexistentes não foram removidos. A rota da homenagem recebeu cenas novas; saves localizados antes da chegada à casa podem acessá-las, dependendo do ponto salvo. Saves já dentro ou depois da perseguição não voltam ao início automaticamente.
-
---- HISTÓRICO ANTERIOR ---
-
-VERSÃO MAIS RECENTE: V1.3.3 — Diálogos com nomes e respostas específicas no Capítulo 9. Consulte NOVIDADES-V1.3.3.txt.
-
-ATUALIZAÇÃO MAIS RECENTE: V1.3.2 — Capítulo 9 revisado com escolhas encenadas, diálogos personalizados e 4 trilhas novas. Confira NOVIDADES-V1.3.2.txt.
-
 V1.3.1 — CORREÇÃO DA SORVETERIA NO CAPÍTULO 9
 Ver NOVIDADES-V1.3.1.txt para detalhes.
 
-VERSÃO ATUAL: V1.3.4 · UM ÚLTIMO JOGO (Capítulo 9 revisado)
+VERSÃO ATUAL: V1.3 · UM ÚLTIMO JOGO (versão de teste)
 Consulte NOVIDADES-V1.3.txt para detalhes.
 
 O ÚLTIMO GRITO — V1.2.2 · CAPÍTULO 8: CONSEQUÊNCIAS E DESPEDIDAS
@@ -197,66 +170,3 @@ V1.0.2 — IMERSÃO E POLIMENTO (13/10/2026)
 
 V1.0.8 — PREPARAÇÃO PARA A RETA FINAL
 Use a recapitulação no menu; para novas escolhas e rastreamento interno, inclua finale108.js na raiz do site. Consulte NOVIDADES-V1.0.8.txt.
-
-
-ATUALIZAÇÃO V1.3.4 — CAPÍTULO 9
-Veja NOVIDADES-V1.3.4.txt para o detalhamento das rotas de perseguição, pronome dos personagens, vídeo pré-gravado, cena do banheiro, reações às mortes e suporte a ferimentos.
-
-
-V1.4.1
-- Aberturas cinematográficas adicionadas aos inícios de capítulo.
-
-
-V1.4.2
-- Title card ajustado, Capítulo 10 renomeado para O Grand Finale, correções de pronome e novas cenas/flashbacks emocionais.
-
-V1.4.3
-- Ajustes nas ambulâncias, na reconciliação com Rayssa, na confraternização de 4 meses depois e na tela final.
-
-
-V1.4.4 — Resgate, relações, confraternização e resultado final revisados.
-
-
-=====================================================================
-V1.5.0 — REVISÃO DE CONTINUIDADE DA PRIMEIRA TEMPORADA
-=====================================================================
-A versão V1.5.0 mantém os dez capítulos, os romances e a lógica dos slots.
-Melhorias: estado comum de personagem vivo/morto; precisão da ficha
-física; vínculos em 0; diálogos posteriores de personagens mortos;
-continuidade do hospital do Capítulo 7; coerência da reunião final.
-
-Para atualizar: descompacte este ZIP e substitua os arquivos do projeto,
-sem misturar scripts de versões antigas. Faça deploy de todos os arquivos.
-No Render, force atualização da página se o navegador usar cache (Ctrl+F5).
-Seu save é mantido no armazenamento do navegador, mas recomendamos
-EXPORTAR seu save antes de atualizar ou trocar de domínio/dispositivo.
-
-Observação: não foi possível completar um teste visual do navegador no
-ambiente de preparação; a versão foi validada com execução de JavaScript,
-testes de fluxo e testes automatizados de continuidade.
-
-
-V1.5.1 — EFEITO BORBOLETA EXPANDIDO
-- Novo arquivo butterfly151.js: memórias, relações e escolhas entre capítulos.
-- Diário de consequências com seção de memórias.
-- Consulte NOVIDADES-V1.5.1.txt para detalhes e compatibilidade.
-
-
-V1.5.2 — MEMÓRIAS EMOCIONAIS E CENAS ESPECIAIS
-- Arquivo memories152.js adiciona escolhas de memória à cafeteria do Capítulo 7, aos encontros do Capítulo 8, à sorveteria do Capítulo 9 e à confraternização do Capítulo 10.
-- Quatro cenas novas para as rotas de romance, opcionais e condicionadas ao save.
-- O Diário de Consequências ganhou a seção MEMÓRIAS AFETIVAS.
-- Arquivos e saves da V1.5.1 continuam compatíveis; não use scripts antigos misturados.
-- Consulte NOVIDADES-V1.5.2.txt para detalhes.
-
-
-V1.6.0
-- Xerife Diego recorrente, prólogo expandido, novo criador de personagem, interface simplificada e Ana corrigida.
-
-
-V1.6.1 — Veja NOVIDADES-V1.6.1.txt para correções do prólogo e exportação de decisões para a segunda temporada.
-
-V1.7.0 — Etapas 1 e 2
-- Revisão automatizada de continuidade e proteção de saves antigos.
-- Amanhecer mais longo, primeiros socorros, interrogatórios condicionais dos sobreviventes e protagonista, e encerramento do xerife Diego.
-- Ver arquivo NOVIDADES-V1.7.0.txt.
